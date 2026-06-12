@@ -245,19 +245,6 @@
   --chat-tools-item-hover-bg: rgba(122, 58, 56, 0.12);
 }
 
-:root.theme-mid .chat-msg-user-bubble {
-  color: #1f2937 !important;
-  -webkit-text-fill-color: #1f2937;
-  font-weight: 500;
-  text-shadow: none;
-}
-
-:root.theme-mid .chat-page-shell [class*="leftRail"] [class*="iconBtnActive"],
-:root.theme-mid .chat-page-shell [class*="rightRail"] [class*="iconBtnActive"] {
-  background: rgba(116, 98, 91, 0.14);
-  box-shadow: 0 0 0 1px rgba(126, 116, 109, 0.16);
-}
-
 :root.theme-mid .space-backdrop[data-mode="light"] {
   --space-backdrop-glow: radial-gradient(
     ellipse at 50% -14%,
@@ -317,17 +304,6 @@
 }
 
 /* Keep conversation drawer cards in mid transparent, including hover/active states. */
-:root.theme-mid .drawer-panel .drawer-chat-card,
-:root.theme-mid .drawer-chat-card {
-  background: var(--subpage-card-bg) !important;
-  border-color: var(--subpage-card-border) !important;
-  box-shadow: none !important;
-}
-
-:root.theme-mid .drawer-panel .drawer-chat-card .cs-delete,
-:root.theme-mid .drawer-chat-card .cs-delete {
-  box-shadow: none !important;
-}
 
 /* Login modal and OTP panel in mid use the same transparent glass level. */
 :root.theme-mid .login-modal-box {
@@ -370,208 +346,8 @@
 }
 
 /* Mid mode composer follows the tools menu surface and only brightens slightly on hover. */
-:root.theme-mid .chat-inputbar,
-:root.theme-mid .chat-inputbar .chat-listen-btn,
-:root.theme-mid .chat-inputbar .chat-send-btn {
-  --chat-action-size: var(
-    --chat-composer-main-control-size,
-    calc(3.2 * var(--base-rem))
-  );
-  color: var(--rail-tooltip-text, #3f241f);
-  --chat-inputbar-bg: var(--mid-pill-surface-bg);
-  --chat-inputbar-bg-hover: var(--mid-pill-surface-bg);
-  --chat-inputbar-bg-focus: var(--mid-pill-surface-bg);
-  --chat-inputbar-overlay-bg:
-    radial-gradient(
-      92% 88% at 50% 16%,
-      rgba(249, 241, 238, 0.18) 0%,
-      rgba(241, 232, 228, 0.14) 42%,
-      rgba(232, 221, 216, 0.1) 100%
-    ),
-    linear-gradient(
-      180deg,
-      rgba(243, 234, 230, 0.08) 0%,
-      rgba(234, 224, 220, 0.05) 100%
-    );
-  --chat-inputbar-shadow: var(--mid-pill-surface-shadow);
-  --chat-inputbar-shadow-hover: var(--mid-pill-surface-shadow);
-  --chat-inputbar-shadow-focus: var(--mid-pill-surface-shadow);
-  --chat-inputbar-btn-bg: var(--mid-pill-surface-bg);
-  --chat-inputbar-btn-bg-hover: var(--mid-pill-surface-bg);
-  --chat-inputbar-btn-bg-focus: var(--mid-pill-surface-bg);
-  --chat-inputbar-btn-overlay-bg: var(--mid-pill-surface-bg-hover);
-  --chat-inputbar-btn-shadow: var(--mid-pill-surface-shadow);
-  --chat-inputbar-btn-shadow-hover: var(--mid-pill-surface-shadow-hover);
-  --chat-inputbar-btn-shadow-focus: var(--mid-pill-surface-shadow-hover);
-}
-
-:root.theme-mid .chat-inputbar {
-  isolation: isolate;
-  border: 0;
-  background: var(--chat-inputbar-bg) !important;
-  box-shadow: var(--chat-inputbar-shadow);
-}
-
-:root.theme-mid .chat-inputbar::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  border-radius: inherit;
-  background: var(--chat-inputbar-overlay-bg, var(--chat-inputbar-bg));
-  opacity: 0;
-  transition: opacity 560ms cubic-bezier(0.22, 0.61, 0.36, 1);
-}
-
-:root.theme-mid .chat-inputbar > * {
-  position: relative;
-  z-index: 1;
-}
-
-:root.theme-mid .chat-inputbar:hover:not(:focus-within),
-:root.theme-mid .chat-inputbar:hover {
-  background: var(--chat-inputbar-bg) !important;
-  border-color: transparent;
-  box-shadow: var(--chat-inputbar-shadow-hover);
-}
-
-:root.theme-mid .chat-inputbar:hover::before,
-:root.theme-mid .chat-inputbar:focus-within::before,
-:root.theme-mid .chat-container--input-focus .chat-inputbar::before,
-:root.theme-mid .chat-page-shell .chat-container.chat-container--round:has(.chat-inputbar:focus-within) .chat-inputbar::before {
-  opacity: 1;
-}
-
-:root.theme-mid .chat-inputbar:focus-within {
-  background: var(--chat-inputbar-bg) !important;
-  border-color: transparent;
-  box-shadow: var(--chat-inputbar-shadow-focus);
-}
-
-:root.theme-mid .chat-container--input-focus .chat-inputbar,
-:root.theme-mid .chat-container--input-focus .chat-inputbar:focus-within,
-:root.theme-mid .chat-page-shell .chat-container.chat-container--round:has(.chat-inputbar:focus-within) .chat-inputbar,
-:root.theme-mid .chat-page-shell .chat-container.chat-container--round:has(.chat-inputbar:focus-within) .chat-inputbar:focus-within {
-  background: var(--chat-inputbar-bg) !important;
-  box-shadow: var(--chat-inputbar-shadow-focus);
-}
-
-:root.theme-mid .chat-inputbar .chat-listen-btn {
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  padding: 0;
-}
-
-:root.theme-mid .chat-inputbar:focus-within .chat-listen-btn {
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
-}
-
-:root.theme-mid .chat-inputbar .chat-listen-btn:hover,
-:root.theme-mid .chat-inputbar .chat-listen-btn:focus-visible {
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  color: #2f3a4a;
-}
-
-:root.theme-mid .chat-inputbar .chat-send-btn {
-  background: var(--chat-inputbar-btn-bg, var(--btn-primary-bg)) !important;
-  border: 0 !important;
-  box-shadow: var(--chat-inputbar-btn-shadow) !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
-}
-
-:root.theme-mid .chat-inputbar .chat-send-btn::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  border-radius: inherit;
-  background: var(
-    --chat-inputbar-btn-overlay-bg,
-    var(--chat-inputbar-btn-bg-hover, var(--chat-inputbar-btn-bg))
-  ) !important;
-  opacity: 0;
-  transition: opacity 560ms cubic-bezier(0.22, 0.61, 0.36, 1);
-}
-
-:root.theme-mid .chat-inputbar .chat-send-btn > * {
-  position: relative;
-  z-index: 1;
-}
-
-:root.theme-mid .chat-inputbar:focus-within .chat-send-btn {
-  background: var(--chat-inputbar-btn-bg-focus, var(--chat-inputbar-btn-bg)) !important;
-  border: 0 !important;
-  box-shadow: var(--chat-inputbar-btn-shadow-focus) !important;
-}
-
-:root.theme-mid .chat-inputbar .chat-send-btn:hover,
-:root.theme-mid .chat-inputbar .chat-send-btn:focus-visible {
-  background: var(--chat-inputbar-btn-bg-hover, var(--chat-inputbar-btn-bg)) !important;
-  border: 0 !important;
-  box-shadow: var(--chat-inputbar-btn-shadow-hover) !important;
-  color: #2f3a4a;
-}
-
-:root.theme-mid .chat-inputbar:focus-within .chat-send-btn::before,
-:root.theme-mid .chat-inputbar .chat-send-btn:hover::before,
-:root.theme-mid .chat-inputbar .chat-send-btn:focus-visible::before {
-  opacity: 1;
-}
 
 /* Attach/tools popup in mid: avoid bright white card and keep glass consistency. */
-:root.theme-mid :is(.chat-tools-menu, .chat-tools-surface-popover) {
-  background: var(--chat-tools-panel-bg, rgb(252, 246, 244)) !important;
-  box-shadow: var(--btn-primary-shadow) !important;
-  border: 0 !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
-}
-
-:root.theme-mid .chat-tools-menu .chat-tools-item {
-  color: #3f241f !important;
-}
-
-:root.theme-mid .chat-tools-menu .chat-tools-item:hover,
-:root.theme-mid .chat-tools-menu .chat-tools-item:focus-visible {
-  background: rgba(122, 58, 56, 0.12) !important;
-}
-
-:root.theme-mid .chat-analysis-upload-modal-card {
-  background: var(--chat-upload-picker-bg, var(--btn-primary-bg)) !important;
-  border: 0 !important;
-  box-shadow: var(--btn-primary-shadow) !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
-}
-
-:root.theme-mid .chat-analysis-preview-card {
-  background:
-    radial-gradient(
-      92% 88% at 50% 14%,
-      rgba(238, 228, 222, 0.98) 0%,
-      rgba(224, 210, 203, 0.974) 44%,
-      rgba(201, 183, 175, 0.968) 100%
-    ),
-    linear-gradient(
-      180deg,
-      rgba(231, 219, 212, 0.972) 0%,
-      rgba(206, 188, 180, 0.966) 100%
-    ) !important;
-  border: 0 !important;
-  box-shadow:
-    0 18px 36px rgba(28, 16, 14, 0.24),
-    0 8px 18px rgba(28, 16, 14, 0.16) !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
-}
 
 /* Mid theme primary buttons should not brighten more than the option-card hover tone. */
 :root.theme-mid .button[data-variant="primary"] {
@@ -757,35 +533,8 @@
 }
 
 /* Keep dictate/send borderless in mid without flattening idle/hover/focus states. */
-:root.theme-mid .chat-inputbar .chat-send-btn,
-:root.theme-mid .chat-inputbar:focus-within .chat-send-btn,
-:root.theme-mid .chat-inputbar .chat-send-btn:hover,
-:root.theme-mid .chat-inputbar .chat-send-btn:focus-visible {
-  border: 0 !important;
-}
 
 /* Conversation drawer trash button: avoid bright white chip in mid mode. */
-:root.theme-light.theme-mid .drawer-panel .cs-delete {
-  background: var(--drawer-delete-bg) !important;
-  border-color: var(--drawer-delete-border) !important;
-  color: var(--drawer-delete-text) !important;
-  box-shadow: var(--drawer-delete-shadow) !important;
-}
-
-:root.theme-light.theme-mid .drawer-panel .cs-delete:hover,
-:root.theme-light.theme-mid .drawer-panel .cs-delete:focus-visible {
-  background: var(--drawer-delete-bg-hover, var(--drawer-delete-bg)) !important;
-  border-color: var(--drawer-delete-border-hover, var(--drawer-delete-border))
-    !important;
-  color: var(--drawer-delete-text-hover, #7a3a38) !important;
-  box-shadow: var(--drawer-delete-shadow-hover, var(--drawer-delete-shadow))
-    !important;
-}
-
-:root.theme-light.theme-mid .drawer-panel .cs-trash-icon {
-  stroke: currentColor;
-  fill: none;
-}
 
 /* Rooms page cards and controls in mid: same glass tone, less white. */
 :root.theme-light.theme-mid .rooms-card {

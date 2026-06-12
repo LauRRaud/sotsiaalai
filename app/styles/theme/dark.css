@@ -180,20 +180,6 @@
 
 :root:not(.theme-light):not(.theme-mid):not(.theme-night):not(.theme-mono):not([data-contrast="hc"])
   :is(
-    .chat-tools-menu,
-    .chat-tools-surface-popover,
-    .chat-analysis-upload-modal-card,
-    .chat-msg-user-bubble
-  ) {
-  background: var(--chat-card-surface-strong-bg) !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
-}
-
-:root:not(.theme-light):not(.theme-mid):not(.theme-night):not(.theme-mono):not([data-contrast="hc"])
-  :is(
     .invite-list-panel,
     .invite-list-row,
     .materials-admin-panel,
@@ -225,42 +211,7 @@
 }
 
 :root:not(.theme-light):not(.theme-mid):not(.theme-night):not(.theme-mono):not([data-contrast="hc"])
-  .drawer-chat-sidebar
-  .drawer-chat-card {
-  background: var(--chat-card-surface-standard-bg) !important;
-  box-shadow: var(--subpage-card-shadow) !important;
-  border-color: var(--subpage-card-border) !important;
-}
-
-:root:not(.theme-light):not(.theme-mid):not(.theme-night):not(.theme-mono):not([data-contrast="hc"])
   :is(.invite-refresh-btn, .materials-surface-button) {
-  --btn-primary-bg: radial-gradient(
-      ellipse at top,
-      rgba(46, 52, 62, 0.64) 0%,
-      rgba(23, 27, 34, 0.76) 100%
-    );
-  --btn-primary-bg-hover: radial-gradient(
-      ellipse at top,
-      rgba(50, 56, 67, 0.7) 0%,
-      rgba(25, 30, 37, 0.8) 100%
-    );
-  --btn-primary-bg-active: radial-gradient(
-      ellipse at top,
-      rgba(42, 48, 58, 0.66) 0%,
-      rgba(20, 24, 31, 0.78) 100%
-    );
-  --btn-primary-border: 0 solid transparent;
-  --btn-primary-border-hover: 0 solid transparent;
-  --btn-primary-border-active: 0 solid transparent;
-  --btn-primary-shadow: none;
-  --btn-primary-shadow-hover: none;
-  --btn-primary-shadow-active: none;
-  --btn-primary-shadow-focus: 0 0 0 3px rgba(148, 163, 184, 0.14);
-}
-
-:root:not(.theme-light):not(.theme-mid):not(.theme-night):not(.theme-mono):not([data-contrast="hc"])
-  .drawer-chat-sidebar
-  .drawer-pill-btn {
   --btn-primary-bg: radial-gradient(
       ellipse at top,
       rgba(46, 52, 62, 0.64) 0%,
@@ -363,30 +314,6 @@
     0 0 0 3px var(--btn-primary-focus-ring-color);
 }
 
-:root:not(.theme-light):not(.theme-mid) .drawer-panel--chat-glass {
-  --drawer-glass-bg: var(--glass-ring-surface-bg, var(--glass-modal-bg, rgba(0, 0, 0, 0.25)));
-  --drawer-card-border: transparent;
-  --drawer-card-border-hover: transparent;
-  --drawer-card-border-active: transparent;
-  --drawer-card-bg: var(--subpage-card-bg);
-  --drawer-card-bg-hover: var(--subpage-card-bg-hover, var(--subpage-card-bg));
-  --drawer-card-bg-active: var(--subpage-card-bg-hover, var(--subpage-card-bg));
-  --drawer-card-shadow: var(--subpage-card-shadow);
-  --drawer-card-shadow-hover: var(--subpage-card-shadow-hover, var(--subpage-card-shadow));
-  --drawer-card-shadow-active: var(--subpage-card-shadow-hover, var(--subpage-card-shadow));
-  --drawer-title-text: var(--brand-primary, #c57171);
-  --drawer-preview-text: rgba(223, 222, 218, 0.88);
-  --drawer-time-text: rgba(171, 180, 196, 0.8);
-  --drawer-delete-border: var(--opaque-panel-border);
-  --drawer-delete-bg: var(--opaque-panel-bg);
-  --drawer-delete-text: var(--opaque-panel-text);
-  --drawer-delete-shadow: 0 10px 24px rgba(2, 6, 23, 0.22);
-  --drawer-delete-border-hover: rgba(255, 120, 120, 0.56);
-  --drawer-delete-bg-hover: rgba(48, 16, 20, 0.42);
-  --drawer-delete-text-hover: rgba(255, 230, 230, 0.98);
-  --drawer-delete-shadow-hover: 0 12px 28px rgba(2, 6, 23, 0.3);
-}
-
 :root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"]) body.homepage,
 :root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"]) .homepage-root {
   --home-prose-color: rgba(242, 241, 239, 0.92);
@@ -431,128 +358,6 @@
     rgba(28, 32, 44, 0.56)
   );
   border-color: transparent;
-}
-:root:not(.theme-light) .chat-input-row {
-  --chat-under-glow:
-    0 8px 14px -12px rgba(248, 253, 255, 0.52),
-    0 18px 24px -18px rgba(248, 253, 255, 0.26);
-  --chat-under-glow-strong:
-    0 10px 16px -12px rgba(248, 253, 255, 0.58),
-    0 20px 28px -20px rgba(248, 253, 255, 0.28);
-  --chat-attach-under-glow:
-    0 12px 18px -14px rgba(248, 253, 255, 0.55),
-    0 24px 30px -24px rgba(248, 253, 255, 0.3);
-  --chat-attach-under-glow-strong:
-    0 12px 18px -14px rgba(248, 253, 255, 0.74),
-    0 24px 30px -24px rgba(248, 253, 255, 0.4);
-}
-:root:not(.theme-light):not(.theme-mid) .chat-inputbar {
-  --chat-action-size: var(--chat-composer-main-control-size, calc(var(--inputbar-h, 3.2rem) - 0.2rem));
-  border: 0;
-  background: transparent;
-  box-shadow:
-    0 6px 16px rgba(0, 0, 0, 0.26),
-    var(--chat-under-glow);
-}
-:root:not(.theme-light):not(.theme-mid) .chat-inputbar:hover:not(:focus-within) {
-  border-color: transparent;
-  background: transparent;
-  box-shadow:
-    0 6px 16px rgba(0, 0, 0, 0.26),
-    var(--chat-under-glow-strong);
-}
-:root:not(.theme-light):not(.theme-mid) .chat-inputbar:focus-within {
-  border-color: transparent;
-  background: transparent;
-  box-shadow:
-    0 6px 16px rgba(0, 0, 0, 0.26),
-    var(--chat-under-glow);
-}
-:root:not(.theme-light):not(.theme-mid) .chat-inputbar .chat-listen-btn {
-  border: 0;
-  background: transparent;
-  box-shadow: none;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  width: var(--chat-action-size);
-  height: var(--chat-action-size);
-  min-width: var(--chat-action-size);
-  min-height: var(--chat-action-size);
-  flex: 0 0 var(--chat-action-size);
-  padding: 0;
-  box-sizing: border-box;
-  transform: scale(1);
-  transition: transform 220ms ease-out, box-shadow 220ms ease-out,
-    background 220ms ease-out, border-color 220ms ease-out;
-}
-:root:not(.theme-light):not(.theme-mid) .chat-inputbar .chat-send-btn {
-  border: var(--btn-primary-border);
-  background: var(--btn-primary-bg);
-  backdrop-filter: blur(var(--glass-blur-radius, 1rem));
-  -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem));
-  width: var(--chat-action-size);
-  height: var(--chat-action-size);
-  min-width: var(--chat-action-size);
-  min-height: var(--chat-action-size);
-  flex: 0 0 var(--chat-action-size);
-  padding: 0;
-  box-sizing: border-box;
-  background-clip: border-box;
-  background-origin: border-box;
-  box-shadow: var(--btn-primary-shadow);
-  transform: scale(1);
-  transition: transform 220ms ease-out, box-shadow 220ms ease-out,
-    background 220ms ease-out, border-color 220ms ease-out;
-}
-:root:not(.theme-light):not(.theme-mid) .chat-inputbar .chat-send-btn:hover,
-:root:not(.theme-light):not(.theme-mid) .chat-inputbar .chat-send-btn:focus-visible {
-  border: var(--btn-primary-border-hover);
-  background: var(--btn-primary-bg-hover);
-  box-shadow: var(--btn-primary-shadow-hover);
-}
-:root:not(.theme-light):not(.theme-mid) .chat-inputbar .chat-listen-btn:hover,
-:root:not(.theme-light):not(.theme-mid) .chat-inputbar .chat-listen-btn:focus-visible {
-  border-color: transparent;
-  background: transparent;
-  box-shadow: none;
-  transform: scale(1.04);
-}
-:root:not(.theme-light):not(.theme-mid) .chat-inputbar .chat-listen-btn svg {
-  color: var(--brand-primary);
-  opacity: 0.95;
-  transition: transform 220ms ease-out, opacity 220ms ease-out;
-  will-change: transform, opacity;
-}
-:root:not(.theme-light):not(.theme-mid)
-  .chat-inputbar
-  .chat-listen-btn:hover
-  svg,
-:root:not(.theme-light):not(.theme-mid)
-  .chat-inputbar
-  .chat-listen-btn:focus-visible
-  svg {
-  opacity: 1;
-  transform: scale(1.08);
-  transform-origin: center;
-}
-:root:not(.theme-light):not(.theme-mid) .chat-listen-btn[data-speaking="true"] {
-  box-shadow: none;
-}
-:root:not(.theme-light):not(.theme-mid) .chat-inputbar .chat-send-btn[data-recording="true"],
-:root:not(.theme-light):not(.theme-mid)
-  .chat-inputbar
-  .chat-send-btn[data-recording-complete="true"] {
-  box-shadow: none;
-}
-:root:not(.theme-light):not(.theme-mid) .chat-inputbar .chat-send-btn[data-recording="true"] {
-  border-color: #ff3b30;
-  box-shadow: none;
-}
-:root:not(.theme-light):not(.theme-mid)
-  .chat-inputbar
-  .chat-send-btn[data-recording-complete="true"] {
-  border-color: #2bdc6d;
-  box-shadow: none;
 }
 
 /* OTP overrides for true dark theme (not mid/night). */

@@ -1,0 +1,828 @@
+/* Chat-owned standard-theme overrides (light, mid, default-dark, night),
+   extracted 1:1 from app/styles/theme/*.css in the globals.css import
+   order. Loaded via features/chat/index.css before mono.css and hc.css,
+   mirroring the original theme cascade. */
+
+/* ===== theme-light chat overrides (extracted 1:1 from theme/light.css) ===== */
+
+:root.theme-light .drawer-panel {
+  color: var(--text-strong);
+}
+
+:root.theme-light .drawer-panel .drawer-header strong {
+  color: var(--title-color);
+}
+
+:root.theme-light .drawer-panel .drawer-chat-card {
+  border-color: transparent !important;
+  background: var(--subpage-card-bg) !important;
+  box-shadow: none !important;
+}
+
+:root.theme-light .drawer-panel .drawer-chat-card .cs-delete {
+  box-shadow: none !important;
+}
+
+:root.theme-light .drawer-close {
+  color: var(--title-color);
+}
+
+:root.theme-light .drawer-panel .cs-preview {
+  color: var(--text-strong);
+}
+
+:root.theme-light .drawer-panel .cs-time {
+  color: color-mix(in srgb, var(--text-strong) 78%, transparent);
+}
+
+:root.theme-light .drawer-panel .cs-title-text {
+  color: var(--title-color);
+}
+
+:root.theme-light .drawer-panel .cs-title-badge {
+  color: color-mix(in srgb, var(--title-color) 70%, transparent);
+  border-color: color-mix(in srgb, var(--title-color) 35%, transparent);
+  background: rgba(255, 255, 255, 0.65);
+}
+
+:root.theme-light .drawer-panel .cs-delete {
+  color: var(--drawer-delete-text);
+  border-color: var(--drawer-delete-border);
+  background: var(--drawer-delete-bg);
+  box-shadow: var(--drawer-delete-shadow);
+}
+
+:root.theme-light .drawer-panel .cs-delete:hover,
+:root.theme-light .drawer-panel .cs-delete:focus-visible {
+  color: var(--drawer-delete-text-hover);
+  border-color: var(--drawer-delete-border-hover);
+  background: var(--drawer-delete-bg-hover);
+  box-shadow: var(--drawer-delete-shadow-hover);
+}
+
+:root.theme-light .drawer-panel .cs-trash-icon {
+  stroke: currentColor;
+  fill: none;
+}
+
+:root.theme-light :is(.chat-tools-menu, .chat-tools-surface-popover) {
+  background: var(--chat-tools-panel-bg, rgb(249, 249, 248)) !important;
+  border: 0 !important;
+  box-shadow: var(--btn-primary-shadow) !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+:root.theme-light:not(.theme-mid) .chat-analysis-upload-modal-card {
+  background: var(--chat-upload-picker-bg, rgb(249, 249, 248)) !important;
+  border: 0 !important;
+  box-shadow: var(--btn-primary-shadow) !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+:root.theme-light:not(.theme-mid) .chat-analysis-preview-card {
+  background:
+    radial-gradient(
+      92% 88% at 50% 14%,
+      rgba(247, 241, 236, 0.985) 0%,
+      rgba(239, 231, 225, 0.982) 44%,
+      rgba(226, 214, 207, 0.978) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(242, 235, 229, 0.982) 0%,
+      rgba(229, 218, 210, 0.975) 100%
+    ) !important;
+  border: 0 !important;
+  box-shadow:
+    0 20px 42px rgba(72, 44, 38, 0.16),
+    0 8px 20px rgba(72, 44, 38, 0.1) !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+:root.theme-light .chat-inputbar,
+:root.theme-light .chat-inputbar .chat-listen-btn,
+:root.theme-light .chat-inputbar .chat-send-btn {
+  --chat-action-size: var(--chat-composer-main-control-size, calc(3.2 * var(--base-rem)));
+  --chat-inputbar-bg:
+    radial-gradient(
+      88% 72% at 50% 18%,
+      rgba(255, 255, 255, 0.995) 0%,
+      rgba(255, 255, 255, 0.992) 46%,
+      rgba(252, 250, 248, 0.978) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.992) 0%,
+      rgba(250, 247, 244, 0.972) 100%
+    );
+  --chat-inputbar-bg-hover:
+    radial-gradient(
+      88% 72% at 50% 18%,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(255, 255, 255, 0.996) 48%,
+      rgba(253, 251, 249, 0.985) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.996) 0%,
+      rgba(252, 249, 246, 0.982) 100%
+    );
+  --chat-inputbar-bg-focus: var(--chat-inputbar-bg-hover);
+  --chat-inputbar-border: rgba(255, 255, 255, 0.82);
+  --chat-inputbar-border-hover: rgba(255, 255, 255, 0.84);
+  --chat-inputbar-shadow:
+    0 10px 22px -8px rgba(15, 23, 42, 0.1),
+    0 3px 7px -3px rgba(15, 23, 42, 0.055),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+  --chat-inputbar-shadow-hover:
+    0 14px 28px -9px rgba(15, 23, 42, 0.12),
+    0 5px 10px -3px rgba(15, 23, 42, 0.065),
+    inset 0 1px 0 rgba(255, 255, 255, 0.94),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.28);
+  --chat-inputbar-shadow-focus: var(--chat-inputbar-shadow-hover);
+  --chat-action-btn-bg: var(--btn-primary-bg);
+  --chat-action-btn-bg-hover: var(--btn-primary-bg-hover);
+  --chat-action-btn-bg-active: var(--btn-primary-bg-active, var(--btn-primary-bg-hover));
+  --chat-action-btn-border: var(--btn-primary-border);
+  --chat-action-btn-border-active: var(--btn-primary-border-active, var(--btn-primary-border));
+  --chat-action-btn-shadow: var(--btn-primary-shadow);
+  --chat-action-btn-shadow-hover: var(--btn-primary-shadow-hover);
+  --chat-action-btn-shadow-focus: 0 5px 12px rgba(15, 23, 42, 0.1);
+  --chat-action-btn-shadow-active: var(--btn-primary-shadow-active);
+  background: var(--chat-inputbar-bg);
+  border: var(--input-border);
+  box-shadow: var(--chat-inputbar-shadow);
+  color: #1f2937;
+}
+
+:root.theme-light .chat-inputbar .chat-listen-btn,
+:root.theme-light .chat-inputbar .chat-send-btn {
+  transition:
+    background 560ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    border-color 560ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    box-shadow 560ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    color 560ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    opacity 560ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    transform 560ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+:root.theme-light .chat-inputbar {
+  border: 1px solid var(--chat-inputbar-border, rgba(255, 255, 255, 0.82));
+}
+
+:root.theme-light .chat-inputbar .chat-listen-btn {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  padding: 0;
+}
+
+:root.theme-light .chat-inputbar .chat-send-btn {
+  background: var(--chat-action-btn-bg);
+  border: 0;
+  box-shadow:
+    0 1px 4px rgba(15, 23, 42, 0.06),
+    0 3px 8px rgba(15, 23, 42, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.92),
+    0 0 0 1px rgba(255, 255, 255, 0.82);
+}
+
+:root.theme-light .chat-inputbar:hover:not(:focus-within),
+:root.theme-light .chat-inputbar:focus-within {
+  border-color: var(--chat-inputbar-border-hover, rgba(229, 221, 214, 0.9));
+  box-shadow: var(--chat-inputbar-shadow-hover);
+}
+
+:root.theme-light .chat-inputbar:hover {
+  background: var(--chat-inputbar-bg-hover);
+  box-shadow: var(--chat-inputbar-shadow-hover);
+}
+
+:root.theme-light .chat-inputbar:focus-within {
+  background: var(--chat-inputbar-bg-focus);
+  box-shadow: var(--chat-inputbar-shadow-focus);
+}
+
+:root.theme-light .chat-inputbar .chat-input-field {
+  color: color-mix(in srgb, #111827 72%, #4b5563 28%);
+  caret-color: color-mix(in srgb, #111827 72%, #4b5563 28%);
+  font-weight: 500;
+}
+
+:root.theme-light .chat-inputbar .chat-input-field::placeholder {
+  color: transparent;
+  opacity: 0;
+}
+
+:root.theme-light .chat-inputbar:focus-within .chat-send-btn {
+  background: var(--chat-action-btn-bg-hover);
+  border: 0;
+  box-shadow:
+    0 2px 5px rgba(15, 23, 42, 0.07),
+    0 4px 10px rgba(15, 23, 42, 0.07),
+    inset 0 1px 0 rgba(255, 255, 255, 0.94),
+    0 0 0 1px rgba(255, 255, 255, 0.84);
+}
+
+:root.theme-light .chat-inputbar:focus-within .chat-listen-btn {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  padding: 0;
+}
+
+:root.theme-light .chat-inputbar .chat-send-btn:hover,
+:root.theme-light .chat-inputbar .chat-send-btn:focus-visible,
+:root.theme-light .chat-inputbar .chat-send-btn:active {
+  background: var(--chat-action-btn-bg-hover);
+  border: 0;
+  box-shadow:
+    0 2px 5px rgba(15, 23, 42, 0.07),
+    0 4px 10px rgba(15, 23, 42, 0.07),
+    inset 0 1px 0 rgba(255, 255, 255, 0.94),
+    0 0 0 1px rgba(255, 255, 255, 0.84);
+  color: #1f2937;
+}
+
+:root.theme-light .chat-inputbar .chat-listen-btn:hover,
+:root.theme-light .chat-inputbar .chat-listen-btn:focus-visible,
+:root.theme-light .chat-inputbar .chat-listen-btn:active {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
+:root.theme-light .chat-inputbar .chat-listen-btn:active,
+:root.theme-light .chat-inputbar .chat-send-btn:active {
+  background: var(--chat-action-btn-bg-active);
+  border: var(--chat-action-btn-border-active);
+  box-shadow: var(--chat-action-btn-shadow-active);
+}
+
+:root.theme-light .chat-inputbar .chat-listen-btn:active {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
+:root.theme-light .chat-container--input-focus .chat-inputbar,
+:root.theme-light .chat-page-shell .chat-container.chat-container--round:has(.chat-inputbar:focus-within) .chat-inputbar {
+  background: var(--chat-inputbar-bg-hover);
+  box-shadow: var(--chat-inputbar-shadow-hover);
+}
+
+:root.theme-light .chat-container--input-focus .chat-inputbar:hover,
+:root.theme-light .chat-page-shell .chat-container.chat-container--round:has(.chat-inputbar:focus-within) .chat-inputbar:hover {
+  background: var(--chat-inputbar-bg-hover);
+}
+
+:root.theme-light .chat-container--input-focus .chat-inputbar:focus-within,
+:root.theme-light .chat-page-shell .chat-container.chat-container--round:has(.chat-inputbar:focus-within) .chat-inputbar:focus-within {
+  background: var(--chat-inputbar-bg-hover);
+  box-shadow: var(--chat-inputbar-shadow-hover);
+}
+
+:root.theme-light .chat-container--input-focus .chat-inputbar .chat-send-btn,
+:root.theme-light .chat-page-shell .chat-container.chat-container--round:has(.chat-inputbar:focus-within) .chat-inputbar .chat-send-btn {
+  background: var(--chat-action-btn-bg-hover);
+  border: 0;
+  box-shadow:
+    0 2px 5px rgba(15, 23, 42, 0.07),
+    0 4px 10px rgba(15, 23, 42, 0.07),
+    inset 0 1px 0 rgba(255, 255, 255, 0.94),
+    0 0 0 1px rgba(255, 255, 255, 0.84);
+}
+
+:root.theme-light .chat-container--input-focus .chat-inputbar .chat-send-btn:hover,
+:root.theme-light .chat-container--input-focus .chat-inputbar .chat-send-btn:focus-visible,
+:root.theme-light .chat-container--input-focus .chat-inputbar .chat-send-btn:active,
+:root.theme-light .chat-page-shell .chat-container.chat-container--round:has(.chat-inputbar:focus-within) .chat-inputbar .chat-send-btn:hover,
+:root.theme-light .chat-page-shell .chat-container.chat-container--round:has(.chat-inputbar:focus-within) .chat-inputbar .chat-send-btn:focus-visible,
+:root.theme-light .chat-page-shell .chat-container.chat-container--round:has(.chat-inputbar:focus-within) .chat-inputbar .chat-send-btn:active {
+  background: var(--chat-action-btn-bg-hover);
+  border: 0;
+  box-shadow:
+    0 2px 5px rgba(15, 23, 42, 0.07),
+    0 4px 10px rgba(15, 23, 42, 0.07),
+    inset 0 1px 0 rgba(255, 255, 255, 0.94),
+    0 0 0 1px rgba(255, 255, 255, 0.84);
+}
+
+:root.theme-light .chat-msg-ai {
+  color: #111827;
+}
+
+:root.theme-light .chat-inputbar .chat-send-btn[data-recording="true"] {
+  border-color: #ff3b30;
+  box-shadow:
+    0 0 0 1px rgba(255, 59, 48, 0.4),
+    0 0 12px rgba(255, 59, 48, 0.25);
+}
+
+:root.theme-light
+  .chat-inputbar
+  .chat-send-btn[data-recording-complete="true"] {
+  border-color: #2bdc6d;
+  box-shadow:
+    0 0 0 1px rgba(43, 220, 109, 0.4),
+    0 0 12px rgba(43, 220, 109, 0.3);
+}
+
+/* ===== theme-mid chat overrides (extracted 1:1 from theme/mid.css) ===== */
+
+:root.theme-mid .chat-msg-user-bubble {
+  color: #1f2937 !important;
+  -webkit-text-fill-color: #1f2937;
+  font-weight: 500;
+  text-shadow: none;
+}
+
+:root.theme-mid .chat-page-shell [class*="leftRail"] [class*="iconBtnActive"],
+:root.theme-mid .chat-page-shell [class*="rightRail"] [class*="iconBtnActive"] {
+  background: rgba(116, 98, 91, 0.14);
+  box-shadow: 0 0 0 1px rgba(126, 116, 109, 0.16);
+}
+
+:root.theme-mid .drawer-panel .drawer-chat-card,
+:root.theme-mid .drawer-chat-card {
+  background: var(--subpage-card-bg) !important;
+  border-color: var(--subpage-card-border) !important;
+  box-shadow: none !important;
+}
+
+:root.theme-mid .drawer-panel .drawer-chat-card .cs-delete,
+:root.theme-mid .drawer-chat-card .cs-delete {
+  box-shadow: none !important;
+}
+
+:root.theme-mid .chat-inputbar,
+:root.theme-mid .chat-inputbar .chat-listen-btn,
+:root.theme-mid .chat-inputbar .chat-send-btn {
+  --chat-action-size: var(
+    --chat-composer-main-control-size,
+    calc(3.2 * var(--base-rem))
+  );
+  color: var(--rail-tooltip-text, #3f241f);
+  --chat-inputbar-bg: var(--mid-pill-surface-bg);
+  --chat-inputbar-bg-hover: var(--mid-pill-surface-bg);
+  --chat-inputbar-bg-focus: var(--mid-pill-surface-bg);
+  --chat-inputbar-overlay-bg:
+    radial-gradient(
+      92% 88% at 50% 16%,
+      rgba(249, 241, 238, 0.18) 0%,
+      rgba(241, 232, 228, 0.14) 42%,
+      rgba(232, 221, 216, 0.1) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(243, 234, 230, 0.08) 0%,
+      rgba(234, 224, 220, 0.05) 100%
+    );
+  --chat-inputbar-shadow: var(--mid-pill-surface-shadow);
+  --chat-inputbar-shadow-hover: var(--mid-pill-surface-shadow);
+  --chat-inputbar-shadow-focus: var(--mid-pill-surface-shadow);
+  --chat-inputbar-btn-bg: var(--mid-pill-surface-bg);
+  --chat-inputbar-btn-bg-hover: var(--mid-pill-surface-bg);
+  --chat-inputbar-btn-bg-focus: var(--mid-pill-surface-bg);
+  --chat-inputbar-btn-overlay-bg: var(--mid-pill-surface-bg-hover);
+  --chat-inputbar-btn-shadow: var(--mid-pill-surface-shadow);
+  --chat-inputbar-btn-shadow-hover: var(--mid-pill-surface-shadow-hover);
+  --chat-inputbar-btn-shadow-focus: var(--mid-pill-surface-shadow-hover);
+}
+
+:root.theme-mid .chat-inputbar {
+  isolation: isolate;
+  border: 0;
+  background: var(--chat-inputbar-bg) !important;
+  box-shadow: var(--chat-inputbar-shadow);
+}
+
+:root.theme-mid .chat-inputbar::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: var(--chat-inputbar-overlay-bg, var(--chat-inputbar-bg));
+  opacity: 0;
+  transition: opacity 560ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+:root.theme-mid .chat-inputbar > * {
+  position: relative;
+  z-index: 1;
+}
+
+:root.theme-mid .chat-inputbar:hover:not(:focus-within),
+:root.theme-mid .chat-inputbar:hover {
+  background: var(--chat-inputbar-bg) !important;
+  border-color: transparent;
+  box-shadow: var(--chat-inputbar-shadow-hover);
+}
+
+:root.theme-mid .chat-inputbar:hover::before,
+:root.theme-mid .chat-inputbar:focus-within::before,
+:root.theme-mid .chat-container--input-focus .chat-inputbar::before,
+:root.theme-mid .chat-page-shell .chat-container.chat-container--round:has(.chat-inputbar:focus-within) .chat-inputbar::before {
+  opacity: 1;
+}
+
+:root.theme-mid .chat-inputbar:focus-within {
+  background: var(--chat-inputbar-bg) !important;
+  border-color: transparent;
+  box-shadow: var(--chat-inputbar-shadow-focus);
+}
+
+:root.theme-mid .chat-container--input-focus .chat-inputbar,
+:root.theme-mid .chat-container--input-focus .chat-inputbar:focus-within,
+:root.theme-mid .chat-page-shell .chat-container.chat-container--round:has(.chat-inputbar:focus-within) .chat-inputbar,
+:root.theme-mid .chat-page-shell .chat-container.chat-container--round:has(.chat-inputbar:focus-within) .chat-inputbar:focus-within {
+  background: var(--chat-inputbar-bg) !important;
+  box-shadow: var(--chat-inputbar-shadow-focus);
+}
+
+:root.theme-mid .chat-inputbar .chat-listen-btn {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  padding: 0;
+}
+
+:root.theme-mid .chat-inputbar:focus-within .chat-listen-btn {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+:root.theme-mid .chat-inputbar .chat-listen-btn:hover,
+:root.theme-mid .chat-inputbar .chat-listen-btn:focus-visible {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  color: #2f3a4a;
+}
+
+:root.theme-mid .chat-inputbar .chat-send-btn {
+  background: var(--chat-inputbar-btn-bg, var(--btn-primary-bg)) !important;
+  border: 0 !important;
+  box-shadow: var(--chat-inputbar-btn-shadow) !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+:root.theme-mid .chat-inputbar .chat-send-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: var(
+    --chat-inputbar-btn-overlay-bg,
+    var(--chat-inputbar-btn-bg-hover, var(--chat-inputbar-btn-bg))
+  ) !important;
+  opacity: 0;
+  transition: opacity 560ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+:root.theme-mid .chat-inputbar .chat-send-btn > * {
+  position: relative;
+  z-index: 1;
+}
+
+:root.theme-mid .chat-inputbar:focus-within .chat-send-btn {
+  background: var(--chat-inputbar-btn-bg-focus, var(--chat-inputbar-btn-bg)) !important;
+  border: 0 !important;
+  box-shadow: var(--chat-inputbar-btn-shadow-focus) !important;
+}
+
+:root.theme-mid .chat-inputbar .chat-send-btn:hover,
+:root.theme-mid .chat-inputbar .chat-send-btn:focus-visible {
+  background: var(--chat-inputbar-btn-bg-hover, var(--chat-inputbar-btn-bg)) !important;
+  border: 0 !important;
+  box-shadow: var(--chat-inputbar-btn-shadow-hover) !important;
+  color: #2f3a4a;
+}
+
+:root.theme-mid .chat-inputbar:focus-within .chat-send-btn::before,
+:root.theme-mid .chat-inputbar .chat-send-btn:hover::before,
+:root.theme-mid .chat-inputbar .chat-send-btn:focus-visible::before {
+  opacity: 1;
+}
+
+:root.theme-mid :is(.chat-tools-menu, .chat-tools-surface-popover) {
+  background: var(--chat-tools-panel-bg, rgb(252, 246, 244)) !important;
+  box-shadow: var(--btn-primary-shadow) !important;
+  border: 0 !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+:root.theme-mid .chat-tools-menu .chat-tools-item {
+  color: #3f241f !important;
+}
+
+:root.theme-mid .chat-tools-menu .chat-tools-item:hover,
+:root.theme-mid .chat-tools-menu .chat-tools-item:focus-visible {
+  background: rgba(122, 58, 56, 0.12) !important;
+}
+
+:root.theme-mid .chat-analysis-upload-modal-card {
+  background: var(--chat-upload-picker-bg, var(--btn-primary-bg)) !important;
+  border: 0 !important;
+  box-shadow: var(--btn-primary-shadow) !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+:root.theme-mid .chat-analysis-preview-card {
+  background:
+    radial-gradient(
+      92% 88% at 50% 14%,
+      rgba(238, 228, 222, 0.98) 0%,
+      rgba(224, 210, 203, 0.974) 44%,
+      rgba(201, 183, 175, 0.968) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(231, 219, 212, 0.972) 0%,
+      rgba(206, 188, 180, 0.966) 100%
+    ) !important;
+  border: 0 !important;
+  box-shadow:
+    0 18px 36px rgba(28, 16, 14, 0.24),
+    0 8px 18px rgba(28, 16, 14, 0.16) !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+:root.theme-mid .chat-inputbar .chat-send-btn,
+:root.theme-mid .chat-inputbar:focus-within .chat-send-btn,
+:root.theme-mid .chat-inputbar .chat-send-btn:hover,
+:root.theme-mid .chat-inputbar .chat-send-btn:focus-visible {
+  border: 0 !important;
+}
+
+:root.theme-light.theme-mid .drawer-panel .cs-delete {
+  background: var(--drawer-delete-bg) !important;
+  border-color: var(--drawer-delete-border) !important;
+  color: var(--drawer-delete-text) !important;
+  box-shadow: var(--drawer-delete-shadow) !important;
+}
+
+:root.theme-light.theme-mid .drawer-panel .cs-delete:hover,
+:root.theme-light.theme-mid .drawer-panel .cs-delete:focus-visible {
+  background: var(--drawer-delete-bg-hover, var(--drawer-delete-bg)) !important;
+  border-color: var(--drawer-delete-border-hover, var(--drawer-delete-border))
+    !important;
+  color: var(--drawer-delete-text-hover, #7a3a38) !important;
+  box-shadow: var(--drawer-delete-shadow-hover, var(--drawer-delete-shadow))
+    !important;
+}
+
+:root.theme-light.theme-mid .drawer-panel .cs-trash-icon {
+  stroke: currentColor;
+  fill: none;
+}
+
+/* ===== default/dark (:not chains) chat overrides (extracted 1:1 from theme/dark.css) ===== */
+
+:root:not(.theme-light):not(.theme-mid):not(.theme-night):not(.theme-mono):not([data-contrast="hc"])
+  :is(
+    .chat-tools-menu,
+    .chat-tools-surface-popover,
+    .chat-analysis-upload-modal-card,
+    .chat-msg-user-bubble
+  ) {
+  background: var(--chat-card-surface-strong-bg) !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+:root:not(.theme-light):not(.theme-mid):not(.theme-night):not(.theme-mono):not([data-contrast="hc"])
+  .drawer-chat-sidebar
+  .drawer-chat-card {
+  background: var(--chat-card-surface-standard-bg) !important;
+  box-shadow: var(--subpage-card-shadow) !important;
+  border-color: var(--subpage-card-border) !important;
+}
+
+:root:not(.theme-light):not(.theme-mid):not(.theme-night):not(.theme-mono):not([data-contrast="hc"])
+  .drawer-chat-sidebar
+  .drawer-pill-btn {
+  --btn-primary-bg: radial-gradient(
+      ellipse at top,
+      rgba(46, 52, 62, 0.64) 0%,
+      rgba(23, 27, 34, 0.76) 100%
+    );
+  --btn-primary-bg-hover: radial-gradient(
+      ellipse at top,
+      rgba(50, 56, 67, 0.7) 0%,
+      rgba(25, 30, 37, 0.8) 100%
+    );
+  --btn-primary-bg-active: radial-gradient(
+      ellipse at top,
+      rgba(42, 48, 58, 0.66) 0%,
+      rgba(20, 24, 31, 0.78) 100%
+    );
+  --btn-primary-border: 0 solid transparent;
+  --btn-primary-border-hover: 0 solid transparent;
+  --btn-primary-border-active: 0 solid transparent;
+  --btn-primary-shadow: none;
+  --btn-primary-shadow-hover: none;
+  --btn-primary-shadow-active: none;
+  --btn-primary-shadow-focus: 0 0 0 3px rgba(148, 163, 184, 0.14);
+}
+
+:root:not(.theme-light):not(.theme-mid) .drawer-panel--chat-glass {
+  --drawer-glass-bg: var(--glass-ring-surface-bg, var(--glass-modal-bg, rgba(0, 0, 0, 0.25)));
+  --drawer-card-border: transparent;
+  --drawer-card-border-hover: transparent;
+  --drawer-card-border-active: transparent;
+  --drawer-card-bg: var(--subpage-card-bg);
+  --drawer-card-bg-hover: var(--subpage-card-bg-hover, var(--subpage-card-bg));
+  --drawer-card-bg-active: var(--subpage-card-bg-hover, var(--subpage-card-bg));
+  --drawer-card-shadow: var(--subpage-card-shadow);
+  --drawer-card-shadow-hover: var(--subpage-card-shadow-hover, var(--subpage-card-shadow));
+  --drawer-card-shadow-active: var(--subpage-card-shadow-hover, var(--subpage-card-shadow));
+  --drawer-title-text: var(--brand-primary, #c57171);
+  --drawer-preview-text: rgba(223, 222, 218, 0.88);
+  --drawer-time-text: rgba(171, 180, 196, 0.8);
+  --drawer-delete-border: var(--opaque-panel-border);
+  --drawer-delete-bg: var(--opaque-panel-bg);
+  --drawer-delete-text: var(--opaque-panel-text);
+  --drawer-delete-shadow: 0 10px 24px rgba(2, 6, 23, 0.22);
+  --drawer-delete-border-hover: rgba(255, 120, 120, 0.56);
+  --drawer-delete-bg-hover: rgba(48, 16, 20, 0.42);
+  --drawer-delete-text-hover: rgba(255, 230, 230, 0.98);
+  --drawer-delete-shadow-hover: 0 12px 28px rgba(2, 6, 23, 0.3);
+}
+
+:root:not(.theme-light) .chat-input-row {
+  --chat-under-glow:
+    0 8px 14px -12px rgba(248, 253, 255, 0.52),
+    0 18px 24px -18px rgba(248, 253, 255, 0.26);
+  --chat-under-glow-strong:
+    0 10px 16px -12px rgba(248, 253, 255, 0.58),
+    0 20px 28px -20px rgba(248, 253, 255, 0.28);
+  --chat-attach-under-glow:
+    0 12px 18px -14px rgba(248, 253, 255, 0.55),
+    0 24px 30px -24px rgba(248, 253, 255, 0.3);
+  --chat-attach-under-glow-strong:
+    0 12px 18px -14px rgba(248, 253, 255, 0.74),
+    0 24px 30px -24px rgba(248, 253, 255, 0.4);
+}
+
+:root:not(.theme-light):not(.theme-mid) .chat-inputbar {
+  --chat-action-size: var(--chat-composer-main-control-size, calc(var(--inputbar-h, 3.2rem) - 0.2rem));
+  border: 0;
+  background: transparent;
+  box-shadow:
+    0 6px 16px rgba(0, 0, 0, 0.26),
+    var(--chat-under-glow);
+}
+
+:root:not(.theme-light):not(.theme-mid) .chat-inputbar:hover:not(:focus-within) {
+  border-color: transparent;
+  background: transparent;
+  box-shadow:
+    0 6px 16px rgba(0, 0, 0, 0.26),
+    var(--chat-under-glow-strong);
+}
+
+:root:not(.theme-light):not(.theme-mid) .chat-inputbar:focus-within {
+  border-color: transparent;
+  background: transparent;
+  box-shadow:
+    0 6px 16px rgba(0, 0, 0, 0.26),
+    var(--chat-under-glow);
+}
+
+:root:not(.theme-light):not(.theme-mid) .chat-inputbar .chat-listen-btn {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  width: var(--chat-action-size);
+  height: var(--chat-action-size);
+  min-width: var(--chat-action-size);
+  min-height: var(--chat-action-size);
+  flex: 0 0 var(--chat-action-size);
+  padding: 0;
+  box-sizing: border-box;
+  transform: scale(1);
+  transition: transform 220ms ease-out, box-shadow 220ms ease-out,
+    background 220ms ease-out, border-color 220ms ease-out;
+}
+
+:root:not(.theme-light):not(.theme-mid) .chat-inputbar .chat-send-btn {
+  border: var(--btn-primary-border);
+  background: var(--btn-primary-bg);
+  backdrop-filter: blur(var(--glass-blur-radius, 1rem));
+  -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem));
+  width: var(--chat-action-size);
+  height: var(--chat-action-size);
+  min-width: var(--chat-action-size);
+  min-height: var(--chat-action-size);
+  flex: 0 0 var(--chat-action-size);
+  padding: 0;
+  box-sizing: border-box;
+  background-clip: border-box;
+  background-origin: border-box;
+  box-shadow: var(--btn-primary-shadow);
+  transform: scale(1);
+  transition: transform 220ms ease-out, box-shadow 220ms ease-out,
+    background 220ms ease-out, border-color 220ms ease-out;
+}
+
+:root:not(.theme-light):not(.theme-mid) .chat-inputbar .chat-send-btn:hover,
+:root:not(.theme-light):not(.theme-mid) .chat-inputbar .chat-send-btn:focus-visible {
+  border: var(--btn-primary-border-hover);
+  background: var(--btn-primary-bg-hover);
+  box-shadow: var(--btn-primary-shadow-hover);
+}
+
+:root:not(.theme-light):not(.theme-mid) .chat-inputbar .chat-listen-btn:hover,
+:root:not(.theme-light):not(.theme-mid) .chat-inputbar .chat-listen-btn:focus-visible {
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+  transform: scale(1.04);
+}
+
+:root:not(.theme-light):not(.theme-mid) .chat-inputbar .chat-listen-btn svg {
+  color: var(--brand-primary);
+  opacity: 0.95;
+  transition: transform 220ms ease-out, opacity 220ms ease-out;
+  will-change: transform, opacity;
+}
+
+:root:not(.theme-light):not(.theme-mid)
+  .chat-inputbar
+  .chat-listen-btn:hover
+  svg,
+:root:not(.theme-light):not(.theme-mid)
+  .chat-inputbar
+  .chat-listen-btn:focus-visible
+  svg {
+  opacity: 1;
+  transform: scale(1.08);
+  transform-origin: center;
+}
+
+:root:not(.theme-light):not(.theme-mid) .chat-listen-btn[data-speaking="true"] {
+  box-shadow: none;
+}
+
+:root:not(.theme-light):not(.theme-mid) .chat-inputbar .chat-send-btn[data-recording="true"],
+:root:not(.theme-light):not(.theme-mid)
+  .chat-inputbar
+  .chat-send-btn[data-recording-complete="true"] {
+  box-shadow: none;
+}
+
+:root:not(.theme-light):not(.theme-mid) .chat-inputbar .chat-send-btn[data-recording="true"] {
+  border-color: #ff3b30;
+  box-shadow: none;
+}
+
+:root:not(.theme-light):not(.theme-mid)
+  .chat-inputbar
+  .chat-send-btn[data-recording-complete="true"] {
+  border-color: #2bdc6d;
+  box-shadow: none;
+}
+
+/* ===== theme-night chat overrides (extracted 1:1 from theme/night.css) ===== */
+
+:root.theme-night
+  .drawer-chat-sidebar
+  .drawer-chat-card {
+  background: var(--chat-card-surface-night-standard-bg) !important;
+  border: 1px solid var(--subpage-card-border) !important;
+  box-shadow: var(--subpage-card-shadow) !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+:root.theme-night
+  :is(
+    .chat-tools-menu,
+    .chat-tools-surface-popover,
+    .chat-analysis-upload-modal-card,
+    .chat-msg-user-bubble
+  ) {
+  background: var(--chat-card-surface-night-strong-bg) !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}

@@ -258,36 +258,12 @@
 }
 
 :root.theme-night
-  .drawer-chat-sidebar
-  .drawer-chat-card {
-  background: var(--chat-card-surface-night-standard-bg) !important;
-  border: 1px solid var(--subpage-card-border) !important;
-  box-shadow: var(--subpage-card-shadow) !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
-}
-
-:root.theme-night
   :is(
     .help-listings-modal-content,
     .invite-modal-content,
     .materials-page-content
   ) {
   background: var(--glass-surface-bg) !important;
-}
-
-:root.theme-night
-  :is(
-    .chat-tools-menu,
-    .chat-tools-surface-popover,
-    .chat-analysis-upload-modal-card,
-    .chat-msg-user-bubble
-  ) {
-  background: var(--chat-card-surface-night-strong-bg) !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
 }
 
 /* Materials page in night mode: keep blue palette but remove panel glow artifacts. */

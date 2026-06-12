@@ -8,5 +8,6 @@
    (must load before hydration, see mobile/README.md). */
 @import url("./mobile.css");
 @import url("./shell.css");
+@import url("./themes.css");
 @import url("./mono.css");
 @import url("./hc.css");
