@@ -187,7 +187,8 @@ async function runCase(args, testCase) {
       persist: false,
       uiLocale: "et",
       chatMode: "rag",
-      forceSources: testCase.forceSources ?? true
+      forceSources: testCase.forceSources ?? true,
+      graphChannelTest: process.env.RAG_EVAL_GRAPH_TEST === "1"
     })
   });
   const raw = await response.text();

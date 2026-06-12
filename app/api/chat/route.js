@@ -1,4 +1,4 @@
-﻿import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { bootstrapChatRequest } from "@/lib/chat/requestBootstrap";
 import { CHAT_NO_STORE_HEADERS } from "@/lib/chat/routeServerUtils";
 import { prisma } from "@/lib/prisma";
@@ -186,6 +186,7 @@ export async function POST(req) {
     retrievalMeta
   } = await assembleRetrievalContext({
     payloadAudience: payload?.audience,
+    graphChannelTestOverride: payload?.graphChannelTest === true,
     normalizedRole,
     rawHistory,
     effectiveMessage,
