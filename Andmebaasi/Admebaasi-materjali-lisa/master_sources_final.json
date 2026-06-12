@@ -8953,7 +8953,7 @@
     "audience": "BOTH",
     "language": "et",
     "link_check_status": [],
-    "ingest_status": "needs_review",
+    "ingest_status": "ingest_candidate",
     "ingest_priority": "medium",
     "source_status": "known",
     "duplicate_group_id": "dup_exact_011",
@@ -9001,8 +9001,7 @@
     "registry_role": "dedupe_seed_and_ingest_planning",
     "user_facing_knowledge": false,
     "recommended_pipeline": "knowledge_doc_pipeline",
-    "dedupe_key": "https://tai.ee/sites/default/files/2025-05/lvtu_lopparuanne_16mai2025.pdf",
-    "status_note": "embeddings BadRequest 2026-06-12 (oversized input; retry after rag-service batching fix)"
+    "dedupe_key": "https://tai.ee/sites/default/files/2025-05/lvtu_lopparuanne_16mai2025.pdf"
   },
   {
     "source_id": "tai_espad_2024_uimastite_tarvitamine_koolinoorte_seas",
@@ -9713,7 +9712,7 @@
     "audience": "BOTH",
     "language": "et",
     "link_check_status": [],
-    "ingest_status": "needs_review",
+    "ingest_status": "ingest_candidate",
     "ingest_priority": "medium",
     "source_status": "known",
     "duplicate_group_id": "dup_exact_021",
@@ -9761,8 +9760,7 @@
     "registry_role": "dedupe_seed_and_ingest_planning",
     "user_facing_knowledge": false,
     "recommended_pipeline": "knowledge_doc_pipeline",
-    "dedupe_key": "https://www.stat.ee/sites/default/files/2020-07/sotsiaaltrendid_7.pdf",
-    "status_note": "embeddings BadRequest 2026-06-12 (oversized input)"
+    "dedupe_key": "https://www.stat.ee/sites/default/files/2020-07/sotsiaaltrendid_7.pdf"
   },
   {
     "source_id": "statistikaamet_vaesus_eestis",
@@ -9789,7 +9787,7 @@
     "audience": "BOTH",
     "language": "et",
     "link_check_status": [],
-    "ingest_status": "needs_review",
+    "ingest_status": "ingest_candidate",
     "ingest_priority": "medium",
     "source_status": "known",
     "duplicate_group_id": "dup_exact_022",
@@ -9837,8 +9835,7 @@
     "registry_role": "dedupe_seed_and_ingest_planning",
     "user_facing_knowledge": false,
     "recommended_pipeline": "knowledge_doc_pipeline",
-    "dedupe_key": "https://www.stat.ee/sites/default/files/2020-07/Vaesus_Eestis_sisu.pdf",
-    "status_note": "embeddings BadRequest 2026-06-12 (oversized input)"
+    "dedupe_key": "https://www.stat.ee/sites/default/files/2020-07/Vaesus_Eestis_sisu.pdf"
   },
   {
     "source_id": "statistikaamet_eesti_statistika_kvartalikiri_2_2018",
@@ -13825,7 +13822,7 @@
     "audience": "BOTH",
     "language": "et",
     "link_check_status": [],
-    "ingest_status": "needs_review",
+    "ingest_status": "ingest_candidate",
     "ingest_priority": "medium",
     "source_status": "known",
     "duplicate_group_id": null,
@@ -13868,8 +13865,7 @@
     "registry_role": "dedupe_seed_and_ingest_planning",
     "user_facing_knowledge": false,
     "recommended_pipeline": "knowledge_doc_pipeline",
-    "dedupe_key": "https://mkm.ee/sites/default/files/documents/2023-07/Töövõime toetamise skeemi loomise ja juurutamise vahehindamise lõpparuanne.pdf",
-    "status_note": "embeddings BadRequest 2026-06-12 (oversized input)"
+    "dedupe_key": "https://mkm.ee/sites/default/files/documents/2023-07/Töövõime toetamise skeemi loomise ja juurutamise vahehindamise lõpparuanne.pdf"
   },
   {
     "source_id": "tootukassa_ska_sotsiaalministeerium_toovoime_toetamise_skeemi_loomise_ja_juurutamise_vahehindami_2",
@@ -13896,7 +13892,7 @@
     "audience": "BOTH",
     "language": "et",
     "link_check_status": [],
-    "ingest_status": "needs_review",
+    "ingest_status": "ingest_candidate",
     "ingest_priority": "medium",
     "source_status": "known",
     "duplicate_group_id": null,
@@ -13939,8 +13935,7 @@
     "registry_role": "dedupe_seed_and_ingest_planning",
     "user_facing_knowledge": false,
     "recommended_pipeline": "knowledge_doc_pipeline",
-    "dedupe_key": "https://mkm.ee/sites/default/files/documents/2023-07/Töövõime toetamise skeemi loomise ja juurutamise vahehindamise infoleht.pdf",
-    "status_note": "embeddings BadRequest 2026-06-12 (oversized input)"
+    "dedupe_key": "https://mkm.ee/sites/default/files/documents/2023-07/Töövõime toetamise skeemi loomise ja juurutamise vahehindamise infoleht.pdf"
   },
   {
     "source_id": "tootukassa_ska_sotsiaalministeerium_toovoime_toetamise_susteemi_loomise_ja_juurutamise_makromaja",
@@ -13971,7 +13966,7 @@
     "audience": "BOTH",
     "language": "et",
     "link_check_status": [],
-    "ingest_status": "needs_review",
+    "ingest_status": "ingest_candidate",
     "ingest_priority": "medium",
     "source_status": "known",
     "duplicate_group_id": null,
@@ -14014,8 +14009,7 @@
     "registry_role": "dedupe_seed_and_ingest_planning",
     "user_facing_knowledge": false,
     "recommended_pipeline": "knowledge_doc_pipeline",
-    "dedupe_key": "https://www.mkm.ee/sites/default/files/documents/2023-07/Töövõime toetamise süsteemi loomise ja juurutamise makromajandusliku mõju hindamine lõpparuanne (2).pdf",
-    "status_note": "embeddings BadRequest 2026-06-12 (oversized input)"
+    "dedupe_key": "https://www.mkm.ee/sites/default/files/documents/2023-07/Töövõime toetamise süsteemi loomise ja juurutamise makromajandusliku mõju hindamine lõpparuanne (2).pdf"
   },
   {
     "source_id": "tootukassa_ska_sotsiaalministeerium_tooandjate_hoiakud_vahenenud_toovoimega_inimeste_tootamise_s",
@@ -16528,7 +16522,7 @@
     "audience": "BOTH",
     "language": "et",
     "link_check_status": [],
-    "ingest_status": "needs_review",
+    "ingest_status": "ingest_candidate",
     "ingest_priority": "medium",
     "source_status": "known",
     "duplicate_group_id": null,
@@ -16571,8 +16565,7 @@
     "registry_role": "dedupe_seed_and_ingest_planning",
     "user_facing_knowledge": false,
     "recommended_pipeline": "knowledge_doc_pipeline",
-    "dedupe_key": "https://centar.ee/pdf/ee/2017_Puudega_lastega_perede_toimetuleku_ja_vajaduste_uuring.pdf",
-    "status_note": "embeddings BadRequest (oversized input; needs rag-service chunk-size fix) 2026-06-12"
+    "dedupe_key": "https://centar.ee/pdf/ee/2017_Puudega_lastega_perede_toimetuleku_ja_vajaduste_uuring.pdf"
   },
   {
     "source_id": "praxis_centar_toovoime_toetamise_susteemi_loomise_ja_juurutamise_makromaja",
@@ -17381,7 +17374,7 @@
     "audience": "BOTH",
     "language": "et",
     "link_check_status": [],
-    "ingest_status": "needs_review",
+    "ingest_status": "ingest_candidate",
     "ingest_priority": "medium",
     "source_status": "known",
     "duplicate_group_id": null,
@@ -17425,8 +17418,7 @@
     "registry_role": "dedupe_seed_and_ingest_planning",
     "user_facing_knowledge": false,
     "recommended_pipeline": "knowledge_doc_pipeline",
-    "dedupe_key": "https://sotsiaalkindlustusamet.ee/sites/default/files/documents/2024-09/Evaluation of the impact of the MARAC networking model.pdf",
-    "status_note": "embeddings BadRequest (oversized input; needs rag-service chunk-size fix) 2026-06-12"
+    "dedupe_key": "https://sotsiaalkindlustusamet.ee/sites/default/files/documents/2024-09/Evaluation of the impact of the MARAC networking model.pdf"
   },
   {
     "source_id": "sotsiaalkindlustusamet_marac_i_mudeli_juhend_kov_lastekaitsele",
