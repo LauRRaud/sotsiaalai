@@ -149,51 +149,12 @@
 }
 
 .tooltip {
+  composes: tooltip from './rail.module.css';
   position: absolute;
   top: 50%;
   right: 100%;
   left: auto;
-  --rail-profile-scale: 1;
-  --rail-tooltip-gap: calc(0.18rem * var(--rail-profile-scale));
   transform: translate(calc(-1 * var(--rail-tooltip-gap)), -50%);
-  opacity: 0;
-  padding: 0.24rem 0.6rem;
-  border-radius: 0.7rem;
-  white-space: nowrap;
-  font-weight: 450;
-  font-size: 1.12rem;
-  line-height: 1.1;
-  letter-spacing: 0.02em;
-  color: var(--brand-primary, #c57171);
-  background: var(--rail-tooltip-bg, rgba(28, 31, 38, 0.99));
-  -webkit-backdrop-filter: none;
-  backdrop-filter: none;
-  filter: none !important;
-  border: 0;
-  box-shadow: var(--rail-tooltip-shadow, 0 10px 24px rgba(0, 0, 0, 0.18));
-  pointer-events: none;
-  z-index: 80;
-  isolation: isolate;
-  overflow: hidden;
-  will-change: auto;
-  transition: none;
-  text-shadow: none;
-  text-rendering: geometricPrecision;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  backface-visibility: hidden;
-}
-
-:global(html[data-contrast="hc"]) .tooltip {
-  border: 2px solid var(--rail-tooltip-border, rgba(255, 234, 0, 0.72));
-  background-clip: padding-box;
-}
-
-:global(html[data-ui-profile="mac"]) .tooltip,
-:global(html[data-ui-scale="mac"]) .tooltip,
-:global(html[data-ui-profile="lg"]) .tooltip,
-:global(html[data-ui-scale="lg"]) .tooltip {
-  --rail-profile-scale: 1.2;
 }
 
 .tooltipVisible {
@@ -215,104 +176,8 @@
   display: none;
 }
 
-:global(:root.theme-light) .tooltip {
-  color: var(--title-color, var(--link-color, #7a3a38));
-  font-size: 1.12rem;
-  font-weight: 450;
-  background: var(--chat-rail-tooltip-bg, var(--rail-tooltip-bg, rgba(255, 250, 248, 0.92)));
-  border: 0;
-  box-shadow: var(--rail-tooltip-shadow, 0 10px 24px rgba(82, 50, 46, 0.18));
-}
-
-:global(:root.theme-mid) .tooltip {
-  color: var(--title-color, var(--link-color, #7a3a38));
-  font-size: 1.12rem;
-  font-weight: 450;
-  background: var(--chat-rail-tooltip-bg, var(--rail-tooltip-bg, var(--input-bg)));
-  border: 0;
-  box-shadow: var(--rail-tooltip-shadow, 0 10px 24px rgba(82, 50, 46, 0.12));
-}
-
-:global(html[data-contrast="hc"]) .tooltip {
-  border: 2px solid rgba(255, 234, 0, 0.72) !important;
-  background-clip: padding-box;
-}
-
-:global(:root.theme-night) .tooltip {
-  color: var(--brand-primary, #c57171);
-  background: var(
-    --chat-card-surface-night-flat-bg,
-    var(--chat-rail-tooltip-bg, var(--rail-tooltip-bg, var(--input-bg)))
-  );
-  border: 0;
-  -webkit-backdrop-filter: none;
-  backdrop-filter: none;
-  box-shadow: var(--rail-tooltip-shadow, 0 8px 18px rgba(0, 0, 0, 0.24));
-}
-
-:global(:root:not(.theme-light):not(.theme-mid):not(.theme-night)) .tooltip {
-  background: var(
-    --chat-card-surface-flat-bg,
-    var(--chat-rail-tooltip-bg, var(--rail-tooltip-bg, var(--input-bg)))
-  );
-  border: 0;
-  -webkit-backdrop-filter: none;
-  backdrop-filter: none;
-}
-
-:global(:root.theme-mono:not([data-contrast="hc"])) .tooltip {
-  color: var(--forest-highlight, #c8c8c8);
-  background: linear-gradient(180deg, rgb(48, 48, 48) 0%, rgb(28, 28, 28) 100%) !important;
-  border: 0;
-  box-shadow: 0 10px 22px rgba(7, 7, 7, 0.3);
-}
-
-:global(html[data-contrast="hc"]) .tooltip {
-  color: var(--hc-accent, #ffea00);
-  background: var(--chat-card-surface-night-flat-bg, rgb(11, 15, 23));
-  -webkit-backdrop-filter: none;
-  backdrop-filter: none;
-  border: 1.5px solid var(--hc-accent, #ffea00);
-  box-shadow: none;
-}
-
 :global(:root.theme-light) .tooltip::before {
   content: none;
-}
-
-@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .tooltip {
-    background: var(--rail-tooltip-bg, rgb(28, 31, 38));
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
-  }
-
-  :global(:root.theme-night) .tooltip {
-    background: var(
-      --chat-card-surface-night-flat-bg,
-      var(--chat-rail-tooltip-bg, var(--rail-tooltip-bg, var(--input-bg)))
-    );
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
-  }
-
-  :global(:root.theme-light) .tooltip {
-    background: var(--chat-rail-tooltip-bg, var(--rail-tooltip-bg, rgb(255, 250, 248)));
-  }
-
-  :global(:root.theme-mid) .tooltip {
-    background: var(--chat-rail-tooltip-bg, var(--rail-tooltip-bg, var(--input-bg)));
-  }
-
-  :global(:root.theme-mono:not([data-contrast="hc"])) .tooltip {
-    background: linear-gradient(180deg, rgb(48, 48, 48) 0%, rgb(28, 28, 28) 100%) !important;
-  }
-
-  :global(html[data-contrast="hc"]) .tooltip {
-    background: var(--chat-card-surface-night-flat-bg, rgb(11, 15, 23));
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
-  }
 }
 
 :global(body.modal-open) .rightRail,

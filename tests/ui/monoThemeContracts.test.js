@@ -37,8 +37,7 @@ test("mono theme renders black and gray glass, icons, controls and home/about to
   const mono = `${read("app/styles/theme/mono.css")}\n${read("app/styles/features/chat/mono.css")}\n${read("app/styles/features/documents/mono.css")}`;
   const orbital = read("components/effects/Components/OrbitalMenu/OrbitalMenu.css");
   const infoButton = read("components/ui/PageInfoButton.module.css");
-  const leftRail = read("components/chat/LeftRail.module.css");
-  const rightRail = read("components/chat/RightRail.module.css");
+  const rail = read("components/chat/rail.module.css");
   const workspacePanel = read("components/chat/WorkspacePanel.module.css");
   const darkTheme = read("app/styles/theme/dark.css");
   const documentsMode = read("app/styles/features/documents/workspace.css");
@@ -142,8 +141,9 @@ test("mono theme renders black and gray glass, icons, controls and home/about to
   assert.match(mono, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) \.drawer-panel--chat-glass :is\(\.drawer-close-btn--chat, \.drawer-close-btn--chat > span\)\s*\{[\s\S]*?color:\s*var\(--forest-title\) !important;/);
   assert.match(infoButton, /:global\(:root\.theme-mono:not\(\[data-contrast="hc"\]\)\) \.trigger \{[\s\S]*?--page-info-ring-color:\s*var\(--forest-title,\s*#c57171\);[\s\S]*?--page-info-dot-color:\s*var\(--forest-title,\s*#c57171\);/);
   assert.match(infoButton, /:global\(:root\.theme-mono:not\(\[data-contrast="hc"\]\)\) \.closeButton \{[\s\S]*?color:\s*var\(--forest-title,\s*#c57171\);/);
-  assert.match(leftRail, /:global\(:root\.theme-mono:not\(\[data-contrast="hc"\]\)\) \.tooltip \{[\s\S]*?color:\s*var\(--forest-highlight,\s*#c8c8c8\);[\s\S]*?background:\s*linear-gradient\(180deg,\s*rgb\(48,\s*48,\s*48\)/);
-  assert.match(rightRail, /:global\(:root\.theme-mono:not\(\[data-contrast="hc"\]\)\) \.tooltip \{[\s\S]*?color:\s*var\(--forest-highlight,\s*#c8c8c8\);[\s\S]*?background:\s*linear-gradient\(180deg,\s*rgb\(48,\s*48,\s*48\)/);
+  // Rail tooltip theming is shared by both rails via composes; it now lives
+  // once in rail.module.css.
+  assert.match(rail, /:global\(:root\.theme-mono:not\(\[data-contrast="hc"\]\)\) \.tooltip \{[\s\S]*?color:\s*var\(--forest-highlight,\s*#c8c8c8\);[\s\S]*?background:\s*linear-gradient\(180deg,\s*rgb\(48,\s*48,\s*48\)/);
   assert.match(workspacePanel, /:global\(:root\.theme-mono\) \.cardIcon\s*\{[\s\S]*?color:\s*var\(--forest-title,\s*#c57171\);/);
   assert.match(workspacePanel, /:global\(:root\.theme-mono:not\(\[data-contrast="hc"\]\)\) \.card\s*\{[\s\S]*?--border-glow-enter-duration:\s*1\.05s;[\s\S]*?--border-glow-exit-duration:\s*1\.35s;[\s\S]*?--glow-color:\s*rgba\(230,\s*230,\s*230,\s*0\.46\) !important;[\s\S]*?--glow-color-10:\s*rgba\(230,\s*230,\s*230,\s*0\.055\) !important;/);
   assert.match(workspacePanel, /:global\(:root\.theme-mono:not\(\[data-contrast="hc"\]\)\) \.card\s*\{[\s\S]*?box-shadow 720ms cubic-bezier\(0\.16,\s*1,\s*0\.3,\s*1\)/);
