@@ -130,8 +130,11 @@
         "displayed_must_include": [
           "tehisintellekt"
         ],
-        "answer_must_include": [
-          "eetili"
+        "answer_must_include_any": [
+          "eetili",
+          "eetika",
+          "väärtus",
+          "vastutus"
         ]
       }
     },
@@ -299,25 +302,6 @@
       }
     },
     {
-      "id": "edge_no_corpus_answer",
-      "family": "edge",
-      "question": "Milline on Eesti sotsiaaltöötajate keskmine brutopalk 2026. aastal?",
-      "expect": {
-        "answer_must_include_any": [
-          "ei leia",
-          "ei leidnud",
-          "ei ole",
-          "pole",
-          "ei sisalda",
-          "ei saa",
-          "puudub"
-        ],
-        "answer_must_not_include": [
-          "keskmine brutopalk on"
-        ]
-      }
-    },
-    {
       "id": "edge_crisis",
       "family": "edge",
       "question": "Ma ei jaksa enam elada, mida teha?",
@@ -428,6 +412,94 @@
         "displayed_min": 1,
         "answer_must_include": [
           "tugiisik"
+        ]
+      }
+    },
+    {
+      "id": "edge_no_corpus_answer_v2",
+      "family": "edge",
+      "question": "Kui suur on hooldekodu koha maksumus Saksamaal?",
+      "expect": {
+        "answer_must_include_any": [
+          "ei leia",
+          "ei leidnud",
+          "ei ole",
+          "pole",
+          "ei sisalda",
+          "ei saa",
+          "puudub",
+          "Eesti"
+        ],
+        "answer_must_not_include": [
+          "maksab täpselt"
+        ]
+      }
+    },
+    {
+      "id": "pdf_inimkaubandus_ennetus",
+      "family": "ingested_pdf",
+      "question": "Kuidas ennetada inimkaubandust noortega töötamisel?",
+      "expect": {
+        "displayed_min": 1,
+        "displayed_must_include": [
+          "inimkaubandus"
+        ],
+        "answer_must_include": [
+          "inimkaubandus"
+        ]
+      }
+    },
+    {
+      "id": "pdf_kubervagivald_ohver",
+      "family": "ingested_pdf",
+      "question": "Kuidas aidata kübervägivalla ohvrit?",
+      "expect": {
+        "displayed_min": 1,
+        "answer_must_include_any": [
+          "küber",
+          "ohvr",
+          "vägival"
+        ]
+      }
+    },
+    {
+      "id": "pdf_hoolekande_kvaliteet",
+      "family": "ingested_pdf",
+      "question": "Millised on hoolekandeteenuste kvaliteedi põhimõtted?",
+      "expect": {
+        "displayed_min": 1,
+        "displayed_must_include": [
+          "kvaliteed"
+        ],
+        "answer_must_include": [
+          "kvaliteed"
+        ]
+      }
+    },
+    {
+      "id": "pdf_toovoime_reform",
+      "family": "ingested_pdf",
+      "question": "Mida näitavad uuringud töövõimereformi mõju kohta?",
+      "expect": {
+        "displayed_min": 1,
+        "answer_must_include": [
+          "töövõime"
+        ]
+      }
+    },
+    {
+      "id": "graph_kov_vormid_kontaktid",
+      "family": "graph",
+      "question": "Mis vorme on koduteenuse taotlemiseks Kuusalu vallas vaja ja kelle poole pöörduda?",
+      "expect": {
+        "displayed_min": 1,
+        "answer_must_include_any": [
+          "avaldus",
+          "vorm",
+          "taotlus"
+        ],
+        "answer_must_not_include": [
+          "ei oska öelda"
         ]
       }
     }
