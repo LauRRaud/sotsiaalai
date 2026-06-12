@@ -49,10 +49,10 @@ iga etapi lõpus.
   DB 5818 dok / 46044 vektorit (algas 5655/27393). Eval 29/29 PASS peale kasvu
   (1 transient, 1 ankur-ootus robustseks tehtud). ~20 dokumenti needs_review:
   surnud lingid, OCR-vajavad voldikud, embed-limiidi suured raportid.
-- RAG ENDA ARENDUS alanud: rag-service embedding sub-batching parandus kirjutatud
-  (rag-service/main.py, deploy ootel) — lahendab embed BadRequest suurte
-  dokumentide puhul (jagab OpenAI paringud <=96 sisendit / <=200k tokenit).
-  Peale deploy: taasingest ~5 embed-limiidi needs_review dokumenti.
+- RAG ENDA ARENDUS #1 VALMIS 2026-06-12: rag-service embedding sub-batching
+  parandus deploytud (rag-service/main.py); 6 suurt uuringuraportit (462-863
+  chunki, varem BadRequest) taasingestitud 0 veaga. DB 5824 dok / 50410 vektorit.
+  +1 eval (vaesus-statistika, 30 kokku, PASS). Tunable RAG_EMBED_MAX_* env.
 - Edasi: needs_review URL-ide parandus, OCR-rada voldikutele, siis rada C
   (graph-lite aktiveerimine + otsingukanal — high-reZiim).
 

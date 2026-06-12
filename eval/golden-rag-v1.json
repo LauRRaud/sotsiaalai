@@ -377,6 +377,20 @@
       }
     },
     {
+      "id": "pdf_vaesus_statistika",
+      "family": "ingested_pdf",
+      "question": "Mida näitavad andmed vaesuse kohta Eestis?",
+      "expect": {
+        "displayed_min": 1,
+        "answer_must_include_any": [
+          "vaesus",
+          "vaesuse",
+          "suhteline vaesus",
+          "toimetulek"
+        ]
+      }
+    },
+    {
       "id": "pdf_lapse_heaolu_hindamine",
       "family": "ingested_pdf",
       "question": "Kuidas hinnata lapse heaolu ja abivajadust?",
