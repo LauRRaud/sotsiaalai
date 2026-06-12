@@ -137,3 +137,18 @@ test("mergeGraphBuilds dedupes entities and relations", () => {
   assert.equal(merged.summary.entity_count, buildA.entities.length);
   assert.equal(merged.summary.relation_count, buildA.relations.length);
 });
+
+test("relationRowsFor maps evidence fields and skips unresolved keys", async () => {
+  const { relationRowsFor, chunked } = await import("../../scripts/apply-rag-graph.mjs");
+  const ids = new Map([["a", "id-a"], ["b", "id-b"]]);
+  const { rows, skipped } = relationRowsFor([
+    { fromKey: "a", toKey: "b", relationType: "HAS_FORM", evidence: { source_document_id: "doc-1", canonical_item_id: "item-1", chunk_id: null } },
+    { fromKey: "a", toKey: "missing", relationType: "HAS_FORM", evidence: { source_document_id: "doc-1" } }
+  ], ids);
+  assert.equal(rows.length, 1);
+  assert.equal(rows[0].fromEntityId, "id-a");
+  assert.equal(rows[0].sourceDocumentId, "doc-1");
+  assert.equal(rows[0].evidenceRef, "item-1");
+  assert.equal(skipped.length, 1);
+  assert.deepEqual(chunked([1, 2, 3, 4, 5], 2), [[1, 2], [3, 4], [5]]);
+});
