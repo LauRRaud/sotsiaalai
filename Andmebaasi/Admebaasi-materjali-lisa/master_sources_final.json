@@ -12248,7 +12248,7 @@
     "audience": "BOTH",
     "language": "et",
     "link_check_status": [],
-    "ingest_status": "ingest_candidate",
+    "ingest_status": "needs_review",
     "ingest_priority": "medium",
     "source_status": "known",
     "duplicate_group_id": "dup_exact_056",
@@ -12296,7 +12296,8 @@
     "registry_role": "dedupe_seed_and_ingest_planning",
     "user_facing_knowledge": false,
     "recommended_pipeline": "knowledge_doc_pipeline",
-    "dedupe_key": "https://terviseamet.ee/sites/default/files/documents/2026-04/POHAK_I aasta kokkuvõte.pdf"
+    "dedupe_key": "https://terviseamet.ee/sites/default/files/documents/2026-04/POHAK_I aasta kokkuvõte.pdf",
+    "status_note": "download 404 2026-06-12; find new URL"
   },
   {
     "source_id": "terviseamet_gripivastase_vaktsineerimise_labiviimise_juhend_2025",
@@ -13544,7 +13545,7 @@
     "audience": "BOTH",
     "language": "et",
     "link_check_status": [],
-    "ingest_status": "ingest_candidate",
+    "ingest_status": "needs_review",
     "ingest_priority": "medium",
     "source_status": "known",
     "duplicate_group_id": null,
@@ -13587,7 +13588,8 @@
     "registry_role": "dedupe_seed_and_ingest_planning",
     "user_facing_knowledge": false,
     "recommended_pipeline": "knowledge_doc_pipeline",
-    "dedupe_key": "https://www.sotsiaalkindlustusamet.ee/sites/default/files/documents/2026-02/puudeta-tooealisele.pdf"
+    "dedupe_key": "https://www.sotsiaalkindlustusamet.ee/sites/default/files/documents/2026-02/puudeta-tooealisele.pdf",
+    "status_note": "download 404 2026-06-12; find new URL"
   },
   {
     "source_id": "tootukassa_ska_sotsiaalministeerium_kes_aitab_ja_kuhu_poorduda_kui_sul_on_tuvastatud_puude_rasku",
@@ -13616,7 +13618,7 @@
     "audience": "BOTH",
     "language": "et",
     "link_check_status": [],
-    "ingest_status": "ingest_candidate",
+    "ingest_status": "needs_review",
     "ingest_priority": "medium",
     "source_status": "known",
     "duplicate_group_id": null,
@@ -13659,7 +13661,8 @@
     "registry_role": "dedupe_seed_and_ingest_planning",
     "user_facing_knowledge": false,
     "recommended_pipeline": "knowledge_doc_pipeline",
-    "dedupe_key": "https://sotsiaalkindlustusamet.ee/sites/default/files/documents/2025-02/puudega-tooealisele.pdf"
+    "dedupe_key": "https://sotsiaalkindlustusamet.ee/sites/default/files/documents/2025-02/puudega-tooealisele.pdf",
+    "status_note": "download 404 2026-06-12; find new URL"
   },
   {
     "source_id": "tootukassa_ska_sotsiaalministeerium_star_strateegia_2026_2030",
@@ -13822,7 +13825,7 @@
     "audience": "BOTH",
     "language": "et",
     "link_check_status": [],
-    "ingest_status": "ingest_candidate",
+    "ingest_status": "needs_review",
     "ingest_priority": "medium",
     "source_status": "known",
     "duplicate_group_id": null,
@@ -13865,7 +13868,8 @@
     "registry_role": "dedupe_seed_and_ingest_planning",
     "user_facing_knowledge": false,
     "recommended_pipeline": "knowledge_doc_pipeline",
-    "dedupe_key": "https://mkm.ee/sites/default/files/documents/2023-07/Töövõime toetamise skeemi loomise ja juurutamise vahehindamise lõpparuanne.pdf"
+    "dedupe_key": "https://mkm.ee/sites/default/files/documents/2023-07/Töövõime toetamise skeemi loomise ja juurutamise vahehindamise lõpparuanne.pdf",
+    "status_note": "embeddings BadRequest 2026-06-12 (oversized input)"
   },
   {
     "source_id": "tootukassa_ska_sotsiaalministeerium_toovoime_toetamise_skeemi_loomise_ja_juurutamise_vahehindami_2",
@@ -13892,7 +13896,7 @@
     "audience": "BOTH",
     "language": "et",
     "link_check_status": [],
-    "ingest_status": "ingest_candidate",
+    "ingest_status": "needs_review",
     "ingest_priority": "medium",
     "source_status": "known",
     "duplicate_group_id": null,
@@ -13935,7 +13939,8 @@
     "registry_role": "dedupe_seed_and_ingest_planning",
     "user_facing_knowledge": false,
     "recommended_pipeline": "knowledge_doc_pipeline",
-    "dedupe_key": "https://mkm.ee/sites/default/files/documents/2023-07/Töövõime toetamise skeemi loomise ja juurutamise vahehindamise infoleht.pdf"
+    "dedupe_key": "https://mkm.ee/sites/default/files/documents/2023-07/Töövõime toetamise skeemi loomise ja juurutamise vahehindamise infoleht.pdf",
+    "status_note": "embeddings BadRequest 2026-06-12 (oversized input)"
   },
   {
     "source_id": "tootukassa_ska_sotsiaalministeerium_toovoime_toetamise_susteemi_loomise_ja_juurutamise_makromaja",
@@ -13966,7 +13971,7 @@
     "audience": "BOTH",
     "language": "et",
     "link_check_status": [],
-    "ingest_status": "ingest_candidate",
+    "ingest_status": "needs_review",
     "ingest_priority": "medium",
     "source_status": "known",
     "duplicate_group_id": null,
@@ -14009,7 +14014,8 @@
     "registry_role": "dedupe_seed_and_ingest_planning",
     "user_facing_knowledge": false,
     "recommended_pipeline": "knowledge_doc_pipeline",
-    "dedupe_key": "https://www.mkm.ee/sites/default/files/documents/2023-07/Töövõime toetamise süsteemi loomise ja juurutamise makromajandusliku mõju hindamine lõpparuanne (2).pdf"
+    "dedupe_key": "https://www.mkm.ee/sites/default/files/documents/2023-07/Töövõime toetamise süsteemi loomise ja juurutamise makromajandusliku mõju hindamine lõpparuanne (2).pdf",
+    "status_note": "embeddings BadRequest 2026-06-12 (oversized input)"
   },
   {
     "source_id": "tootukassa_ska_sotsiaalministeerium_tooandjate_hoiakud_vahenenud_toovoimega_inimeste_tootamise_s",
