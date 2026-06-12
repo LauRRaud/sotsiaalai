@@ -256,7 +256,9 @@
   --panel-secondary-shadow: none;
 }
 
-:root:not(.theme-light):not(.theme-mid):not(.theme-night) .framework-page-shell {
+/* Applies to default-dark AND night (byte-identical; consolidated from a
+   theme/night.css copy, etapp 6c). */
+:root:not(.theme-light):not(.theme-mid) .framework-page-shell {
   --framework-panel-shadow: none;
 }
 

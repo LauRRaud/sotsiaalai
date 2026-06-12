@@ -267,9 +267,8 @@
   --panel-secondary-shadow: none;
 }
 
-:root.theme-night .framework-page-shell {
-  --framework-panel-shadow: none;
-}
+/* .framework-page-shell --framework-panel-shadow was byte-identical to the
+   default-dark rule; consolidated into theme/dark.css (etapp 6c). */
 
 /* OTP overrides were byte-identical to the default-dark rules; consolidated
    into theme/dark.css (etapp 6c) by dropping its :not(.theme-night). */
