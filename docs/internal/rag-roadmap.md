@@ -61,6 +61,18 @@ iga etapi lõpus.
   kordusvordlust. Kanal lubatakse alles kui eval >= 30/30 graaf sees.
 - Edasi: mode-gate deploy + kordusvordlus; needs_review URL-id; OCR-rada voldikutele.
 
+**Parandussiht (leitud eval-laiendusel 2026-06-12):** üldine teemaküsimus ilma
+allika-vihjeta (nt: Mis on integreeritud teenused?) jääb default-reziimi ja
+kuvab 0 allikat, kuigi vastus tuleb RAG-ist. Sama klass mis V2.8 diversity —
+vota ette koos C2 iteratsiooniga.
+
+**C2 järgmine iteratsioon (Lauri idee 2026-06-12):** graafi-proportsionaalne
+top-K (kui graaf lisab N päringut, tõsta topK ainult selle võrra — native
+kandidaadid ei kaota kohti) + graafi-kvoot valikus (graph-kanali chunkidel
+ülempiir, nt 2-3 kohta, märgistus retrieval_channel=graph). Koos mode-gate'iga
+annab see päris "kõrvuti täiendamise". Seejärel kordusvõrdlus eval'iga ja
+2-3 graafi-spetsiifilist eval-küsimust (vormid+kontaktid, mitme-hüppelised).
+
 **Käsud, mida vajad:**
 
 ```text

@@ -502,6 +502,30 @@
           "ei oska öelda"
         ]
       }
+    },
+    {
+      "id": "ajakiri_integreeritud_teenused",
+      "family": "ajakiri",
+      "question": "Mida kirjutab ajakiri Sotsiaaltöö integreeritud teenustest?",
+      "expect": {
+        "displayed_min": 1,
+        "answer_must_include": [
+          "integreeritud"
+        ]
+      }
+    },
+    {
+      "id": "ajakiri_kinnise_lasteasutuse_alternatiiv",
+      "family": "ajakiri",
+      "question": "Mida kirjutab ajakiri Sotsiaaltöö kinnise lasteasutuse teenuse alternatiividest?",
+      "expect": {
+        "displayed_min": 1,
+        "answer_must_include_any": [
+          "tugevdatud toetus",
+          "kinnise lasteasutuse",
+          "KLAT"
+        ]
+      }
     }
   ]
 }
