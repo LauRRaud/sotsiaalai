@@ -1079,21 +1079,65 @@ def _sanitize_filename(name: str, fallback: str = "document.pdf") -> str:
     return base
 
 # --- OpenAI embedding helpers ---
-def _embed_batch_with_usage(texts: List[str]) -> Dict[str, object]:
-    if not texts:
-        return {
-            "embeddings": [],
-            "model": EMBED_MODEL,
-            "prompt_tokens": 0,
-            "total_tokens": 0,
-            "latency_ms": 0.0,
-            "embedding_input_count": 0,
-            "text_chars": 0,
-            "cost_read_directly": False,
-        }
-    started = perf_counter()
+# OpenAI embeddings API limits (text-embedding-3-*): <=2048 inputs and
+# <=300k tokens per request, <=8192 tokens per single input. A large document
+# (hundreds of chunks) sent as one request can exceed the per-request token
+# limit and fail with BadRequest, so we pack the inputs into safe sub-batches.
+EMBED_MAX_INPUTS_PER_REQUEST = int(os.getenv("RAG_EMBED_MAX_INPUTS_PER_REQUEST", "96"))
+EMBED_MAX_TOKENS_PER_REQUEST = int(os.getenv("RAG_EMBED_MAX_TOKENS_PER_REQUEST", "200000"))
+EMBED_MAX_TOKENS_PER_INPUT = int(os.getenv("RAG_EMBED_MAX_TOKENS_PER_INPUT", "8000"))
+
+
+def _estimate_tokens(text: str) -> int:
+    enc = _get_token_encoder()
+    if enc is not None:
+        try:
+            return len(enc.encode(text or ""))
+        except Exception:
+            pass
+    # Fallback heuristic: ~4 chars per token.
+    return max(1, len(str(text or "")) // 4)
+
+
+def _truncate_to_tokens(text: str, max_tokens: int) -> str:
+    enc = _get_token_encoder()
+    if enc is not None:
+        try:
+            tokens = enc.encode(text or "")
+            if len(tokens) <= max_tokens:
+                return text
+            return enc.decode(tokens[:max_tokens])
+        except Exception:
+            pass
+    # Fallback: char-based cap (~4 chars per token).
+    max_chars = max_tokens * 4
+    return text if len(text) <= max_chars else text[:max_chars]
+
+
+def _pack_embedding_subbatches(texts: List[str]) -> List[List[str]]:
+    """Pack inputs into sub-batches that respect input-count and token limits."""
+    batches: List[List[str]] = []
+    current: List[str] = []
+    current_tokens = 0
+    for text in texts:
+        safe_text = _truncate_to_tokens(text or "", EMBED_MAX_TOKENS_PER_INPUT)
+        tokens = _estimate_tokens(safe_text)
+        too_many_inputs = len(current) >= EMBED_MAX_INPUTS_PER_REQUEST
+        too_many_tokens = current and (current_tokens + tokens) > EMBED_MAX_TOKENS_PER_REQUEST
+        if too_many_inputs or too_many_tokens:
+            batches.append(current)
+            current = []
+            current_tokens = 0
+        current.append(safe_text)
+        current_tokens += tokens
+    if current:
+        batches.append(current)
+    return batches
+
+
+def _embed_subbatch_raw(texts: List[str]):
     try:
-        resp = oa.embeddings.create(model=EMBED_MODEL, input=texts)
+        return oa.embeddings.create(model=EMBED_MODEL, input=texts)
     except RateLimitError as exc:
         logger.warning("OpenAI embeddings quota/rate limit error: %s", exc)
         raise HTTPException(
@@ -1106,17 +1150,48 @@ def _embed_batch_with_usage(texts: List[str]) -> Dict[str, object]:
             status_code=502,
             detail=f"OpenAI embeddings request failed: {exc.__class__.__name__}",
         ) from exc
+
+
+def _embed_batch_with_usage(texts: List[str]) -> Dict[str, object]:
+    if not texts:
+        return {
+            "embeddings": [],
+            "model": EMBED_MODEL,
+            "prompt_tokens": 0,
+            "total_tokens": 0,
+            "latency_ms": 0.0,
+            "embedding_input_count": 0,
+            "embedding_calls": 0,
+            "text_chars": 0,
+            "cost_read_directly": False,
+        }
+    started = perf_counter()
+    subbatches = _pack_embedding_subbatches(texts)
+    embeddings: List[List[float]] = []
+    prompt_tokens = 0
+    total_tokens = 0
+    usage_seen = False
+    resolved_model = EMBED_MODEL
+    for batch in subbatches:
+        resp = _embed_subbatch_raw(batch)
+        embeddings.extend(d.embedding for d in resp.data)
+        resolved_model = getattr(resp, "model", EMBED_MODEL) or EMBED_MODEL
+        usage = getattr(resp, "usage", None)
+        if usage is not None:
+            usage_seen = True
+            prompt_tokens += getattr(usage, "prompt_tokens", 0) or 0
+            total_tokens += getattr(usage, "total_tokens", 0) or 0
     latency_ms = (perf_counter() - started) * 1000
-    usage = getattr(resp, "usage", None)
     return {
-        "embeddings": [d.embedding for d in resp.data],
-        "model": getattr(resp, "model", EMBED_MODEL) or EMBED_MODEL,
-        "prompt_tokens": getattr(usage, "prompt_tokens", None),
-        "total_tokens": getattr(usage, "total_tokens", None),
+        "embeddings": embeddings,
+        "model": resolved_model,
+        "prompt_tokens": prompt_tokens if usage_seen else None,
+        "total_tokens": total_tokens if usage_seen else None,
         "latency_ms": latency_ms,
         "embedding_input_count": len(texts),
+        "embedding_calls": len(subbatches),
         "text_chars": sum(len(str(text or "")) for text in texts),
-        "cost_read_directly": usage is not None,
+        "cost_read_directly": usage_seen,
     }
 
 def _embed_batch(texts: List[str]) -> List[List[float]]:
