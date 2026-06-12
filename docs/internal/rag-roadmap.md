@@ -72,18 +72,33 @@ iga etapi lõpus.
   8/8 graafitesti PASS; rag-testid 166/166 (NB: jooksuta `npm test` voi
   `node --import ./scripts/register-node-test-loader.mjs --test ...` — paljas
   `node --test` ei lahenda @/-aliast ja annab valefaili).
-- Edasi: mode-gate + C2-kvoot DEPLOY (uks AI -m commit) + eval kordusvordlus
-  (vajab brauseri kupsist; graaf sees vs valjas, eesmark >= 30/37 graaf sees);
-  per-source UI-margistus (jrk: marker katkeb groupMatches juures, praegu ainult
-  trace'is); needs_review URL-id; OCR-rada voldikutele.
+- C2 DEPLOY + KORDUSVORDLUS TEHTUD 2026-06-12 (commit f28911df serveris):
+  graaf valjas 37/37 PASS (reports/golden-eval-graphoff-2026-06-12.json) ja
+  graaf sees 37/37 PASS (reports/golden-eval-graphon-2026-06-12.json, test-
+  override RAG_EVAL_GRAPH_TEST=1) — PARITEET KAES, varasem 28/30 vahe suletud.
+  Live-probe kinnitas kanali toimimist end-to-end: trace query_plan.graph_channel
+  naitas matched_entities 4 / added_query_count 3 / added_candidate_count 3
+  (= kvoodi ulempiir). VARAV TAIDETUD: RAG_GRAPH_CHANNEL_ENABLED=1 voib sisse
+  lulitada (frontend.env + teenuse restart) — kasutaja otsus.
+- MATCHERI LEID (live-probe 2026-06-12): kusimus "Kuusalu valla koduteenuse..."
+  matchis Koduteenus-entiteedid tahestiku esimestest valdadest (Alutaguse, Anija,
+  Antsla, Elva), MITTE Kuusalust. Pohjused: (1) mitmesonaline "kuusalu vald" ei
+  matchi kaandevormi "Kuusalu valla" — prefiks-leevendus on ainult uhesonalistel;
+  (2) sama teenusenimi 78 vallas, MAX_MATCHED_ENTITIES=4 loikab tahestiku jargi.
+  Kahju piiratud (KOV-skoopfilter + kvoot hoiavad valed vallad valjas, eval 37/37),
+  aga jargmise iteratsiooni siht: municipality-kontekstiga entity-eelistus +
+  mitmesonaline kaandematch + samanimeliste dedupe.
+- Edasi: flag sisse (kasutaja otsusel); matcheri leid (ulal); per-source
+  UI-margistus (marker katkeb groupMatches juures, praegu ainult trace'is);
+  needs_review URL-id; OCR-rada voldikutele.
 
 **Parandussiht (leitud eval-laiendusel 2026-06-12):** üldine teemaküsimus ilma
 allika-vihjeta (nt: Mis on integreeritud teenused?) jääb default-reziimi ja
 kuvab 0 allikat, kuigi vastus tuleb RAG-ist. Sama klass mis V2.8 diversity —
 vota ette koos C2 iteratsiooniga.
 
-**C2 järgmine iteratsioon (Lauri idee 2026-06-12) [KOOD TEHTUD, flag väljas,
-ootab deploy + kordusvõrdlust]:** native kandidaadid ei kaota kohti — lahendatud
+**C2 järgmine iteratsioon (Lauri idee 2026-06-12) [VALMIS — deploytud f28911df,
+kordusvõrdlus 37/37 vs 37/37, värav täidetud]:** native kandidaadid ei kaota kohti — lahendatud
 eraldi graafiotsinguga (native topK puutumata) + graafi-kvoot valikus (graph-
 kanali chunkidel ülempiir 3 kohta, märgistus graph_channel_origin /
 retrieval_channel_graph). Koos mode-gate'iga annab see "kõrvuti täiendamise".

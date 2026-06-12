@@ -2,7 +2,7 @@
   "ok": true,
   "eval_file": "eval/golden-rag-v1.json",
   "base_url": "https://sotsiaal.ai",
-  "generated_at": "2026-06-12T19:54:01.610Z",
+  "generated_at": "2026-06-12T19:45:13.020Z",
   "summary": {
     "total": 37,
     "pass": 37,
@@ -273,8 +273,8 @@
       "displayed_titles": [
         "Sotsiaalministeerium otsib koos partneritega võimalusi laste heaolu suurendamiseks",
         "Hea töö ei sünni Excelis – lastekaitsetöötajad ootavad järelevalvelt selgust ja tuge",
-        "Juhend: abivajavast lapsest teatamine ja andmekaitse",
-        "Distantsõppe korraldus HEV-õpilastele Keila Koolis"
+        "Distantsõppe korraldus HEV-õpilastele Keila Koolis",
+        "Juhend: abivajavast lapsest teatamine ja andmekaitse"
       ],
       "checks": [
         {
@@ -360,8 +360,8 @@
       "displayed_titles": [
         "Pikaajaline hooldus Sloveenias: probleemid ja tulevikusuunad",
         "Tegevustest pikaajalise hoolduse vallas",
-        "Kuidas algas ajakirja Sotsiaaltöö teekond?",
         "Pikaajalise hoolduse praegused probleemid ja võimalikud lahendused",
+        "Kuidas algas ajakirja Sotsiaaltöö teekond?",
         "Pikaajaline hooldus seisab muutuste lävel"
       ],
       "checks": [
@@ -373,7 +373,7 @@
         {
           "name": "displayed_includes:sloveenia",
           "ok": true,
-          "detail": "titles: pikaajaline hooldus sloveenias: probleemid ja tulevikusuunad | tegevustest pikaajalise hoolduse vallas | kuidas algas ajakirja sotsiaaltoo teekond? | pikaajalise hoolduse praegused probleemid ja voimalikud lahendused | pikaajaline hooldus seisab muutuste lavel"
+          "detail": "titles: pikaajaline hooldus sloveenias: probleemid ja tulevikusuunad | tegevustest pikaajalise hoolduse vallas | pikaajalise hoolduse praegused probleemid ja voimalikud lahendused | kuidas algas ajakirja sotsiaaltoo teekond? | pikaajaline hooldus seisab muutuste lavel"
         },
         {
           "name": "answer_includes:sloveenia",
@@ -450,8 +450,8 @@
       "displayed_count": 5,
       "displayed_titles": [
         "Koolilaste ja noorte vaimne tervis",
-        "Vaimse tervise hoidmine (4.–7. klass)",
         "Peaasi.ee Haridus",
+        "Vaimse tervise hoidmine (4.–7. klass)",
         "Pagulaste vaimne tervis vajab rohkem tähelepanu",
         "Vaimse tervise probleemiga inimeste elu pärast elukohavahetust"
       ],
@@ -464,7 +464,7 @@
         {
           "name": "displayed_includes:vaimne tervis",
           "ok": true,
-          "detail": "titles: koolilaste ja noorte vaimne tervis | vaimse tervise hoidmine (4.–7. klass) | peaasi.ee haridus | pagulaste vaimne tervis vajab rohkem tahelepanu | vaimse tervise probleemiga inimeste elu parast elukohavahetust"
+          "detail": "titles: koolilaste ja noorte vaimne tervis | peaasi.ee haridus | vaimse tervise hoidmine (4.–7. klass) | pagulaste vaimne tervis vajab rohkem tahelepanu | vaimse tervise probleemiga inimeste elu parast elukohavahetust"
         }
       ]
     },
@@ -535,8 +535,8 @@
       "displayed_count": 4,
       "displayed_titles": [
         "Kes aitab ja kuhu pöörduda, kui sul on tuvastatud puude raskusaste?",
-        "Puudega inimeste sotsiaalne lõimumine",
         "Puuetega inimeste töötamist toetavad meetmed",
+        "Puudega inimeste sotsiaalne lõimumine",
         "Uuring täisealiste puudega inimeste puude tuvastamise, abivajaduse hindamise ja toetamise süsteemist"
       ],
       "checks": [
@@ -558,7 +558,7 @@
         {
           "name": "displayed_excludes:sotsiaalhoolekande seadus",
           "ok": true,
-          "detail": "titles: kes aitab ja kuhu poorduda, kui sul on tuvastatud puude raskusaste? | puudega inimeste sotsiaalne loimumine | puuetega inimeste tootamist toetavad meetmed | uuring taisealiste puudega inimeste puude tuvastamise, abivajaduse hindamise ja toetamise susteemist"
+          "detail": "titles: kes aitab ja kuhu poorduda, kui sul on tuvastatud puude raskusaste? | puuetega inimeste tootamist toetavad meetmed | puudega inimeste sotsiaalne loimumine | uuring taisealiste puudega inimeste puude tuvastamise, abivajaduse hindamise ja toetamise susteemist"
         }
       ]
     },
@@ -774,8 +774,8 @@
       "mode": "resource_discovery",
       "displayed_count": 4,
       "displayed_titles": [
-        "Koolitöötajad jms toetav süsteemne lähenemine",
         "Distantsõppe korraldus HEV-õpilastele Keila Koolis",
+        "Koolitöötajad jms toetav süsteemne lähenemine",
         "Õpilase toetamine koolis (varasem versioon)",
         "Erinevate õppijate toetamine õpetaja ja tugispetsialisti koostöös"
       ],
@@ -793,7 +793,7 @@
         {
           "name": "displayed_includes:kool",
           "ok": true,
-          "detail": "titles: koolitootajad jms toetav susteemne lahenemine | distantsoppe korraldus hev-opilastele keila koolis | opilase toetamine koolis (varasem versioon) | erinevate oppijate toetamine opetaja ja tugispetsialisti koostoos"
+          "detail": "titles: distantsoppe korraldus hev-opilastele keila koolis | koolitootajad jms toetav susteemne lahenemine | opilase toetamine koolis (varasem versioon) | erinevate oppijate toetamine opetaja ja tugispetsialisti koostoos"
         },
         {
           "name": "answer_includes_any:õpilas|kool|tugi",
@@ -1008,8 +1008,8 @@
       "mode": "default",
       "displayed_count": 4,
       "displayed_titles": [
-        "Teadlikkus ja hoiakud vähenenud töövõimega inimeste ning töövõimereformi teemal",
         "Töövõime toetamise süsteemi loomise ja juurutamise makromajandusliku mõju hindamine",
+        "Teadlikkus ja hoiakud vähenenud töövõimega inimeste ning töövõimereformi teemal",
         "Töövõime toetamise skeemi loomise ja juurutamise vahehindamise lõpparuanne",
         "Pandeemia mõju laste vaimsele tervisele ja kuidas neid toetada. 1. osa"
       ],
