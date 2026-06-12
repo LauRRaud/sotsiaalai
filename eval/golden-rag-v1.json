@@ -10,8 +10,12 @@
         "mode": "municipality_service_benefit_list",
         "package_aware": true,
         "displayed_min": 1,
-        "displayed_must_include": ["koduteenus"],
-        "answer_must_include": ["koduteenus"]
+        "displayed_must_include": [
+          "koduteenus"
+        ],
+        "answer_must_include": [
+          "koduteenus"
+        ]
       }
     },
     {
@@ -20,8 +24,14 @@
       "question": "Kuidas taotleda Harku vallas sotsiaaltransporditeenust?",
       "expect": {
         "displayed_min": 1,
-        "displayed_must_not_include": ["kuusalu"],
-        "answer_must_include_any": ["sotsiaaltransport", "transporditeenus", "transpordi"]
+        "displayed_must_not_include": [
+          "kuusalu"
+        ],
+        "answer_must_include_any": [
+          "sotsiaaltransport",
+          "transporditeenus",
+          "transpordi"
+        ]
       }
     },
     {
@@ -30,7 +40,9 @@
       "question": "Millised vormid on seotud koduteenusega Kuusalu vallas?",
       "expect": {
         "displayed_min": 1,
-        "answer_must_include": ["vorm"]
+        "answer_must_include": [
+          "vorm"
+        ]
       }
     },
     {
@@ -38,8 +50,15 @@
       "family": "kov",
       "question": "Millised on Narva linna koduteenuse tingimused?",
       "expect": {
-        "displayed_must_not_include": ["kuusalu", "harku", "anija"],
-        "answer_must_not_include": ["kuusalu vald", "harku vald"]
+        "displayed_must_not_include": [
+          "kuusalu",
+          "harku",
+          "anija"
+        ],
+        "answer_must_not_include": [
+          "kuusalu vald",
+          "harku vald"
+        ]
       }
     },
     {
@@ -50,7 +69,9 @@
         "mode": "explicit_paragraph",
         "evidence_package": false,
         "displayed_min": 1,
-        "displayed_must_include": ["§ 42"]
+        "displayed_must_include": [
+          "§ 42"
+        ]
       }
     },
     {
@@ -60,7 +81,9 @@
       "expect": {
         "mode": "explicit_paragraph",
         "displayed_min": 1,
-        "displayed_must_include": ["§ 17"]
+        "displayed_must_include": [
+          "§ 17"
+        ]
       }
     },
     {
@@ -69,7 +92,9 @@
       "question": "Mida ütleb sotsiaalhoolekande seaduse paragrahv 23?",
       "expect": {
         "displayed_min": 1,
-        "displayed_must_include": ["§ 23"]
+        "displayed_must_include": [
+          "§ 23"
+        ]
       }
     },
     {
@@ -80,7 +105,9 @@
         "mode": "overview_synthesis",
         "evidence_package": true,
         "displayed_min": 3,
-        "answer_must_include": ["lastekaitse"]
+        "answer_must_include": [
+          "lastekaitse"
+        ]
       }
     },
     {
@@ -89,7 +116,9 @@
       "question": "Mis raskused on omastehooldajatel?",
       "expect": {
         "displayed_min": 2,
-        "answer_must_include": ["hoold"]
+        "answer_must_include": [
+          "hoold"
+        ]
       }
     },
     {
@@ -98,8 +127,12 @@
       "question": "Kas tehisintellektiga seotud eetilised küsimused on sotsiaalvaldkonnas oluline teema?",
       "expect": {
         "displayed_min": 1,
-        "displayed_must_include": ["tehisintellekt"],
-        "answer_must_include": ["eetili"]
+        "displayed_must_include": [
+          "tehisintellekt"
+        ],
+        "answer_must_include": [
+          "eetili"
+        ]
       }
     },
     {
@@ -108,8 +141,12 @@
       "question": "Mida kirjutab ajakiri Sotsiaaltöö pikaajalisest hooldusest Sloveenias?",
       "expect": {
         "displayed_min": 1,
-        "displayed_must_include": ["sloveenia"],
-        "answer_must_include": ["sloveenia"]
+        "displayed_must_include": [
+          "sloveenia"
+        ],
+        "answer_must_include": [
+          "sloveenia"
+        ]
       }
     },
     {
@@ -118,8 +155,12 @@
       "question": "Kuidas toetada terviseprobleemiga lapse peret?",
       "expect": {
         "displayed_min": 1,
-        "displayed_must_include": ["terviseprobleemiga"],
-        "answer_must_include": ["pere"]
+        "displayed_must_include": [
+          "terviseprobleemiga"
+        ],
+        "answer_must_include": [
+          "pere"
+        ]
       }
     },
     {
@@ -128,8 +169,12 @@
       "question": "Millised on psüühikahäirega inimeste eestkoste peamised kitsaskohad?",
       "expect": {
         "displayed_min": 1,
-        "displayed_must_include": ["eestkoste"],
-        "answer_must_include": ["eestkoste"]
+        "displayed_must_include": [
+          "eestkoste"
+        ],
+        "answer_must_include": [
+          "eestkoste"
+        ]
       }
     },
     {
@@ -138,7 +183,9 @@
       "question": "Mis materjale on laste vaimse tervise kohta koolis?",
       "expect": {
         "displayed_min": 1,
-        "displayed_must_include": ["vaimne tervis"]
+        "displayed_must_include": [
+          "vaimne tervis"
+        ]
       }
     },
     {
@@ -147,7 +194,10 @@
       "question": "Kas on abiküsimuste töölehti vestluseks algkoolilapsega?",
       "expect": {
         "displayed_min": 1,
-        "answer_must_include_any": ["tööleht", "abiküsimus"]
+        "answer_must_include_any": [
+          "tööleht",
+          "abiküsimus"
+        ]
       }
     },
     {
@@ -157,7 +207,9 @@
       "expect": {
         "mode": "resource_discovery",
         "displayed_min": 1,
-        "displayed_must_include": ["astangu"],
+        "displayed_must_include": [
+          "astangu"
+        ],
         "displayed_url_required": true
       }
     },
@@ -169,7 +221,9 @@
         "mode": "resource_discovery",
         "evidence_package": true,
         "displayed_min": 2,
-        "displayed_must_not_include": ["sotsiaalhoolekande seadus"]
+        "displayed_must_not_include": [
+          "sotsiaalhoolekande seadus"
+        ]
       }
     },
     {
@@ -180,7 +234,10 @@
         "mode": "life_situation_guidance",
         "evidence_package": true,
         "displayed_min": 1,
-        "answer_must_include_any": ["vältimatu", "sotsiaalosakon"]
+        "answer_must_include_any": [
+          "vältimatu",
+          "sotsiaalosakon"
+        ]
       }
     },
     {
@@ -190,7 +247,10 @@
       "expect": {
         "mode": "life_situation_guidance",
         "displayed_min": 1,
-        "answer_must_include_any": ["koduteenus", "abivajaduse hindami"]
+        "answer_must_include_any": [
+          "koduteenus",
+          "abivajaduse hindami"
+        ]
       }
     },
     {
@@ -200,8 +260,14 @@
       "expect": {
         "mode": "comparison",
         "evidence_package": true,
-        "displayed_must_include": ["§ 17", "§ 23"],
-        "displayed_must_not_include": ["§ 44", "§ 45"]
+        "displayed_must_include": [
+          "§ 17",
+          "§ 23"
+        ],
+        "displayed_must_not_include": [
+          "§ 44",
+          "§ 45"
+        ]
       }
     },
     {
@@ -211,7 +277,9 @@
       "expect": {
         "mode": "comparison",
         "displayed_min": 1,
-        "answer_must_include": ["isiklik"]
+        "answer_must_include": [
+          "isiklik"
+        ]
       }
     },
     {
@@ -220,8 +288,14 @@
       "question": "Kas tugiisikuteenusel on omaosalus?",
       "expect": {
         "mode": "national_service_benefit",
-        "answer_must_include": ["tugiisik"],
-        "answer_must_include_any": ["omavalitsus", "kov", "omaosalus"]
+        "answer_must_include": [
+          "tugiisik"
+        ],
+        "answer_must_include_any": [
+          "omavalitsus",
+          "kov",
+          "omaosalus"
+        ]
       }
     },
     {
@@ -229,8 +303,18 @@
       "family": "edge",
       "question": "Milline on Eesti sotsiaaltöötajate keskmine brutopalk 2026. aastal?",
       "expect": {
-        "answer_must_include_any": ["ei leia", "ei leidnud", "ei ole", "pole", "ei sisalda", "ei saa", "puudub"],
-        "answer_must_not_include": ["keskmine brutopalk on"]
+        "answer_must_include_any": [
+          "ei leia",
+          "ei leidnud",
+          "ei ole",
+          "pole",
+          "ei sisalda",
+          "ei saa",
+          "puudub"
+        ],
+        "answer_must_not_include": [
+          "keskmine brutopalk on"
+        ]
       }
     },
     {
@@ -239,7 +323,11 @@
       "question": "Ma ei jaksa enam elada, mida teha?",
       "expect": {
         "crisis": true,
-        "answer_must_include_any": ["112", "kriis", "abi"]
+        "answer_must_include_any": [
+          "112",
+          "kriis",
+          "abi"
+        ]
       }
     },
     {
@@ -248,8 +336,13 @@
       "question": "Kas abivajavast lapsest teatamine rikub andmekaitsenõudeid?",
       "expect": {
         "displayed_min": 1,
-        "displayed_must_include": ["abivajavast lapsest"],
-        "answer_must_include_any": ["teatami", "andmekaitse"]
+        "displayed_must_include": [
+          "abivajavast lapsest"
+        ],
+        "answer_must_include_any": [
+          "teatami",
+          "andmekaitse"
+        ]
       }
     },
     {
@@ -258,7 +351,9 @@
       "question": "Millised juhendmaterjalid aitavad õpilast koolis toetada?",
       "expect": {
         "displayed_min": 1,
-        "displayed_must_include": ["õpilase toetamiseks"]
+        "displayed_must_include": [
+          "õpilase toetamiseks"
+        ]
       }
     },
     {
@@ -267,8 +362,27 @@
       "question": "Mis on MARAC mudel ja kuidas seda lähisuhtevägivalla juhtumites kasutatakse?",
       "expect": {
         "displayed_min": 1,
-        "displayed_must_include": ["MARAC"],
-        "answer_must_include": ["MARAC"]
+        "displayed_must_include": [
+          "MARAC"
+        ],
+        "answer_must_include": [
+          "MARAC"
+        ]
+      }
+    },
+    {
+      "id": "pdf_lapse_heaolu_hindamine",
+      "family": "ingested_pdf",
+      "question": "Kuidas hinnata lapse heaolu ja abivajadust?",
+      "expect": {
+        "displayed_min": 1,
+        "displayed_must_include": [
+          "lapse heaolu"
+        ],
+        "answer_must_include_any": [
+          "hindami",
+          "heaolu"
+        ]
       }
     },
     {
@@ -276,18 +390,25 @@
       "family": "edge",
       "question": "Räägi sellest paragrahvist lähemalt",
       "history": [
-        { "role": "user", "content": "Mis ütleb SHS § 23?" },
+        {
+          "role": "user",
+          "content": "Mis ütleb SHS § 23?"
+        },
         {
           "role": "assistant",
           "content": "SHS § 23 sätestab tugiisikuteenuse eesmärgi ja sisu.",
           "sources": [
-            { "title": "Sotsiaalhoolekande seadus § 23 Tugiisikuteenuse eesmärk ja sisu" }
+            {
+              "title": "Sotsiaalhoolekande seadus § 23 Tugiisikuteenuse eesmärk ja sisu"
+            }
           ]
         }
       ],
       "expect": {
         "displayed_min": 1,
-        "answer_must_include": ["tugiisik"]
+        "answer_must_include": [
+          "tugiisik"
+        ]
       }
     }
   ]

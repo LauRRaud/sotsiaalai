@@ -17866,7 +17866,7 @@
     "audience": "BOTH",
     "language": "et",
     "link_check_status": [],
-    "ingest_status": "ingest_candidate",
+    "ingest_status": "needs_review",
     "ingest_priority": "high",
     "source_status": "known",
     "duplicate_group_id": null,
@@ -17910,7 +17910,8 @@
     "registry_role": "dedupe_seed_and_ingest_planning",
     "user_facing_knowledge": false,
     "recommended_pipeline": "knowledge_doc_pipeline",
-    "dedupe_key": "https://sotsiaalkindlustusamet.ee/sites/default/files/documents/2026-01/Seksuaalsest ahistamisest vaba ööelu juhend A4_veeb linkidega.pdf"
+    "dedupe_key": "https://sotsiaalkindlustusamet.ee/sites/default/files/documents/2026-01/Seksuaalsest ahistamisest vaba ööelu juhend A4_veeb linkidega.pdf",
+    "status_note": "ingested 2026-06-11 but 0 chunks extracted (likely scanned/no text layer; needs OCR)"
   },
   {
     "source_id": "sotsiaalkindlustusamet_eesti_elanikkonna_teadlikkuse_uuring_soopohise_vagivalla_ja_",
