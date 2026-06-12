@@ -1,0 +1,273 @@
+/* Workspace guide panel geometry + embedded invite/help-listings panels.
+   Split 1:1 from utilities/helpers-core.css segment 3. */
+
+@media (min-width: 769px) {
+  .workspace-guide-panel.glass-subpage-surface {
+    --workspace-subpage-back-left: 0.55rem;
+    --workspace-subpage-back-top: 0.55rem;
+    --workspace-subpage-header-margin-bottom: 0.35rem;
+    --workspace-subpage-title-margin-top: clamp(2.15rem, 5.4vh, 3.25rem);
+    --workspace-subpage-title-margin-bottom: clamp(0.35rem, 1.4vh, 0.8rem);
+    width: var(--workspace-glass-shell-inline-size) !important;
+    inline-size: var(--workspace-glass-shell-inline-size) !important;
+    min-width: var(--workspace-glass-shell-inline-size) !important;
+    max-width: var(--workspace-glass-shell-inline-size) !important;
+    height: var(--workspace-glass-block-size) !important;
+    min-height: var(--workspace-glass-block-size) !important;
+    max-height: var(--workspace-glass-block-size) !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding:
+      var(--workspace-guide-panel-pad-top)
+      var(--workspace-guide-panel-pad-x)
+      var(--workspace-guide-panel-pad-bottom) !important;
+    border-radius: clamp(1.6rem, 3.5vw, 2.4rem) !important;
+  }
+
+  .workspace-guide-panel.glass-subpage-surface .glass-subpage-header {
+    margin-bottom: var(--workspace-subpage-header-margin-bottom, 0.35rem) !important;
+  }
+
+  :is(
+      .invite-modal-content--workspace,
+      .help-listings-modal-content--workspace
+    ).workspace-guide-panel.glass-subpage-surface
+    > .glass-subpage-header {
+    margin-top: 0 !important;
+  }
+
+  .invite-modal-content--workspace.workspace-guide-panel.glass-subpage-surface {
+    overflow-x: hidden !important;
+    overflow-y: hidden !important;
+    overscroll-behavior: none !important;
+    scrollbar-gutter: auto !important;
+  }
+
+  .invite-modal-content--workspace.workspace-guide-panel.glass-subpage-surface
+    > .invite-modal-scroll.workspace-guide-panel-scroll {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    scrollbar-gutter: auto !important;
+  }
+
+  .invite-modal-content--workspace.workspace-guide-panel.glass-subpage-surface
+    .invite-list-panel {
+    flex: 1 1 auto !important;
+    min-height: clamp(7.5rem, 18vh, 11rem) !important;
+    max-height: min(24dvh, 13rem) !important;
+    overflow-y: auto !important;
+  }
+
+  .workspace-feature-embedded > :is(
+      .help-listings-modal-content--embedded,
+      .invite-modal-content--embedded
+    ).workspace-guide-panel.glass-subpage-surface {
+    --glass-shell-shadow: none !important;
+    --glass-modal-shadow: none !important;
+    --mid-shell-soft-shadow: none !important;
+    width: 100% !important;
+    inline-size: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    block-size: auto !important;
+    max-block-size: none !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    border: none !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    mask-image: none !important;
+    -webkit-mask-image: none !important;
+  }
+
+  .workspace-feature-embedded
+    > .invite-modal-content--embedded.workspace-guide-panel.glass-subpage-surface
+    .invite-list-panel {
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  .workspace-dashboard-panel .workspace-feature-embedded > :is(
+    .help-listings-modal-content--embedded,
+    .invite-modal-content--embedded
+  ).workspace-guide-panel.glass-subpage-surface::before,
+  .workspace-dashboard-panel .workspace-feature-embedded > :is(
+    .help-listings-modal-content--embedded,
+    .invite-modal-content--embedded
+  ).workspace-guide-panel.glass-subpage-surface::after,
+  .workspace-dashboard-panel .workspace-feature-embedded > :is(
+    .help-listings-modal-content--embedded,
+    .invite-modal-content--embedded
+  ).workspace-guide-panel.glass-subpage-surface > .glass-hole-mask-layer {
+    display: none !important;
+    content: none !important;
+    opacity: 0 !important;
+  }
+
+  .workspace-dashboard-panel .workspace-feature-embedded :is(
+    .help-listings-panel,
+    .help-listings-item-card,
+    .invite-glow-panel,
+    .invite-list-panel,
+    .invite-list-row
+  ) {
+    --invite-panel-shadow: none !important;
+    --subpage-card-shadow: none !important;
+    --panel-secondary-shadow: none !important;
+    border: 0 !important;
+    border-color: transparent !important;
+    background: transparent !important;
+    background-image: none !important;
+    box-shadow: none !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+
+  .workspace-dashboard-panel .workspace-feature-embedded :is(
+    .help-listings-panel,
+    .help-listings-item-card,
+    .invite-glow-panel,
+    .invite-list-panel,
+    .invite-list-row
+  )::before,
+  .workspace-dashboard-panel .workspace-feature-embedded :is(
+    .help-listings-panel,
+    .help-listings-item-card,
+    .invite-glow-panel,
+    .invite-list-panel,
+    .invite-list-row
+  )::after,
+  .workspace-dashboard-panel .workspace-feature-embedded
+    :is(.invite-glow-panel, .invite-list-panel)
+    > [class*="edgeLight"] {
+    display: none !important;
+    content: none !important;
+    opacity: 0 !important;
+  }
+
+  .workspace-dashboard-panel .workspace-feature-embedded :is(
+    .help-listings-body,
+    .help-listings-panel,
+    .invite-modal-scroll,
+    .invite-list-panel
+  ) {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .workspace-dashboard-panel .workspace-feature-embedded .invite-list-panel {
+    padding: 0.86rem 0.92rem !important;
+  }
+
+  .workspace-dashboard-panel .workspace-feature-embedded :is(
+    .help-listings-panel,
+    .help-listings-empty,
+    .help-listings-item-card,
+    .invite-list-panel,
+    .invite-list-row
+  ) {
+    border-width: var(--subpage-card-border-width, 1px) !important;
+    border-style: solid !important;
+    border-color: var(--subpage-card-border, rgba(126, 95, 88, 0.18)) !important;
+    background: var(--subpage-card-bg, var(--workspace-elevated-card-bg, rgba(255, 255, 255, 0.72))) !important;
+    background-image: none !important;
+    box-shadow: var(--subpage-card-shadow, var(--workspace-elevated-card-shadow, 0 10px 24px rgba(38, 24, 22, 0.12))) !important;
+  }
+
+  .workspace-guide-panel.glass-subpage-surface .glass-subpage-title {
+    --glass-subpage-title-margin-top: var(--workspace-subpage-title-margin-top, clamp(2.15rem, 5.4vh, 3.25rem)) !important;
+    --glass-subpage-title-margin-bottom: var(--workspace-subpage-title-margin-bottom, clamp(0.35rem, 1.4vh, 0.8rem)) !important;
+  }
+
+  .help-listings-modal-content--workspace .help-listings-workspace-title-wrap,
+  .invite-modal-content--workspace .invite-workspace-title-wrap {
+    padding-top: 0.28rem !important;
+  }
+
+  .workspace-guide-panel.glass-subpage-surface :is(
+    .workspace-scroll-back-button,
+    .documents-scroll-back-button
+  ) {
+    position: absolute !important;
+    left: var(--workspace-subpage-back-left, 0.55rem) !important;
+    top: calc(
+      var(--workspace-guide-panel-overscan-top, 0px) +
+        var(--workspace-subpage-back-top, 0.55rem)
+    ) !important;
+    bottom: auto !important;
+    margin-left: 0 !important;
+    transform: none !important;
+  }
+
+  .workspace-guide-panel-scroll {
+    width: min(100%, clamp(44rem, calc(var(--workspace-glass-inline-size) * 0.975), 66rem));
+    max-width: min(100%, clamp(44rem, calc(var(--workspace-glass-inline-size) * 0.975), 66rem));
+    margin-right: auto;
+    margin-left: auto;
+    padding-right: 0.1rem;
+    padding-bottom: clamp(2.35rem, 4.5vh, 2.7rem);
+    mask-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.06) 1%,
+      rgba(0, 0, 0, 0.14) 2.3%,
+      rgba(0, 0, 0, 0.26) 4.2%,
+      rgba(0, 0, 0, 0.48) 6.8%,
+      #000 9.2%,
+      #000 79.2%,
+      rgba(0, 0, 0, 0.92) 85.2%,
+      rgba(0, 0, 0, 0.64) 91%,
+      rgba(0, 0, 0, 0.3) 95.4%,
+      rgba(0, 0, 0, 0.08) 98.4%,
+      rgba(0, 0, 0, 0) 100%
+    );
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.06) 1%,
+      rgba(0, 0, 0, 0.14) 2.3%,
+      rgba(0, 0, 0, 0.26) 4.2%,
+      rgba(0, 0, 0, 0.48) 6.8%,
+      #000 9.2%,
+      #000 79.2%,
+      rgba(0, 0, 0, 0.92) 85.2%,
+      rgba(0, 0, 0, 0.64) 91%,
+      rgba(0, 0, 0, 0.3) 95.4%,
+      rgba(0, 0, 0, 0.08) 98.4%,
+      rgba(0, 0, 0, 0) 100%
+    );
+  }
+
+  .materials-page-body.workspace-guide-panel-scroll {
+    mask-image: none !important;
+    -webkit-mask-image: none !important;
+  }
+
+  :is(
+      .workspace-feature-page-shell,
+      .documents-workspace-page--documents,
+      .documents-workspace-page--agent,
+      .covision-page-shell,
+      .invite-modal-content--workspace,
+      .help-listings-modal-content--workspace
+    )
+    .workspace-guide-panel-scroll {
+    mask-image: none !important;
+    -webkit-mask-image: none !important;
+    scroll-padding-top: clamp(0.4rem, 1.2vh, 0.8rem);
+    scroll-padding-bottom: clamp(1.6rem, 3.4vh, 2.25rem);
+  }
+
+}
