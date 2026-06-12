@@ -20551,7 +20551,7 @@
     "audience": "BOTH",
     "language": "et",
     "link_check_status": [],
-    "ingest_status": "ingest_candidate",
+    "ingest_status": "needs_review",
     "ingest_priority": "medium",
     "source_status": "known",
     "duplicate_group_id": null,
@@ -20595,7 +20595,8 @@
     "registry_role": "dedupe_seed_and_ingest_planning",
     "user_facing_knowledge": false,
     "recommended_pipeline": "knowledge_doc_pipeline",
-    "dedupe_key": "https://www.astangu.ee/sites/default/files/media/Harjutuste kogu.pdf"
+    "dedupe_key": "https://www.astangu.ee/sites/default/files/media/Harjutuste kogu.pdf",
+    "status_note": "upload rejected: Part exceeded maximum size (PDF too large; split or raise RAG upload limit) 2026-06-12"
   },
   {
     "source_id": "lastekaitse_liit_lapse_osalusoiguse_rakendamise_juhend",
@@ -21795,7 +21796,7 @@
     "audience": "BOTH",
     "language": "et",
     "link_check_status": [],
-    "ingest_status": "ingest_candidate",
+    "ingest_status": "needs_review",
     "ingest_priority": "medium",
     "source_status": "known",
     "duplicate_group_id": null,
@@ -21839,7 +21840,8 @@
     "registry_role": "dedupe_seed_and_ingest_planning",
     "user_facing_knowledge": false,
     "recommended_pipeline": "knowledge_doc_pipeline",
-    "dedupe_key": "https://tarkvanem.ee/wp-content/uploads/2022/12/Tooleht_rahunemispaus.pdf"
+    "dedupe_key": "https://tarkvanem.ee/wp-content/uploads/2022/12/Tooleht_rahunemispaus.pdf",
+    "status_note": "0 chunks (image worksheet, no text layer; needs OCR) 2026-06-12"
   },
   {
     "source_id": "tarkvanem_tooleht_kuidas_anda_lapsele_korraldusi",
