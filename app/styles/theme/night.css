@@ -271,19 +271,5 @@
   --framework-panel-shadow: none;
 }
 
-/* OTP overrides dedicated for night theme (blue-tinted dark). */
-:root.theme-night .login-modal-box.login-modal--otp .login-modal-shell {
-  background: var(--glass-modal-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))) !important;
-  color: var(--glass-modal-text, var(--glass-surface-text, #f2f2f2)) !important;
-  border: var(--glass-modal-border, none) !important;
-  box-shadow: var(--glass-modal-shadow, none) !important;
-}
-
-:root.theme-night .login-modal-box.login-modal--otp .fancy-checkbox--otp {
-  --checkbox-accent: var(--title-color, var(--brand-primary, #c57171));
-  --checkbox-border: color-mix(in srgb, var(--checkbox-accent) 76%, transparent);
-}
-
-:root.theme-night .login-modal-box.login-modal--otp .login-otp-remember.fancy-checkbox--otp .box {
-  box-shadow: none !important;
-}
+/* OTP overrides were byte-identical to the default-dark rules; consolidated
+   into theme/dark.css (etapp 6c) by dropping its :not(.theme-night). */

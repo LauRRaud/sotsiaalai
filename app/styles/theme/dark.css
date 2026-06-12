@@ -339,8 +339,9 @@
   border-color: transparent;
 }
 
-/* OTP overrides for true dark theme (not mid/night). */
-:root:not(.theme-light):not(.theme-mid):not(.theme-night)
+/* OTP overrides for true dark AND night themes (not mid): both render these
+   identically. Consolidated from byte-identical theme/night.css copies (etapp 6c). */
+:root:not(.theme-light):not(.theme-mid)
   .login-modal-box.login-modal--otp
   .login-modal-shell {
   background: var(--glass-modal-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))) !important;
@@ -349,14 +350,14 @@
   box-shadow: var(--glass-modal-shadow, none) !important;
 }
 
-:root:not(.theme-light):not(.theme-mid):not(.theme-night)
+:root:not(.theme-light):not(.theme-mid)
   .login-modal-box.login-modal--otp
   .fancy-checkbox--otp {
   --checkbox-accent: var(--title-color, var(--brand-primary, #c57171));
   --checkbox-border: color-mix(in srgb, var(--checkbox-accent) 76%, transparent);
 }
 
-:root:not(.theme-light):not(.theme-mid):not(.theme-night)
+:root:not(.theme-light):not(.theme-mid)
   .login-modal-box.login-modal--otp
   .login-otp-remember.fancy-checkbox--otp
   .box {
