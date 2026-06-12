@@ -68,37 +68,12 @@
 }
 
 .item {
-  position: absolute;
-  top: 50%;
+  composes: item from './rail.module.css';
   left: calc(100% - var(--rail-edge-offset));
-  width: var(--rail-item-size);
-  height: var(--rail-item-size);
-  min-width: var(--rail-item-size);
-  min-height: var(--rail-item-size);
-  display: grid;
-  place-items: center;
-  border-radius: 999px;
-  border: 0;
-  padding: 0;
-  background: transparent;
-  color: inherit;
-  transition:
-    transform 180ms ease,
-    opacity 180ms ease,
-    background-color 180ms ease,
-    box-shadow 180ms ease;
-  will-change: transform, opacity;
-  transform-origin: center;
-  pointer-events: auto;
 }
 
 .tooltipAnchor {
   composes: tooltipAnchor from './rail.module.css';
-}
-
-.item:focus-visible {
-  outline: 2px solid rgba(255, 255, 255, 0.14);
-  outline-offset: 3px;
 }
 
 .isActive {
@@ -106,27 +81,7 @@
 }
 
 .iconBtn {
-  appearance: none;
-  border: 0;
-  padding: 0;
-  background: transparent;
-  color: inherit;
-  cursor: var(--cursor-pointer);
-  line-height: 0;
-  pointer-events: auto;
-}
-
-:global(html[data-contrast="hc"] body) .item,
-:global(html[data-contrast="hc"] body) .item:hover,
-:global(html[data-contrast="hc"] body) .item:focus-visible,
-:global(html[data-contrast="hc"] body) .item:active,
-:global(html[data-contrast="hc"] body) .iconBtn,
-:global(html[data-contrast="hc"] body) .iconBtn:hover,
-:global(html[data-contrast="hc"] body) .iconBtn:focus-visible,
-:global(html[data-contrast="hc"] body) .iconBtn:active {
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
+  composes: iconBtn from './rail.module.css';
 }
 
 .iconBtn:hover svg,
@@ -135,26 +90,16 @@
   filter: none !important;
 }
 
-.iconBtn:hover .iconRooms,
-.iconBtn:focus-visible .iconRooms {
-  transform: translateY(-0.04rem) !important;
-}
-
 .iconSvg {
-  width: calc(100% * var(--rail-icon-scale));
-  height: calc(100% * var(--rail-icon-scale));
-  display: block;
+  composes: iconSvg from './rail.module.css';
 }
 
 .iconChats {
-  width: calc(100% * (var(--rail-icon-scale) - 0.04));
-  height: calc(100% * (var(--rail-icon-scale) - 0.04));
+  composes: iconChats from './rail.module.css';
 }
 
 .iconRooms {
-  width: calc(100% * (var(--rail-icon-scale) - 0.03));
-  height: calc(100% * (var(--rail-icon-scale) - 0.03));
-  transform: translateY(-0.04rem);
+  composes: iconRooms from './rail.module.css';
 }
 
 .iconWorkspace {
