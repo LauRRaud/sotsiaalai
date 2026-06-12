@@ -247,10 +247,19 @@ Alternatiiv teemadele, kui muutujapõhine üleminek tundub liiga suur: jaga hc.c
 | Feature CSS-i asukohti | kuni 6 faili | 1 kaust (6 vertikaali features/ all) | 1 kaust |
 | CSS-failide arv | 63 | 78 (tükeldused; maht sama ~848 KB) | — |
 
+### Etapp 6a — chat teemaülekirjutused teemafailidest välja, tehtud 12.06.2026 (commit 4e348625)
+- 89 chat-omast reeglit (727 rida) light/mid/dark/night failidest → `features/chat/themes.css` (sektsioonid globals-järjekorras); chat/index.css laadib shell'i ja mono/hc vahel.
+- Suurim tükk oli dark.css chat-inputbar klaster (~110 rida) — plaani "kõige segasem fail" oli suures osas chat'i oma.
+- Loader: dark.css lugemine bundle'ib chat/themes.css (monoThemeContracts'i positiivne match).
+
+### Etapp 6b — home teemaülekirjutused välja, tehtud 12.06.2026 (commit fc7760a4)
+- 16 home-reeglit (147 rida) light/mid/dark/night/mono failidest → `features/home/themes.css`.
+- Teemafailid nüüd: hc 77 / mono 37 / mid 23 / light 15 / dark 13 / night 11 KB (algselt 111/43/32/27/21/12). dark, night ja light lähenevad 10 KB sihile juba enne muutujastamist.
+- **Leid (pre-existing, mitte regressioon):** default-dark homepage muutujapalett võidab mono oma spetsiifilisusega (6 vs 4 klassi-taset) — nii oli ka enne kolimist. Muutujastamise faasis tasub :not()-ahelate spetsiifilisus teadlikult lahendada (nt :where() või kihtide kaudu).
+
 ### Tegemata (järgmised sammud)
-- **Etapp 5 lõppjääk:** utilities/helpers-core.css tükeldamine (kasuta 5d aggregaatori mustrit; sisemine struktuur on suurte @media-plokkidega läbisegi — piirid vali sisu, mitte prefiksi järgi); invite/help-listings/selected-listing kuuluvad samasse otsusesse (jagatud modaalid).
-- **Etapp 6:** teemade muutujastamine (suurim võit; theme/hc.css on veel 77 KB, mono.css 43 KB, dark.css :not()-ahelad). Alusta väikseimast teemast; iga teema × feature kombinatsioon vajab visuaalset kontrolli.
-- **Väikesed eraldi tööd:** OrbitalMenu.css failisisene dedup (531 rida); LeftRail↔RightRail ühendamine (~670 rida); tombstone'ide kustutamine pärast testide ümbersuunamist (chat-focus.css, documents-mode.css, glass.css aggregaator, a11y.css).
+- **Etapp 6 tuum — literaalreeglid → muutujad:** teemafailide jäägis on literaalseid ülekirjutusreegleid ~hc 179 / mono ~47 / light ~50 / mid ~26 tk; igaüks vajab baasreegli muutmist (var() tarbimine) + teemaväärtuste deklareerimist. Tee feature-kaupa, mõõda visuaalselt iga teema all. Sama mehaanikaga saab enne välja tõmmata veel feature-teemaplokke (invite/materials/help-listings on jagatud UI → shared/ teemafail?).
+- **Väikesed eraldi tööd:** OrbitalMenu.css failisisene dedup (531 rida); LeftRail↔RightRail ühendamine (~670 rida); tombstone'ide kustutamine pärast testide ümbersuunamist (chat-focus.css, documents-mode.css, glass.css ja helpers-core.css aggregaatorid, a11y.css); invite/help-listings/selected-listing shared-otsus.
 
 ## 8. Mida MITTE teha
 
