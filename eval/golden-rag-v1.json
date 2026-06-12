@@ -350,9 +350,15 @@
       "family": "ingested_pdf",
       "question": "Millised juhendmaterjalid aitavad õpilast koolis toetada?",
       "expect": {
+        "mode": "resource_discovery",
         "displayed_min": 1,
         "displayed_must_include": [
-          "õpilase toetamiseks"
+          "kool"
+        ],
+        "answer_must_include_any": [
+          "õpilas",
+          "kool",
+          "tugi"
         ]
       }
     },

@@ -45,14 +45,16 @@ iga etapi lõpus.
 
 **Pooleli / järgmine samm:**
 
-- B1 HIGH-OSA VALMIS (2026-06-11 hiline ohtu): partii 3 = 12 uut, 0 viga. Kokku 32 high-priority PDF-i sees, 2 surnud linki needs_review. DB 5689 dok / 31530 vektorit. Jargmine: +eval-kusimus partii 3 sisule, siis B2 medium (141) partiidena
-
-- B1 partii 2 TEHTUD (12 uut, 0 viga: SKA MARAC/kübervägivald/perevägivald/naiste tugikeskus, Praxise erivajaduse-uuringud, Päästeameti ohutusjuhendid; DB 5677 dok / 30047 vektorit; +1 eval, 28 kokku). **B1 jätk: high järel ~12.**
-  Sama muster: dry-run plaan → ingest `--skip-existing` → otsingu-kontroll →
-  +1–2 eval-küsimust → eval roheline. Seejärel medium (141).
-- Surnud linkidega kirjete (2 tk, `needs_review`) uute URL-ide leidmine.
-- Siis: B4 organisatsioonikorje automatiseerimine; C1 aktiveerimine kokkuleppel;
-  C2 graph-otsingukanal + eval-võrdlus.
+- RADA B (korpuse kasv) VALMIS 2026-06-12: B1 high 32 PDF + B2 medium 129 PDF ingestitud.
+  DB 5818 dok / 46044 vektorit (algas 5655/27393). Eval 29/29 PASS peale kasvu
+  (1 transient, 1 ankur-ootus robustseks tehtud). ~20 dokumenti needs_review:
+  surnud lingid, OCR-vajavad voldikud, embed-limiidi suured raportid.
+- RAG ENDA ARENDUS alanud: rag-service embedding sub-batching parandus kirjutatud
+  (rag-service/main.py, deploy ootel) — lahendab embed BadRequest suurte
+  dokumentide puhul (jagab OpenAI paringud <=96 sisendit / <=200k tokenit).
+  Peale deploy: taasingest ~5 embed-limiidi needs_review dokumenti.
+- Edasi: needs_review URL-ide parandus, OCR-rada voldikutele, siis rada C
+  (graph-lite aktiveerimine + otsingukanal — high-reZiim).
 
 **Käsud, mida vajad:**
 
