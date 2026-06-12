@@ -59,19 +59,37 @@ iga etapi lõpus.
   comparison-reZiimis graafipäringud lahjendasid §17/§23 tasakaalu. PARANDUS TEHTUD
   (mode-gate: comparison/legal/overview/lookup valistatud), commit ootab deploy +
   kordusvordlust. Kanal lubatakse alles kui eval >= 30/30 graaf sees.
-- Edasi: mode-gate deploy + kordusvordlus; needs_review URL-id; OCR-rada voldikutele.
+- C2 ITERATSIOON TEHTUD 2026-06-12 (kood+testid lokaalselt, flag VALJAS):
+  graafi-kanal jookseb nuud ERALDI otsinguna (mitte primaaride sekka segatud),
+  nii et native per-query sugavus jaab puutumata — "native ei kaota kohti" on
+  struktuurne, mitte proportsionaalse topK-ga kompenseeritud. Graafi-kvoot:
+  `selectGraphChannelSupplement` votab graafiotsingust ainult dokumendid, mida
+  native ei leidnud, margistab need (graph_channel_origin / retrieval_channel_graph)
+  ja piirab GRAPH_CHANNEL_MAX_DISPLAYED-ga (vaikimisi 3, env RAG_GRAPH_CHANNEL_MAX_SLOTS).
+  `graphChannelSearchTopK` annab eraldi otsingule tagasihoidliku eelarve. Trace:
+  graph_channel.added_candidate_count. Failid: lib/rag/graph/graphRetrieval.js +
+  lib/chat/retrievalContextAssembler.js (eraldi pass peale native alamotsinguid).
+  8/8 graafitesti PASS; rag-testid 166/166 (NB: jooksuta `npm test` voi
+  `node --import ./scripts/register-node-test-loader.mjs --test ...` — paljas
+  `node --test` ei lahenda @/-aliast ja annab valefaili).
+- Edasi: mode-gate + C2-kvoot DEPLOY (uks AI -m commit) + eval kordusvordlus
+  (vajab brauseri kupsist; graaf sees vs valjas, eesmark >= 30/37 graaf sees);
+  per-source UI-margistus (jrk: marker katkeb groupMatches juures, praegu ainult
+  trace'is); needs_review URL-id; OCR-rada voldikutele.
 
 **Parandussiht (leitud eval-laiendusel 2026-06-12):** üldine teemaküsimus ilma
 allika-vihjeta (nt: Mis on integreeritud teenused?) jääb default-reziimi ja
 kuvab 0 allikat, kuigi vastus tuleb RAG-ist. Sama klass mis V2.8 diversity —
 vota ette koos C2 iteratsiooniga.
 
-**C2 järgmine iteratsioon (Lauri idee 2026-06-12):** graafi-proportsionaalne
-top-K (kui graaf lisab N päringut, tõsta topK ainult selle võrra — native
-kandidaadid ei kaota kohti) + graafi-kvoot valikus (graph-kanali chunkidel
-ülempiir, nt 2-3 kohta, märgistus retrieval_channel=graph). Koos mode-gate'iga
-annab see päris "kõrvuti täiendamise". Seejärel kordusvõrdlus eval'iga ja
-2-3 graafi-spetsiifilist eval-küsimust (vormid+kontaktid, mitme-hüppelised).
+**C2 järgmine iteratsioon (Lauri idee 2026-06-12) [KOOD TEHTUD, flag väljas,
+ootab deploy + kordusvõrdlust]:** native kandidaadid ei kaota kohti — lahendatud
+eraldi graafiotsinguga (native topK puutumata) + graafi-kvoot valikus (graph-
+kanali chunkidel ülempiir 3 kohta, märgistus graph_channel_origin /
+retrieval_channel_graph). Koos mode-gate'iga annab see "kõrvuti täiendamise".
+Seejärel kordusvõrdlus eval'iga ja 2-3 graafi-spetsiifilist eval-küsimust
+(vormid+kontaktid, mitme-hüppelised). JÄÄK pärast deployd: per-source UI-
+märgistus (marker katkeb groupMatches juures, praegu ainult trace'is).
 
 **Käsud, mida vajad:**
 

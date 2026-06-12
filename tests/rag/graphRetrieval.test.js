@@ -6,7 +6,9 @@ import {
   graphChannelLookup,
   graphHintsToQueryTexts,
   isGraphChannelEnabled,
-  matchEntitiesInText
+  matchEntitiesInText,
+  graphChannelSearchTopK,
+  selectGraphChannelSupplement
 } from "../../lib/rag/graph/graphRetrieval.js";
 
 const ENTITIES = [
@@ -71,6 +73,38 @@ test("graphChannelLookup traverses relations with mock prisma", async () => {
   assert.equal(queries.length, 1);
   assert.ok(queries[0].includes("Koduteenus"));
   assert.ok(queries[0].includes("Sotsiaalteenuse avaldus"));
+});
+
+test("graphChannelSearchTopK scales with query count and caps", () => {
+  assert.equal(graphChannelSearchTopK(0), 0);
+  assert.equal(graphChannelSearchTopK(1), 6);
+  assert.equal(graphChannelSearchTopK(2), 12);
+  assert.equal(graphChannelSearchTopK(3), 18);
+  assert.equal(graphChannelSearchTopK(10), 18); // ceiling holds
+  assert.equal(graphChannelSearchTopK(-1), 0); // guard
+});
+
+test("selectGraphChannelSupplement drops native dupes, caps, and marks origin", () => {
+  const native = [
+    { id: "d1", hybrid_score: 0.9 },
+    { id: "d2", hybrid_score: 0.8 }
+  ];
+  const graph = [
+    { id: "d2", hybrid_score: 0.95 }, // already native -> excluded
+    { id: "d3", hybrid_score: 0.7 },
+    { id: "d4", hybrid_score: 0.6 },
+    { id: "d5", hybrid_score: 0.5 },
+    { id: "d3", hybrid_score: 0.7 } // duplicate within graph -> deduped
+  ];
+  const supplement = selectGraphChannelSupplement(native, graph, 2);
+  assert.deepEqual(supplement.map(m => m.id), ["d3", "d4"]); // top-2 by score, native excluded
+  assert.ok(supplement.every(m => m.graph_channel_origin === true && m.retrieval_channel_graph === true));
+});
+
+test("selectGraphChannelSupplement returns empty when cap is zero or no new docs", () => {
+  assert.deepEqual(selectGraphChannelSupplement([{ id: "d1" }], [{ id: "d2" }], 0), []);
+  assert.deepEqual(selectGraphChannelSupplement([{ id: "d1" }], [{ id: "d1" }], 3), []);
+  assert.deepEqual(selectGraphChannelSupplement([], [], 3), []);
 });
 
 test("graphChannelLookup returns empty hints when nothing matches", async () => {
