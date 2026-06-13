@@ -29,20 +29,20 @@
 
 ## Tehtud (krooniline)
 
-### Faas 1 — surnud `body[data-reduce-*]` selektorid 6 failis  [972f7d37]
-`data-reduce-motion` ja `data-reduce-transparency` seatakse ainult `<html>`-l (AccessibilityProvider + layout init script). `<body>`-l mitte kunagi. Eemaldati kõik `body[data-reduce-motion]` + `body[data-reduce-transparency]` selektorid: core.css (9 selektor-rida), backgrounds.css (2), chat/shell.css (3), profile/mobile.css (3), glass-subpage.css (1), WorkspacePanel.module.css (1). Kokku −27 rida. Testid: 968/12 baseline.
+### Faas 1 — `body[data-reduce-*]` surnud selektorid  [972f7d37]
+Atribuut ainult `<html>`-l, mitte `<body>`-l. −27 rida 6 failis. 968/12.
 
-### Faas 1 — orvud @keyframes animatsioonifailides  [61c51331 → b99a2f51 + f0d5afc4 + 1f6075e2]
-`@-webkit-keyframes indicator` + `@keyframes indicator` (animations.css, −28 rida): null referentse. 7 orvust @keyframes animations.css-ist (cardBlurIntro, chat-sources-pulse, skel, topnav-toggle-pulse, chat-enter-clear, pinAltZeroFade, pinAltClearFade, −115 rida). 4 orvust @keyframes teema/feature-failides (home-logo-shine-fade-mobile, profile-orbit-mobile-hub-pulse, profile-orbit-hub-mobile-pulse, hc-orbit-glow-pulse, −68 rida). Kokku −211 rida.
+### Faas 1 — 11 orvut @keyframes  [f0d5afc4, 1f6075e2, b99a2f51]
+0 referentsi kõikjal. −211 rida animations.css + 4 teema/feature-faili. 968/12.
 
-### Faas 1 — HC tooltip Block 3 surnud `border: 1.5px` + snapshot hover fix  [61c51331]
-`components/chat/rail.module.css` Block 3 (read 252): `border: 1.5px solid var(--hc-accent, #ffea00)` eemaldatud. Block 2 (sama selektor, spetsiifilisus 0,2,0) on `border: 2px solid !important` — alati võidab normaale. Kaskaadi-tõend deterministlik. Lisaks: `css-snapshot.mjs` hover-samm nüüd try/catch (timeoutist mitte krahhita) + `force:true` tugi. `css-snapshot.targets.json` uuendatud. Testid: 968 pass, 12 fail (baseline, 0 uut).
+### Faas 1 — HC tooltip Block 3 `border:1.5px` + snapshot hover  [61c51331]
+Block 2 `!important` võidab Block 3 normaalse. −1 rida. Snapshot hover try/catch. 968/12.
 
-### Faas 1 — .defer-fade + @keyframes dfade-in (surnud kood)  [0e52c29c]
-`app/styles/base/animations.css` `.defer-fade` klass (12 rida) + `@keyframes dfade-in` (16 rida) eemaldatud. `app/styles/theme/hc.css` reduce-motion valvur (6 rida) eemaldatud. Kokku −35 rida. Verifikatsioon: grep 0 osumeid JSX/HTML-is; testid 12/12 baseline. Kaskaad-ohutu (ükski element ei vastanud selektorile).
+### Faas 1 — `.defer-fade` + `@keyframes dfade-in`  [0e52c29c]
+0 JSX-referentsi. −35 rida (animations.css + hc.css). 968/12.
 
-### Faas 1 — HC tooltip Block 1 (surnud kood)  [c6c0d387, 992fc096]
-`components/chat/rail.module.css` HC tooltip Block 1 eemaldatud: `html[data-contrast="hc"] .tooltip { border: 2px solid var(--rail-tooltip-border,...); background-clip: padding-box; }` — 100% surnud kood, mida Block 2 (sama selektor, !important) alati üle kirjutas. Testid: 12 baseline, 0 uut. Kaskaadi-analüüs deterministlik (snapshot-element null tühja konto kontekstis — vt JÄRGMINE SAMM). Paigaldati Playwright browserid serverile; genereeriti tmp-create-login-token.mjs serverile.
+### Faas 1 — HC tooltip Block 1  [c6c0d387, 992fc096]
+Block 2 sama selektor + `!important` → Block 1 alati surnud. −4 rida. 968/12.
 
 ### Etapp 6c — kaskaadi-konsolideerimine (night)  [5b6485ef, c345cf40, 344fc51d]
 dark.css `:not()`-ahela baidi-identsed night-koopiad konsolideeritud: login-otp ×3 (dup 1388→1381), framework-page-shell. Testid = 12 baseline; brauseris arvutatud stiilid identsed. dark.css `:not()`-ahel ammendatud baidi-identsete osas.
