@@ -44,7 +44,11 @@ const THEMES = [
   { id: "hc", theme: "dark", contrast: "hc" }, // app forces theme=dark under hc
 ];
 
-const VIEWPORTS = [
+// Defaults straddle the real breakpoints: 390 < 640 (orbital) < 768 (mobile
+// split) < 1180 (desktop). A target may override with its own `viewports`
+// (e.g. add ~700 if it has distinct rules at both 640 and 768). Keep widths
+// consistent before/after so clamp()-derived values cancel in the diff.
+const DEFAULT_VIEWPORTS = [
   { id: "desktop", width: 1180, height: 820 },
   { id: "mobile", width: 390, height: 780 },
 ];
@@ -134,7 +138,8 @@ async function applyTheme(page, theme) {
 
 async function captureTarget(page, target) {
   const result = {};
-  for (const vp of VIEWPORTS) {
+  const viewports = target.viewports ?? DEFAULT_VIEWPORTS;
+  for (const vp of viewports) {
     await page.setViewportSize({ width: vp.width, height: vp.height });
     await page.goto(`${page.context()._baseUrl}${target.route}`, { waitUntil: "domcontentloaded" });
     for (const theme of THEMES) {

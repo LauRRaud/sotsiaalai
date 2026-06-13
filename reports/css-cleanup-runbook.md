@@ -52,6 +52,40 @@ The snapshot harness has no arbitrary delays: it waits for real conditions
 frames), with no time limit. `--keep-open` leaves a visible window open after
 capture so you can inspect and close it yourself.
 
+## Viewports matter — cover every breakpoint band
+CSS branches on width: main split `max-width:768px`, also `min-width:769px` and
+the orbital `max-[640px]`. A snapshot at one width misses regressions at another.
+Rule: the captured viewports must hit **both sides of every breakpoint the
+target uses**, and be **identical before/after** (so continuous `clamp()` values
+cancel in the diff — the diff then shows only real changes). The defaults 390 +
+1180 straddle 640 and 768. If a target has *distinct* rules at both 640 and 768,
+add a width in (640, 768] (e.g. 700) via the target's `viewports` field. Width-
+independent modes (data-ui-profile mac/lg, data-text-scale) are separate axes —
+add them as extra captures only when the target's CSS keys off them.
+
+## Dead-code removal (CSS + Tailwind) — a separate stream
+Lots of old leftover code is unused and should go. Detection + caution:
+- **Dead hand-CSS classes:** `npm run css:audit` reports `notSeen` selectors.
+  High false-positive rate (dynamic class names, leaflet, rarely-opened UI) — so
+  every candidate must be confirmed with a repo-wide grep (including dynamic
+  string construction like `` `foo-${x}` ``) before deletion.
+- **CSS files imported nowhere:** grep the import graph; an orphaned file is
+  safe to delete once confirmed no `@import`/`import` references it (and no test
+  reads it — see §1 tombstone note in the plan doc).
+- **Dead components → dead Tailwind + module CSS:** Tailwind v4 tree-shakes
+  unused utilities, so there is no shipped "unused Tailwind CSS"; dead Tailwind
+  really means Tailwind classes on components/JSX that are never rendered. Find
+  unused files/exports with `knip` (config in repo; see reports/knip-fresh.txt).
+  Deleting a dead component removes its Tailwind usage and its `.module.css`.
+- **Rules overridden into a no-op** (this session's pattern): a real declaration
+  killed by a later `: none/0/transparent !important` — the overridden rule is
+  dead. Confirm the override is unconditional (not a per-theme/viewport branch)
+  before removing.
+- **Verification caveat:** static detection finds candidates; the snapshot gate
+  confirms removal did not change the captured states — but a class used only in
+  a rare interactive state will not appear in a common-state snapshot, so grep +
+  judgment remain necessary. When unsure, keep it and flag it.
+
 ## Safe for a cheaper model vs escalate
 - **Safe (snapshot-gated, mechanical):** consolidating byte-identical per-theme
   rules; collapsing repeated `var(--x, fallback) !important` blocks; dropping a
