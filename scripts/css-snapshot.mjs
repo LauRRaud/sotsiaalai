@@ -45,11 +45,11 @@ const THEMES = [
 ];
 
 // Defaults straddle the real breakpoints: 390 < 640 (orbital) < 768 (mobile
-// split) < 1180 (desktop). A target may override with its own `viewports`
-// (e.g. add ~700 if it has distinct rules at both 640 and 768). Keep widths
-// consistent before/after so clamp()-derived values cancel in the diff.
+// split) < 1920 (Full HD desktop). A target may override with its own
+// `viewports` (e.g. add ~700 if it has distinct rules at both 640 and 768).
+// Keep widths consistent before/after so clamp()-derived values cancel in the diff.
 const DEFAULT_VIEWPORTS = [
-  { id: "desktop", width: 1180, height: 820 },
+  { id: "desktop", width: 1920, height: 1080 },
   { id: "mobile", width: 390, height: 780 },
 ];
 

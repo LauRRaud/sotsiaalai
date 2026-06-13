@@ -58,8 +58,8 @@ the orbital `max-[640px]`. A snapshot at one width misses regressions at another
 Rule: the captured viewports must hit **both sides of every breakpoint the
 target uses**, and be **identical before/after** (so continuous `clamp()` values
 cancel in the diff — the diff then shows only real changes). The defaults 390 +
-1180 straddle 640 and 768. If a target has *distinct* rules at both 640 and 768,
-add a width in (640, 768] (e.g. 700) via the target's `viewports` field. Width-
+1920 (Full HD) straddle 640 and 768. If a target has *distinct* rules at both
+640 and 768, add a width in (640, 768] (e.g. 700) via the target's `viewports` field. Width-
 independent modes (data-ui-profile mac/lg, data-text-scale) are separate axes —
 add them as extra captures only when the target's CSS keys off them.
 
