@@ -19,6 +19,7 @@
 - **Verifikatsiooni-infra:** snapshot + diff + matched-rules + **`css-effective-audit.mjs` (VALMIS & robustne)** — per-leht × 6 teemat × 4vp efektiivne kate, FP-fix + android + known-FP välistus + 2b mount-states + state-tested fix + 4 plain komponendi-CSS katvus. Vt allpool "Effective-audit tööriist".
 - **AUTORITEETNE ARTEFAKT:** `reports/css-effective-audit/2026-06-13-authoritative.json` (37 route'i × 6 teemat × 4vp, üks jooks) — **1232 dead / 64 state-no-op / 36 kept-dynamic / 0 high-confidence**. 0 high-confidence = ristvalideeritud lihtsad võidud AMMENDATUD. Universe 3530 selektorit / 69 faili.
 - **Faas 1 (surnud kood):** lihtsad võidud tehtud (skip-link + varasem). Jääk = JS-oleku-taga + teema-variant kandidaadid (case-by-case snapshot). **Faas 2 (konsolideerimine) on nüüd Sonneti põhitöö** — vt JÄRGMINE SAMM.
+- **Faas 2 — dropdown viil:** VALMIS (`ff8390cd`). `:root.theme-X` tokenid + eemaldatud `!important` + HC globaalsed reeglid. Järgmine: **button (~99 hajutus)**.
 
 ## JÄRGMINE SAMM (kaks rada)
 
@@ -113,6 +114,13 @@ Block 2 sama selektor + `!important` → Block 1 alati surnud. −4 rida. 968/12
 
 ### Etapp 6c — kaskaadi-konsolideerimine (night)  [5b6485ef, c345cf40, 344fc51d]
 dark.css `:not()`-ahela baidi-identsed night-koopiad konsolideeritud: login-otp ×3 (dup 1388→1381), framework-page-shell. Testid = 12 baseline; brauseris arvutatud stiilid identsed. dark.css `:not()`-ahel ammendatud baidi-identsete osas.
+
+### Faas 2 — dropdown primitiiv  [ff8390cd]
+Kanooniline komponent: `DocumentsDropdown.jsx` (olemasolev). Probleem: kõik `--documents-dropdown-*` tokenid olid skoopiline `.documents-workspace` — portaalsed menüüd (keha lapsed) ei pärinud neid.
+
+**Muudatused:** `workspace.css` — lisatud `:root` + `:root.theme-{light,mid,night,mono}` + `[data-contrast="hc"]` tokeniplokid; `mono.css` — eemaldatud `!important` kõigilt visuaalsetelt reeglitelt (reas 80–113), eemaldatud workspace-skoopilist dropdowni tokenid (redundantsed — `:root.theme-mono` annab samad väärtused); `ui.css` — eemaldatud `.documents-dropdown-menu,` HC kombineeritud blokist; HC workspace-reeglid asendatud globaalsete `[data-contrast="hc"] .documents-dropdown-item` reeglitega, spetsiifilisus (0,2,0) > alus (0,1,0); `css-snapshot.targets.json` — lisatud 2 dropdowni sihtmärki.
+
+**Valvurid:** snapshot-diff ✓ identical · npm test 968/12 · jscpd 109→109.
 
 ### LeftRail ↔ RightRail jagatud moodul (composes)  [ee049156, 9670cfc4, 85783459, 8854718f, 1549c158]
 Loodud `components/chat/rail.module.css`; kõik küljest sõltumatu (slot/item/iconBtn/ikoonid/tooltip + kõik teema-variandid + konteiner + modal-open) jagatud CSS-mooduli `composes` kaudu (esimene composes repos — TÖÖTAB). jscpd rail-dup **249 → 9 rida**. Kõik 34 rail/orbiit kontraktitesti läbivad. Side-spetsiifiline jääb lokaalseks. **Tagasinupu tooltip-summutus = eelnev JSX-disain, mitte CSS.**
