@@ -47,6 +47,13 @@ Tööriist `scripts/css-effective-audit.mjs` TÖÖTAB (täis-crawl robustne), ag
 
 **Soovitatud järjekord:** dropdown (14, väike → ÕPI töövoog) → **button (~99, suurim väärtus + komponent olemas)** → modal → panel → card.
 
+### LÕPP-SIHT (Definition of Done) — IGA primitiiv saab 2 asja
+Faas 2 ja faas 4 tehakse **koos, ühe viiluna per primitiiv** (mitte eraldi globaalsete faasidena). Primitiiv on VALMIS ainult kui tal on MÕLEMAD:
+1. **Oma kanooniline komponent** — üks React-komponent + variandid (nt `<Button variant>`, `<Dropdown>`), mida kõik kasutuskohad kasutavad. Null scattered duplikaat-CSS-peret.
+2. **Oma värvi-/teema-tokenid** — komponendi juures ko-lokeeritud `var(--primitiiv-*)` + per-teema `:root.theme-Y { --primitiiv-*: … }`. MITTE `:not(.theme-Y)`-override-ahelad, MITTE pinna-`!important`. Teema "võidab" muutuja kaudu.
+
+⇒ Iga viil viib ÜHE primitiivi täielikult lõpuni (komponent + tokenid + kustutatud override'd + snapshot-värav), enne kui järgmise juurde minna. Lõppseis: kõik primitiivid = komponent + token-teema; null hajutatud primitiiv-CSS; `!important`/`!`-arv kukub iga viiluga.
+
 ### Faas 2 viilu-runbook (iga primitiivi kohta)
 1. `css-matched-rules` AVATUD primitiivilt (vajadusel `--headed`/`steps` et olek lahti) × 6 teemat → näe võitev stiil per teema (`[N/6 states]`)
 2. Vali/loo kanooniline komponent (button → `<Button>` olemas)
