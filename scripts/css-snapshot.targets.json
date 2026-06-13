@@ -3,9 +3,7 @@
     "name": "chat-rail-icon",
     "route": "/vestlus",
     "auth": true,
-    "settleMs": 1400,
-    "waitFor": ".chat-rail-icon-btn",
-    "selectors": [".chat-rail-icon-btn", ".chat-rail-icon-btn svg", ".chat-rail-icon-btn svg path"],
-    "properties": ["color", "stroke", "fill", "background-color", "opacity"]
+    "selectors": [".chat-rail-icon-btn", ".chat-rail-icon-btn svg path"],
+    "properties": ["color", "stroke", "fill", "background-color", "box-shadow", "opacity"]
   }
 ]

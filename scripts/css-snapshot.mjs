@@ -6,10 +6,18 @@
 // — far more reliable than eyeballing screenshots (contract tests do not catch
 // visual regressions). See reports/css-struktuuriplaan-2026-06-11.md §9.
 //
+// No arbitrary timeouts: every wait is for a real condition (theme actually
+// applied, target element actually present), with no time limit — the run
+// finishes when the work is genuinely done, never on a guessed delay.
+//
 // Usage:
 //   node scripts/css-snapshot.mjs --out reports/css-snapshots/<name>.json
 //   node scripts/css-snapshot.mjs --targets <file> --out <file> [--token <t>]
-//                                 [--base-url http://localhost:3000] [--headed]
+//        [--base-url http://localhost:3000] [--headed] [--keep-open]
+//
+//   --headed     run with a visible browser window
+//   --keep-open  after capturing, leave the window open until YOU close it
+//                (implies --headed)
 //
 // Auth: pages behind login need a session. Options, in priority order:
 //   1. env SNAPSHOT_SESSION — a next-auth.session-token cookie value (set
@@ -19,7 +27,7 @@
 // Targets whose `auth` is false are captured without logging in.
 
 import { chromium } from "playwright";
-import { readFileSync, mkdirSync } from "node:fs";
+import { readFileSync, mkdirSync, writeFileSync } from "node:fs";
 import { execSync } from "node:child_process";
 import path from "node:path";
 
@@ -42,7 +50,7 @@ const VIEWPORTS = [
 ];
 
 function parseArgs(argv) {
-  const out = { targets: "scripts/css-snapshot.targets.json", out: null, token: null, baseUrl: "http://localhost:3000", headed: false };
+  const out = { targets: "scripts/css-snapshot.targets.json", out: null, token: null, baseUrl: "http://localhost:3000", headed: false, keepOpen: false };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === "--targets") out.targets = argv[++i];
@@ -50,6 +58,7 @@ function parseArgs(argv) {
     else if (a === "--token") out.token = argv[++i];
     else if (a === "--base-url") out.baseUrl = argv[++i];
     else if (a === "--headed") out.headed = true;
+    else if (a === "--keep-open") { out.keepOpen = true; out.headed = true; }
     else throw new Error(`Unknown argument: ${a}`);
   }
   if (!out.out) throw new Error("--out <file> is required");
@@ -67,12 +76,7 @@ async function login(page, baseUrl, token) {
   await page.goto(baseUrl, { waitUntil: "domcontentloaded" });
   const res = await page.evaluate(async (tok) => {
     const csrf = await (await fetch("/api/auth/csrf")).json();
-    const body = new URLSearchParams({
-      csrfToken: csrf.csrfToken,
-      temp_login_token: tok,
-      callbackUrl: "/vestlus",
-      json: "true",
-    });
+    const body = new URLSearchParams({ csrfToken: csrf.csrfToken, temp_login_token: tok, callbackUrl: "/vestlus", json: "true" });
     const r = await fetch("/api/auth/callback/credentials", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -84,7 +88,10 @@ async function login(page, baseUrl, token) {
   if (res.status >= 400) throw new Error(`login failed: ${res.status} ${res.text}`);
 }
 
-async function applyTheme(page, theme, settleMs) {
+// Apply a theme through the real app mechanism and WAIT until it is genuinely
+// in effect — no guessed delay. Returns once the root element carries the
+// expected theme class + contrast (i.e. the boot script and React have run).
+async function applyTheme(page, theme) {
   await page.evaluate(({ theme, contrast }) => {
     window.localStorage.setItem("theme", theme);
     let prefs = {};
@@ -97,24 +104,46 @@ async function applyTheme(page, theme, settleMs) {
     prefs.contrast = contrast;
     window.localStorage.setItem("a11y_prefs", JSON.stringify(prefs));
   }, theme);
-  // Reload so the layout.js boot script + AccessibilityProvider re-apply the
-  // theme (class + data-contrast) and React re-hydrates isLightTheme.
+
   await page.reload({ waitUntil: "domcontentloaded" });
-  await page.waitForTimeout(settleMs);
+
+  // Objective "theme is applied" condition — poll until true, no time limit.
+  await page.waitForFunction(
+    ({ theme, contrast }) => {
+      const root = document.documentElement;
+      const cls = root.className || "";
+      const contrastOk = contrast === "hc" ? root.getAttribute("data-contrast") === "hc" : root.getAttribute("data-contrast") !== "hc";
+      const themeOk =
+        contrast === "hc"
+          ? true
+          : theme === "light"
+            ? cls.includes("theme-light") && !cls.includes("theme-mid")
+            : theme === "mid"
+              ? cls.includes("theme-mid")
+              : theme === "night"
+                ? cls.includes("theme-night")
+                : theme === "mono"
+                  ? cls.includes("theme-mono")
+                  : !/theme-(light|mid|night|mono)/.test(cls); // dark = none
+      return contrastOk && themeOk;
+    },
+    theme,
+    { timeout: 0, polling: 100 }
+  );
 }
 
 async function captureTarget(page, target) {
   const result = {};
   for (const vp of VIEWPORTS) {
     await page.setViewportSize({ width: vp.width, height: vp.height });
-    // domcontentloaded, not networkidle: chat/profile keep long-lived
-    // connections (polling/ws) so networkidle never fires. A fixed settle
-    // covers hydration + the orbital/rail mount.
     await page.goto(`${page.context()._baseUrl}${target.route}`, { waitUntil: "domcontentloaded" });
-    const settle = target.settleMs ?? 1200;
     for (const theme of THEMES) {
-      await applyTheme(page, theme, settle); // sets localStorage + reloads
-      if (target.waitFor) await page.waitForSelector(target.waitFor, { timeout: 8000 }).catch(() => {});
+      await applyTheme(page, theme);
+      // Deterministic render flush instead of a guessed settle or a timeout:0
+      // wait (which would hang if a target legitimately has no element in this
+      // theme/viewport). Two animation frames = styles/layout flushed; then we
+      // read whatever is there (absent element -> null, which is a real result).
+      await page.evaluate(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))));
       const captured = await page.evaluate(
         ({ selectors, properties }) => {
           const out = {};
@@ -155,12 +184,13 @@ async function main() {
 
   if (needsAuth && sessionCookie) {
     const { hostname } = new URL(args.baseUrl);
-    await context.addCookies([
-      { name: "next-auth.session-token", value: sessionCookie, domain: hostname, path: "/", httpOnly: true, sameSite: "Lax" },
-    ]);
+    await context.addCookies([{ name: "next-auth.session-token", value: sessionCookie, domain: hostname, path: "/", httpOnly: true, sameSite: "Lax" }]);
   }
 
   const page = await context.newPage();
+  // No navigation/action time limit: wait for real conditions, not the clock.
+  page.setDefaultNavigationTimeout(0);
+  page.setDefaultTimeout(0);
   page.context()._baseUrl = args.baseUrl;
 
   if (token) await login(page, args.baseUrl, token);
@@ -171,11 +201,17 @@ async function main() {
     snapshot.targets[target.name] = await captureTarget(page, target);
   }
 
-  await browser.close();
   mkdirSync(path.dirname(args.out), { recursive: true });
-  const { writeFileSync } = await import("node:fs");
   writeFileSync(args.out, JSON.stringify(snapshot, null, 2));
   process.stderr.write(`\nwrote ${args.out}\n`);
+
+  if (args.keepOpen) {
+    process.stderr.write("capture done — window left open; close it yourself when finished.\n");
+    await page.waitForEvent("close", { timeout: 0 }).catch(() => {});
+    await browser.waitForEvent?.("disconnected", { timeout: 0 }).catch(() => {});
+  } else {
+    await browser.close();
+  }
 }
 
 main().catch((e) => {
