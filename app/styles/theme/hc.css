@@ -327,6 +327,11 @@ html[data-contrast="hc"] .materials-page-shell {
   --panel-secondary-bg-hover: var(--workspace-elevated-card-bg-hover, var(--input-flat-bg-hover));
   --panel-secondary-border: rgba(255, 234, 0, 0.72);
   --panel-secondary-shadow: none;
+  --hc-focus-ring: rgba(255, 234, 0, 0.58);
+  --focus-ring: rgba(255, 234, 0, 0.5);
+  --input-text: var(--hc-accent);
+  --input-placeholder: rgba(255, 234, 0, 0.92);
+  --input-caret: var(--hc-accent);
 }
 
 html[data-ui-scale="mac"][data-contrast="hc"],
@@ -866,13 +871,6 @@ html[data-contrast="hc"] .subscription-content :is(
 }
 html[data-contrast="hc"] .subscription-page-title {
   color: var(--hc-accent) !important;
-}
-html[data-contrast="hc"] .materials-page-shell {
-  --hc-focus-ring: rgba(255, 234, 0, 0.58);
-  --focus-ring: rgba(255, 234, 0, 0.5);
-  --input-text: var(--hc-accent);
-  --input-placeholder: rgba(255, 234, 0, 0.92);
-  --input-caret: var(--hc-accent);
 }
 html[data-contrast="hc"] .materials-page-shell :is(
     h1,

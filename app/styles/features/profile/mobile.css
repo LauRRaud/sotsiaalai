@@ -198,7 +198,7 @@
     -webkit-transform-origin: center center !important;
     -webkit-animation: none !important;
     animation: none !important;
-    -webkit-backface-visibility: hidden !important;
+
     backface-visibility: hidden !important;
     -webkit-transform-style: preserve-3d !important;
     transform-style: preserve-3d !important;
@@ -212,7 +212,7 @@
     animation: profile-orbit-hub-pulse 4.4s ease-in-out infinite !important;
     -webkit-transform-origin: center center !important;
     transform-origin: center center !important;
-    -webkit-backface-visibility: hidden !important;
+
     backface-visibility: hidden !important;
     -webkit-transform-style: preserve-3d !important;
     transform-style: preserve-3d !important;

@@ -229,7 +229,7 @@ html[data-reduce-motion="1"] .homepage-root .home-card-front-logo [class*="home-
   transform: translateZ(0);
   -webkit-transform: translateZ(0);
   backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
+
 }
 
 .homepage-root .home-about-panel {
@@ -462,7 +462,7 @@ html[data-contrast="hc"] .homepage-root .home-card-a11y-button:focus-visible::af
   border-radius: inherit;
   pointer-events: none;
   background: rgb(255 255 255 / 0.004);
-  -webkit-backface-visibility: hidden;
+
   backface-visibility: hidden;
   -webkit-backdrop-filter: blur(0.34rem) saturate(103%);
   backdrop-filter: blur(0.34rem) saturate(103%);
@@ -611,7 +611,7 @@ html[data-contrast="hc"]:not(.theme-mid) .homepage-root .three-d-card:not(.is-au
   transform: translateZ(0);
   -webkit-transform: translateZ(0);
   backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
+
   will-change: transform;
 }
 
@@ -626,7 +626,7 @@ html[data-contrast="hc"]:not(.theme-mid) .homepage-root .three-d-card:not(.is-au
   transform: translateZ(0);
   -webkit-transform: translateZ(0);
   backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
+
 }
 
 .homepage-root .home-about-scrollbox::-webkit-scrollbar {

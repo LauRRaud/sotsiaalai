@@ -22,7 +22,7 @@
     transform: none !important;
     -webkit-transform: none !important;
     backface-visibility: visible !important;
-    -webkit-backface-visibility: visible !important;
+
   }
   [data-bg-layer] .bg-bends-layer {
     transition-duration: 4000ms, 0s;
@@ -56,7 +56,7 @@
     transform: none !important;
     -webkit-transform: none !important;
     backface-visibility: visible !important;
-    -webkit-backface-visibility: visible !important;
+
   }
   [data-bg-layer][data-page="home"] {
     top: 0 !important;
@@ -173,7 +173,7 @@
     transform: none !important;
     -webkit-transform: none !important;
     backface-visibility: visible !important;
-    -webkit-backface-visibility: visible !important;
+
   }
 }
 

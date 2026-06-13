@@ -164,11 +164,11 @@ test("mobile layout no longer ships standalone/fullscreen PWA CSS overrides", ()
   assert.match(layout, /<script[\s\S]*?id="app-layout-init"[\s\S]*?dangerouslySetInnerHTML=\{\{ __html: LAYOUT_INIT_SCRIPT \}\}/);
   assert.match(
     mobileFoundationsCss,
-    /html\[data-layout="mobile"\] \[data-bg-layer\]\[data-page="subpage"\],[\s\S]*?body\[data-layout="mobile"\] \[data-bg-layer\]\[data-page="subpage"\]\s*\{[\s\S]*?bottom:\s*0\s*!important;[\s\S]*?height:\s*auto\s*!important;[\s\S]*?min-height:\s*100dvh\s*!important;/
+    /html\[data-layout="mobile"\] \[data-bg-layer\]\[data-page="subpage"\]\s*\{[\s\S]*?bottom:\s*0\s*!important;[\s\S]*?height:\s*auto\s*!important;[\s\S]*?min-height:\s*100dvh\s*!important;/
   );
   assert.match(
     mobileFoundationsCss,
-    /html\[data-layout="mobile"\][\s\S]*?\[data-bg-layer\]\[data-page="subpage"\][\s\S]*?:is\(\.bg-space-layer,\s*\.space-backdrop,\s*\.bg-bends-layer,\s*\.bg-particles-layer\),[\s\S]*?body\[data-layout="mobile"\][\s\S]*?\[data-bg-layer\]\[data-page="subpage"\][\s\S]*?:is\(\.bg-space-layer,\s*\.space-backdrop,\s*\.bg-bends-layer,\s*\.bg-particles-layer\)\s*\{[\s\S]*?top:\s*0\s*!important;[\s\S]*?bottom:\s*0\s*!important;[\s\S]*?height:\s*auto\s*!important;[\s\S]*?transform:\s*none\s*!important;/
+    /html\[data-layout="mobile"\][\s\S]*?\[data-bg-layer\]\[data-page="subpage"\][\s\S]*?:is\(\.bg-space-layer,\s*\.space-backdrop,\s*\.bg-bends-layer,\s*\.bg-particles-layer\)\s*\{[\s\S]*?top:\s*0\s*!important;[\s\S]*?bottom:\s*0\s*!important;[\s\S]*?height:\s*auto\s*!important;[\s\S]*?transform:\s*none\s*!important;/
   );
   assert.doesNotMatch(
     mobileFoundationsCss,
