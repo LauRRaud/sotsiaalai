@@ -450,69 +450,6 @@
   color: color-mix(in srgb, var(--documents-accent) 88%, white 12%);
 }
 
-.documents-primary-button {
-  min-height: 3.05rem;
-  padding-inline: 1.15rem;
-  padding-block: 0.78rem;
-  border-radius: 1.6rem;
-  font-size: 1.12rem;
-  letter-spacing: 0.03rem;
-}
-
-.documents-secondary-button {
-  min-height: 2.72rem;
-  padding-inline: 1.05rem;
-  padding-block: 0.64rem;
-  border-radius: 1.6rem;
-  font-size: 1.06rem;
-  letter-spacing: 0.022em;
-  color: var(--documents-page-strong);
-  border-color: var(--documents-elevated-border) !important;
-  background: var(--documents-elevated-bg) !important;
-  box-shadow: var(--documents-elevated-shadow) !important;
-}
-
-.documents-secondary-button:is(:hover, :focus-visible) {
-  border-color: var(--documents-elevated-border-hover) !important;
-  background: var(--documents-elevated-bg-hover) !important;
-  box-shadow: var(--documents-strong-shadow) !important;
-}
-
-.documents-upload-choose-button {
-  color: var(--documents-page-strong);
-  min-height: 2.7rem;
-  min-width: 6.8rem;
-  padding-inline: 0.88rem;
-  padding-block: 0.5rem;
-  border-color: color-mix(in srgb, var(--documents-accent-border) 54%, transparent) !important;
-  background: color-mix(in srgb, var(--documents-accent-soft) 42%, var(--documents-muted-bg) 58%) !important;
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.1),
-    0 6px 14px rgba(35, 24, 24, 0.08) !important;
-}
-
-.documents-upload-choose-button:is(:hover, :focus-visible) {
-  border-color: color-mix(in srgb, var(--documents-accent-border) 74%, var(--documents-accent) 26%) !important;
-  background: color-mix(in srgb, var(--documents-accent-soft) 56%, var(--documents-muted-bg) 44%) !important;
-}
-
-.documents-danger-button {
-  min-height: 2.72rem;
-  padding-inline: 1.05rem;
-  padding-block: 0.64rem;
-  border-radius: 1.6rem;
-  font-size: 1.06rem;
-  letter-spacing: 0.022em;
-  color: var(--documents-accent);
-  border-color: color-mix(in srgb, var(--documents-accent-border) 64%, var(--documents-elevated-border) 36%) !important;
-  background: var(--documents-elevated-bg) !important;
-  box-shadow: var(--documents-elevated-shadow) !important;
-}
-
-.documents-danger-button:is(:hover, :focus-visible) {
-  border-color: color-mix(in srgb, var(--documents-accent-border) 80%, var(--documents-accent) 20%) !important;
-  background: var(--documents-elevated-bg-hover) !important;
-}
 
 .documents-notice {
   border: 1px solid var(--subpage-card-border);
@@ -583,13 +520,6 @@
   color: var(--documents-page-strong);
   font-size: 1.12rem;
   letter-spacing: 0.014em;
-}
-
-.documents-primary-button:disabled,
-.documents-primary-button[aria-disabled="true"],
-.documents-secondary-button:disabled,
-.documents-secondary-button[aria-disabled="true"] {
-  opacity: 0.82;
 }
 
 .documents-strong-text {
@@ -833,27 +763,11 @@ html[data-contrast="hc"] .documents-workspace [data-control-type][data-checked="
   box-shadow: none !important;
 }
 
-html[data-contrast="hc"] .documents-workspace :is(
-  .documents-primary-button,
-  .documents-secondary-button,
-  .documents-danger-button,
-  .documents-upload-choose-button,
-  .documents-admin-role-menu .workspace-role-cycle-button
-) {
+html[data-contrast="hc"] .documents-workspace .documents-admin-role-menu .workspace-role-cycle-button {
   color: var(--hc-accent) !important;
   border-color: rgba(255, 234, 0, 0.66) !important;
   background: rgba(14, 20, 32, 0.42) !important;
   box-shadow: none !important;
-}
-
-html[data-contrast="hc"] .documents-workspace :is(
-  .documents-primary-button,
-  .documents-secondary-button,
-  .documents-danger-button,
-  .documents-upload-choose-button
-):is(:hover, :focus-visible, :active) {
-  border-color: rgba(255, 234, 0, 0.92) !important;
-  background: rgba(255, 234, 0, 0.14) !important;
 }
 
 html[data-contrast="hc"] .documents-workspace :is(

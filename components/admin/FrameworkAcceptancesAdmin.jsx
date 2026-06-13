@@ -29,7 +29,7 @@ const toolbarClassName =
 const inputClassName =
   "documents-field documents-form-input min-w-0 w-full max-w-full rounded-[12px] border px-3 py-[0.6rem] text-[0.98rem] text-[color:var(--admin-text)] transition-[border-color,box-shadow,background] duration-150 ease-out focus-visible:outline-none";
 const actionButtonClassName =
-  "documents-primary-button !justify-self-start !self-start !w-auto !min-h-[2.5rem] !rounded-full !px-[1rem] !py-[0.5rem] !text-[0.96rem] max-[768px]:!w-full max-[768px]:!justify-center";
+  "!justify-self-start !self-start !w-auto !min-h-[2.5rem] !rounded-full !px-[1rem] !py-[0.5rem] !text-[0.96rem] max-[768px]:!w-full max-[768px]:!justify-center";
 const statsGridClassName = "grid gap-3 md:grid-cols-3";
 const statCardClassName =
   "documents-soft-subpanel grid gap-1 rounded-[1rem] p-3";

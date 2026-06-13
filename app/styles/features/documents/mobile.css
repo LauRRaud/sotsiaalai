@@ -153,14 +153,6 @@
     gap: var(--documents-mobile-panel-gap);
   }
 
-  .documents-primary-button,
-  .documents-secondary-button,
-  .documents-danger-button {
-    min-height: 2.9rem;
-    border-radius: 1.45rem;
-    font-size: 1.08rem;
-  }
-
   .documents-page-header-row {
     align-items: stretch;
   }

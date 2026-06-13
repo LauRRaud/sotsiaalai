@@ -634,32 +634,13 @@ html[data-contrast="hc"] body .chat-analysis-overlay .chat-analysis-overlay-card
   background: var(--btn-primary-bg) !important;
   box-shadow: var(--btn-primary-shadow) !important;
 }
-html[data-contrast="hc"] body .chat-analysis-overlay .documents-upload-choose-button {
-  color: var(--hc-accent) !important;
-  --btn-primary-border: 2px solid rgba(255, 234, 0, 0.66) !important;
-  --btn-primary-border-hover: 2px solid rgba(255, 234, 0, 0.9) !important;
-  --btn-primary-border-active: 2px solid rgba(255, 234, 0, 0.95) !important;
-  border: 2px solid rgba(255, 234, 0, 0.66) !important;
-  background: var(--btn-primary-bg) !important;
-  box-shadow: var(--btn-primary-shadow) !important;
-}
 html[data-contrast="hc"] body .chat-analysis-overlay .chat-analysis-overlay-card :is(.button, .btn):is(:hover, :focus-visible) {
   border-color: rgba(255, 234, 0, 0.92) !important;
   background: var(--btn-primary-bg-hover) !important;
   box-shadow: var(--btn-primary-shadow-hover) !important;
 }
-html[data-contrast="hc"] body .chat-analysis-overlay .documents-upload-choose-button:is(:hover, :focus-visible) {
-  border: 2px solid rgba(255, 234, 0, 0.9) !important;
-  background: var(--btn-primary-bg-hover) !important;
-  box-shadow: var(--btn-primary-shadow-hover) !important;
-}
 html[data-contrast="hc"] body .chat-analysis-overlay .chat-analysis-overlay-card :is(.button, .btn):active {
   border-color: rgba(255, 234, 0, 0.95) !important;
-  background: var(--btn-primary-bg-active) !important;
-  box-shadow: var(--btn-primary-shadow-active) !important;
-}
-html[data-contrast="hc"] body .chat-analysis-overlay .documents-upload-choose-button:active {
-  border: 2px solid rgba(255, 234, 0, 0.95) !important;
   background: var(--btn-primary-bg-active) !important;
   box-shadow: var(--btn-primary-shadow-active) !important;
 }

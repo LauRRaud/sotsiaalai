@@ -42,11 +42,11 @@ import { pushWithTransition } from "@/lib/routeTransition"
 
 const CHAT_WORKSPACE_RESTORE_STORAGE_KEY = "__SOTSIAALAI_CHAT_WORKSPACE_RESTORE__"
 const agentPrimaryButtonClassName =
-  "drawer-pill-btn invite-primary-btn documents-primary-button !inline-flex !w-fit !justify-center !self-center !min-h-[3.05rem] !rounded-[1.6rem] !px-[1.15rem] !py-[0.78rem] !text-[1.12rem] !tracking-[0.03rem] !whitespace-nowrap " +
+  "drawer-pill-btn invite-primary-btn !inline-flex !w-fit !justify-center !self-center !min-h-[3.05rem] !rounded-[1.6rem] !px-[1.15rem] !py-[0.78rem] !text-[1.12rem] !tracking-[0.03rem] !whitespace-nowrap " +
   "max-[768px]:!w-fit max-[768px]:!min-h-[3.2rem] max-[768px]:!rounded-[1.45rem] max-[768px]:!text-[1.18rem] " +
   glassPrimaryButtonToneClassName
 const agentPrimaryButtonCompactClassName =
-  `${agentPrimaryButtonClassName} documents-primary-button--compact`
+  agentPrimaryButtonClassName
 const WORKSPACE_VERSION_LIMIT = 8
 const CLIENT_MAX_DOCUMENTS = 2
 const CLIENT_AGENT_TASK_OPTIONS = [
@@ -1888,7 +1888,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
                                             type="button"
                                             size="sm"
                                             variant={isSelected ? "primary" : "ghost"}
-                                            className={isSelected ? agentPrimaryButtonCompactClassName : "documents-secondary-button"}
+                                            className={isSelected ? agentPrimaryButtonCompactClassName : undefined}
                                             onClick={() => void handleSelectAudioSource(source.id)}
                                           >
                                             {t("documents.agent_workspace.audio_input.choose_existing")}
@@ -1978,8 +1978,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
                                   type="button"
                                   size="sm"
                                   variant="ghost"
-                                  className="documents-secondary-button"
-                                  onClick={() => void handleSaveAudioTranscript()}
+                                                                   onClick={() => void handleSaveAudioTranscript()}
                                   disabled={!canSaveAudioTranscript || savingAudioTranscript}
                                 >
                                   {savingAudioTranscript ? t("documents.agent_workspace.audio_input.saving_transcript") : t("documents.agent_workspace.audio_input.save_transcript")}
@@ -2206,7 +2205,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
                           </p>
                         </div>
                         <div className="documents-agent-row-actions">
-                          <Button as="a" href={`/api/documents/${encodeURIComponent(document.id)}/download`} size="sm" variant="ghost" className="documents-secondary-button">
+                          <Button as="a" href={`/api/documents/${encodeURIComponent(document.id)}/download`} size="sm" variant="ghost">
                             {t("documents.actions.download")}
                           </Button>
                           {isClientRole ? (
@@ -2214,8 +2213,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
                               type="button"
                               size="sm"
                               variant="ghost"
-                              className="documents-secondary-button"
-                              onClick={() => void handleClientRemoveDocument(document.id)}
+                                                           onClick={() => void handleClientRemoveDocument(document.id)}
                             >
                               {t("documents.agent_workspace.client_remove_document")}
                             </Button>
@@ -2377,8 +2375,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
                         type="button"
                         size="sm"
                         variant="ghost"
-                        className="documents-secondary-button"
-                        onClick={handleClearWorkspaceResult}
+                                               onClick={handleClearWorkspaceResult}
                         disabled={!canClearWorkspaceResult}
                       >
                         {t("documents.agent_workspace.clear_result")}
@@ -2480,15 +2477,15 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
                           <Button type="button" size="sm" className={agentPrimaryButtonClassName} onClick={() => void handleApprove()} disabled={!canPersistResult || refiningResult || savingResult || approvingResult}>
                             {approvingResult ? t("documents.actions.approving") : t(isClientRole ? "documents.agent_workspace.client_finish" : "documents.actions.approve")}
                           </Button>
-                          <Button type="button" size="sm" variant="ghost" className="documents-secondary-button" onClick={() => void handleSaveDraft()} disabled={!canPersistResult || refiningResult || savingResult || approvingResult}>
+                          <Button type="button" size="sm" variant="ghost" onClick={() => void handleSaveDraft()} disabled={!canPersistResult || refiningResult || savingResult || approvingResult}>
                             {savingResult ? t("documents.actions.saving") : t(isClientRole ? "documents.actions.save" : "documents.actions.save_draft")}
                           </Button>
                           {!isClientRole && canRestoreSavedVersion ? (
-                            <Button type="button" size="sm" variant="ghost" className="documents-secondary-button" onClick={handleRestoreSavedVersion}>
+                            <Button type="button" size="sm" variant="ghost" onClick={handleRestoreSavedVersion}>
                               {t("documents.agent_workspace.restore_saved")}
                             </Button>
                           ) : null}
-                          <Button type="button" size="sm" variant="ghost" className="documents-secondary-button" onClick={() => void handleCopyResult()}>
+                          <Button type="button" size="sm" variant="ghost" onClick={() => void handleCopyResult()}>
                             {t("documents.actions.copy")}
                           </Button>
                         </div>
@@ -2526,8 +2523,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
                                         type="button"
                                         size="sm"
                                         variant="ghost"
-                                        className="documents-secondary-button"
-                                        onClick={() => handleRestoreWorkspaceVersion(version.id)}
+                                                                               onClick={() => handleRestoreWorkspaceVersion(version.id)}
                                       >
                                         {t("documents.agent_workspace.restore_version")}
                                       </Button>
@@ -2546,8 +2542,8 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
                         </div>
                         <div className="documents-row-actions">
                           {workspaceResult.downloadUrls?.docx ? <Button as="a" href={workspaceResult.downloadUrls.docx} size="sm" className={agentPrimaryButtonClassName}>{t("documents.actions.download_docx")}</Button> : null}
-                          {workspaceResult.downloadUrls?.pdf ? <Button as="a" href={workspaceResult.downloadUrls.pdf} size="sm" variant="ghost" className="documents-secondary-button">{t("documents.actions.download_pdf")}</Button> : null}
-                          <Button type="button" size="sm" variant="ghost" className="documents-secondary-button" onClick={() => void handleCopyResult()}>
+                          {workspaceResult.downloadUrls?.pdf ? <Button as="a" href={workspaceResult.downloadUrls.pdf} size="sm" variant="ghost">{t("documents.actions.download_pdf")}</Button> : null}
+                          <Button type="button" size="sm" variant="ghost" onClick={() => void handleCopyResult()}>
                             {t("documents.actions.copy")}
                           </Button>
                         </div>
@@ -2612,16 +2608,16 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
                             </p>
                           </div>
                           <div className="documents-agent-row-actions">
-                            <Button type="button" size="sm" variant="ghost" className="documents-secondary-button" onClick={() => void handleOpenClientArtifact(artifact.id)}>
+                            <Button type="button" size="sm" variant="ghost" onClick={() => void handleOpenClientArtifact(artifact.id)}>
                               {t("documents.agent_workspace.client_open_result")}
                             </Button>
                               {artifact.downloadUrls?.docx ? (
-                                <Button as="a" href={artifact.downloadUrls.docx} size="sm" variant="ghost" className="documents-secondary-button">
+                                <Button as="a" href={artifact.downloadUrls.docx} size="sm" variant="ghost">
                                   {t("documents.actions.download_docx")}
                                 </Button>
                               ) : null}
                               {artifact.downloadUrls?.pdf ? (
-                                <Button as="a" href={artifact.downloadUrls.pdf} size="sm" variant="ghost" className="documents-secondary-button">
+                                <Button as="a" href={artifact.downloadUrls.pdf} size="sm" variant="ghost">
                                   {t("documents.actions.download_pdf")}
                                 </Button>
                               ) : null}
@@ -2629,12 +2625,11 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
                                 type="button"
                                 size="sm"
                                 variant="ghost"
-                              className="documents-secondary-button"
-                              onClick={() => void handleCopyRecentArtifact(artifact.id)}
+                                                           onClick={() => void handleCopyRecentArtifact(artifact.id)}
                             >
                               {t("documents.actions.copy")}
                             </Button>
-                            <Button type="button" size="sm" variant="ghost" className="documents-secondary-button" onClick={() => void handleDeleteClientArtifact(artifact.id)}>
+                            <Button type="button" size="sm" variant="ghost" onClick={() => void handleDeleteClientArtifact(artifact.id)}>
                               {t("documents.actions.delete")}
                             </Button>
                           </div>

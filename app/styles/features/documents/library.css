@@ -225,11 +225,6 @@
   gap: 0.55rem;
 }
 
-.documents-primary-button--compact {
-  min-width: 0;
-  padding-inline: 1rem;
-}
-
 .documents-dropdown--kind {
   width: min(100%, 10.5rem);
   max-width: 10.5rem;

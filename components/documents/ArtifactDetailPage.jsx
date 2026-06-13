@@ -252,19 +252,19 @@ export default function ArtifactDetailPage({ artifactId }) {
                       {t("documents.draft_notice")}
                     </div>
                     <div className="mt-[0.85rem] flex flex-wrap gap-[0.45rem]">
-                      <Button type="button" size="sm" className="documents-primary-button" onClick={() => void approveArtifact()} disabled={approving}>
+                      <Button type="button" size="sm" onClick={() => void approveArtifact()} disabled={approving}>
                         {approving ? t("documents.actions.approving") : t("documents.actions.approve")}
                       </Button>
-                      <Button type="button" size="sm" variant="ghost" className="documents-secondary-button" onClick={() => void saveDraft()} disabled={saving}>
+                      <Button type="button" size="sm" variant="ghost" onClick={() => void saveDraft()} disabled={saving}>
                         {saving ? t("documents.actions.saving") : t("documents.actions.save_draft")}
                       </Button>
-                      <Button type="button" size="sm" variant="ghost" className="documents-secondary-button" onClick={() => setFeedback(t("documents.feedback.refine_stub"))}>
+                      <Button type="button" size="sm" variant="ghost" onClick={() => setFeedback(t("documents.feedback.refine_stub"))}>
                         {t("documents.actions.refine_stub")}
                       </Button>
-                      <Button type="button" size="sm" variant="ghost" className="documents-secondary-button" onClick={() => void copyContent()}>
+                      <Button type="button" size="sm" variant="ghost" onClick={() => void copyContent()}>
                         {t("documents.actions.copy")}
                       </Button>
-                      <Button type="button" size="sm" variant="danger" className="documents-danger-button" onClick={() => void deleteArtifact()}>
+                      <Button type="button" size="sm" variant="danger" onClick={() => void deleteArtifact()}>
                         {t("documents.actions.delete")}
                       </Button>
                     </div>
@@ -279,19 +279,19 @@ export default function ArtifactDetailPage({ artifactId }) {
                     </div>
                     <div className="mt-[0.85rem] flex flex-wrap gap-[0.45rem]">
                       {artifact.downloadUrls?.docx ? (
-                        <Button as="a" href={artifact.downloadUrls.docx} size="sm" className="documents-primary-button">
+                        <Button as="a" href={artifact.downloadUrls.docx} size="sm">
                           {t("documents.actions.download_docx")}
                         </Button>
                       ) : null}
                       {artifact.downloadUrls?.pdf ? (
-                        <Button as="a" href={artifact.downloadUrls.pdf} size="sm" variant="ghost" className="documents-secondary-button">
+                        <Button as="a" href={artifact.downloadUrls.pdf} size="sm" variant="ghost">
                           {t("documents.actions.download_pdf")}
                         </Button>
                       ) : null}
-                      <Button type="button" size="sm" variant="ghost" className="documents-secondary-button" onClick={() => void copyContent()}>
+                      <Button type="button" size="sm" variant="ghost" onClick={() => void copyContent()}>
                         {t("documents.actions.copy")}
                       </Button>
-                      <Button type="button" size="sm" variant="danger" className="documents-danger-button" onClick={() => void deleteArtifact()}>
+                      <Button type="button" size="sm" variant="danger" onClick={() => void deleteArtifact()}>
                         {t("documents.actions.delete")}
                       </Button>
                     </div>

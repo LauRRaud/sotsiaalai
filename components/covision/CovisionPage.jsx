@@ -58,14 +58,14 @@ const bodyClassName =
   `relative ${workspaceGuidePanelScrollClassName} covision-page-body mx-auto grid w-full max-w-[min(76rem,100%)] content-start gap-[0.48rem] px-[0.05rem] pt-0 pb-[0.25rem] max-[768px]:max-w-none max-[768px]:gap-[0.58rem] max-[768px]:px-[0.05rem]`;
 
 const smallButtonClassName =
-  "documents-secondary-button documents-primary-button--compact !min-h-[2.5rem] !px-[0.95rem] !py-[0.5rem] !text-[0.96rem] !leading-[1.15] !tracking-[0.01em]";
+  "!min-h-[2.5rem] !px-[0.95rem] !py-[0.5rem] !text-[0.96rem] !leading-[1.15] !tracking-[0.01em]";
 
-const primaryButtonClassName = "documents-primary-button";
-const secondaryButtonClassName = cn(styles.cancelButton, "documents-secondary-button");
+const primaryButtonClassName = "";
+const secondaryButtonClassName = cn(styles.cancelButton);
 const compactPrimaryButtonClassName =
-  "documents-primary-button documents-primary-button--compact !min-h-[2.5rem] !px-[0.95rem] !py-[0.5rem] !text-[0.96rem] !leading-[1.15] !tracking-[0.01em]";
+  "!min-h-[2.5rem] !px-[0.95rem] !py-[0.5rem] !text-[0.96rem] !leading-[1.15] !tracking-[0.01em]";
 const dangerButtonClassName =
-  "documents-danger-button documents-primary-button--compact !min-h-[2.5rem] !px-[0.95rem] !py-[0.5rem] !text-[0.96rem] !leading-[1.15] !tracking-[0.01em]";
+  "!min-h-[2.5rem] !px-[0.95rem] !py-[0.5rem] !text-[0.96rem] !leading-[1.15] !tracking-[0.01em]";
 const choiceCardClassName =
   `${primarySegmentedButtonClassName} inline-flex min-h-[2.72rem] items-center justify-center rounded-[1.6rem] border-[var(--seg-card-border-width,1px)] border-solid border-[color:var(--seg-card-border)] [background:var(--seg-card-bg)] px-[1.05rem] py-[0.64rem] text-[1.06rem] leading-[1.2] tracking-[0.022em] text-[color:var(--seg-card-text)] shadow-[var(--seg-card-shadow)] transition-[color,border-color,background,box-shadow,transform] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] hover:[background:var(--seg-card-bg-hover,var(--seg-card-bg))] hover:border-[color:var(--seg-card-border-hover,var(--seg-card-border))] hover:text-[color:var(--seg-card-text-hover,var(--seg-card-text))] hover:shadow-[var(--seg-card-shadow-hover,var(--seg-card-shadow))] active:[background:var(--seg-card-bg-active,var(--seg-card-bg-selected,var(--seg-card-bg-hover,var(--seg-card-bg))))] active:border-[color:var(--seg-card-border-active,var(--seg-card-border-selected,var(--seg-card-border-hover,var(--seg-card-border))))] active:text-[color:var(--seg-card-text-selected,var(--seg-card-text-hover,var(--seg-card-text)))] active:shadow-[var(--seg-card-shadow-active,var(--seg-card-shadow-selected,var(--seg-card-shadow-hover,var(--seg-card-shadow))))] text-center max-[768px]:min-h-[2.9rem] max-[768px]:rounded-[1.45rem] max-[768px]:px-[0.98rem] max-[768px]:py-[0.68rem] max-[768px]:text-[1.08rem]`;
 

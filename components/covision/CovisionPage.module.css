@@ -694,15 +694,15 @@
   color: var(--covision-field-text);
 }
 
-.page :global(.button[data-variant="secondary"]:not(.documents-secondary-button)),
-.page :global(.button[data-variant="ghost"]:not(.documents-secondary-button)) {
+.page :global(.button[data-variant="secondary"]),
+.page :global(.button[data-variant="ghost"]) {
   border-color: var(--covision-secondary-button-border) !important;
   background: var(--covision-secondary-button-bg) !important;
   color: var(--covision-secondary-button-text) !important;
   box-shadow: none !important;
 }
 
-.page :global(.documents-primary-button) {
+.page :global(.button[data-variant="primary"]) {
   border: 1px solid var(--covision-primary-button-border) !important;
   background: var(--covision-primary-button-bg) !important;
   color: var(--covision-primary-button-text) !important;
@@ -711,7 +711,7 @@
   letter-spacing: 0;
 }
 
-.page :global(.documents-primary-button:is(:hover, :focus-visible)) {
+.page :global(.button[data-variant="primary"]:is(:hover, :focus-visible)) {
   background: var(--covision-primary-button-bg-hover) !important;
   color: var(--covision-primary-button-text) !important;
   box-shadow:
@@ -719,10 +719,10 @@
     0 0 0 3px var(--covision-focus-ring) !important;
 }
 
-.page :global(.button[data-variant="secondary"]:not(.documents-secondary-button)):hover,
-.page :global(.button[data-variant="ghost"]:not(.documents-secondary-button)):hover,
-.page :global(.button[data-variant="secondary"]:not(.documents-secondary-button)):focus-visible,
-.page :global(.button[data-variant="ghost"]:not(.documents-secondary-button)):focus-visible {
+.page :global(.button[data-variant="secondary"]):hover,
+.page :global(.button[data-variant="ghost"]):hover,
+.page :global(.button[data-variant="secondary"]):focus-visible,
+.page :global(.button[data-variant="ghost"]):focus-visible {
   background: var(--covision-secondary-button-bg-hover) !important;
   box-shadow: 0 0 0 3px var(--covision-focus-ring) !important;
 }
