@@ -185,11 +185,6 @@
   backface-visibility: hidden;
 }
 
-:global(html[data-contrast="hc"]) .tooltip {
-  border: 2px solid var(--rail-tooltip-border, rgba(255, 234, 0, 0.72));
-  background-clip: padding-box;
-}
-
 :global(html[data-ui-profile="mac"]) .tooltip,
 :global(html[data-ui-scale="mac"]) .tooltip,
 :global(html[data-ui-profile="lg"]) .tooltip,
