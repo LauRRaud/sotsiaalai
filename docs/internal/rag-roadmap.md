@@ -102,9 +102,14 @@ iga etapi lõpus.
   (reports/golden-eval-graphoff-2026-06-13.json) ja graaf sees 37/37
   (reports/golden-eval-graphon-2026-06-13.json) — PARITEET PUSIB, matcheri
   parandus ei toonud regressiooni. VARAV ENDISELT TAIDETUD.
-- Edasi: flag sisse (kasutaja otsusel); per-source UI-margistus (marker katkeb
-  groupMatches juures, praegu ainult trace'is); samanimeliste valdade dedupe
-  (haruldane, nt sama stem kahel asumil); needs_review URL-id; OCR-rada.
+- FLAG SISSE LULITATUD 2026-06-13 (deploy 9c2d6e9f): RAG_GRAPH_CHANNEL_ENABLED=1
+  /etc/sotsiaalai/frontend.env-is, teenus restartitud. Live-probe ILMA test-
+  override'ita kinnitas: "Kas Kuusalus on koduteenus?" -> graph_channel trace's
+  (municipality:kuusalu_vald + koduteenus, aq=2, ac=3). GRAAFI-KANAL ON NUUD
+  PRODUKTSIOONIS AKTIIVNE. Tagasi keeramiseks: env =0 + restart.
+- Edasi (valikuline): per-source UI-margistus (marker katkeb groupMatches juures,
+  praegu ainult trace'is); samanimeliste valdade dedupe (haruldane, nt sama stem
+  kahel asumil); needs_review URL-id; OCR-rada voldikutele.
 
 **Parandussiht (leitud eval-laiendusel 2026-06-12):** üldine teemaküsimus ilma
 allika-vihjeta (nt: Mis on integreeritud teenused?) jääb default-reziimi ja
