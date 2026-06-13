@@ -1,0 +1,17 @@
+{
+  "_comment": "Subset run — /tooheaolu/* alamlehed mis puudusid v1 crawlist. Jooksuta: node scripts/css-effective-audit.mjs --routes scripts/css-effective-audit.routes-tooheaolu.json --out reports/css-effective-audit/YYYY-MM-DD-tooheaolu.json",
+  "routes": [
+    { "route": "/tooheaolu", "auth": true },
+    { "route": "/tooheaolu/kiirkontroll", "auth": true },
+    { "route": "/tooheaolu/ulevaade", "auth": true },
+    { "route": "/tooheaolu/raske-juhtum", "auth": true },
+    { "route": "/tooheaolu/toovagivald", "auth": true },
+    { "route": "/tooheaolu/taastumine", "auth": true },
+    { "route": "/tooheaolu/toopiirid", "auth": true },
+    { "route": "/tooheaolu/katkestused", "auth": true },
+    { "route": "/tooheaolu/tooprotsessid", "auth": true },
+    { "route": "/tooheaolu/rollipiirid", "auth": true },
+    { "route": "/tooheaolu/alustaja-tugi", "auth": true },
+    { "route": "/tooheaolu/piloot", "auth": true }
+  ]
+}
