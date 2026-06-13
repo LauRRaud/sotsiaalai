@@ -1584,15 +1584,6 @@ html[data-contrast="hc"]
     inset 0 1px 0 rgba(255, 255, 255, 0.04),
     inset 0 -1px 0 rgba(2, 6, 16, 0.19) !important;
 }
-@keyframes hc-orbit-glow-pulse {
-  0%,
-  100% {
-    box-shadow: var(--orbit-button-shadow);
-  }
-  50% {
-    box-shadow: var(--orbit-button-shadow);
-  }
-}
 html[data-contrast="hc"] .desc-ring-left .circular-text-line {
   color: #222 !important;
   fill: currentColor;

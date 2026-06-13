@@ -167,37 +167,6 @@ html[data-contrast="hc"] .homepage-root .home-card-bg-keratume::before {
   }
 }
 
-@keyframes home-logo-shine-fade-mobile {
-  0% {
-    opacity: 0;
-  }
-
-  8% {
-    opacity: 0.28;
-  }
-
-  34% {
-    opacity: 0.2;
-  }
-
-  58% {
-    opacity: 0.11;
-  }
-
-  74% {
-    opacity: 0.05;
-  }
-
-  84% {
-    opacity: 0.018;
-  }
-
-  94%,
-  100% {
-    opacity: 0;
-  }
-}
-
 @keyframes home-logo-shine-fade-desktop-soft {
   0% {
     opacity: 0;

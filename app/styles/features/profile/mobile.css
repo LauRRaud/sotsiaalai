@@ -163,21 +163,6 @@
 }
 
 @media (max-width: 768px) {
-  @keyframes profile-orbit-hub-mobile-pulse {
-    0%,
-    100% {
-      -webkit-transform: translate3d(0, var(--profile-orbit-center-offset-y), 0)
-        scale3d(1, 1, 1);
-      transform: translate3d(0, var(--profile-orbit-center-offset-y), 0)
-        scale3d(1, 1, 1);
-    }
-    50% {
-      -webkit-transform: translate3d(0, var(--profile-orbit-center-offset-y), 0)
-        scale3d(0.95, 0.95, 1);
-      transform: translate3d(0, var(--profile-orbit-center-offset-y), 0)
-        scale3d(0.95, 0.95, 1);
-    }
-  }
 
   .profile-orbit-menu[data-mobile-variant="stack"].is-open
     .profile-orbit-menu__center {
