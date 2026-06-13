@@ -54,12 +54,6 @@ html[data-reduce-motion="1"] .glass-card.fade-in {
   transform: none;
   animation: none;
 }
-html[data-reduce-motion="1"] .defer-fade {
-  opacity: var(--end-op, 1);
-  visibility: visible;
-  transform: none;
-  animation: none;
-}
 html[data-reduce-motion="1"] .circular-text-line {
   animation: none;
 }

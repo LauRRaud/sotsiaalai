@@ -92,23 +92,6 @@
   }
 }
 
-@keyframes dfade-in {
-  0% {
-    opacity: 0;
-    transform: translateY(var(--start-ty)) scale(0.992);
-    visibility: hidden;
-  }
-  1% {
-    visibility: visible;
-    opacity: 0;
-  }
-  100% {
-    visibility: visible;
-    opacity: var(--end-op);
-    transform: translateY(0) scale(1);
-  }
-}
-
 @keyframes chat-sources-pulse {
   0% {
     transform: scale(1);
@@ -282,15 +265,3 @@
   }
 }
 
-.defer-fade {
-  --end-op: 1;
-  --fade-dur: 1700ms;
-  --fade-delay: 1400ms;
-  --start-ty: 0.75rem;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(var(--start-ty)) scale(0.992);
-  animation: dfade-in var(--fade-dur) cubic-bezier(0.16, 0.84, 0.44, 1) forwards;
-  animation-delay: var(--fade-delay);
-  will-change: opacity, transform;
-}
