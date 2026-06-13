@@ -16,12 +16,11 @@
 - **Struktuurne restruktuur:** valmis (etapid 0–7 + 6a/b/c).
 - **Rail-dedup + orbiit + surnud mask:** valmis (vt allpool).
 - **Verifikatsiooni-infra (tööriistad):** valmis ja serveris — snapshot + diff + matched-rules. NB: `[role="tooltip"]` on `null` tühja testikonto kontekstis. `rail-back-hover` nüüd try/catch + `force:true` (ei krahhita enam timeoutist). Targets töötavad.
-- **Faas 1 (surnud kood):** käimas — Block 1 + Block 3 border + defer-fade eemaldatud (vt allpool). css:audit = 26 notSeen (kõik false positives/a11y).
+- **Faas 1 (surnud kood):** käimas — Block 1 + Block 3 border + defer-fade + body[data-layout] + webkit-backface eemaldatud. css:audit = 26 notSeen (kõik false positives/a11y).
 
 ## JÄRGMINE SAMM
-**Faas 1 surnud kood jätkub.** Praegune seis: −240+ rida selles sessioonis. Järgmised suunad:
-- **Veel `body[data-*]` kandideate?** data-platform, data-theme-switching, data-initial-page — kontrollida kas need seatakse ainult html-l vm ka body-l.
-- **`-webkit-backface-visibility` (12 tk)** — `backface-visibility` on standard alates 2013, webkit prefix dead. Iga juhum vajab konteksti-kontrovertsi.
+**Faas 1 surnud kood jätkub.** Praegune seis: −260+ rida. Järgmised suunad:
+- **`panel-surfaces.css` peaaegu täielikult surnud** — kõik selektorid on `html[data-layout="mobile"] body[data-layout="mobile"]` kujul; `body` ei saa `data-layout` atribuuti kunagi. 2 varianti: (a) kustuta surnud reeglid (käitumine ei muutu), (b) paranda selektorid `html[data-layout="mobile"] .class` (aktiveeriksid workspace-kaardi suurused + policy-scroll — KÄITUMISMUUTUS, vajab snapshotit). Soovituslik: variant (a) esmalt.
 - **`glass-policy-back` `:not()`-ahelates** (hc.css, mono.css): keeruline, madal prioriteet.
 - **Nupu-konsolideerimine** = järgmine suurem samm (faas 2, kõrgem risk).
 
@@ -40,6 +39,9 @@ Block 2 `!important` võidab Block 3 normaalse. −1 rida. Snapshot hover try/ca
 
 ### Faas 1 — `.defer-fade` + `@keyframes dfade-in`  [0e52c29c]
 0 JSX-referentsi. −35 rida (animations.css + hc.css). 968/12.
+
+### Faas 1 — `body[data-layout]` + `-webkit-backface-visibility`  [c292ddb1]
+`data-layout` seatakse ainult `html`-l (mitte `body`-l) → 6 surnud `body[data-layout="mobile"]` osa foundations.css komma-listidest eemaldatud. 12× `-webkit-backface-visibility` eemaldatud (kõik olid paaritud standardse `backface-visibility`-ga). HC `materials-page-shell` 2 plokki (r315+870) liidetud üheks (muutujad ei kattu). Test uuendatud. 968/12.
 
 ### Faas 1 — HC tooltip Block 1  [c6c0d387, 992fc096]
 Block 2 sama selektor + `!important` → Block 1 alati surnud. −4 rida. 968/12.
