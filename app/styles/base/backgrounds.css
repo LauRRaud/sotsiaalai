@@ -173,9 +173,7 @@
 }
 
 html[data-reduce-motion="1"] [data-bg-layer] .bg-bends-layer,
-html[data-reduce-motion="1"] [data-bg-layer] .bg-particles-layer,
-body[data-reduce-motion="1"] [data-bg-layer] .bg-bends-layer,
-body[data-reduce-motion="1"] [data-bg-layer] .bg-particles-layer {
+html[data-reduce-motion="1"] [data-bg-layer] .bg-particles-layer {
   transition: none !important;
 }
 

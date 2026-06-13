@@ -1210,7 +1210,6 @@
   }
 }
 
-:global(html[data-reduce-motion="1"]) .panel,
-:global(body[data-reduce-motion="1"]) .panel {
+:global(html[data-reduce-motion="1"]) .panel {
   animation: none;
 }

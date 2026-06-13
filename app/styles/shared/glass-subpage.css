@@ -422,8 +422,7 @@ html[data-contrast="hc"] .glass-subpage-surface::before {
   padding-bottom: var(--dashboard-info-title-wrap-padding-bottom) !important;
 }
 
-html[data-reduce-transparency="1"] .dashboard-info-panel.workspace-guide-panel.glass-subpage-surface,
-body[data-reduce-transparency="1"] .dashboard-info-panel.workspace-guide-panel.glass-subpage-surface {
+html[data-reduce-transparency="1"] .dashboard-info-panel.workspace-guide-panel.glass-subpage-surface {
   --dashboard-info-blur: 1rem;
 }
 

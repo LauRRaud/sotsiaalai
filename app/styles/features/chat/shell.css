@@ -354,10 +354,7 @@
 
 html[data-reduce-motion="1"] .chat-page-shell .chat-container.chat-container--round,
 html[data-reduce-motion="1"] .chat-page-shell .chat-container.chat-container--round.chat-container--input-focus,
-html[data-reduce-motion="1"] .chat-page-shell .chat-container.chat-container--round.chat-container--workspace-open,
-body[data-reduce-motion="1"] .chat-page-shell .chat-container.chat-container--round,
-body[data-reduce-motion="1"] .chat-page-shell .chat-container.chat-container--round.chat-container--input-focus,
-body[data-reduce-motion="1"] .chat-page-shell .chat-container.chat-container--round.chat-container--workspace-open {
+html[data-reduce-motion="1"] .chat-page-shell .chat-container.chat-container--round.chat-container--workspace-open {
   transition: none !important;
 }
 

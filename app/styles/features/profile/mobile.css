@@ -528,10 +528,7 @@
 }
 
 html[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .profile-orbit-menu__center-shell,
-body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .profile-orbit-menu__center-shell,
 html[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .profile-orbit-menu__center,
-body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .profile-orbit-menu__center,
-html[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .profile-orbit-menu__center::before,
-body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .profile-orbit-menu__center::before {
+html[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .profile-orbit-menu__center::before {
   animation: none !important;
 }
