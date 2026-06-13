@@ -204,8 +204,20 @@ function splitSelectorList(sel) {
   return out;
 }
 
+// A dynamic pseudo can be forced on the SUBJECT element only if it sits on the
+// subject — NOT inside :has(...) (state is on a descendant) or :not(...) (state
+// negates the match). Forcing :hover on `.x:has(.y:focus-within)` or
+// `.card:not(:hover)` proves nothing, so those must be excluded from the
+// state-no-op verdict. Strip :has()/:not() contents, then see what remains.
+function subjectPseudosOf(selector) {
+  let s = selector;
+  let prev;
+  do { prev = s; s = s.replace(/:(has|not)\([^()]*\)/g, ""); } while (s !== prev);
+  return DYNAMIC_PSEUDOS.filter((p) => new RegExp(`:${p}(?![-\\w])`).test(s));
+}
+
 // Strip pseudo-ELEMENTS and DYNAMIC pseudo-classes, leaving a selector that
-// querySelector can test for plain existence. Returns { base, pseudos }.
+// querySelector can test for plain existence. Returns { base, pseudos, subjectPseudos }.
 function toBase(selector) {
   const pseudos = [];
   // record dynamic pseudo-classes present (for the behaviour pass). (?![-\w])
@@ -213,6 +225,7 @@ function toBase(selector) {
   for (const p of DYNAMIC_PSEUDOS) {
     if (new RegExp(`:${p}(?![-\\w])`).test(selector)) pseudos.push(p);
   }
+  const subjectPseudos = subjectPseudosOf(selector);
   let base = selector
     // pseudo-elements: ::before, ::after, ::placeholder, ::-webkit-scrollbar...
     .replace(/::[-a-z]+(\([^)]*\))?/g, "")
@@ -231,7 +244,7 @@ function toBase(selector) {
   } while (base !== prev);
   // a trailing combinator left behind (e.g. "a:hover >" → "a >") is invalid
   base = base.replace(/[>+~]\s*$/g, "").trim();
-  return { base, pseudos };
+  return { base, pseudos, subjectPseudos };
 }
 
 function loadCssUniverse() {
@@ -254,7 +267,10 @@ function loadCssUniverse() {
       const line = rule.source?.start?.line ?? 1;
       for (const sel of splitSelectorList(rule.selector)) {
         if (!sel) continue;
-        const { base, pseudos } = toBase(sel);
+        const { base, pseudos, subjectPseudos } = toBase(sel);
+        // forceable pseudos that actually sit on the subject element — only
+        // these can be proven no-op by forcing state on the matched node.
+        const forcePseudos = subjectPseudos.filter((p) => FORCEABLE.has(p));
         rules.push({
           id: id++,
           file: rel,
@@ -262,6 +278,7 @@ function loadCssUniverse() {
           selector: sel,
           base: base || sel,
           pseudos,
+          forcePseudos,
           media,
           // testable base? empty/odd bases get keep-by-default (testable=false)
           testable: Boolean(base) && !/^[>+~]/.test(base),
@@ -296,10 +313,12 @@ async function existencePass(page, rules) {
 // style idle-vs-forced. Returns the set of rule ids that produced ANY change.
 async function behaviourPass(cdp, rootNodeId, rules, maxEls) {
   const effective = new Set();
-  const stateRules = rules.filter((r) => r.pseudos.some((p) => FORCEABLE.has(p)));
+  // only rules whose forceable pseudo sits on the SUBJECT — :has()/:not()-internal
+  // state cannot be exercised by forcing on the matched node (would be false no-op).
+  const stateRules = rules.filter((r) => r.forcePseudos.length > 0);
   for (const r of stateRules) {
     if (!r.testable) continue;
-    const forced = r.pseudos.filter((p) => FORCEABLE.has(p));
+    const forced = r.forcePseudos;
     let nodeIds;
     try {
       ({ nodeIds } = await cdp.send("DOM.querySelectorAll", { nodeId: rootNodeId, selector: r.base }));
@@ -431,6 +450,23 @@ async function main() {
           if (page.isClosed()) throw new Error("page/browser closed — aborting run");
         }
       }
+      // android existence pass: rules like `body[data-platform="android"] .x`
+      // never match unless the attribute is set (the crawl runs as no-platform).
+      // Force it on the phone viewport and re-test existence so they are not
+      // falsely flagged dead. (android is phone-only, so mobile width only.)
+      if (vp.id === "mobile" && !page.isClosed()) {
+        try {
+          await page.evaluate(() => {
+            document.documentElement.setAttribute("data-platform", "android");
+            document.body?.setAttribute("data-platform", "android");
+          });
+          await flush(page);
+          const { seen } = await existencePass(page, rules);
+          for (const id of seen) everSeen.add(id);
+        } catch (e) {
+          process.stderr.write(`  ⚠ ${r.route} @${vp.id} android-pass: ${String(e.message).split("\n")[0]}\n`);
+        }
+      }
       process.stderr.write(`  ✓ ${r.route} @${vp.id} (HTTP ${landed}, ${okThemes}/${THEMES.length} themes)\n`);
     }
   }
@@ -444,7 +480,7 @@ async function main() {
     if (!r.testable || keepInvalid.has(r.id)) continue;
     if (!everSeen.has(r.id)) {
       deadNoElement.push(r);
-    } else if (args.states && r.pseudos.some((p) => FORCEABLE.has(p)) && !everEffective.has(r.id)) {
+    } else if (args.states && r.forcePseudos.length > 0 && !everEffective.has(r.id)) {
       deadStateNoOp.push(r);
     }
   }
