@@ -22,11 +22,12 @@
 ## JÄRGMINE SAMM (kaks rada)
 
 ### Rada A — Effective-audit tööriista lõpetamine (üleantav ülesanne)
-Tööriist `scripts/css-effective-audit.mjs` TÖÖTAB (täis-crawl 26 lehte robustne), aga toor-väljund on **kandidaadid teadaolevate false-positive ämbritega**, MITTE kustutus-nimekiri. Järjekord (mu soovitus):
-1. **skip-link otsus** (ainus tõeliselt huvitav päris-leid): `.skip-link` hc.css:3/11/23 — markup'ist PUUDUB täielikult (0 JSX-viidet). Kas kustuta surnud CSS VÕI lisa a11y "skip-to-content" link (WCAG). **Otsusta enne muud.**
-2. **False-positive vähendus ENNE 4-vp jooksu** (puhtam signaal > täpsem müra): (a) android-pass — sea `data-platform="android"` (68 selektorit praegu valesti surnud); (b) trigerda JS-mountitud olekud (modaalid/vea/tühi-vaated); (c) paranda `:has(descendant:focus-within)` — käitumis-pass sunnib pseudo VALELE elemendile → false state-no-op (chat/shell.css klaster); (d) dünaamilised route'd (`[id]`, admin/*) crawl'i. **TEHTUD: (a)+(c) parandatud `a8174e35`; tooheaolu 11 alamlehte lisatud routes.json-i.**
-3. **4-vaateava autoriteetne jooks** — VIEWPORTS juba uuendatud `{390,1024,1440,1920}` (katab desktop-vahemikud mida 2-vp jättis vahele). Jooksuta `npm run css:effective`.
-4. **Kasuta vertikaali-viilu kaupa** Juur-B teema-ko-lokeerimiseks (vt master-plaan).
+Tööriist `scripts/css-effective-audit.mjs` TÖÖTAB (täis-crawl robustne), aga toor-väljund on **kandidaadid teadaolevate false-positive ämbritega**, MITTE kustutus-nimekiri. Järjekord (mu soovitus):
+1. ~~**skip-link otsus**~~ **TEHTUD** — `.skip-link` (hc.css:3-26) oli surnud (0 markup), kustutatud `4fd78a99`. Test 968/12 (null uut). PÄRIS a11y-lünk (puudub WCAG 2.4.1 skip-to-content link) eraldi flag'itud — ei kuulu CSS-võla alla.
+2. **False-positive vähendus** (puhtam signaal): (a) android-pass `a8174e35`; (c) `:has/:not` `a8174e35`; **(uus) known-FP välistuskiht** `scripts/css-effective-audit.ignore.json` `4fd78a99` → 36 püsi-FP (33 Leaflet runtime + 3 documents-dropdown template-literal) diverteeritud `keptDynamic` ämbrisse, EI ole enam dead. **(b) JS-mountitud olekud + (d) dünaamilised route'd = JÄRGMINE TÖÖ** (2b, vt all). NB: handoffi väide "service-map 263 = Leaflet" oli VALE — ainult 33 on Leaflet; ülejäänud ~196 `.service-profile-*` on JS-oleku-taga (2b), MITTE müra.
+3. **4-vaateava autoriteetne jooks** — TEHTUD. `2026-06-13-4vp-fpfix.json` (26 lehte) + `2026-06-13-tooheaolu.json` (12 lehte) → merge-skript `css-effective-audit-merge.mjs` → `2026-06-13-merged.json`: **929 dead / 44 state-no-op / 36 kept-dynamic** (38 route'i). Edaspidi EI vaja täis-crawl'i: jooksuta subset + merge.
+4. **2b — trigerda JS-mountitud olekud** (kriitilisel teel MÕLEMALE rajale): ~926 dead'ist domineerib JS-oleku-taga (orbit-open `/profiil`, dropdown-open, documents/agent paneel, modaalid, address-autocomplete `/teenuseprofiil`). Audit ei trigerda neid → ei saa usaldada dead'ina EGA ekstraktida Juur-B-sse. Implementeeri olekute-pass (ava orbit, dropdownid, mountni modaalid per-route) ENNE Juur-B chat-viilu.
+5. **Kasuta vertikaali-viilu kaupa** Juur-B teema-ko-lokeerimiseks (vt master-plaan) — pärast 2b.
 
 ### Rada B — Faas 1 surnud kood jätkub
 - **`panel-surfaces.css` peaaegu täielikult surnud** — selektorid `html[data-layout="mobile"] body[data-layout="mobile"]` kujul; `body` ei saa `data-layout` kunagi. (a) kustuta surnud reeglid (käitumine ei muutu) VÕI (b) paranda `html[data-layout="mobile"] .class` (KÄITUMISMUUTUS, snapshot). Soovituslik (a).
