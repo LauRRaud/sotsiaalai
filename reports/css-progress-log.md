@@ -16,8 +16,9 @@
 - **Struktuurne restruktuur:** valmis (etapid 0–7 + 6a/b/c).
 - **Rail-dedup + orbiit + surnud mask:** valmis (vt allpool).
 - **PROD-CRASH PARANDATUD** — `OrbitStaticGlow` ise-rekursioon (`9e3b1cd9`) → /profiil OOM produktsioonis; fix `d3a92302`, deployitud `8cc8063b`. Vt allpool + `[[css-restructure-progress]]` HOIATUS.
-- **Verifikatsiooni-infra:** snapshot + diff + matched-rules + **UUS: `css-effective-audit.mjs`** (per-leht × 6 teemat efektiivne kate; täis-crawl 26 lehte tõestatud). Vt allpool "Effective-audit tööriist".
-- **Faas 1 (surnud kood):** käimas — Block 1 + Block 3 border + defer-fade + body[data-layout] + webkit-backface eemaldatud.
+- **Verifikatsiooni-infra:** snapshot + diff + matched-rules + **`css-effective-audit.mjs` (VALMIS & robustne)** — per-leht × 6 teemat × 4vp efektiivne kate, FP-fix + android + known-FP välistus + 2b mount-states + state-tested fix + 4 plain komponendi-CSS katvus. Vt allpool "Effective-audit tööriist".
+- **AUTORITEETNE ARTEFAKT:** `reports/css-effective-audit/2026-06-13-authoritative.json` (37 route'i × 6 teemat × 4vp, üks jooks) — **1232 dead / 64 state-no-op / 36 kept-dynamic / 0 high-confidence**. 0 high-confidence = ristvalideeritud lihtsad võidud AMMENDATUD. Universe 3530 selektorit / 69 faili.
+- **Faas 1 (surnud kood):** lihtsad võidud tehtud (skip-link + varasem). Jääk = JS-oleku-taga + teema-variant kandidaadid (case-by-case snapshot). **Faas 2 (konsolideerimine) on nüüd Sonneti põhitöö** — vt JÄRGMINE SAMM.
 
 ## JÄRGMINE SAMM (kaks rada)
 
@@ -26,8 +27,33 @@ Tööriist `scripts/css-effective-audit.mjs` TÖÖTAB (täis-crawl robustne), ag
 1. ~~**skip-link otsus**~~ **TEHTUD** — `.skip-link` (hc.css:3-26) oli surnud (0 markup), kustutatud `4fd78a99`. Test 968/12 (null uut). PÄRIS a11y-lünk (puudub WCAG 2.4.1 skip-to-content link) eraldi flag'itud — ei kuulu CSS-võla alla.
 2. **False-positive vähendus** (puhtam signaal): (a) android-pass `a8174e35`; (c) `:has/:not` `a8174e35`; **(uus) known-FP välistuskiht** `scripts/css-effective-audit.ignore.json` `4fd78a99` → 36 püsi-FP (33 Leaflet runtime + 3 documents-dropdown template-literal) diverteeritud `keptDynamic` ämbrisse, EI ole enam dead. **(b) JS-mountitud olekud + (d) dünaamilised route'd = JÄRGMINE TÖÖ** (2b, vt all). NB: handoffi väide "service-map 263 = Leaflet" oli VALE — ainult 33 on Leaflet; ülejäänud ~196 `.service-profile-*` on JS-oleku-taga (2b), MITTE müra.
 3. **4-vaateava autoriteetne jooks** — TEHTUD. `2026-06-13-4vp-fpfix.json` (26 lehte) + `2026-06-13-tooheaolu.json` (12 lehte) → merge-skript `css-effective-audit-merge.mjs` → `2026-06-13-merged.json`: **929 dead / 44 state-no-op / 36 kept-dynamic** (38 route'i). Edaspidi EI vaja täis-crawl'i: jooksuta subset + merge.
-4. **2b — trigerda JS-mountitud olekud** (kriitilisel teel MÕLEMALE rajale): ~926 dead'ist domineerib JS-oleku-taga (orbit-open `/profiil`, dropdown-open, documents/agent paneel, modaalid, address-autocomplete `/teenuseprofiil`). Audit ei trigerda neid → ei saa usaldada dead'ina EGA ekstraktida Juur-B-sse. Implementeeri olekute-pass (ava orbit, dropdownid, mountni modaalid per-route) ENNE Juur-B chat-viilu.
-5. **Kasuta vertikaali-viilu kaupa** Juur-B teema-ko-lokeerimiseks (vt master-plaan) — pärast 2b.
+4. ~~**2b — trigerda JS-mountitud olekud**~~ **TEHTUD** `a37c50da` (mount-states pass, ainult ARIA-popup'id → ohutu) + `de974d2d` (state-tested fix: state-no-op ainult behaviour-passi testitud reeglitele). Tooheaolu lehed +200..230 selektorit/leht popup'idest. Jääk-piir: orbit-open (`/profiil`) pole ARIA-popup → 79 OrbitalMenu dead vajab bespoke orbit-trigerdust (madal prioriteet).
+5. **TÖÖRIIST VALMIS — edasi faas 2 (konsolideerimine).** Vt allpool "Faas 2 — primitiivi-inventuur".
+
+### Faas 2 — primitiivi-inventuur (ANDMEPÕHINE töönimekiri)
+`npm run css:primitives` (`scripts/css-primitive-scatter.mjs`) — loendab iga klassi file-spread'i (mitmes failis esineb = hajutus = konsolideerimis-võlg). **Mitte intuitsioon — andmed.** Hajutus failide kaupa:
+
+| Primitiiv | file-spread | Kanooniline komponent |
+|---|---|---|
+| **button** (btn 58 + button 41) | ~99 | ✅ `components/ui/Button.jsx` |
+| **modal** | 98 | osaliselt |
+| **panel** | 83 | — |
+| **card** | 39 | — |
+| **input/field** | 32 | — |
+| **menu** | 24 | — |
+| **dropdown** | 14 | `DocumentsDropdown.jsx` |
+
+**VÄLISTA inventuurist (pole faas-2 primitiivid):** `.theme-light/mid/night/mono` (teema-juured = faas 4), `.homepage-root`/`.chat-page-shell`/`.profile-container` (lehe-shellid), `.is-active` (olek-klass), `.glass-ring/box/subpage-surface` (klaaspinna-süsteem = oma konsolideerimine).
+
+**Soovitatud järjekord:** dropdown (14, väike → ÕPI töövoog) → **button (~99, suurim väärtus + komponent olemas)** → modal → panel → card.
+
+### Faas 2 viilu-runbook (iga primitiivi kohta)
+1. `css-matched-rules` AVATUD primitiivilt (vajadusel `--headed`/`steps` et olek lahti) × 6 teemat → näe võitev stiil per teema (`[N/6 states]`)
+2. Vali/loo kanooniline komponent (button → `<Button>` olemas)
+3. Kirjuta CSS komponendi juurde **teema-tokenitega** (`var(--x)` + `:root.theme-Y { --x: … }`), MITTE `:not(.theme-Y)`-ahel
+4. Migreeri kõik pere-variandid kanoonilisele
+5. Kustuta hajutatud feature+teema override'd
+6. **Snapshot-värav:** `css-snapshot` before/after → `✓ identical` = commit. + `npm test` 968/12. LF mitte CRLF. Üks viil = üks commit.
 
 ### Rada B — Faas 1 surnud kood jätkub
 - **`panel-surfaces.css` peaaegu täielikult surnud** — selektorid `html[data-layout="mobile"] body[data-layout="mobile"]` kujul; `body` ei saa `data-layout` kunagi. (a) kustuta surnud reeglid (käitumine ei muutu) VÕI (b) paranda `html[data-layout="mobile"] .class` (KÄITUMISMUUTUS, snapshot). Soovituslik (a).
