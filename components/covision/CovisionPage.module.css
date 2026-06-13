@@ -702,22 +702,6 @@
   box-shadow: none !important;
 }
 
-.page :global(.button[data-variant="primary"]) {
-  border: 1px solid var(--covision-primary-button-border) !important;
-  background: var(--covision-primary-button-bg) !important;
-  color: var(--covision-primary-button-text) !important;
-  box-shadow: var(--covision-primary-button-shadow) !important;
-  font-weight: 650;
-  letter-spacing: 0;
-}
-
-.page :global(.button[data-variant="primary"]:is(:hover, :focus-visible)) {
-  background: var(--covision-primary-button-bg-hover) !important;
-  color: var(--covision-primary-button-text) !important;
-  box-shadow:
-    var(--covision-primary-button-shadow),
-    0 0 0 3px var(--covision-focus-ring) !important;
-}
 
 .page :global(.button[data-variant="secondary"]):hover,
 .page :global(.button[data-variant="ghost"]):hover,
