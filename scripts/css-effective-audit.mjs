@@ -67,9 +67,15 @@ const THEMES = [
   { id: "hc", theme: "dark", contrast: "hc" }, // app forces theme=dark under hc
 ];
 
+// Widths chosen to land inside EVERY @media band the CSS uses (768/769 main
+// split, plus 1180/1280/1440 desktop bands and 1760 ultrawide). Two viewports
+// (390+1920) miss combined desktop bands like (min-width:769)and(max-width:1440)
+// — neither 390 nor 1920 triggers them → false "dead". These four cover them.
 const VIEWPORTS = [
-  { id: "desktop", width: 1920, height: 1080 },
   { id: "mobile", width: 390, height: 780 },
+  { id: "tablet", width: 1024, height: 800 },
+  { id: "desktop", width: 1440, height: 900 },
+  { id: "wide", width: 1920, height: 1080 },
 ];
 
 const CSS_GLOBS = ["app/styles/**/*.css"];
