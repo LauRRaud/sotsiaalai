@@ -85,12 +85,26 @@ iga etapi lõpus.
   Antsla, Elva), MITTE Kuusalust. Pohjused: (1) mitmesonaline "kuusalu vald" ei
   matchi kaandevormi "Kuusalu valla" — prefiks-leevendus on ainult uhesonalistel;
   (2) sama teenusenimi 78 vallas, MAX_MATCHED_ENTITIES=4 loikab tahestiku jargi.
-  Kahju piiratud (KOV-skoopfilter + kvoot hoiavad valed vallad valjas, eval 37/37),
-  aga jargmise iteratsiooni siht: municipality-kontekstiga entity-eelistus +
-  mitmesonaline kaandematch + samanimeliste dedupe.
-- Edasi: flag sisse (kasutaja otsusel); matcheri leid (ulal); per-source
-  UI-margistus (marker katkeb groupMatches juures, praegu ainult trace'is);
-  needs_review URL-id; OCR-rada voldikutele.
+- MATCHERI PARANDUS TEHTUD + DEPLOYTUD 2026-06-13 (commit 5c071fec):
+  (1) munitsipaliteedi-stem (nimi miinus vald/linn) kaandevormi-sallivusega, et
+  "Kuusalus"/"Kuusalu" matchiks ka ilma "vald" sonata; luhikestele stemmidele
+  kitsam suffiksi-aken (rae != raekoja); (2) per-valla kov_item-entiteedid
+  skoobitakse kusimuses nimetatud / vestlusest kantud valda (matchitud
+  MUNICIPALITY-entiteedi kaudu) — ilma vallakontekstita kov_item DROPITAKSE,
+  mitte ei lingita tahestiku-valikuga; (3) match uncapped -> scope -> THEN cap,
+  et oige vald ei jaaks valja. effectiveMunicipalities antakse lookup'i.
+  Live-probe kinnitas: "Kas Kuusalus on koduteenus?" -> municipality:kuusalu_vald
+  + kov_item:kuusalu_vald:...:koduteenus (mitte enam Alutaguse/Anija). Failid:
+  graphRetrieval.js (municipalityStem/stemRegex/scopeMatchesToMunicipalities/
+  resolveMunicipalityIds) + retrievalContextAssembler.js. Testid 15 graafi /
+  173 rag PASS.
+- KORDUSVORDLUS PARANDUSE JAREL 2026-06-13: graaf valjas 37/37
+  (reports/golden-eval-graphoff-2026-06-13.json) ja graaf sees 37/37
+  (reports/golden-eval-graphon-2026-06-13.json) — PARITEET PUSIB, matcheri
+  parandus ei toonud regressiooni. VARAV ENDISELT TAIDETUD.
+- Edasi: flag sisse (kasutaja otsusel); per-source UI-margistus (marker katkeb
+  groupMatches juures, praegu ainult trace'is); samanimeliste valdade dedupe
+  (haruldane, nt sama stem kahel asumil); needs_review URL-id; OCR-rada.
 
 **Parandussiht (leitud eval-laiendusel 2026-06-12):** üldine teemaküsimus ilma
 allika-vihjeta (nt: Mis on integreeritud teenused?) jääb default-reziimi ja
