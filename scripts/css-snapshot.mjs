@@ -154,8 +154,13 @@ async function freezeMotion(page) {
 // opened modal, a focused input.
 async function runSteps(page, steps) {
   for (const step of steps ?? []) {
-    if (step.hover) await page.hover(step.hover);
-    else if (step.click) await page.click(step.click);
+    if (step.hover) {
+      try {
+        await page.hover(step.hover, step.force ? { force: true } : {});
+      } catch (e) {
+        console.warn(`  ⚠ hover("${step.hover}") skipped: ${e.message.split('\n')[0]}`);
+      }
+    } else if (step.click) await page.click(step.click);
     else if (step.focus) await page.focus(step.focus);
     else if (step.fill) await page.fill(step.fill.selector, step.fill.value);
     else if (step.move) await page.mouse.move(step.move.x, step.move.y);

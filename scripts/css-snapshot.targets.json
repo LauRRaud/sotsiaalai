@@ -10,7 +10,7 @@
     "name": "rail-back-hover",
     "route": "/vestlus",
     "auth": true,
-    "steps": [{ "hover": "[data-key=\"back\"]" }],
+    "steps": [{ "hover": "[data-key=\"back\"]", "force": true }],
     "selectors": ["[data-key=\"back\"] svg"],
     "properties": ["transform"]
   },

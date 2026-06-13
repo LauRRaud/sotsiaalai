@@ -249,7 +249,6 @@
   background: var(--chat-card-surface-night-flat-bg, rgb(11, 15, 23));
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
-  border: 1.5px solid var(--hc-accent, #ffea00);
   box-shadow: none;
 }
 
