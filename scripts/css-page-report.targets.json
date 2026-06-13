@@ -1,0 +1,40 @@
+{
+  "_comment": [
+    "Selector list for scripts/css-page-report.mjs. The crawler injects",
+    "scripts/browser-inspect.js and runs __inspect over these selectors on every",
+    "route × theme (HEADED, faithful render). Start narrow (buttons) and widen to",
+    "other primitives (panels, cards, inputs, modals) as the cleanup progresses.",
+    "Each selector should target a rendered primitive whose CSS we want to map and",
+    "eventually consolidate. Add raw alias classes where they are NOT <Button>."
+  ],
+  "keyProps": [
+    "backgroundColor", "backgroundImage", "color",
+    "borderTopColor", "borderTopWidth", "borderTopStyle",
+    "boxShadow", "borderTopLeftRadius", "minHeight",
+    "opacity", "transform", "outlineColor", "filter", "backdropFilter",
+    "position", "visibility"
+  ],
+  "tokens": [
+    "--btn-primary-bg", "--btn-primary-bg-hover", "--btn-primary-text",
+    "--btn-primary-shadow", "--btn-primary-border",
+    "--btn-danger-bg", "--btn-danger-text"
+  ],
+  "selectors": [
+    ".button[data-variant=\"primary\"]",
+    ".button[data-variant=\"secondary\"]",
+    ".button[data-variant=\"ghost\"]",
+    ".button[data-variant=\"danger\"]",
+    ".invite-primary-btn",
+    ".invite-refresh-btn",
+    ".drawer-pill-btn",
+    ".workspace-feature-action-btn",
+    ".documents-dropdown-trigger",
+    ".documents-upload-dropzone-trigger",
+    ".cs-delete",
+    ".dashboard-info-trigger-corner",
+    ".back-button",
+    ".chat-send-btn",
+    ".chat-listen-btn",
+    ".modal-close-btn"
+  ]
+}

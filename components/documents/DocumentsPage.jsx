@@ -671,7 +671,7 @@ export default function DocumentsPage({ initialArtifactLimit = ARTIFACT_LIST_LIM
                       <Button
                         type="button"
                         size="sm"
-                        variant="ghost"
+                        variant="primary"
                         onClick={() => uploadInputRef.current?.click()}
                       >
                         {t("documents.form.choose_file")}
