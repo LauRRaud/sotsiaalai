@@ -24,7 +24,7 @@
 ### Rada A — Effective-audit tööriista lõpetamine (üleantav ülesanne)
 Tööriist `scripts/css-effective-audit.mjs` TÖÖTAB (täis-crawl 26 lehte robustne), aga toor-väljund on **kandidaadid teadaolevate false-positive ämbritega**, MITTE kustutus-nimekiri. Järjekord (mu soovitus):
 1. **skip-link otsus** (ainus tõeliselt huvitav päris-leid): `.skip-link` hc.css:3/11/23 — markup'ist PUUDUB täielikult (0 JSX-viidet). Kas kustuta surnud CSS VÕI lisa a11y "skip-to-content" link (WCAG). **Otsusta enne muud.**
-2. **False-positive vähendus ENNE 4-vp jooksu** (puhtam signaal > täpsem müra): (a) android-pass — sea `data-platform="android"` (68 selektorit praegu valesti surnud); (b) trigerda JS-mountitud olekud (modaalid/vea/tühi-vaated); (c) paranda `:has(descendant:focus-within)` — käitumis-pass sunnib pseudo VALELE elemendile → false state-no-op (chat/shell.css klaster); (d) dünaamilised route'd (`[id]`, admin/*) crawl'i.
+2. **False-positive vähendus ENNE 4-vp jooksu** (puhtam signaal > täpsem müra): (a) android-pass — sea `data-platform="android"` (68 selektorit praegu valesti surnud); (b) trigerda JS-mountitud olekud (modaalid/vea/tühi-vaated); (c) paranda `:has(descendant:focus-within)` — käitumis-pass sunnib pseudo VALELE elemendile → false state-no-op (chat/shell.css klaster); (d) dünaamilised route'd (`[id]`, admin/*) crawl'i. **TEHTUD: (a)+(c) parandatud `a8174e35`; tooheaolu 11 alamlehte lisatud routes.json-i.**
 3. **4-vaateava autoriteetne jooks** — VIEWPORTS juba uuendatud `{390,1024,1440,1920}` (katab desktop-vahemikud mida 2-vp jättis vahele). Jooksuta `npm run css:effective`.
 4. **Kasuta vertikaali-viilu kaupa** Juur-B teema-ko-lokeerimiseks (vt master-plaan).
 
@@ -32,6 +32,7 @@ Tööriist `scripts/css-effective-audit.mjs` TÖÖTAB (täis-crawl 26 lehte robu
 - **`panel-surfaces.css` peaaegu täielikult surnud** — selektorid `html[data-layout="mobile"] body[data-layout="mobile"]` kujul; `body` ei saa `data-layout` kunagi. (a) kustuta surnud reeglid (käitumine ei muutu) VÕI (b) paranda `html[data-layout="mobile"] .class` (KÄITUMISMUUTUS, snapshot). Soovituslik (a).
 - **`glass-policy-back` `:not()`-ahelates** (hc.css, mono.css): madal prioriteet.
 - **Nupu-konsolideerimine** = faas 2, kõrgem risk.
+- **Töölaua paneel-route'd** (tuleviku UX-töö, madal prioriteet) — Abisoovid, Abipakkumised ja Lisa inimene avanevad `/vestlus` sees paneelina (event/query-param), neil puudub eraldi URL. Kõik ülejäänud Töölaua nupud on päris lehed. Ühildamine = UX + arhitektuur-töö (`WorkspacePanel.jsx` → eraldi `/abisoovid`, `/abipakkumised`, invite-page). **Ei blokeeri CSS-auditit** — nende CSS jõuab `/vestlus` crawli kaudu sisse. Teha alles pärast Juur-B `vestlus/` vertikaal-viilu.
 
 ---
 
