@@ -29,6 +29,9 @@ Nupu-konsolideerimine on järgmine suurem samm (faas 2, kõrgem risk).
 
 ## Tehtud (krooniline)
 
+### Faas 1 — .defer-fade + @keyframes dfade-in (surnud kood)  [0e52c29c]
+`app/styles/base/animations.css` `.defer-fade` klass (12 rida) + `@keyframes dfade-in` (16 rida) eemaldatud. `app/styles/theme/hc.css` reduce-motion valvur (6 rida) eemaldatud. Kokku −35 rida. Verifikatsioon: grep 0 osumeid JSX/HTML-is; testid 12/12 baseline. Kaskaad-ohutu (ükski element ei vastanud selektorile).
+
 ### Faas 1 — HC tooltip Block 1 (surnud kood)  [c6c0d387, 992fc096]
 `components/chat/rail.module.css` HC tooltip Block 1 eemaldatud: `html[data-contrast="hc"] .tooltip { border: 2px solid var(--rail-tooltip-border,...); background-clip: padding-box; }` — 100% surnud kood, mida Block 2 (sama selektor, !important) alati üle kirjutas. Testid: 12 baseline, 0 uut. Kaskaadi-analüüs deterministlik (snapshot-element null tühja konto kontekstis — vt JÄRGMINE SAMM). Paigaldati Playwright browserid serverile; genereeriti tmp-create-login-token.mjs serverile.
 
