@@ -7,6 +7,8 @@ import {
   graphHintsToQueryTexts,
   isGraphChannelEnabled,
   matchEntitiesInText,
+  scopeMatchesToMunicipalities,
+  resolveMunicipalityIds,
   graphChannelSearchTopK,
   selectGraphChannelSupplement
 } from "../../lib/rag/graph/graphRetrieval.js";
@@ -25,19 +27,93 @@ test("flag defaults to off and respects env", () => {
 });
 
 test("matchEntitiesInText matches exact, multiword and inflected names", () => {
-  assert.deepEqual(
-    matchEntitiesInText("Millised on Kuusalu valla koduteenuse tingimused?", ENTITIES).map(entity => entity.id).sort(),
-    ["e1"].sort().concat().sort ? ["e1"] : ["e1"]
-  );
+  const full = matchEntitiesInText("Millised on Kuusalu valla koduteenuse tingimused?", ENTITIES).map(e => e.id);
+  assert.ok(full.includes("e1")); // koduteenus service via prefix
+  assert.ok(full.includes("e2")); // Kuusalu municipality via stem
   const inflected = matchEntitiesInText("Kas tugiisikuteenusel on omaosalus?", ENTITIES);
   assert.deepEqual(inflected.map(entity => entity.id), ["e3"]);
   const multi = matchEntitiesInText("Kuusalu vald pakub abi", ENTITIES);
   assert.ok(multi.some(entity => entity.id === "e2"));
 });
 
+test("municipality stem matches the spoken short form (no 'vald' word)", () => {
+  // People say "kas Kuusalus on koduteenus?", not "Kuusalu vallas".
+  const m1 = matchEntitiesInText("Kas Kuusalus on koduteenus?", ENTITIES).map(e => e.id);
+  assert.ok(m1.includes("e2"), "Kuusalu municipality matched from 'Kuusalus'");
+  assert.ok(m1.includes("e1"), "koduteenus service still matched");
+  const m2 = matchEntitiesInText("Mida Kuusalu pakub?", ENTITIES).map(e => e.id);
+  assert.ok(m2.includes("e2"));
+});
+
+test("short municipality stems do not over-match", () => {
+  const RAE = [{ id: "r1", type: "MUNICIPALITY", name: "Rae vald", normalizedName: "rae vald", externalKey: "municipality:rae_vald" }];
+  // "raekoja" should not match the "rae" stem (tight suffix window for short stems).
+  assert.deepEqual(matchEntitiesInText("Kus asub raekoja plats?", RAE), []);
+  assert.ok(matchEntitiesInText("Kas Raes on tugiisik?", RAE).some(e => e.id === "r1"));
+});
+
 test("weak single tokens never match", () => {
   const matches = matchEntitiesInText("Kas mul on õigus toetusele?", ENTITIES);
   assert.equal(matches.find(entity => entity.id === "e4"), undefined);
+});
+
+const MULTI_KOV = [
+  { id: "k_alu", type: "SERVICE", name: "Koduteenus", normalizedName: "koduteenus", externalKey: "kov_item:alutaguse_vald:service:koduteenus" },
+  { id: "k_ani", type: "SERVICE", name: "Koduteenus", normalizedName: "koduteenus", externalKey: "kov_item:anija_vald:service:koduteenus" },
+  { id: "k_kuu", type: "SERVICE", name: "Koduteenus", normalizedName: "koduteenus", externalKey: "kov_item:kuusalu_vald:service:koduteenus" },
+  { id: "m_kuu", type: "MUNICIPALITY", name: "Kuusalu vald", normalizedName: "kuusalu vald", externalKey: "municipality:kuusalu_vald" }
+];
+
+test("scopeMatchesToMunicipalities keeps only items of the named municipality", () => {
+  const matched = matchEntitiesInText("Kas Kuusalus on koduteenus?", MULTI_KOV, { limit: Infinity });
+  const scoped = scopeMatchesToMunicipalities(matched, { contextMunicipalityIds: [] });
+  const ids = scoped.map(e => e.id);
+  // Kuusalu municipality matched -> its id scopes the koduteenus services.
+  assert.ok(ids.includes("m_kuu"));
+  assert.ok(ids.includes("k_kuu"));
+  assert.ok(!ids.includes("k_alu"), "Alutaguse koduteenus dropped");
+  assert.ok(!ids.includes("k_ani"), "Anija koduteenus dropped");
+});
+
+test("scopeMatchesToMunicipalities drops per-municipality items without context", () => {
+  // No municipality named anywhere -> a bare "koduteenus" must not link to
+  // arbitrary municipalities.
+  const matched = matchEntitiesInText("Mis on koduteenus?", MULTI_KOV, { limit: Infinity })
+    .filter(e => e.type === "SERVICE");
+  const scoped = scopeMatchesToMunicipalities(matched, { contextMunicipalityIds: [] });
+  assert.deepEqual(scoped, []);
+});
+
+test("scopeMatchesToMunicipalities honors externally supplied context ids", () => {
+  const services = MULTI_KOV.filter(e => e.type === "SERVICE");
+  const scoped = scopeMatchesToMunicipalities(services, { contextMunicipalityIds: ["anija_vald"] });
+  assert.deepEqual(scoped.map(e => e.id), ["k_ani"]);
+});
+
+test("resolveMunicipalityIds maps conversation names to graph ids", () => {
+  assert.deepEqual(resolveMunicipalityIds(["Kuusalu vald"], MULTI_KOV), ["kuusalu_vald"]);
+  assert.deepEqual(resolveMunicipalityIds([], MULTI_KOV), []);
+  assert.deepEqual(resolveMunicipalityIds(["Tundmatu vald"], MULTI_KOV), []);
+});
+
+test("graphChannelLookup scopes same-name service to the asked municipality", async () => {
+  _resetGraphEntityCacheForTests();
+  const prisma = {
+    ragEntity: { findMany: async () => MULTI_KOV },
+    ragRelation: {
+      findMany: async ({ where }) => {
+        const ids = where.OR[0].fromEntityId.in;
+        // Only the Kuusalu service should be queried, never the others.
+        assert.ok(ids.includes("k_kuu"));
+        assert.ok(!ids.includes("k_alu") && !ids.includes("k_ani"));
+        return [];
+      }
+    }
+  };
+  const lookup = await graphChannelLookup({ question: "Kas Kuusalus on koduteenus?", prisma });
+  const keys = lookup.matched_entities.map(e => e.external_key);
+  assert.ok(keys.some(k => k.includes("kuusalu_vald")));
+  assert.ok(!keys.some(k => k.includes("alutaguse_vald") || k.includes("anija_vald")));
 });
 
 test("graphChannelLookup traverses relations with mock prisma", async () => {
@@ -61,7 +137,11 @@ test("graphChannelLookup traverses relations with mock prisma", async () => {
       ]
     }
   };
-  const lookup = await graphChannelLookup({ question: "Millised on koduteenuse tingimused?", prisma });
+  const lookup = await graphChannelLookup({
+    question: "Millised on koduteenuse tingimused?",
+    prisma,
+    municipalityNames: ["Kuusalu vald"]
+  });
   assert.equal(lookup.matched_entities.length, 1);
   assert.equal(lookup.matched_entities[0].name, "Koduteenus");
   assert.equal(lookup.hints.length, 1);
