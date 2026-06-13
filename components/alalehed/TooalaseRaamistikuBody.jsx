@@ -56,7 +56,7 @@ const documentHtmlClassName =
   "[--framework-table-border:rgba(148,163,184,0.26)] [--framework-table-head-text:color-mix(in_srgb,var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))_92%,var(--title-color,var(--brand-primary))_8%)] " +
   "[--framework-table-strong-text:color-mix(in_srgb,var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))_96%,var(--title-color,var(--brand-primary))_4%)] " +
   "[.theme-light_&]:[--framework-table-border:rgba(51,65,85,0.22)] [.theme-light_&]:[--framework-table-head-text:#26364a] [.theme-light_&]:[--framework-table-strong-text:#26364a] " +
-  "[.theme-night_&]:[--framework-table-border:rgba(248,253,255,0.2)] [.theme-dark_&]:[--framework-table-border:rgba(248,253,255,0.2)] " +
+  "[.theme-night_&]:[--framework-table-border:rgba(248,253,255,0.2)] " +
   "[&_p]:m-0 [&_p]:mb-[0.82rem] [&_em]:text-[color:var(--glass-modal-text-soft,var(--pt-120))] " +
   "[&_h1]:m-0 [&_h1]:pt-[1.05rem] [&_h1]:pb-[0.25rem] [&_h1]:text-[1.36rem] [&_h1]:font-[500] [&_h1]:leading-[1.32] [&_h1]:tracking-[0.01em] [&_h1]:text-[color:var(--title-color,var(--brand-primary))] " +
   "[&>h1:first-child]:text-center [&>h1:first-child]:text-[1.52rem] [&>h1:first-child]:font-[400] [&>h1:first-child]:pb-[0.72rem] [&>h1:first-child_strong]:font-[400] [&>p:first-child]:text-center [&>p:first-child]:text-[1.52rem] [&>p:first-child]:pb-[0.72rem] [&>p:first-child_strong]:font-[400] " +

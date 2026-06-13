@@ -54,9 +54,7 @@ html[data-reduce-motion="1"] .bottom-logo-breathe {
 }
 
 :root.theme-night .homepage-root .home-card-bg-kerahele::before,
-:root.theme-dark .homepage-root .home-card-bg-kerahele::before,
 :root.theme-night .homepage-root .home-card-bg-keratume::before,
-:root.theme-dark .homepage-root .home-card-bg-keratume::before,
 html[data-contrast="hc"] .homepage-root .home-card-bg-kerahele::before,
 html[data-contrast="hc"] .homepage-root .home-card-bg-keratume::before {
   background-image: var(--home-card-bg-image-dark);

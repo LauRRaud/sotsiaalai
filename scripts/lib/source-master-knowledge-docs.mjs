@@ -97,7 +97,9 @@ function stableHash(value) {
 }
 
 function hasMojibake(value) {
-  return /[ĆĀÅÂ�]/u.test(String(value || ""));
+  // U+FFFD = Unicode replacement character; kept as an escape so this file
+  // itself passes encoding:check.
+  return /[ĆĀÅÂ\uFFFD]/u.test(String(value || ""));
 }
 
 function collectEncodingWarnings(record = {}, metadata = {}) {

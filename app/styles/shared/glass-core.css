@@ -81,10 +81,6 @@
   --ui-checkbox-accent: var(--title-color, #8d4d4a);
 }
 
-:root.theme-dark {
-  --ui-checkbox-accent: var(--title-color, var(--brand-primary, #c57171));
-}
-
 :root.theme-night {
   --ui-checkbox-accent: var(--title-color, var(--brand-primary, #c57171));
 }

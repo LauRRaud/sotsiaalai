@@ -767,8 +767,9 @@ function validateMetaJson(data, errors) {
 function validateRagMarkdown(raw, slug, errors) {
   const label = `${slug}.rag.md`;
   const headings = ["# ", "## TEENUSED", "## TOETUSED", "## RESSURSID"];
+  const rawUpper = raw.toUpperCase();
   for (const heading of headings) {
-    if (!raw.includes(heading)) {
+    if (!rawUpper.includes(heading)) {
       errors.push(`${label}: missing heading "${heading}"`);
     }
   }

@@ -67,11 +67,10 @@ Samuti kindlalt parandatav (duplikaat, mitte klass):
 
 **Kasutamata faile ei ole.** Impordigraafi BFS (entry'd: kõik app-route'id, pages/, scripts/, auth.js, proxy.js, configid, prisma, testid) ei leidnud ühtegi saavutamatut faili app/, components/, lib/, src/ kaustades. 31.05 knip-raporti 15 kasutamata faili on kõik juba kustutatud.
 
-**Täiesti surnud exportid (14)** — nime ei kasutata isegi oma failis, ainult definitsioon:
+**Täiesti surnud exportid (13)** — nime ei kasutata isegi oma failis, ainult definitsioon (kontrollitud ka juurfailide auth.js/proxy.js/configide vastu):
 
 | Fail | Eksport |
 |---|---|
-| lib/auth/pin-login.js | isDirectPinLoginAllowed |
 | lib/documents/server.js | statStoredDocument |
 | lib/help/categories.js | seedHelpCategories |
 | lib/help/geocoding.js | normalizeGeocodingCandidateText |
@@ -122,3 +121,66 @@ Soovitatud järjekord (iga samm eraldi commit, järjest kasvava riskiga):
 6. Alles seejärel suuremad refaktorid (LeftRail/RightRail ühendamine, offers/requests ühismoodul, invites route'ide ühine helper) — need muudavad käitumiskriitilist koodi ja vajavad teste.
 
 Mitte üheski etapis: ära puuduta leaflet-* klasse, documents-dropdown-- modifikaatoreid, teemafailide reegleid, mille baasklass on kasutusel, ega midagi `generated/`, `public/vendor/` kaustadest.
+
+---
+
+## Lisa (täiendus, 11.06): ametliku jscpd tulemused
+
+jscpd õnnestus lõpuks kahel viisil: kasutaja Windowsi-käivituse JSON-raport (jscpd 5) + jscpd@4.2.5 minu sandboxis (puhas-JS versioon, mille kasutaja installis). Mõlemad kinnitavad samu mustreid.
+
+**Kogupilt:** 1376 klooni, 17 427 dubleeritud rida (7,7% ridadest; 8,7% tokenitest), 886 failis. Jaotus: JavaScript 10 036 rida, CSS 5 175, JSX 3 592. Müra (vendor/coverage) raportis ei olnud.
+
+**TOP failipaarid dubleeritud ridade järgi** (kõik üle kontrollitud, read viitavad jscpd raportile):
+
+| Read | Kloone | Paar | Märkus |
+|---|---|---|---|
+| 607 | 62 | theme/hc.css (failisisene) | suurim CSS-rikkuja; nt 1595–1623 kordub 1633– ja 1646– plokkides; 1490–1514 ≈ 2001–2025 |
+| 531 | 46 | OrbitalMenu.css (failisisene) | uus leid — nt 832–891 = 918–977 (60 rida); 505–528 = 623–646 |
+| 394 | 33 | AnalyticsDashboard.jsx (failisisene) | kinnitab varasemat leidu |
+| 351+323 | 17+15 | LeftRail ↔ RightRail (.jsx + .module.css) | kinnitab — kokku ~670 rida; tugevaim refaktorikandidaat |
+| 321 | 13 | lib/help/offers.js ↔ requests.js | kinnitab — peegelkoopiad |
+| 296 | 16 | lib/wellbeing/records.js (failisisene) | uus leid — iga create<Tool>RecordForUser kordab sama prisma.create plokki (170–196 ≈ 202–228 ≈ 234–260 ≈ 266–292…); generiline factory kaotaks ~300 rida |
+| 248 | 8 | api/invites/route.js ↔ sponsored/init/route.js | kinnitab |
+| 205 | 12 | chat-shell.css ↔ theme/hc.css | hc-ülekirjutused dubleerivad komponendifaili |
+| 203 | 14 | lib/help/chatWorkflow.js ↔ workflowExtraction.js | kinnitab |
+| 201 | 23 | glass.css (failisisene) | uus leid |
+| 187 | 11 | lib/admin/rag/kov/service.js (failisisene) | kinnitab |
+| 183 | 5 | documents-ui.shared.css ↔ theme/hc.css | uus leid — 81-realine plokk (660–740) on hc.css-is KAKS korda (1051–1117 ja 1518–1584) → kolmekordne koopia |
+| 143 | 4 | supportDraftText.js ↔ supportDrafts.js | kinnitab |
+| 134 | 10 | AccessibilityModal.jsx ↔ RegistreerimineBody.jsx | uus leid |
+| 128 | 1 | api/admin/analytics/payment-alerts/dispatch ↔ summary | üksainus 128-realine järjestikune kloon (106–233 ↔ 456–583) — lihtsaim võit JS-poolel |
+| 122 | 6 | api/documents/artifacts/generate ↔ artifacts/route.js | uus leid |
+| 89 | 7 | UuendaEpostiBody.jsx ↔ UuendaPinBody.jsx | uus leid |
+
+**Mõju punktile 3 (ühendatavad CSS-dubleerimised):** lisanduvad hc.css failisisesed plokid, OrbitalMenu.css sisemine kordus ja documents-ui.shared.css ploki kolmekordne koopia hc.css-is. Teemafailide (hc/mono/dark) failisisesed kordused on tüüpiliselt copy-paste teemaülekirjutused — neid saab koondada ühisteks selektorigruppideks, aga iga muudatus vajab visuaalset kontrolli hc-režiimis.
+
+**Mõju punktile 6 (turvaline järjekord):** JS-poolel on lihtsaim esimene samm analytics dispatch↔summary 128-realise ploki ühine helper (üks kloon, selged piirid), seejärel records.js factory. CSS-poolel jääb soovitus samaks; hc.css koondamine on suurem eraldi ettevõtmine.
+
+---
+
+## Lisa (täiendus, 11.06): ametliku knip tulemused
+
+Knip jooksis kasutaja Windowsi-masinas edukalt. Tulemused kinnitavad selle raporti järeldusi:
+
+- **Kasutamata faile: 0** — kinnitab impordigraafi analüüsi.
+- **Kasutamata dependency'sid: 0** (runtime). Ainus kasutamata devDependency knipi järgi on `jscpd` ise — sest ükski npm-skript seda ei viita. Lahendus: lisa skript nt `"dup:check": "jscpd . --pattern ..."` või knip.json ignoreDependencies'sse.
+- **Kasutamata exporte: 91** — kattub minu 92-ga ~85% ulatuses. Mõlema tööriista union on lõplik nimekiri.
+
+**Knipi uued leiud, mida mu skann ei tabanud:**
+
+| Leid | Selgitus |
+|---|---|
+| lib/help/intents.js: HELP_CHAT_INTENTS | päriselt export-üleliigne; mu skann luges valesti kasutatuks, sest subscriptionGate.js-is on sarnane nimi FREE_HELP_CHAT_INTENTS (substring-kattuvus) |
+| lib/materials/server.js:13: sanitizeTextFilename (re-export) | kõik tarbijad impordivad @/lib/documents/server kaudu; materials/server.js re-export on kasutuseta |
+| lib/retention.js: PAYMENT_RETENTION_DAYS, PAYMENT_RAW_RETENTION_DAYS, LOG_RETENTION_DAYS | export-üleliigsed (kasutusel oma failis) |
+| lib/rag/sourceMetadata.js: RAG_SOURCE_TYPE_SET | export-üleliigne |
+| lib/serviceProviderProfiles.js:8: SERVICE_MAP_ENTRY_TYPES (re-export) | re-export kasutuseta |
+| lib/wellbeing/supportDrafts.js + supportDraftText.js: WELLBEING_OUTPUT_TYPES, WELLBEING_RECIPIENT_TYPES | mõlemas failis export-üleliigsed — ühtlasi p 4 dubleerimise (supportDrafts ↔ supportDraftText) sümptom |
+| Duplicate exports (3) | lib/prisma.js (prisma + default — kahjutu muster), lib/help/matches.js (createHelpMatchAndRoom = createHelpMatch alias), lib/admin/rag/sourcePackages/formsContactsAudit.js (buildFormsContactsAudit = buildJogevaFormsContactsAudit alias) — aliase-exportid, mille võiks ühtlustada |
+| Unlisted binaries: systemctl (2 skripti) | serveripoolsed ingest-skriptid — OK, lisa soovi korral knip.json ignoreBinaries'sse |
+
+**Vale häire, mida tasub teada:** knip märgib `runRetentionCleanup` (lib/retention.js:90) kasutamatuks. Funktsioon ise TÖÖTAB — seda kutsub samas failis `maybeRunRetentionCleanup` (rida 456), mida omakorda käivitavad chat-route'id (`runRetentionCleanup: true` optsioon routeServerUtils-is on sama nimega boolean, mitte see funktsioon). Üleliigne on ainult `export`-märge, mitte kood. Andmete kustutusrutiin EI ole katki.
+
+**Parandus selle raporti p 4-s:** `isDirectPinLoginAllowed` (lib/auth/pin-login.js) oli ekslikult surnud-nimekirjas — see on kasutusel juurfailis auth.js:11,41, mida mu export-skann ei katnud. Knip seda õigesti ei märkinud. Surnud exporte on seega 13, mitte 14; ülejäänud 13 on juurfailide vastu üle kontrollitud ja jäävad jõusse.
+
+**@playwright/test nüanss:** knip EI märgi seda kasutamatuks, sest npm-skript `test:e2e` viitab playwright-binaarile. Funktsionaalselt on see siiski surnud (repos pole ühtegi playwright.config'i ega *.spec faili) — soovitus p 5-s jääb kehtima.

@@ -1,4 +1,4 @@
-﻿# SotsiaalAI tööalase kasutamise ja isikuandmete töötlemise kokkulepe
+# SotsiaalAI tööalase kasutamise ja isikuandmete töötlemise kokkulepe
 
 ## Töötajale lühidalt
 
