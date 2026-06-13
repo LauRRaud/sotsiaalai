@@ -368,8 +368,15 @@ async function main() {
   const sessionCookie = process.env.SNAPSHOT_SESSION || null;
   const token = needsAuth && !sessionCookie ? args.token || generateToken() : null;
 
-  const browser = await chromium.launch({ headless: !args.headed });
-  const context = await browser.newContext({ deviceScaleFactor: 1 });
+  // reducedMotion + GPU-light flags: every page mounts a heavy animated
+  // background (WebGL/canvas) that crashes the headless renderer under repeated
+  // theme reloads. reduced-motion routes the app to its cheap static background;
+  // the DOM stays present so CSS rules still match.
+  const browser = await chromium.launch({
+    headless: !args.headed,
+    args: ["--disable-dev-shm-usage", "--disable-gpu"],
+  });
+  const context = await browser.newContext({ deviceScaleFactor: 1, reducedMotion: "reduce" });
   if (needsAuth && sessionCookie) {
     const { hostname } = new URL(args.baseUrl);
     await context.addCookies([{ name: "next-auth.session-token", value: sessionCookie, domain: hostname, path: "/", httpOnly: true, sameSite: "Lax" }]);
@@ -377,6 +384,7 @@ async function main() {
   const page = await context.newPage();
   page.setDefaultNavigationTimeout(120000);
   page.setDefaultTimeout(30000);
+  page.on("crash", () => process.stderr.write("  ⚠ page renderer crashed\n"));
   if (token) await login(page, args.baseUrl, token);
 
   const cdp = await context.newCDPSession(page);
@@ -395,22 +403,29 @@ async function main() {
         process.stderr.write(`  ⚠ ${r.route} @${vp.id}: navigation failed (${String(e.message).split("\n")[0]})\n`);
         continue;
       }
+      let okThemes = 0;
       for (const theme of THEMES) {
-        await applyTheme(page, theme);
-        await freezeMotion(page);
-        await flush(page);
+        try {
+          await applyTheme(page, theme);
+          await freezeMotion(page);
+          await flush(page);
 
-        const { seen, invalid } = await existencePass(page, rules);
-        for (const id of seen) everSeen.add(id);
-        for (const id of invalid) keepInvalid.add(id);
+          const { seen, invalid } = await existencePass(page, rules);
+          for (const id of seen) everSeen.add(id);
+          for (const id of invalid) keepInvalid.add(id);
 
-        if (args.states) {
-          const { root } = await cdp.send("DOM.getDocument", { depth: -1 });
-          const eff = await behaviourPass(cdp, root.nodeId, rules, args.maxStateEls);
-          for (const id of eff) everEffective.add(id);
+          if (args.states) {
+            const { root } = await cdp.send("DOM.getDocument", { depth: -1 });
+            const eff = await behaviourPass(cdp, root.nodeId, rules, args.maxStateEls);
+            for (const id of eff) everEffective.add(id);
+          }
+          okThemes += 1;
+        } catch (e) {
+          process.stderr.write(`  ⚠ ${r.route} @${vp.id} theme=${theme.id}: ${String(e.message).split("\n")[0]}\n`);
+          if (page.isClosed()) throw new Error("page/browser closed — aborting run");
         }
       }
-      process.stderr.write(`  ✓ ${r.route} @${vp.id} (HTTP ${landed})\n`);
+      process.stderr.write(`  ✓ ${r.route} @${vp.id} (HTTP ${landed}, ${okThemes}/${THEMES.length} themes)\n`);
     }
   }
   await browser.close();
