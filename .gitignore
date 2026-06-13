@@ -89,3 +89,4 @@ app/styles/*.zip
 
 # Local-only e2e/test helper scripts (create local test accounts; never commit)
 scripts/tmp-*.mjs
+reports/css-snapshots/
