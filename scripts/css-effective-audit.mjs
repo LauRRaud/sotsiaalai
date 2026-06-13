@@ -78,8 +78,13 @@ const VIEWPORTS = [
   { id: "wide", width: 1920, height: 1080 },
 ];
 
-const CSS_GLOBS = ["app/styles/**/*.css"];
-const IGNORE = ["**/.next/**", "**/node_modules/**", "**/.git/**", "**/safety_snapshots/**"];
+// Global stylesheets (app/styles) PLUS plain component .css imported as side
+// effects (literal class names → auditable). CSS Modules (*.module.css) are
+// EXCLUDED: their class names are hashed at build, so the rendered DOM never
+// contains the source selector → querySelector would flag every rule dead.
+// Modules need the matched-rules/snapshot tools, not this dead-detector.
+const CSS_GLOBS = ["app/styles/**/*.css", "components/**/*.css"];
+const IGNORE = ["**/.next/**", "**/node_modules/**", "**/.git/**", "**/safety_snapshots/**", "**/*.module.css"];
 
 // Dynamic (state) pseudo-classes — these are what the behaviour pass forces.
 // Structural pseudos (:not/:is/:where/:has/:nth-*/:first-*) are KEPT in the base
@@ -107,6 +112,8 @@ function parseArgs(argv) {
     headed: false,
     states: true,
     maxStateEls: 6,
+    mountStates: true,
+    maxTriggers: 30,
     ignore: "scripts/css-effective-audit.ignore.json",
   };
   for (let i = 0; i < argv.length; i++) {
@@ -118,6 +125,8 @@ function parseArgs(argv) {
     else if (a === "--headed") out.headed = true;
     else if (a === "--no-states") out.states = false;
     else if (a === "--max-state-els") out.maxStateEls = Number(argv[++i]);
+    else if (a === "--no-mount-states") out.mountStates = false;
+    else if (a === "--max-triggers") out.maxTriggers = Number(argv[++i]);
     else if (a === "--ignore") out.ignore = argv[++i];
     else if (a === "--no-ignore") out.ignore = null;
     else throw new Error(`Unknown argument: ${a}`);
@@ -365,6 +374,57 @@ async function behaviourPass(cdp, rootNodeId, rules, maxEls) {
   return effective;
 }
 
+// Open JS-mounted popups (dropdowns/menus/comboboxes) so their conditionally
+// rendered DOM exists, then re-test existence. SAFE BY DESIGN: only triggers
+// elements with explicit popup ARIA — by contract these open a popup, never
+// submit/mutate. We deliberately do NOT click class-matched buttons (would risk
+// data mutation in the authed session). Each open is reset with Escape so the
+// next trigger is reachable; if a click navigates, we stop and let the caller
+// re-land the route.
+const POPUP_TRIGGER_SEL = [
+  '[aria-haspopup="listbox"]',
+  '[aria-haspopup="menu"]',
+  '[aria-haspopup="true"]',
+  '[aria-haspopup="dialog"]',
+  '[role="combobox"]',
+  '[aria-expanded="false"]',
+].join(",");
+
+async function mountStatesPass(page, rules, maxTriggers) {
+  const seenAll = new Set();
+  const startUrl = page.url();
+  let triggers;
+  try {
+    triggers = await page.$$(POPUP_TRIGGER_SEL);
+  } catch {
+    return seenAll;
+  }
+  let opened = 0;
+  for (const h of triggers) {
+    if (opened >= maxTriggers) break;
+    try {
+      const visible = await h.isVisible().catch(() => false);
+      if (!visible) continue;
+      await h.click({ timeout: 800 });
+      await flush(page);
+      if (page.url() !== startUrl) {
+        // a trigger navigated instead of opening a popup — abort, caller re-lands
+        await page.goto(startUrl, { waitUntil: "domcontentloaded" }).catch(() => {});
+        break;
+      }
+      const { seen } = await existencePass(page, rules);
+      for (const id of seen) seenAll.add(id);
+      opened += 1;
+      await page.keyboard.press("Escape").catch(() => {});
+      await flush(page);
+    } catch {
+      // not clickable / detached / intercepted — skip, reset any open layer
+      await page.keyboard.press("Escape").catch(() => {});
+    }
+  }
+  return seenAll;
+}
+
 function computedDiffers(a, b) {
   const mapA = new Map(a.map((p) => [p.name, p.value]));
   for (const p of b) {
@@ -484,7 +544,20 @@ async function main() {
           process.stderr.write(`  ⚠ ${r.route} @${vp.id} android-pass: ${String(e.message).split("\n")[0]}\n`);
         }
       }
-      process.stderr.write(`  ✓ ${r.route} @${vp.id} (HTTP ${landed}, ${okThemes}/${THEMES.length} themes)\n`);
+      // mount-states pass: open ARIA popups (dropdowns/menus/comboboxes) so their
+      // conditionally-rendered DOM exists, then re-test existence. Unlocks the big
+      // "JS-state-gated false dead" bucket (documents-dropdown, etc.) safely.
+      let mounted = 0;
+      if (args.mountStates && !page.isClosed()) {
+        try {
+          const seen = await mountStatesPass(page, rules, args.maxTriggers);
+          mounted = seen.size;
+          for (const id of seen) everSeen.add(id);
+        } catch (e) {
+          process.stderr.write(`  ⚠ ${r.route} @${vp.id} mount-states: ${String(e.message).split("\n")[0]}\n`);
+        }
+      }
+      process.stderr.write(`  ✓ ${r.route} @${vp.id} (HTTP ${landed}, ${okThemes}/${THEMES.length} themes${mounted ? `, +${mounted} via popups` : ""})\n`);
     }
   }
   await browser.close();
