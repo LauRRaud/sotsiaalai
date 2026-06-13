@@ -21,5 +21,20 @@
     "themes": ["hc"],
     "selectors": ["[role=\"tooltip\"]"],
     "properties": ["border-top-width", "border-top-style", "border-top-color", "background-clip"]
+  },
+  {
+    "name": "dropdown-trigger",
+    "route": "/documents",
+    "auth": true,
+    "selectors": [".documents-dropdown-trigger", ".documents-dropdown-label"],
+    "properties": ["background", "background-color", "border-top-width", "border-top-color", "box-shadow", "color", "opacity"]
+  },
+  {
+    "name": "dropdown-menu-open",
+    "route": "/documents",
+    "auth": true,
+    "steps": [{ "click": ".documents-dropdown-trigger" }],
+    "selectors": [".documents-dropdown-menu", ".documents-dropdown-item"],
+    "properties": ["background", "background-color", "border-top-width", "border-top-color", "box-shadow", "color", "opacity"]
   }
 ]
