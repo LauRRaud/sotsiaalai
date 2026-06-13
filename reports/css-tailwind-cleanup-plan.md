@@ -9,6 +9,22 @@ Struktuurne restruktuur (vertikaalid, shared/, feature-failid, rail-dedup, orbii
 
 ---
 
+## 0. Põhiidee: brauseri efektiivne stiil ON spetsifikatsioon
+
+Kogu lähenemise süda: **mida brauser elemendile renderdab, on VÕITEV (efektiivne) kujundus — ja see on per definitsioon "sobiv", sest see on see, mida kasutaja näeb.** Tööriist analüüsib elementi just brauseris: jäädvustab võitva arvutatud stiili.
+
+Seega disain ise on (enamasti) õige — **võlg on STRUKTUURNE: võitev kujundus elab tihti VALES kohas.** Näiteks võitev nupu-stiil tuleb mõnest scattered feature/teema-reeglist (mis juhtub kaskaadis viimasena võitma), mitte kanoonilisest komponendist. Kustunud (kaotanud) reeglid on ballast.
+
+Sellest järeldub kogu protsess:
+1. **Brauser = tõe allikas** "mis disain IS" (võitev computed value).
+2. **`css-matched-rules`** ütleb, KUS iga panustav reegel elab ja milline võidab (`[N/6 states]`).
+3. **Korrastus** = vii võitev kujundus õigesse kohta (kanooniline komponent / teema-token), eemalda kaotajad.
+4. **`css-snapshot` diff** tõestab, et võitev computed value EI muutunud → ohutu.
+
+Tagajärg: `!important`-id ja scattered reeglid **kaovad kõrvalsaadusena**, kui struktuur paika saab — neid ei jahita otse.
+
+---
+
 ## 1. Probleem: 2 juurt, 5 sümptomit (mõõdetud)
 
 Mõõdik: **4637 `!important`** CSS-is, **1360 Tailwindi `!`-modifikaatorit** JSX-is, **2/93** CSS-faili kasutab `@layer`.
@@ -18,6 +34,14 @@ Mõõdik: **4637 `!important`** CSS-is, **1360 Tailwindi `!`-modifikaatorit** JS
 **Juur B — override-põhine teemamine.** `:not(.theme-X)`-ahelad (vaiketeema "dark jama") + ~1680 `!important` pinna-omadustel (background/box-shadow/color/border/backdrop-filter) + värvi-dubleerimine = **sama probleem**. Teemamine on suuresti juba `var()`-põhine; võlg on `:not()`-ahela STRUKTUUR + pinna-`!important`.
 
 **Sümptom-erijuht — nupud.** Üks loogiline nupp (nt "saada kutse" / `.invite-refresh-btn`) on stiilitud ~20 scattered reegliga (mono/hc/chat/register/dark failides); osa on surnud (täielikult üle kirjutatud), osa legitiimsed teema-override'id, mis peaksid elama komponendis. Kanoonilised nupu-komponendid ON OLEMAS (`components/ui/Button.jsx`, `BackButton`, `CloseButton`, `IconButton`). Lõppseis: nupu disain = komponent + variandid + teema-tokenid; null scattered nupu-CSS.
+
+### `!important` strateegia: tagajärg, mitte siht
+4637 `!important`-it EI kustutata ükshaaval. Need on **sümptom** — kahe juure tagajärg:
+- **Juur A** (kihid): kihistamata CSS võidab Tailwindi → arendajad sunnivad Tailwindi `!`-iga (1360×) → CSS võitleb vahel `!important`-iga tagasi. **Parandus = kihi-arhitektuur** (faas 3) → `!important`/`!` muutuvad ülearuseks.
+- **Juur B** (override-teemamine): ~1680 pinna-`!important`-it on per-teema override'ide spetsiifikatsiooni-sõjad. **Parandus = muutujastamine** (`var()` + token, faas 4) → teema "võidab" muutuja kaudu, mitte `!important`-iga.
+- **Scattered nupud:** võitja-reeglil on tihti `!important`, sest ta peab kaotajaid ületama. **Parandus = konsolideeri kanoonilisse komponenti** (faas 2) → kaotajad kaovad, võitja ei vaja enam `!important`-it.
+
+Niisiis: `!important`-i arv on **edenemise mõõdik**, mitte ülesannete nimekiri. Iga struktuurne faas langetab seda loomulikult; jälgi `grep -rc "!important"` trendina.
 
 ---
 
@@ -42,6 +66,8 @@ Mitte per-element käsitsi-skript (ei skaleeru tuhandetele elementidele). Kolm �
 - **`scripts/css-matched-rules.mjs`** — CDP matched-rules inventuur: per selektor kõik sobivad reeglid + `[N/6 states]` + deklaratsioonid + (kompileeritud) asukoht. Leiab "nupu 10 kujundust" ja eristab teema-tingimuslikke (`[1/6]`) tingimusteta (`[6/6]`) reeglitest.
 
 Auth: testkonto token (`tmp-create-login-token.mjs`) või `SNAPSHOT_SESSION` cookie. NB Git Bash: `MSYS_NO_PATHCONV=1` `/route` argumendi jaoks.
+
+**Serveri stabiilsus — eelista production-buildi.** `npm run dev` on snapshot'imisel ebastabiilne: iga teema-reload võib käivitada route-rekompileerimise, mis korduvalt + samaaegse brauseriga ammendab mälu → server sureb/ripub. **Soovitus:** jooksuta snapshot'e vastu `next build` → `next start` — ei rekompileeri, stabiilne, ja serveerib päris production-CSS-i (täpsem). Hind: before/after vahel uus build (CSS muutus). Ja: **ära jooksuta mitut capture'it korraga.**
 
 ---
 

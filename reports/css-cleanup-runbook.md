@@ -14,7 +14,12 @@ before and after, across every theme and viewport.** That is exactly what
 `scripts/css-snapshot.mjs` captures and `scripts/css-snapshot-diff.mjs` checks.
 
 ## Prerequisites
-1. Dev server on http://localhost:3000 (`npm run dev`).
+1. App on http://localhost:3000. **Prefer a production build** (`next build`
+   then `next start`) for snapshot runs — `npm run dev` recompiles routes on
+   every theme reload and, under repeated reloads + a headless browser, exhausts
+   memory and dies/hangs. `next start` does not recompile, is stable, and serves
+   real production CSS. Rebuild between the before/after captures (the CSS
+   changed). Do NOT run multiple captures concurrently.
 2. A way to authenticate the test account (pages are behind login):
    - the harness auto-generates a token via `scripts/tmp-create-login-token.mjs`
      (needs the dev DB / `.env.local`), or
