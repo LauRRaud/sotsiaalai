@@ -107,6 +107,7 @@ function parseArgs(argv) {
     headed: false,
     states: true,
     maxStateEls: 6,
+    ignore: "scripts/css-effective-audit.ignore.json",
   };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
@@ -117,6 +118,8 @@ function parseArgs(argv) {
     else if (a === "--headed") out.headed = true;
     else if (a === "--no-states") out.states = false;
     else if (a === "--max-state-els") out.maxStateEls = Number(argv[++i]);
+    else if (a === "--ignore") out.ignore = argv[++i];
+    else if (a === "--no-ignore") out.ignore = null;
     else throw new Error(`Unknown argument: ${a}`);
   }
   if (!out.out) {
@@ -245,6 +248,20 @@ function toBase(selector) {
   // a trailing combinator left behind (e.g. "a:hover >" → "a >") is invalid
   base = base.replace(/[>+~]\s*$/g, "").trim();
   return { base, pseudos, subjectPseudos };
+}
+
+// Known false-positive patterns: selectors that render via a runtime mechanism
+// the static crawl cannot exercise (JS-injected classes, template-literal class
+// names). Matched rules are diverted out of the dead verdict into keptDynamic.
+function loadIgnore(file) {
+  if (!file) return [];
+  try {
+    const doc = JSON.parse(readFileSync(file, "utf8"));
+    return (doc.ignore ?? []).map((e) => ({ re: new RegExp(e.pattern), reason: e.reason }));
+  } catch (e) {
+    process.stderr.write(`  ⚠ ignore file ${file}: ${String(e.message).split("\n")[0]} — proceeding without it\n`);
+    return [];
+  }
 }
 
 function loadCssUniverse() {
@@ -474,15 +491,20 @@ async function main() {
 
   // ---- classify ----
   const staticDead = staticNotSeen();
+  const ignorePatterns = loadIgnore(args.ignore);
+  const ignoredReason = (sel) => ignorePatterns.find((p) => p.re.test(sel))?.reason;
   const deadNoElement = [];   // base never matched anything anywhere
   const deadStateNoOp = [];   // element exists but forced state changed nothing
+  const keptDynamic = [];     // would be dead, but selector is a known runtime-dynamic FP
   for (const r of rules) {
     if (!r.testable || keepInvalid.has(r.id)) continue;
-    if (!everSeen.has(r.id)) {
-      deadNoElement.push(r);
-    } else if (args.states && r.forcePseudos.length > 0 && !everEffective.has(r.id)) {
-      deadStateNoOp.push(r);
-    }
+    const isDead = !everSeen.has(r.id);
+    const isStateNoOp = !isDead && args.states && r.forcePseudos.length > 0 && !everEffective.has(r.id);
+    if (!isDead && !isStateNoOp) continue;
+    const reason = ignoredReason(r.selector);
+    if (reason) { keptDynamic.push({ ...r, ignoreReason: reason }); continue; }
+    if (isDead) deadNoElement.push(r);
+    else deadStateNoOp.push(r);
   }
 
   const decorate = (r) => {
@@ -491,6 +513,7 @@ async function main() {
       file: r.file, line: r.line, selector: r.selector,
       media: r.media || undefined,
       alsoStaticDead: cls ? staticDead.has(cls) : undefined,
+      ignoreReason: r.ignoreReason || undefined,
     };
   };
 
@@ -505,10 +528,12 @@ async function main() {
     summary: {
       deadNoElement: deadNoElement.length,
       deadStateNoOp: deadStateNoOp.length,
+      keptDynamic: keptDynamic.length,
       keptInvalidBase: keepInvalid.size,
     },
     deadNoElement: deadNoElement.map(decorate).sort(sortCand),
     deadStateNoOp: deadStateNoOp.map(decorate).sort(sortCand),
+    keptDynamic: keptDynamic.map(decorate).sort(sortCand),
   };
 
   mkdirSync(path.dirname(args.out), { recursive: true });
@@ -519,6 +544,7 @@ async function main() {
     `\nwrote ${args.out}\n` +
       `  dead (element never renders): ${deadNoElement.length}\n` +
       `  dead (state changes nothing): ${deadStateNoOp.length}\n` +
+      `  kept (known runtime-dynamic FP): ${keptDynamic.length}\n` +
       `  high-confidence (also static-dead): ${report.deadNoElement.filter((c) => c.alsoStaticDead).length}\n` +
       `\nNEXT: these are CANDIDATES. Verify each via the snapshot gate before removal —\n` +
       `JS-mounted states (modals/empty/error) and reserved/test-guarded CSS show here too.\n`
@@ -557,6 +583,10 @@ function writeMarkdown(file, report) {
     "Base selector matched zero elements on any page/theme/viewport.");
   section("Dead — state changes nothing", report.deadStateNoOp,
     "Element exists, but forcing :hover/:active/:focus/:disabled changed no computed value.");
+  if (report.keptDynamic?.length) {
+    section("Kept — known runtime-dynamic (NOT dead)", report.keptDynamic,
+      "Matched a css-effective-audit.ignore.json pattern: renders via JS-injected/template-literal classes the crawl can't exercise.");
+  }
   writeFileSync(file, lines.join("\n"));
 }
 

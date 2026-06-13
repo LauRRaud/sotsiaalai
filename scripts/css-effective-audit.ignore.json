@@ -1,0 +1,26 @@
+{
+  "_comment": [
+    "Known false-positive patterns for css-effective-audit.mjs. A rule whose",
+    "FULL selector matches any regex below is diverted out of the 'dead' verdict",
+    "into a separate keptDynamic bucket — it renders at runtime via a mechanism",
+    "the static crawl cannot exercise (JS-injected classes, template-literal",
+    "class names). Keep this list SURGICAL: only add a pattern after verifying the",
+    "runtime source. Do NOT add state-gated app classes here — those belong to the",
+    "JS-mounted-state pass (modals/dropdowns/open), not to permanent ignores.",
+    "Each entry: { pattern (JS regex, tested against selector string), reason }."
+  ],
+  "ignore": [
+    {
+      "pattern": "\\.leaflet-",
+      "reason": "Leaflet injects .leaflet-* DOM + classes at runtime on the map; never in static markup."
+    },
+    {
+      "pattern": "\\.service-map-leaflet__",
+      "reason": "Leaflet marker/status variants built in JS (ServiceMapLeaflet); class names assembled at runtime."
+    },
+    {
+      "pattern": "\\.documents-dropdown--(align|open)-",
+      "reason": "Template-literal class `documents-dropdown--align-${align}`/`--open-${dir}` (DocumentsDropdown.jsx:129); static scan can't see the interpolated suffix."
+    }
+  ]
+}

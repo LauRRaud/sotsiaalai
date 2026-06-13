@@ -1,29 +1,5 @@
 /* Consolidated accessibility and HC rules. */
 
-.skip-link {
-  position: absolute;
-  left: -10000px;
-  top: auto;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-}
-.skip-link:focus {
-  left: 1rem;
-  top: 1rem;
-  width: auto;
-  height: auto;
-  padding: 0.5rem 0.75rem;
-  background: #000;
-  color: #fff;
-  border-radius: 0.25rem;
-  z-index: 10000;
-}
-@media (max-width: 768px) {
-  .skip-link {
-    display: none;
-  }
-}
 :where(
   a,
   button,

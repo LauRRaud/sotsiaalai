@@ -1,10 +1,8 @@
 {
-  "capturedAt": "2026-06-13T12:06:53.997Z",
-  "mergedFrom": [
-    "reports/css-effective-audit/2026-06-13-4vp-fpfix.json",
-    "reports/css-effective-audit/2026-06-13-tooheaolu.json"
-  ],
-  "routes": 38,
+  "capturedAt": "2026-06-13T11:45:50.203Z",
+  "baseUrl": "http://localhost:3000",
+  "statesPass": true,
+  "routes": 26,
   "themes": [
     "light",
     "mid",
@@ -21,11 +19,48 @@
   ],
   "universe": 3242,
   "summary": {
-    "deadNoElement": 929,
-    "deadStateNoOp": 44,
-    "keptDynamic": 36
+    "deadNoElement": 1248,
+    "deadStateNoOp": 62,
+    "keptInvalidBase": 0
   },
   "deadNoElement": [
+    {
+      "file": "app\\styles\\features\\documents\\ui.css",
+      "line": 264,
+      "selector": ".documents-dropdown--align-start .documents-dropdown-menu",
+      "alsoStaticDead": true
+    },
+    {
+      "file": "app\\styles\\features\\documents\\ui.css",
+      "line": 269,
+      "selector": ".documents-dropdown--align-end .documents-dropdown-menu",
+      "alsoStaticDead": true
+    },
+    {
+      "file": "app\\styles\\features\\documents\\ui.css",
+      "line": 274,
+      "selector": ".documents-dropdown--open-up .documents-dropdown-menu",
+      "alsoStaticDead": true
+    },
+    {
+      "file": "app\\styles\\theme\\hc.css",
+      "line": 3,
+      "selector": ".skip-link",
+      "alsoStaticDead": true
+    },
+    {
+      "file": "app\\styles\\theme\\hc.css",
+      "line": 11,
+      "selector": ".skip-link:focus",
+      "alsoStaticDead": true
+    },
+    {
+      "file": "app\\styles\\theme\\hc.css",
+      "line": 23,
+      "selector": ".skip-link",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": true
+    },
     {
       "file": "app\\styles\\base\\animations.css",
       "line": 79,
@@ -108,7 +143,21 @@
     {
       "file": "app\\styles\\base\\core.css",
       "line": 125,
+      "selector": "html[data-ui-scale=\"mac\"] .click-pulse-cursor",
+      "media": "@media (min-width: 769px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\base\\core.css",
+      "line": 125,
       "selector": "html[data-ui-scale=\"lg\"] .click-pulse-cursor",
+      "media": "@media (min-width: 769px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\base\\core.css",
+      "line": 131,
+      "selector": "html[data-ui-scale=\"mac\"] .home-scroll-cue .home-scroll-cue-mouse",
       "media": "@media (min-width: 769px)",
       "alsoStaticDead": false
     },
@@ -204,13 +253,31 @@
     {
       "file": "app\\styles\\base\\core.css",
       "line": 290,
+      "selector": "html[data-reduce-transparency=\"1\"] :is(.glass-box, .glass-ring, .chat-mask-layer, .profile-mask-layer)::before",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\base\\core.css",
+      "line": 290,
       "selector": "html[data-reduce-transparency=\"1\"] :is(.glass-box, .glass-ring, .chat-mask-layer, .profile-mask-layer)::after",
       "alsoStaticDead": false
     },
     {
       "file": "app\\styles\\base\\layout.css",
       "line": 1,
+      "selector": "html.modal-open",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\base\\layout.css",
+      "line": 1,
       "selector": "body.modal-open",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\base\\layout.css",
+      "line": 6,
+      "selector": "html.chat-analysis-scroll-open",
       "alsoStaticDead": false
     },
     {
@@ -247,6 +314,16 @@
       "line": 26,
       "selector": ".chat-send-btn.stop",
       "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\base\\typography.css",
+      "line": 32,
+      "selector": "select"
+    },
+    {
+      "file": "app\\styles\\base\\typography.css",
+      "line": 32,
+      "selector": "input[type=\"number\"]"
     },
     {
       "file": "app\\styles\\base\\typography.css",
@@ -306,6 +383,13 @@
     {
       "file": "app\\styles\\components\\journey.css",
       "line": 100,
+      "selector": ".journey-morph-panel",
+      "media": "@media (prefers-reduced-motion: reduce)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\components\\journey.css",
+      "line": 100,
       "selector": ".journey-review-panel",
       "media": "@media (prefers-reduced-motion: reduce)",
       "alsoStaticDead": false
@@ -326,6 +410,12 @@
       "file": "app\\styles\\components\\selected-listing.css",
       "line": 55,
       "selector": ".selected-listing-body--inline",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\components\\selected-listing.css",
+      "line": 61,
+      "selector": ".selected-listing-body--inline > *",
       "alsoStaticDead": false
     },
     {
@@ -368,6 +458,12 @@
       "file": "app\\styles\\components\\workspace-help-listings.css",
       "line": 50,
       "selector": ".help-listings-scroll",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\components\\workspace-help-listings.css",
+      "line": 56,
+      "selector": ".help-listings-scroll > *",
       "alsoStaticDead": false
     },
     {
@@ -423,6 +519,12 @@
     {
       "file": "app\\styles\\features\\chat\\hc.css",
       "line": 21,
+      "selector": "html[data-contrast=\"hc\"] body .chat-scroll-down-btn",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\hc.css",
+      "line": 21,
       "selector": "html[data-contrast=\"hc\"] body .chat-scroll-down-btn:is(:hover, :focus-visible, :active)",
       "alsoStaticDead": false
     },
@@ -441,7 +543,19 @@
     {
       "file": "app\\styles\\features\\chat\\hc.css",
       "line": 39,
+      "selector": "body .chat-analysis-close-btn",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\hc.css",
+      "line": 39,
       "selector": "body .chat-analysis-close-btn:is(:hover, :focus-visible, :active)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\hc.css",
+      "line": 98,
+      "selector": "html[data-contrast=\"hc\"] body .chat-inputbar .chat-send-btn .chat-send-stop-glyph",
       "alsoStaticDead": false
     },
     {
@@ -466,6 +580,12 @@
       "file": "app\\styles\\features\\chat\\hc.css",
       "line": 131,
       "selector": "html[data-contrast=\"hc\"] body .chat-tools-surface-popover",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\hc.css",
+      "line": 142,
+      "selector": "html[data-contrast=\"hc\"] body .chat-tools-menu .chat-tools-item:hover",
       "alsoStaticDead": false
     },
     {
@@ -514,6 +634,12 @@
       "file": "app\\styles\\features\\chat\\hc.css",
       "line": 262,
       "selector": "html[data-contrast=\"hc\"] body .chat-analysis-overlay-hint",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\hc.css",
+      "line": 268,
+      "selector": "html[data-contrast=\"hc\"] body .chat-analysis-overlay .chat-analysis-close-btn",
       "alsoStaticDead": false
     },
     {
@@ -586,6 +712,12 @@
       "file": "app\\styles\\features\\chat\\hc.css",
       "line": 533,
       "selector": "html[data-contrast=\"hc\"] .drawer-panel--chat-glass .drawer-chat-sidebar .cs-delete:is(:hover, :focus-visible)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\hc.css",
+      "line": 559,
+      "selector": "html[data-contrast=\"hc\"] .drawer-panel--chat-glass .drawer-chat-sidebar .cs-delete .cs-trash-icon",
       "alsoStaticDead": false
     },
     {
@@ -722,13 +854,31 @@
     {
       "file": "app\\styles\\features\\chat\\mono.css",
       "line": 123,
+      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .drawer-panel--chat-glass .cs-trash-icon",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\mono.css",
+      "line": 123,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .drawer-panel--chat-glass .cs-trash-icon :is(path, polyline, line)",
       "alsoStaticDead": false
     },
     {
       "file": "app\\styles\\features\\chat\\mono.css",
       "line": 153,
+      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .chat-rail-icon-btn .back-icon-dot.back-icon-dot--outline",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\mono.css",
+      "line": 153,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is(.chat-rail-icon-btn, .chat-side-control-btn, .chat-tools-btn, .chat-document-attach-btn, .chat-listen-btn, .chat-send-btn, .chat-assistant-action-btn, .chat-dictate-btn) :is(circle.back-icon-dot.back-icon-dot--outline)[fill]",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\mono.css",
+      "line": 158,
+      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .chat-rail-icon-btn:is(:hover, :focus-visible) .back-icon-dot.back-icon-dot--outline",
       "alsoStaticDead": false
     },
     {
@@ -789,7 +939,25 @@
     {
       "file": "app\\styles\\features\\chat\\shell.css",
       "line": 42,
+      "selector": ".chat-msg-user",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\shell.css",
+      "line": 42,
+      "selector": ".chat-msg-user-bubble",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\shell.css",
+      "line": 42,
       "selector": ".chat-msg-user-bubble > *",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\shell.css",
+      "line": 54,
+      "selector": ".chat-msg-user-bubble",
       "alsoStaticDead": false
     },
     {
@@ -819,6 +987,13 @@
     {
       "file": "app\\styles\\features\\chat\\shell.css",
       "line": 181,
+      "selector": ".chat-page-shell\n    .chat-container.chat-container--round.chat-container--input-focus\n    .chat-back-button",
+      "media": "@media (min-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\shell.css",
+      "line": 181,
       "selector": ".chat-page-shell\n    .chat-container.chat-container--round.chat-layout-desktop:has(.chat-inputbar:focus-within)\n    .chat-back-button",
       "media": "@media (min-width: 768px)",
       "alsoStaticDead": false
@@ -826,7 +1001,35 @@
     {
       "file": "app\\styles\\features\\chat\\shell.css",
       "line": 194,
+      "selector": ".chat-page-shell\n    .chat-container.chat-container--round.chat-container--input-focus\n    .chat-back-button\n    .back-icon-arrow",
+      "media": "@media (min-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\shell.css",
+      "line": 194,
       "selector": ".chat-page-shell\n    .chat-container.chat-container--round.chat-layout-desktop:has(.chat-inputbar:focus-within)\n    .chat-back-button\n    .back-icon-arrow",
+      "media": "@media (min-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\shell.css",
+      "line": 205,
+      "selector": ".chat-page-shell\n    .chat-container.chat-container--round.chat-container--input-focus\n    .chat-back-button:hover\n    .back-icon-arrow",
+      "media": "@media (min-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\shell.css",
+      "line": 205,
+      "selector": ".chat-page-shell\n    .chat-container.chat-container--round.chat-container--input-focus\n    .chat-back-button:focus-visible\n    .back-icon-arrow",
+      "media": "@media (min-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\shell.css",
+      "line": 205,
+      "selector": ".chat-page-shell\n    .chat-container.chat-container--round.chat-layout-desktop:has(.chat-inputbar:focus-within)\n    .chat-back-button:hover\n    .back-icon-arrow",
       "media": "@media (min-width: 768px)",
       "alsoStaticDead": false
     },
@@ -928,6 +1131,24 @@
     {
       "file": "app\\styles\\features\\chat\\shell.css",
       "line": 647,
+      "selector": ".chat-container--input-focus .chat-inputbar > .chat-listen-btn",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\shell.css",
+      "line": 647,
+      "selector": ".chat-container--input-focus .chat-inputbar > .chat-send-btn",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\shell.css",
+      "line": 647,
+      "selector": ".chat-page-shell .chat-container.chat-container--round.chat-layout-desktop:has(.chat-inputbar:focus-within) .chat-inputbar > .chat-listen-btn",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\shell.css",
+      "line": 647,
       "selector": ".chat-page-shell .chat-container.chat-container--round.chat-layout-desktop:has(.chat-inputbar:focus-within) .chat-inputbar > .chat-send-btn",
       "alsoStaticDead": false
     },
@@ -946,6 +1167,12 @@
     {
       "file": "app\\styles\\features\\chat\\shell.css",
       "line": 692,
+      "selector": ":root.theme-light .chat-page-shell .chat-inputbar .chat-send-btn.ui-glow-button-frame > [class*=\"edgeLight\"]",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\shell.css",
+      "line": 692,
       "selector": ":root.theme-mid .chat-page-shell .chat-inputbar .chat-send-btn.ui-glow-button-frame > [class*=\"edgeLight\"]",
       "alsoStaticDead": false
     },
@@ -958,7 +1185,25 @@
     {
       "file": "app\\styles\\features\\chat\\shell.css",
       "line": 701,
+      "selector": ".chat-page-shell .chat-inputbar .chat-send-btn.ui-glow-button-frame[data-empty-disabled=\"true\"] > [class*=\"edgeLight\"]",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\shell.css",
+      "line": 701,
+      "selector": ".chat-page-shell .chat-inputbar .chat-send-btn.ui-glow-button-frame:disabled > [class*=\"edgeLight\"]",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\shell.css",
+      "line": 701,
       "selector": ".chat-page-shell .chat-inputbar .chat-send-btn.ui-glow-button-frame[aria-disabled=\"true\"] > [class*=\"edgeLight\"]",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\shell.css",
+      "line": 707,
+      "selector": ".chat-container--input-focus .chat-inputbar > .chat-listen-btn",
       "alsoStaticDead": false
     },
     {
@@ -970,7 +1215,19 @@
     {
       "file": "app\\styles\\features\\chat\\shell.css",
       "line": 712,
+      "selector": ".chat-container--input-focus .chat-inputbar > .chat-send-btn",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\shell.css",
+      "line": 712,
       "selector": ".chat-page-shell .chat-container.chat-container--round.chat-layout-desktop:has(.chat-inputbar:focus-within) .chat-inputbar > .chat-send-btn",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\shell.css",
+      "line": 717,
+      "selector": ".chat-container--input-focus .chat-inputbar > .chat-listen-btn svg",
       "alsoStaticDead": false
     },
     {
@@ -982,7 +1239,31 @@
     {
       "file": "app\\styles\\features\\chat\\shell.css",
       "line": 723,
+      "selector": ".chat-container--input-focus .chat-inputbar > .chat-listen-btn:hover svg",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\shell.css",
+      "line": 723,
+      "selector": ".chat-container--input-focus .chat-inputbar > .chat-listen-btn:focus-visible svg",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\shell.css",
+      "line": 723,
+      "selector": ".chat-page-shell .chat-container.chat-container--round.chat-layout-desktop:has(.chat-inputbar:focus-within) .chat-inputbar > .chat-listen-btn:hover svg",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\shell.css",
+      "line": 723,
       "selector": ".chat-page-shell .chat-container.chat-container--round.chat-layout-desktop:has(.chat-inputbar:focus-within) .chat-inputbar > .chat-listen-btn:focus-visible svg",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\shell.css",
+      "line": 731,
+      "selector": ":root:not(.theme-light):not([data-contrast=\"hc\"])\n  body\n  .chat-inputbar\n  .chat-send-btn[data-recording=\"true\"]",
       "alsoStaticDead": false
     },
     {
@@ -1066,6 +1347,12 @@
     {
       "file": "app\\styles\\features\\chat\\themes.css",
       "line": 55,
+      "selector": ":root.theme-light .drawer-panel .cs-delete:hover",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\themes.css",
+      "line": 55,
       "selector": ":root.theme-light .drawer-panel .cs-delete:focus-visible",
       "alsoStaticDead": false
     },
@@ -1114,6 +1401,18 @@
     {
       "file": "app\\styles\\features\\chat\\themes.css",
       "line": 300,
+      "selector": ":root.theme-light .chat-container--input-focus .chat-inputbar .chat-send-btn:hover",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\themes.css",
+      "line": 300,
+      "selector": ":root.theme-light .chat-container--input-focus .chat-inputbar .chat-send-btn:focus-visible",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\themes.css",
+      "line": 300,
       "selector": ":root.theme-light .chat-container--input-focus .chat-inputbar .chat-send-btn:active",
       "alsoStaticDead": false
     },
@@ -1138,13 +1437,31 @@
     {
       "file": "app\\styles\\features\\chat\\themes.css",
       "line": 344,
+      "selector": ":root.theme-mid .chat-page-shell [class*=\"leftRail\"] [class*=\"iconBtnActive\"]",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\themes.css",
+      "line": 344,
       "selector": ":root.theme-mid .chat-page-shell [class*=\"rightRail\"] [class*=\"iconBtnActive\"]",
       "alsoStaticDead": false
     },
     {
       "file": "app\\styles\\features\\chat\\themes.css",
       "line": 350,
+      "selector": ":root.theme-mid .drawer-panel .drawer-chat-card",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\themes.css",
+      "line": 350,
       "selector": ":root.theme-mid .drawer-chat-card",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\themes.css",
+      "line": 357,
+      "selector": ":root.theme-mid .drawer-panel .drawer-chat-card .cs-delete",
       "alsoStaticDead": false
     },
     {
@@ -1162,6 +1479,12 @@
     {
       "file": "app\\styles\\features\\chat\\themes.css",
       "line": 441,
+      "selector": ":root.theme-mid .chat-container--input-focus .chat-inputbar",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\themes.css",
+      "line": 441,
       "selector": ":root.theme-mid .chat-container--input-focus .chat-inputbar:focus-within",
       "alsoStaticDead": false
     },
@@ -1169,6 +1492,12 @@
       "file": "app\\styles\\features\\chat\\themes.css",
       "line": 526,
       "selector": ":root.theme-mid .chat-tools-menu .chat-tools-item",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\themes.css",
+      "line": 530,
+      "selector": ":root.theme-mid .chat-tools-menu .chat-tools-item:hover",
       "alsoStaticDead": false
     },
     {
@@ -1193,6 +1522,12 @@
       "file": "app\\styles\\features\\chat\\themes.css",
       "line": 571,
       "selector": ":root.theme-light.theme-mid .drawer-panel .cs-delete",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\themes.css",
+      "line": 578,
+      "selector": ":root.theme-light.theme-mid .drawer-panel .cs-delete:hover",
       "alsoStaticDead": false
     },
     {
@@ -1228,6 +1563,12 @@
     {
       "file": "app\\styles\\features\\chat\\themes.css",
       "line": 785,
+      "selector": ":root:not(.theme-light):not(.theme-mid) .chat-inputbar .chat-send-btn[data-recording=\"true\"]",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\themes.css",
+      "line": 785,
       "selector": ":root:not(.theme-light):not(.theme-mid)\n  .chat-inputbar\n  .chat-send-btn[data-recording-complete=\"true\"]",
       "alsoStaticDead": false
     },
@@ -1258,7 +1599,55 @@
     {
       "file": "app\\styles\\features\\documents\\agent.css",
       "line": 24,
+      "selector": ".documents-panel:has(.documents-dropdown.is-open)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\documents\\agent.css",
+      "line": 24,
+      "selector": ".documents-card:has(.documents-dropdown.is-open)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\documents\\agent.css",
+      "line": 24,
+      "selector": ".documents-subsection-stack:has(.documents-dropdown.is-open)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\documents\\agent.css",
+      "line": 24,
+      "selector": ".documents-shell-surface:has(.documents-dropdown.is-open)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\documents\\agent.css",
+      "line": 24,
+      "selector": ".documents-library-panel:has(.documents-dropdown.is-open)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\documents\\agent.css",
+      "line": 24,
       "selector": ".rag-admin-card:has(.documents-dropdown.is-open)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\documents\\agent.css",
+      "line": 35,
+      "selector": ".documents-tool-card-header:has(.documents-dropdown.is-open)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\documents\\agent.css",
+      "line": 35,
+      "selector": ".documents-upload-control:has(.documents-dropdown.is-open)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\documents\\agent.css",
+      "line": 35,
+      "selector": ".documents-controls-grid:has(.documents-dropdown.is-open)",
       "alsoStaticDead": false
     },
     {
@@ -1307,6 +1696,12 @@
       "file": "app\\styles\\features\\documents\\agent.css",
       "line": 228,
       "selector": ".documents-agent-textarea",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\documents\\agent.css",
+      "line": 385,
+      "selector": ":root.theme-light :is(.documents-agent-glow-window, .documents-agent-glow-composer) > .edgeLight",
       "alsoStaticDead": false
     },
     {
@@ -1524,6 +1919,13 @@
     {
       "file": "app\\styles\\features\\documents\\mobile.css",
       "line": 251,
+      "selector": ".documents-agent-document-top",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\documents\\mobile.css",
+      "line": 251,
       "selector": ".documents-agent-version-top",
       "media": "@media (max-width: 768px)",
       "alsoStaticDead": false
@@ -1641,6 +2043,12 @@
     {
       "file": "app\\styles\\features\\documents\\ui.css",
       "line": 382,
+      "selector": ".documents-dropdown-item:hover",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\documents\\ui.css",
+      "line": 382,
       "selector": ".documents-dropdown-item:focus-visible",
       "alsoStaticDead": false
     },
@@ -1678,6 +2086,12 @@
       "file": "app\\styles\\features\\documents\\ui.css",
       "line": 444,
       "selector": ".documents-link-button",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\documents\\ui.css",
+      "line": 448,
+      "selector": ".documents-link-button:hover",
       "alsoStaticDead": false
     },
     {
@@ -1738,6 +2152,12 @@
       "file": "app\\styles\\features\\documents\\ui.css",
       "line": 767,
       "selector": "html[data-contrast=\"hc\"] .documents-workspace .documents-dropdown-item",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\documents\\ui.css",
+      "line": 773,
+      "selector": "html[data-contrast=\"hc\"] .documents-workspace .documents-dropdown-item:hover",
       "alsoStaticDead": false
     },
     {
@@ -1816,7 +2236,19 @@
     {
       "file": "app\\styles\\features\\home\\desktop.css",
       "line": 217,
+      "selector": ".homepage-root .home-bottom-sections-preintro",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\home\\desktop.css",
+      "line": 217,
       "selector": ".homepage-root .home-footer-preintro",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\home\\desktop.css",
+      "line": 290,
+      "selector": ":root.theme-mid .homepage-root .home-before-contact-copy",
       "alsoStaticDead": false
     },
     {
@@ -1835,6 +2267,24 @@
       "file": "app\\styles\\features\\home\\desktop.css",
       "line": 334,
       "selector": ".homepage-root .home-before-contact-copy :is(a[x-apple-data-detectors], a[href^=\"tel:\"], a[href^=\"mailto:\"]) *",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\home\\desktop.css",
+      "line": 365,
+      "selector": "html[data-ui-profile=\"mac\"] .homepage-root .three-d-card.left",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\home\\desktop.css",
+      "line": 365,
+      "selector": "html[data-ui-profile=\"mac\"] .homepage-root .three-d-card.right",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\home\\desktop.css",
+      "line": 365,
+      "selector": "html[data-ui-scale=\"mac\"] .homepage-root .three-d-card.left",
       "alsoStaticDead": false
     },
     {
@@ -1985,7 +2435,25 @@
     {
       "file": "app\\styles\\features\\policy\\pages.css",
       "line": 354,
+      "selector": "[lang=\"ru\"] #terms-title",
+      "media": "@media (min-width: 769px)"
+    },
+    {
+      "file": "app\\styles\\features\\policy\\pages.css",
+      "line": 354,
+      "selector": "[lang=\"ru\"] #privacy-title",
+      "media": "@media (min-width: 769px)"
+    },
+    {
+      "file": "app\\styles\\features\\policy\\pages.css",
+      "line": 354,
       "selector": "[lang=\"ru\"] #kasutusjuhend-title",
+      "media": "@media (min-width: 769px)"
+    },
+    {
+      "file": "app\\styles\\features\\policy\\pages.css",
+      "line": 367,
+      "selector": "[lang=\"ru\"] #terms-title",
       "media": "@media (min-width: 769px)"
     },
     {
@@ -1999,6 +2467,12 @@
       "line": 374,
       "selector": "[lang=\"ru\"] #privacy-title",
       "media": "@media (min-width: 769px)"
+    },
+    {
+      "file": "app\\styles\\features\\policy\\pages.css",
+      "line": 427,
+      "selector": ".guide-policy-content.glass-ring-content:not(.glass-ring-content--open)",
+      "alsoStaticDead": false
     },
     {
       "file": "app\\styles\\features\\policy\\pages.css",
@@ -2023,8 +2497,33 @@
     {
       "file": "app\\styles\\features\\policy\\responsive.css",
       "line": 135,
+      "selector": ".guide-policy-scroll.glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open)",
+      "media": "@media (min-width: 1440px) and (min-height: 928px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\policy\\responsive.css",
+      "line": 135,
       "selector": ".policy-page-scroll.glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open)",
       "media": "@media (min-width: 1440px) and (min-height: 928px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\policy\\responsive.css",
+      "line": 198,
+      "selector": ".guide-policy-ring--layout-init",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\policy\\responsive.css",
+      "line": 198,
+      "selector": ".guide-policy-ring--layout-init::before",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\policy\\responsive.css",
+      "line": 198,
+      "selector": ".guide-policy-content--layout-init",
       "alsoStaticDead": false
     },
     {
@@ -2036,7 +2535,20 @@
     {
       "file": "app\\styles\\features\\policy\\responsive.css",
       "line": 206,
+      "selector": ".guide-policy-scroll.glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open)\n  > footer",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\policy\\responsive.css",
+      "line": 206,
       "selector": ".policy-page-scroll.glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open)\n  > footer.policy-page-footer",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\policy\\responsive.css",
+      "line": 216,
+      "selector": ".guide-policy-scroll.glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open)",
+      "media": "@media (min-width: 769px)",
       "alsoStaticDead": false
     },
     {
@@ -2049,8 +2561,27 @@
     {
       "file": "app\\styles\\features\\policy\\responsive.css",
       "line": 221,
+      "selector": ".guide-policy-scroll.glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open)\n    > footer",
+      "media": "@media (min-width: 769px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\policy\\responsive.css",
+      "line": 221,
       "selector": ".policy-page-scroll.glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open)\n    > footer.policy-page-footer",
       "media": "@media (min-width: 769px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\profile\\hc.css",
+      "line": 3,
+      "selector": "html[data-contrast=\"hc\"] .profile-orbit-mobile-chevron",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\profile\\hc.css",
+      "line": 3,
+      "selector": "html[data-contrast=\"hc\"] .profile-orbit-mobile-action__label",
       "alsoStaticDead": false
     },
     {
@@ -2081,6 +2612,12 @@
       "file": "app\\styles\\features\\profile\\hc.css",
       "line": 234,
       "selector": "html[data-contrast=\"hc\"]\n  body\n  .profile-orbit-stack-item:is(\n    :hover,\n    :focus-visible,\n    :active\n  )",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\profile\\hc.css",
+      "line": 247,
+      "selector": "html[data-contrast=\"hc\"]\n  body\n  .profile-orbit-stack-bubble.dock-item",
       "alsoStaticDead": false
     },
     {
@@ -2140,6 +2677,13 @@
     {
       "file": "app\\styles\\features\\profile\\mobile.css",
       "line": 79,
+      "selector": ".profile-orbit-menu.is-mobile\r\n    .profile-orbit-menu__item.dock-item::before",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\profile\\mobile.css",
+      "line": 79,
       "selector": ".profile-orbit-menu.is-mobile\r\n    :is(\r\n      .profile-orbit-menu__item,\r\n      .profile-orbit-mobile-action\r\n    ).dock-item::after",
       "media": "@media (max-width: 768px)",
       "alsoStaticDead": false
@@ -2168,6 +2712,13 @@
     {
       "file": "app\\styles\\features\\profile\\mobile.css",
       "line": 108,
+      "selector": ":root.theme-light:not(.theme-mid)\r\n    .profile-orbit-stack-bubble.dock-item",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\profile\\mobile.css",
+      "line": 108,
       "selector": ":root.theme-light:not(.theme-mid)\r\n    .profile-orbit-mobile-panel\r\n    .profile-orbit-mobile-action.dock-item",
       "media": "@media (max-width: 768px)",
       "alsoStaticDead": false
@@ -2175,7 +2726,21 @@
     {
       "file": "app\\styles\\features\\profile\\mobile.css",
       "line": 132,
+      "selector": ":root.theme-mid .profile-orbit-stack-bubble.dock-item",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\profile\\mobile.css",
+      "line": 132,
       "selector": ":root.theme-mid\r\n    .profile-orbit-mobile-panel\r\n    .profile-orbit-mobile-action.dock-item",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\profile\\mobile.css",
+      "line": 141,
+      "selector": ":root.theme-mid .profile-orbit-stack-bubble.dock-item",
       "media": "@media (max-width: 768px)",
       "alsoStaticDead": false
     },
@@ -2308,7 +2873,35 @@
     {
       "file": "app\\styles\\features\\profile\\mobile.css",
       "line": 406,
+      "selector": ".profile-email-dock-wrapper.profile-orbit-menu-wrapper\r\n    .profile-orbit-stack-bubble.dock-item\r\n    > .profile-orbit-static-glow",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\profile\\mobile.css",
+      "line": 406,
       "selector": ".profile-email-dock-wrapper.profile-orbit-menu-wrapper\r\n    .profile-orbit-stack-bubble.dock-item:is(:hover, :focus-visible, :active)\r\n    > .profile-orbit-static-glow",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\profile\\mobile.css",
+      "line": 415,
+      "selector": ".profile-email-dock-wrapper.profile-orbit-menu-wrapper\r\n    .profile-orbit-stack-bubble.profile-orbit-edge-glow.dock-item\r\n    > [class*=\"edgeLight\"]",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\profile\\mobile.css",
+      "line": 415,
+      "selector": ".profile-email-dock-wrapper.profile-orbit-menu-wrapper\r\n    .profile-orbit-stack-bubble.profile-orbit-edge-glow.dock-item\r\n    > [class*=\"edgeLight\"]::before",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\profile\\mobile.css",
+      "line": 415,
+      "selector": ".profile-email-dock-wrapper.profile-orbit-menu-wrapper\r\n    .profile-orbit-stack-bubble.profile-orbit-edge-glow.dock-item::before",
       "media": "@media (max-width: 768px)",
       "alsoStaticDead": false
     },
@@ -2336,6 +2929,13 @@
     {
       "file": "app\\styles\\features\\profile\\mobile.css",
       "line": 446,
+      "selector": ":is(\r\n      :root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast=\"hc\"]),\r\n      :root.theme-night\r\n    )\r\n    .profile-email-dock-wrapper.profile-orbit-menu-wrapper\r\n    .profile-orbit-stack-bubble.dock-item:is(:hover, :focus-visible, :active)",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\profile\\mobile.css",
+      "line": 446,
       "selector": "html[data-contrast=\"hc\"]\r\n    body\r\n    .profile-email-dock-wrapper.profile-orbit-menu-wrapper\r\n    .profile-orbit-stack-bubble.dock-item:is(:hover, :focus-visible, :active)",
       "media": "@media (max-width: 768px)",
       "alsoStaticDead": false
@@ -2350,7 +2950,21 @@
     {
       "file": "app\\styles\\features\\profile\\mobile.css",
       "line": 475,
+      "selector": ".profile-orbit-stack-item[data-key=\"theme\"] .profile-orbit-stack-label",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\profile\\mobile.css",
+      "line": 475,
       "selector": ".profile-orbit-stack-item[data-key=\"preferences\"] .profile-orbit-stack-label",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\profile\\mobile.css",
+      "line": 479,
+      "selector": ".profile-orbit-stack-item[data-key=\"theme\"]\r\n    .profile-orbit-stack-label",
       "media": "@media (max-width: 768px)",
       "alsoStaticDead": false
     },
@@ -2364,7 +2978,21 @@
     {
       "file": "app\\styles\\features\\profile\\mobile.css",
       "line": 516,
+      "selector": "html.profile-orbit-open .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\profile\\mobile.css",
+      "line": 516,
       "selector": "body.profile-orbit-open .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\profile\\mobile.css",
+      "line": 522,
+      "selector": "html[data-platform=\"android\"].profile-orbit-open .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper",
       "media": "@media (max-width: 768px)",
       "alsoStaticDead": false
     },
@@ -2379,6 +3007,12 @@
       "file": "app\\styles\\features\\profile\\mono.css",
       "line": 55,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-mobile-action.dock-item .dock-icon",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\profile\\mono.css",
+      "line": 60,
+      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-mobile-action__label",
       "alsoStaticDead": false
     },
     {
@@ -2462,6 +3096,12 @@
     {
       "file": "app\\styles\\features\\service-map\\desktop.css",
       "line": 292,
+      "selector": ":root.theme-light .service-profile-glow-field > .edgeLight",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 292,
       "selector": ":root.theme-mid .service-profile-glow-field > .edgeLight",
       "alsoStaticDead": false
     },
@@ -2504,7 +3144,19 @@
     {
       "file": "app\\styles\\features\\service-map\\desktop.css",
       "line": 355,
+      "selector": ".service-profile-address-suggestion:hover",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 355,
       "selector": ".service-profile-address-suggestion:focus-visible",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 361,
+      "selector": ".service-profile-address-suggestions__state",
       "alsoStaticDead": false
     },
     {
@@ -2624,6 +3276,12 @@
     {
       "file": "app\\styles\\features\\service-map\\desktop.css",
       "line": 588,
+      "selector": ":root.theme-light .service-profile-address-suggestions",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 588,
       "selector": ":root.theme-mid .service-profile-address-suggestions",
       "alsoStaticDead": false
     },
@@ -2660,7 +3318,31 @@
     {
       "file": "app\\styles\\features\\service-map\\desktop.css",
       "line": 757,
+      "selector": ".workspace-feature-chip",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 757,
       "selector": ".workspace-feature-list-card",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 776,
+      "selector": ".workspace-feature-chip:hover",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 776,
+      "selector": ".workspace-feature-chip:focus-visible",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 776,
+      "selector": ".workspace-feature-list-card:hover",
       "alsoStaticDead": false
     },
     {
@@ -2696,7 +3378,19 @@
     {
       "file": "app\\styles\\features\\service-map\\desktop.css",
       "line": 807,
+      "selector": ".pre-inquiry-start-options",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 807,
       "selector": ".pre-inquiry-path-grid",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 814,
+      "selector": ".pre-inquiry-start-card",
       "alsoStaticDead": false
     },
     {
@@ -2775,6 +3469,12 @@
       "file": "app\\styles\\features\\service-map\\desktop.css",
       "line": 896,
       "selector": ".pre-inquiry-section-card + .pre-inquiry-section-card",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 900,
+      "selector": ".pre-inquiry-intro",
       "alsoStaticDead": false
     },
     {
@@ -2864,6 +3564,18 @@
     {
       "file": "app\\styles\\features\\service-map\\desktop.css",
       "line": 1051,
+      "selector": ".workspace-feature-dropdown.pre-inquiry-dropdown .documents-dropdown-trigger:hover",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 1051,
+      "selector": ".workspace-feature-dropdown.pre-inquiry-dropdown .documents-dropdown-trigger:focus-visible",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 1051,
       "selector": ".workspace-feature-dropdown.pre-inquiry-dropdown .documents-dropdown-trigger.is-open",
       "alsoStaticDead": false
     },
@@ -2876,7 +3588,19 @@
     {
       "file": "app\\styles\\features\\service-map\\desktop.css",
       "line": 1064,
+      "selector": ".workspace-feature-dropdown.pre-inquiry-dropdown .documents-dropdown-label.is-placeholder",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 1064,
       "selector": ".workspace-feature-dropdown.pre-inquiry-dropdown .documents-dropdown-icon",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 1069,
+      "selector": ".workspace-feature-dropdown.pre-inquiry-dropdown .documents-dropdown-menu",
       "alsoStaticDead": false
     },
     {
@@ -2888,13 +3612,43 @@
     {
       "file": "app\\styles\\features\\service-map\\desktop.css",
       "line": 1085,
+      "selector": ".workspace-feature-dropdown.pre-inquiry-dropdown .documents-dropdown-item",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 1085,
       "selector": ".documents-dropdown-menu.pre-inquiry-dropdown-menu .documents-dropdown-item",
       "alsoStaticDead": false
     },
     {
       "file": "app\\styles\\features\\service-map\\desktop.css",
       "line": 1093,
+      "selector": ".workspace-feature-dropdown.pre-inquiry-dropdown .documents-dropdown-item:hover",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 1093,
+      "selector": ".workspace-feature-dropdown.pre-inquiry-dropdown .documents-dropdown-item:focus-visible",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 1093,
+      "selector": ".documents-dropdown-menu.pre-inquiry-dropdown-menu .documents-dropdown-item:hover",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 1093,
       "selector": ".documents-dropdown-menu.pre-inquiry-dropdown-menu .documents-dropdown-item:focus-visible",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 1100,
+      "selector": ".workspace-feature-dropdown.pre-inquiry-dropdown .documents-dropdown-item.is-active",
       "alsoStaticDead": false
     },
     {
@@ -2913,6 +3667,12 @@
       "file": "app\\styles\\features\\service-map\\desktop.css",
       "line": 1113,
       "selector": ".pre-inquiry-extra-grid",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 1120,
+      "selector": ".pre-inquiry-extra-grid label",
       "alsoStaticDead": false
     },
     {
@@ -2948,6 +3708,12 @@
     {
       "file": "app\\styles\\features\\service-map\\desktop.css",
       "line": 1173,
+      "selector": ":root.theme-light .pre-inquiry-recipient-type-card.ui-glow-option-card-frame",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 1173,
       "selector": ":root.theme-mid .pre-inquiry-recipient-type-card.ui-glow-option-card-frame",
       "alsoStaticDead": false
     },
@@ -2960,7 +3726,31 @@
     {
       "file": "app\\styles\\features\\service-map\\desktop.css",
       "line": 1184,
+      "selector": ".pre-inquiry-recipient-type-card:hover",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 1184,
+      "selector": ".pre-inquiry-recipient-type-card:focus-visible",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 1184,
+      "selector": ".pre-inquiry-recipient-type-card[data-focus-visible=\"true\"]",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 1184,
       "selector": ".pre-inquiry-recipient-type-card[data-checked=\"true\"]",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 1194,
+      "selector": ":root.theme-light .pre-inquiry-recipient-type-card.ui-glow-option-card-frame:is(:hover, :focus-visible, [data-focus-visible=\"true\"], [data-checked=\"true\"])",
       "alsoStaticDead": false
     },
     {
@@ -2973,6 +3763,24 @@
       "file": "app\\styles\\features\\service-map\\desktop.css",
       "line": 1199,
       "selector": ":root.theme-mid .pre-inquiry-recipient-type-card.ui-glow-option-card-frame:is(:hover, :focus-visible, [data-focus-visible=\"true\"], [data-checked=\"true\"])",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 1203,
+      "selector": ".pre-inquiry-recipient-type-card[data-checked=\"true\"]::before",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 1203,
+      "selector": ".pre-inquiry-recipient-type-card:hover::before",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 1203,
+      "selector": ".pre-inquiry-recipient-type-card:focus-visible::before",
       "alsoStaticDead": false
     },
     {
@@ -2991,6 +3799,27 @@
       "file": "app\\styles\\features\\service-map\\desktop.css",
       "line": 1215,
       "selector": ".pre-inquiry-recipient-controls > label",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 1221,
+      "selector": ".pre-inquiry-start-options",
+      "media": "@media (max-width: 680px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 1221,
+      "selector": ".pre-inquiry-path-grid",
+      "media": "@media (max-width: 680px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 1221,
+      "selector": ".pre-inquiry-stepbar",
+      "media": "@media (max-width: 680px)",
       "alsoStaticDead": false
     },
     {
@@ -3068,6 +3897,12 @@
     {
       "file": "app\\styles\\features\\service-map\\desktop.css",
       "line": 1405,
+      "selector": ".workspace-feature-dropdown .documents-dropdown-item:hover",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 1405,
       "selector": ".workspace-feature-dropdown .documents-dropdown-item:focus-visible",
       "alsoStaticDead": false
     },
@@ -3105,6 +3940,12 @@
       "file": "app\\styles\\features\\service-map\\desktop.css",
       "line": 1850,
       "selector": ".service-map-workspace__filters--collapsed",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 1882,
+      "selector": "html[data-theme-switching=\"1\"] .service-map-workspace__filters-shell",
       "alsoStaticDead": false
     },
     {
@@ -3150,6 +3991,12 @@
       "line": 2176,
       "selector": ".service-map-workspace__filters--collapsed .service-map-toolbar__content",
       "media": "@media (min-width: 769px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 2257,
+      "selector": ":root.theme-light:not(.theme-mid) .service-map-toolbar__results .workspace-feature-list-card.ui-glow-button-frame",
       "alsoStaticDead": false
     },
     {
@@ -3215,7 +4062,31 @@
     {
       "file": "app\\styles\\features\\service-map\\desktop.css",
       "line": 2427,
+      "selector": ".service-map-toolbar__results .service-map-toolbar__result-button:hover",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 2427,
+      "selector": ".service-map-toolbar__results .service-map-toolbar__result-button:focus-visible",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 2427,
       "selector": ".service-map-toolbar__results .service-map-toolbar__result-button[data-selected=\"true\"]",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 2438,
+      "selector": ".service-map-toolbar__results .service-map-toolbar__result-button:hover::before",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 2438,
+      "selector": ".service-map-toolbar__results .service-map-toolbar__result-button:focus-visible::before",
       "alsoStaticDead": false
     },
     {
@@ -3227,7 +4098,103 @@
     {
       "file": "app\\styles\\features\\service-map\\desktop.css",
       "line": 2444,
+      "selector": ":root .service-map-toolbar__results .service-map-toolbar__result-button.ui-glow-button-frame",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 2444,
       "selector": ":root .service-map-toolbar__results .service-map-toolbar__result-button.ui-glow-button-frame:is(:hover, :focus-visible, :active, [data-selected=\"true\"])",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 2504,
+      "selector": ".service-map-leaflet .leaflet-div-icon",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 2509,
+      "selector": ".service-map-leaflet__status",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 2662,
+      "selector": ".service-map-leaflet__marker--mixed",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 2669,
+      "selector": ".service-map-leaflet__marker--group",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 2673,
+      "selector": ".service-map-leaflet__marker--selected",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 2683,
+      "selector": ".service-map-leaflet__popup .leaflet-popup-content-wrapper",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 2698,
+      "selector": ".service-map-leaflet__popup .leaflet-popup-content-wrapper::before",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 2710,
+      "selector": ".service-map-leaflet__popup .leaflet-popup-content",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 2719,
+      "selector": ".service-map-leaflet__popup--group .leaflet-popup-content",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 2723,
+      "selector": ".service-map-leaflet__popup .leaflet-popup-tip",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 2730,
+      "selector": ".service-map-leaflet__popup.leaflet-popup",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 2734,
+      "selector": ".service-map-leaflet.leaflet-fade-anim .service-map-leaflet__popup.leaflet-popup",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 2739,
+      "selector": ".service-map-leaflet__popup .leaflet-popup-close-button",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 2763,
+      "selector": ".service-map-leaflet__popup .leaflet-popup-close-button:hover",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 2763,
+      "selector": ".service-map-leaflet__popup .leaflet-popup-close-button:focus-visible",
       "alsoStaticDead": false
     },
     {
@@ -3305,6 +4272,12 @@
     {
       "file": "app\\styles\\features\\service-map\\desktop.css",
       "line": 2872,
+      "selector": ".service-map-popup__contact-description",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 2872,
       "selector": ".service-map-popup__contact-meta",
       "alsoStaticDead": false
     },
@@ -3328,8 +4301,44 @@
     },
     {
       "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 2903,
+      "selector": ".service-map-leaflet__popup .service-map-popup__actions.service-map-popup__contact-actions a",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 2938,
+      "selector": "html[data-contrast=\"hc\"] .service-map-leaflet__popup .leaflet-popup-content-wrapper",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 2938,
+      "selector": "html[data-contrast=\"hc\"] .service-map-leaflet__popup .leaflet-popup-tip",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 2948,
+      "selector": "html[data-contrast=\"hc\"] .service-map-leaflet__popup .leaflet-popup-content-wrapper::before",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 2954,
+      "selector": ".service-map-leaflet__popup .service-map-popup :is(h3, h4, p)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
       "line": 2958,
       "selector": ".service-map-popup__title",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 2967,
+      "selector": ".service-map-popup__body",
       "alsoStaticDead": false
     },
     {
@@ -3389,6 +4398,12 @@
     {
       "file": "app\\styles\\features\\service-map\\desktop.css",
       "line": 3034,
+      "selector": ".service-map-popup__service-body",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 3034,
       "selector": ".service-map-popup__service-meta",
       "alsoStaticDead": false
     },
@@ -3402,6 +4417,12 @@
       "file": "app\\styles\\features\\service-map\\desktop.css",
       "line": 3048,
       "selector": ".service-map-popup__access-path-title",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 3056,
+      "selector": ".service-map-popup__access-path-body",
       "alsoStaticDead": false
     },
     {
@@ -3430,6 +4451,84 @@
     },
     {
       "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 3081,
+      "selector": ".service-map-leaflet__popup .service-map-popup__actions :is(a, button)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 3108,
+      "selector": ".service-map-leaflet__popup .service-map-popup__actions :is(a, button)::before",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 3119,
+      "selector": ".service-map-leaflet__popup .service-map-popup__actions :is(a, button)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 3123,
+      "selector": ":root:not(.theme-light):not(.theme-mid) .service-map-leaflet__popup .service-map-popup__actions :is(a, button)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 3133,
+      "selector": ".service-map-leaflet__popup .service-map-popup__actions :is(a, button) > span",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 3139,
+      "selector": ".service-map-leaflet__popup .service-map-popup__actions :is(a, button):is(:hover, :focus-visible)::before",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 3143,
+      "selector": ".service-map-leaflet__popup .service-map-popup__actions :is(a, button):is(:hover, :focus-visible)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 3149,
+      "selector": ":root:not(.theme-light):not(.theme-mid) .service-map-leaflet__popup .service-map-popup__actions :is(a, button):is(:hover, :focus-visible)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 3159,
+      "selector": "html[data-contrast=\"hc\"] .service-map-leaflet__popup .service-map-popup__actions :is(a, button):is(:hover, :focus-visible)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 3168,
+      "selector": ".service-map-leaflet__popup .service-map-popup__actions :is(a, button):active",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 3174,
+      "selector": ".service-map-leaflet__popup .service-map-popup__actions :is(a, button):active::before",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 3178,
+      "selector": ".service-map-leaflet__popup .service-map-popup__actions button:disabled",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 3209,
+      "selector": ".service-map-leaflet .leaflet-control-attribution a",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
       "line": 3213,
       "selector": ".pre-inquiry-agent-chat",
       "alsoStaticDead": false
@@ -3443,7 +4542,31 @@
     {
       "file": "app\\styles\\features\\service-map\\desktop.css",
       "line": 3236,
+      "selector": ".pre-inquiry-agent-chat .documents-agent-glow-window",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 3236,
       "selector": ".pre-inquiry-agent-chat .documents-agent-glow-composer",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 3243,
+      "selector": ".pre-inquiry-agent-chat .documents-agent-glow-window:hover",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 3243,
+      "selector": ".pre-inquiry-agent-chat .documents-agent-glow-window:focus-within",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\desktop.css",
+      "line": 3243,
+      "selector": ".pre-inquiry-agent-chat .documents-agent-glow-composer:hover",
       "alsoStaticDead": false
     },
     {
@@ -3546,6 +4669,20 @@
     },
     {
       "file": "app\\styles\\features\\service-map\\mobile.css",
+      "line": 313,
+      "selector": ".service-map-leaflet__status",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\mobile.css",
+      "line": 323,
+      "selector": ".service-map-leaflet__popup--group .leaflet-popup-content",
+      "media": "@media (max-width: 520px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\service-map\\mobile.css",
       "line": 327,
       "selector": ".service-map-popup--group",
       "media": "@media (max-width: 520px)",
@@ -3638,6 +4775,20 @@
     {
       "file": "app\\styles\\mobile\\background-home.css",
       "line": 202,
+      "selector": ".invite-modal-content",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\mobile\\background-home.css",
+      "line": 202,
+      "selector": ".person-invite-modal-content",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\mobile\\background-home.css",
+      "line": 202,
       "selector": ".account-settings-modal-content",
       "media": "@media (max-width: 768px)",
       "alsoStaticDead": false
@@ -3659,6 +4810,13 @@
     {
       "file": "app\\styles\\mobile\\background-home.css",
       "line": 274,
+      "selector": ".three-d-card.mobile-flipped-left .card-face.back",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\mobile\\background-home.css",
+      "line": 274,
       "selector": ".three-d-card.mobile-flipped-right .card-face.back",
       "media": "@media (max-width: 768px)",
       "alsoStaticDead": false
@@ -3666,7 +4824,21 @@
     {
       "file": "app\\styles\\mobile\\background-home.css",
       "line": 278,
+      "selector": ".three-d-card.mobile-flipped-left .card-face.front",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\mobile\\background-home.css",
+      "line": 278,
       "selector": ".three-d-card.mobile-flipped-right .card-face.front",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\mobile\\background-home.css",
+      "line": 282,
+      "selector": ".homepage-root .three-d-card.mobile-flipped-left",
       "media": "@media (max-width: 768px)",
       "alsoStaticDead": false
     },
@@ -3729,6 +4901,41 @@
     {
       "file": "app\\styles\\mobile\\home-scroll.css",
       "line": 9,
+      "selector": ".profile-orbit-stack-panel::before",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\mobile\\home-scroll.css",
+      "line": 9,
+      "selector": ".profile-orbit-stack-panel::after",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\mobile\\home-scroll.css",
+      "line": 9,
+      "selector": "html[data-platform=\"android\"] .profile-orbit-stack-panel::before",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\mobile\\home-scroll.css",
+      "line": 9,
+      "selector": "html[data-platform=\"android\"] .profile-orbit-stack-panel::after",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\mobile\\home-scroll.css",
+      "line": 9,
+      "selector": "body[data-platform=\"android\"] .profile-orbit-stack-panel::before",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\mobile\\home-scroll.css",
+      "line": 9,
       "selector": "body[data-platform=\"android\"] .profile-orbit-stack-panel::after",
       "media": "@media (max-width: 768px)",
       "alsoStaticDead": false
@@ -3736,7 +4943,35 @@
     {
       "file": "app\\styles\\mobile\\home-scroll.css",
       "line": 23,
+      "selector": ".profile-orbit-stack-panel::before",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\mobile\\home-scroll.css",
+      "line": 23,
+      "selector": "html[data-platform=\"android\"] .profile-orbit-stack-panel::before",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\mobile\\home-scroll.css",
+      "line": 23,
       "selector": "body[data-platform=\"android\"] .profile-orbit-stack-panel::before",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\mobile\\home-scroll.css",
+      "line": 29,
+      "selector": ".profile-orbit-stack-panel::after",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\mobile\\home-scroll.css",
+      "line": 29,
+      "selector": "html[data-platform=\"android\"] .profile-orbit-stack-panel::after",
       "media": "@media (max-width: 768px)",
       "alsoStaticDead": false
     },
@@ -3838,6 +5073,12 @@
     {
       "file": "app\\styles\\mobile\\invite-workspace.css",
       "line": 151,
+      "selector": ".workspace-dashboard-panel\n  .workspace-feature-embedded\n  > .help-listings-modal-content--embedded::before",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\mobile\\invite-workspace.css",
+      "line": 151,
       "selector": ".workspace-dashboard-panel\n  .workspace-feature-embedded\n  > .invite-modal-content--embedded::before",
       "alsoStaticDead": false
     },
@@ -3869,6 +5110,12 @@
       "file": "app\\styles\\mobile\\invite-workspace.css",
       "line": 190,
       "selector": ".workspace-dashboard-panel .covision-page-body .covision-glow-card > [class*=\"edgeLight\"]",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\mobile\\invite-workspace.css",
+      "line": 195,
+      "selector": ".workspace-dashboard-panel\n  .documents-workspace-shell--embedded\n  > .documents-grid.workspace-guide-panel-scroll",
       "alsoStaticDead": false
     },
     {
@@ -3912,7 +5159,35 @@
     {
       "file": "app\\styles\\mobile\\login-otp-close.css",
       "line": 4,
+      "selector": ".login-modal-root.login-modal--otp .modal-close-btn",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\mobile\\login-otp-close.css",
+      "line": 4,
+      "selector": ".login-modal-root.login-modal--otp .login-modal-close",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\mobile\\login-otp-close.css",
+      "line": 4,
       "selector": ".login-modal-root.login-modal--otp > button[aria-label]",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\mobile\\login-otp-close.css",
+      "line": 21,
+      "selector": ".login-modal-root.login-modal--otp .modal-close-btn::before",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\mobile\\login-otp-close.css",
+      "line": 21,
+      "selector": ".login-modal-root.login-modal--otp .login-modal-close::before",
       "media": "@media (max-width: 768px)",
       "alsoStaticDead": false
     },
@@ -3940,6 +5215,13 @@
     {
       "file": "app\\styles\\mobile\\modal-surfaces.css",
       "line": 50,
+      "selector": ".invite-modal-content",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\mobile\\modal-surfaces.css",
+      "line": 50,
       "selector": ".help-listings-modal-content",
       "media": "@media (max-width: 768px)",
       "alsoStaticDead": false
@@ -3954,6 +5236,13 @@
     {
       "file": "app\\styles\\mobile\\modal-surfaces.css",
       "line": 72,
+      "selector": ".help-listings-modal-content",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\mobile\\modal-surfaces.css",
+      "line": 72,
       "selector": ".selected-listing-modal-content",
       "media": "@media (max-width: 768px)",
       "alsoStaticDead": false
@@ -3962,6 +5251,34 @@
       "file": "app\\styles\\mobile\\modal-surfaces.css",
       "line": 85,
       "selector": ".selected-listing-modal-content",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\mobile\\modal-surfaces.css",
+      "line": 99,
+      "selector": ".help-listings-body",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\mobile\\modal-surfaces.css",
+      "line": 99,
+      "selector": ".help-listings-modal-content .glass-subpage-header",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\mobile\\modal-surfaces.css",
+      "line": 99,
+      "selector": ".help-listings-modal-content\n    :is(.help-listings-panel, .help-listings-item-card)",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\mobile\\modal-surfaces.css",
+      "line": 99,
+      "selector": ".selected-listing-body",
       "media": "@media (max-width: 768px)",
       "alsoStaticDead": false
     },
@@ -4031,7 +5348,21 @@
     {
       "file": "app\\styles\\mobile\\platform-android.css",
       "line": 25,
+      "selector": "html[data-platform=\"android\"] .policy-page-scroll",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\mobile\\platform-android.css",
+      "line": 25,
       "selector": "body[data-platform=\"android\"] .policy-page-scroll",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\mobile\\platform-android.css",
+      "line": 48,
+      "selector": "html[data-platform=\"android\"] .profile-orbit-stack-list",
       "media": "@media (max-width: 768px)",
       "alsoStaticDead": false
     },
@@ -4045,7 +5376,21 @@
     {
       "file": "app\\styles\\mobile\\platform-android.css",
       "line": 59,
+      "selector": "html[data-platform=\"android\"] .profile-orbit-stack-backdrop",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\mobile\\platform-android.css",
+      "line": 59,
       "selector": "body[data-platform=\"android\"] .profile-orbit-stack-backdrop",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\mobile\\platform-android.css",
+      "line": 67,
+      "selector": "html[data-platform=\"android\"] .profile-orbit-stack-panel",
       "media": "@media (max-width: 768px)",
       "alsoStaticDead": false
     },
@@ -4059,7 +5404,21 @@
     {
       "file": "app\\styles\\mobile\\platform-android.css",
       "line": 96,
+      "selector": "html[data-platform=\"android\"] .profile-orbit-stack-fade",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\mobile\\platform-android.css",
+      "line": 96,
       "selector": "body[data-platform=\"android\"] .profile-orbit-stack-fade",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\mobile\\platform-android.css",
+      "line": 104,
+      "selector": "html[data-platform=\"android\"] .profile-orbit-stack-fade--top",
       "media": "@media (max-width: 768px)",
       "alsoStaticDead": false
     },
@@ -4073,7 +5432,21 @@
     {
       "file": "app\\styles\\mobile\\platform-android.css",
       "line": 109,
+      "selector": "html[data-platform=\"android\"] .profile-orbit-stack-fade--bottom",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\mobile\\platform-android.css",
+      "line": 109,
       "selector": "body[data-platform=\"android\"] .profile-orbit-stack-fade--bottom",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\mobile\\platform-android.css",
+      "line": 114,
+      "selector": "html[data-platform=\"android\"] :is(.profile-orbit-stack-fade--top, .profile-orbit-stack-fade--bottom)",
       "media": "@media (max-width: 768px)",
       "alsoStaticDead": false
     },
@@ -4087,7 +5460,21 @@
     {
       "file": "app\\styles\\mobile\\platform-android.css",
       "line": 126,
+      "selector": "html[data-platform=\"android\"] .profile-orbit-stack-item",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\mobile\\platform-android.css",
+      "line": 126,
       "selector": "body[data-platform=\"android\"] .profile-orbit-stack-item",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\mobile\\platform-android.css",
+      "line": 131,
+      "selector": "html[data-platform=\"android\"] .profile-orbit-stack-bubble.dock-item",
       "media": "@media (max-width: 768px)",
       "alsoStaticDead": false
     },
@@ -4101,7 +5488,35 @@
     {
       "file": "app\\styles\\mobile\\platform-android.css",
       "line": 137,
+      "selector": "html[data-platform=\"android\"] .profile-orbit-stack-label",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\mobile\\platform-android.css",
+      "line": 137,
       "selector": "body[data-platform=\"android\"] .profile-orbit-stack-label",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\mobile\\platform-android.css",
+      "line": 150,
+      "selector": "html[data-platform=\"android\"] .profile-orbit-stack-item[data-key=\"my_help_requests\"] .profile-orbit-stack-label",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\mobile\\platform-android.css",
+      "line": 150,
+      "selector": "html[data-platform=\"android\"] .profile-orbit-stack-item[data-key=\"my_help_offers\"] .profile-orbit-stack-label",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\mobile\\platform-android.css",
+      "line": 150,
+      "selector": "body[data-platform=\"android\"] .profile-orbit-stack-item[data-key=\"my_help_requests\"] .profile-orbit-stack-label",
       "media": "@media (max-width: 768px)",
       "alsoStaticDead": false
     },
@@ -4181,8 +5596,22 @@
     },
     {
       "file": "app\\styles\\mobile\\subpage-title-system.css",
+      "line": 128,
+      "selector": ".rag-admin-shell-card",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\mobile\\subpage-title-system.css",
       "line": 134,
       "selector": ".rag-admin-shell-card .rag-admin-shell-back",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\mobile\\subpage-title-system.css",
+      "line": 148,
+      "selector": ".rag-admin-shell-card .rag-admin-shell-title",
       "media": "@media (max-width: 768px)",
       "alsoStaticDead": false
     },
@@ -4197,6 +5626,13 @@
       "file": "app\\styles\\mobile\\subpage-title-system.css",
       "line": 293,
       "selector": ".glass-title-register-ru",
+      "media": "@media (max-width: 768px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\mobile\\subpage-title-system.css",
+      "line": 297,
+      "selector": ".subpage-mobile-title[data-fit-ready=\"0\"]",
       "media": "@media (max-width: 768px)",
       "alsoStaticDead": false
     },
@@ -4273,6 +5709,13 @@
     {
       "file": "app\\styles\\mobile\\touch-controls.css",
       "line": 115,
+      "selector": ".chat-analysis-overlay .chat-analysis-toggle-btn[data-control-type]::before",
+      "media": "@media (hover: none) and (pointer: coarse)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\mobile\\touch-controls.css",
+      "line": 115,
       "selector": ".chat-analysis-overlay .chat-analysis-action-btn.button[data-variant=\"primary\"]::before",
       "media": "@media (hover: none) and (pointer: coarse)",
       "alsoStaticDead": false
@@ -4280,7 +5723,35 @@
     {
       "file": "app\\styles\\mobile\\touch-controls.css",
       "line": 122,
+      "selector": ".chat-analysis-overlay .chat-analysis-toggle-btn[data-control-type]",
+      "media": "@media (hover: none) and (pointer: coarse)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\mobile\\touch-controls.css",
+      "line": 122,
       "selector": ".chat-analysis-overlay .chat-analysis-action-btn.button[data-variant=\"primary\"]",
+      "media": "@media (hover: none) and (pointer: coarse)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\mobile\\touch-controls.css",
+      "line": 130,
+      "selector": ".chat-analysis-overlay .chat-analysis-action-btn.button[data-variant=\"primary\"]:active",
+      "media": "@media (hover: none) and (pointer: coarse)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\mobile\\touch-controls.css",
+      "line": 130,
+      "selector": ".chat-analysis-overlay .chat-analysis-action-btn.button[data-variant=\"primary\"]:active::before",
+      "media": "@media (hover: none) and (pointer: coarse)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\mobile\\touch-controls.css",
+      "line": 130,
+      "selector": ".chat-analysis-overlay .chat-analysis-toggle-btn[data-control-type]:active",
       "media": "@media (hover: none) and (pointer: coarse)",
       "alsoStaticDead": false
     },
@@ -4459,6 +5930,12 @@
     {
       "file": "app\\styles\\shared\\login-a11y.css",
       "line": 4,
+      "selector": ":root.login-modal-open",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\shared\\login-a11y.css",
+      "line": 4,
       "selector": "body.login-modal-open",
       "alsoStaticDead": false
     },
@@ -4478,6 +5955,12 @@
       "file": "app\\styles\\shared\\login-a11y.css",
       "line": 42,
       "selector": ".modal-close-btn::before",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\shared\\login-a11y.css",
+      "line": 55,
+      "selector": ".modal-close-btn:hover",
       "alsoStaticDead": false
     },
     {
@@ -4513,6 +5996,18 @@
     {
       "file": "app\\styles\\shared\\login-a11y.css",
       "line": 108,
+      "selector": "body[data-a11y-scroll-lock=\"1\"] .profile-orbit-layer",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\shared\\login-a11y.css",
+      "line": 108,
+      "selector": "body[data-a11y-scroll-lock=\"1\"] .profile-orbit-menu__center-shell",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\shared\\login-a11y.css",
+      "line": 108,
       "selector": "body[data-a11y-scroll-lock=\"1\"] .profile-orbit-menu__center-pulse",
       "alsoStaticDead": false
     },
@@ -4526,6 +6021,18 @@
       "file": "app\\styles\\shared\\login-a11y.css",
       "line": 189,
       "selector": ".login-modal-box .login-modal-close.modal-close-btn",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\shared\\login-a11y.css",
+      "line": 201,
+      "selector": ".login-modal-box .login-modal-close.modal-close-btn:hover",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\shared\\login-a11y.css",
+      "line": 201,
+      "selector": ".login-modal-box .login-modal-close.modal-close-btn:focus-visible",
       "alsoStaticDead": false
     },
     {
@@ -4556,7 +6063,37 @@
     {
       "file": "app\\styles\\shared\\login-a11y.css",
       "line": 221,
+      "selector": ":root.theme-light .auth-success-text",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\shared\\login-a11y.css",
+      "line": 221,
       "selector": ":root.theme-mid .auth-success-text",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\shared\\login-a11y.css",
+      "line": 290,
+      "selector": ".register-input-mid-shell:is(:-webkit-autofill, :autofill)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\shared\\login-a11y.css",
+      "line": 290,
+      "selector": ".register-input-mid-shell:is(:-webkit-autofill, :autofill):hover",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\shared\\login-a11y.css",
+      "line": 290,
+      "selector": ".register-input-mid-shell:is(:-webkit-autofill, :autofill):focus",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\shared\\login-a11y.css",
+      "line": 290,
+      "selector": ".register-input-mid-shell:is(:-webkit-autofill, :autofill):focus-visible",
       "alsoStaticDead": false
     },
     {
@@ -4598,6 +6135,12 @@
     {
       "file": "app\\styles\\shared\\register.css",
       "line": 8,
+      "selector": ".glass-box a:hover",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\shared\\register.css",
+      "line": 8,
       "selector": ".glass-box a:focus",
       "alsoStaticDead": false
     },
@@ -4610,7 +6153,31 @@
     {
       "file": "app\\styles\\shared\\register.css",
       "line": 57,
+      "selector": ".register-checkbox-card[data-checked=\"true\"]",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\shared\\register.css",
+      "line": 57,
+      "selector": ".register-checkbox-card[data-checked=\"true\"]:hover",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\shared\\register.css",
+      "line": 57,
       "selector": ".register-checkbox-card[data-checked=\"true\"]:focus-within",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\shared\\register.css",
+      "line": 66,
+      "selector": ":root.theme-light .register-checkbox-card[data-checked=\"true\"]",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\shared\\register.css",
+      "line": 66,
+      "selector": ":root.theme-light .register-checkbox-card[data-checked=\"true\"]:hover",
       "alsoStaticDead": false
     },
     {
@@ -4634,7 +6201,19 @@
     {
       "file": "app\\styles\\shared\\register.css",
       "line": 129,
+      "selector": ".register-option-card[data-checked=\"true\"]",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\shared\\register.css",
+      "line": 129,
       "selector": ".register-checkbox-card[data-checked=\"true\"]",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\shared\\register.css",
+      "line": 139,
+      "selector": ".register-option-card[data-checked=\"true\"]",
       "alsoStaticDead": false
     },
     {
@@ -4664,7 +6243,19 @@
     {
       "file": "app\\styles\\shared\\register.css",
       "line": 234,
+      "selector": "html[data-contrast=\"hc\"] .register-role-options .register-role-button.register-option-card[data-checked=\"true\"]",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\shared\\register.css",
+      "line": 234,
       "selector": "html[data-contrast=\"hc\"] .register-role-options .register-role-button.register-option-card[data-checked=\"true\"]:hover",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\shared\\register.css",
+      "line": 252,
+      "selector": "html[data-contrast=\"hc\"] .register-role-options .register-role-button.register-option-card[data-checked=\"true\"]::before",
       "alsoStaticDead": false
     },
     {
@@ -4751,13 +6342,43 @@
     {
       "file": "app\\styles\\shared\\ui-glow.css",
       "line": 98,
+      "selector": ".ui-glow-button-frame:focus-within:not(:hover) > .edgeLight",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\shared\\ui-glow.css",
+      "line": 98,
+      "selector": ".ui-glow-button-frame:focus-within:not(:hover) > .ui-glow-button-soft-edge",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\shared\\ui-glow.css",
+      "line": 98,
+      "selector": ".ui-glow-button-frame--disabled > .edgeLight",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\shared\\ui-glow.css",
+      "line": 98,
       "selector": ".ui-glow-button-frame--disabled > .ui-glow-button-soft-edge",
       "alsoStaticDead": false
     },
     {
       "file": "app\\styles\\shared\\ui-glow.css",
       "line": 140,
+      "selector": ":root.theme-light .ui-glow-button-frame > .edgeLight",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\shared\\ui-glow.css",
+      "line": 140,
       "selector": ":root.theme-mid .ui-glow-button-frame > .edgeLight",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\shared\\ui-glow.css",
+      "line": 168,
+      "selector": ":root.theme-light .ui-glow-button-frame:hover:not(.ui-glow-button-frame--disabled) > .ui-glow-button-soft-edge",
       "alsoStaticDead": false
     },
     {
@@ -4775,6 +6396,24 @@
     {
       "file": "app\\styles\\shared\\ui-glow.css",
       "line": 190,
+      "selector": ".ui-glow-option-card-frame:focus-within:not(:hover) > .edgeLight",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\shared\\ui-glow.css",
+      "line": 190,
+      "selector": ".ui-glow-option-card-frame--disabled > .edgeLight",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\shared\\ui-glow.css",
+      "line": 190,
+      "selector": ".ui-glow-option-card-frame--disabled > [class*=\"edgeLight\"]",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\shared\\ui-glow.css",
+      "line": 190,
       "selector": ".ui-glow-option-card-frame--disabled::after",
       "alsoStaticDead": false
     },
@@ -4787,7 +6426,37 @@
     {
       "file": "app\\styles\\shared\\ui-glow.css",
       "line": 205,
+      "selector": ".workspace-feature-glow-card > .edgeLight",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\shared\\ui-glow.css",
+      "line": 205,
+      "selector": ".materials-glow-card > .edgeLight",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\shared\\ui-glow.css",
+      "line": 205,
+      "selector": ".materials-glow-card > [class*=\"edgeLight\"]",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\shared\\ui-glow.css",
+      "line": 205,
       "selector": ".materials-glow-card::after",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\shared\\ui-glow.css",
+      "line": 214,
+      "selector": ".materials-glow-card",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\shared\\ui-glow.css",
+      "line": 214,
+      "selector": ".invite-glow-panel",
       "alsoStaticDead": false
     },
     {
@@ -4805,13 +6474,43 @@
     {
       "file": "app\\styles\\shared\\ui-glow.css",
       "line": 239,
+      "selector": ".invite-glow-field:hover",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\shared\\ui-glow.css",
+      "line": 239,
       "selector": ".invite-glow-field:focus-within",
       "alsoStaticDead": false
     },
     {
       "file": "app\\styles\\shared\\ui-glow.css",
       "line": 250,
+      "selector": ":root.theme-light .invite-glow-field",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\shared\\ui-glow.css",
+      "line": 250,
       "selector": ":root.theme-mid .invite-glow-field",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\shared\\ui-glow.css",
+      "line": 262,
+      "selector": ":root.theme-light .invite-glow-field:hover",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\shared\\ui-glow.css",
+      "line": 262,
+      "selector": ":root.theme-light .invite-glow-field:focus-within",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\shared\\ui-glow.css",
+      "line": 262,
+      "selector": ":root.theme-mid .invite-glow-field:hover",
       "alsoStaticDead": false
     },
     {
@@ -4824,6 +6523,12 @@
       "file": "app\\styles\\shared\\ui-glow.css",
       "line": 275,
       "selector": ":root.theme-mid .invite-glow-field",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\shared\\ui-glow.css",
+      "line": 279,
+      "selector": ":root.theme-mid .invite-glow-field:hover",
       "alsoStaticDead": false
     },
     {
@@ -4847,6 +6552,12 @@
     {
       "file": "app\\styles\\shared\\ui-glow.css",
       "line": 363,
+      "selector": ":root.theme-light .ui-glow-option-card-frame > .edgeLight",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\shared\\ui-glow.css",
+      "line": 363,
       "selector": ":root.theme-mid .ui-glow-option-card-frame > .edgeLight",
       "alsoStaticDead": false
     },
@@ -4859,7 +6570,19 @@
     {
       "file": "app\\styles\\shared\\ui-glow.css",
       "line": 442,
+      "selector": ":root.theme-light .ui-glow-field > .edgeLight",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\shared\\ui-glow.css",
+      "line": 442,
       "selector": ":root.theme-mid .ui-glow-field > .edgeLight",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\shared\\ui-glow.css",
+      "line": 449,
+      "selector": ":root.theme-light :is(.ui-glow-field, .invite-glow-field) > .edgeLight::before",
       "alsoStaticDead": false
     },
     {
@@ -4883,6 +6606,12 @@
     {
       "file": "app\\styles\\shared\\ui-glow.css",
       "line": 502,
+      "selector": ".invite-glow-field.ui-glow-field:hover",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\shared\\ui-glow.css",
+      "line": 502,
       "selector": ".invite-glow-field.ui-glow-field:focus-within",
       "alsoStaticDead": false
     },
@@ -4901,7 +6630,19 @@
     {
       "file": "app\\styles\\shared\\ui-glow.css",
       "line": 535,
+      "selector": ":root.theme-light .invite-glow-field.ui-glow-field:hover",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\shared\\ui-glow.css",
+      "line": 535,
       "selector": ":root.theme-light .invite-glow-field.ui-glow-field:focus-within",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\shared\\ui-glow.css",
+      "line": 546,
+      "selector": ":root.theme-mid .invite-glow-field.ui-glow-field:hover",
       "alsoStaticDead": false
     },
     {
@@ -4913,7 +6654,19 @@
     {
       "file": "app\\styles\\shared\\ui-glow.css",
       "line": 577,
+      "selector": "html[data-contrast=\"hc\"] .register-role-options .register-role-button.register-option-card[data-checked=\"true\"]",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\shared\\ui-glow.css",
+      "line": 577,
       "selector": "html[data-contrast=\"hc\"] .register-role-options .register-role-button.register-option-card[data-checked=\"true\"]:hover",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\shared\\ui-glow.css",
+      "line": 597,
+      "selector": "html[data-contrast=\"hc\"] .register-role-options .register-role-button.register-option-card[data-checked=\"true\"]::before",
       "alsoStaticDead": false
     },
     {
@@ -4967,6 +6720,20 @@
     {
       "file": "app\\styles\\shared\\workspace-guide.css",
       "line": 99,
+      "selector": ".workspace-dashboard-panel .workspace-feature-embedded > :is(\n    .help-listings-modal-content--embedded,\n    .invite-modal-content--embedded\n  ).workspace-guide-panel.glass-subpage-surface::before",
+      "media": "@media (min-width: 769px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\shared\\workspace-guide.css",
+      "line": 99,
+      "selector": ".workspace-dashboard-panel .workspace-feature-embedded > :is(\n    .help-listings-modal-content--embedded,\n    .invite-modal-content--embedded\n  ).workspace-guide-panel.glass-subpage-surface::after",
+      "media": "@media (min-width: 769px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\shared\\workspace-guide.css",
+      "line": 99,
       "selector": ".workspace-dashboard-panel .workspace-feature-embedded > :is(\n    .help-listings-modal-content--embedded,\n    .invite-modal-content--embedded\n  ).workspace-guide-panel.glass-subpage-surface > .glass-hole-mask-layer",
       "media": "@media (min-width: 769px)",
       "alsoStaticDead": false
@@ -4975,6 +6742,20 @@
       "file": "app\\styles\\shared\\workspace-guide.css",
       "line": 116,
       "selector": ".workspace-dashboard-panel .workspace-feature-embedded :is(\n    .help-listings-panel,\n    .help-listings-item-card,\n    .invite-glow-panel,\n    .invite-list-panel,\n    .invite-list-row\n  )",
+      "media": "@media (min-width: 769px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\shared\\workspace-guide.css",
+      "line": 135,
+      "selector": ".workspace-dashboard-panel .workspace-feature-embedded :is(\n    .help-listings-panel,\n    .help-listings-item-card,\n    .invite-glow-panel,\n    .invite-list-panel,\n    .invite-list-row\n  )::before",
+      "media": "@media (min-width: 769px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\shared\\workspace-guide.css",
+      "line": 135,
+      "selector": ".workspace-dashboard-panel .workspace-feature-embedded :is(\n    .help-listings-panel,\n    .help-listings-item-card,\n    .invite-glow-panel,\n    .invite-list-panel,\n    .invite-list-row\n  )::after",
       "media": "@media (min-width: 769px)",
       "alsoStaticDead": false
     },
@@ -5009,6 +6790,13 @@
     {
       "file": "app\\styles\\shared\\workspace-guide.css",
       "line": 194,
+      "selector": ".help-listings-modal-content--workspace .help-listings-workspace-title-wrap",
+      "media": "@media (min-width: 769px)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\shared\\workspace-guide.css",
+      "line": 194,
       "selector": ".invite-modal-content--workspace .invite-workspace-title-wrap",
       "media": "@media (min-width: 769px)",
       "alsoStaticDead": false
@@ -5016,7 +6804,55 @@
     {
       "file": "app\\styles\\tailwind.css",
       "line": 17,
+      "selector": ".homeCursorScope [role=\"button\"]",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\tailwind.css",
+      "line": 17,
+      "selector": ".homeCursorScope summary",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\tailwind.css",
+      "line": 17,
+      "selector": ".homeCursorScope select",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\tailwind.css",
+      "line": 17,
+      "selector": ".homeCursorScope option",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\tailwind.css",
+      "line": 17,
+      "selector": ".homeCursorScope .btn",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\tailwind.css",
+      "line": 17,
+      "selector": ".homeCursorScope input[type=\"button\"]",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\tailwind.css",
+      "line": 17,
+      "selector": ".homeCursorScope input[type=\"submit\"]",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\tailwind.css",
+      "line": 17,
       "selector": ".homeCursorScope input[type=\"reset\"]",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\tailwind.css",
+      "line": 32,
+      "selector": ".homeCursorScope textarea",
       "alsoStaticDead": false
     },
     {
@@ -5041,6 +6877,18 @@
       "file": "app\\styles\\theme\\dark.css",
       "line": 202,
       "selector": ":root:not(.theme-light):not(.theme-mid):not(.theme-mono):not([data-contrast=\"hc\"])\n  .help-listings-modal-content\n  .help-listings-panel",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\theme\\dark.css",
+      "line": 322,
+      "selector": ":root:not(.theme-light)\n  .profile-email-dock-wrapper:not(.profile-orbit-menu-wrapper)\n  .dock-item",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\theme\\dark.css",
+      "line": 322,
+      "selector": ":root:not(.theme-light)\n  .profile-email-dock-wrapper:not(.profile-orbit-menu-wrapper)\n  .dock-item:hover",
       "alsoStaticDead": false
     },
     {
@@ -5075,25 +6923,6 @@
     },
     {
       "file": "app\\styles\\theme\\hc.css",
-      "line": 3,
-      "selector": ".skip-link",
-      "alsoStaticDead": true
-    },
-    {
-      "file": "app\\styles\\theme\\hc.css",
-      "line": 11,
-      "selector": ".skip-link:focus",
-      "alsoStaticDead": true
-    },
-    {
-      "file": "app\\styles\\theme\\hc.css",
-      "line": 23,
-      "selector": ".skip-link",
-      "media": "@media (max-width: 768px)",
-      "alsoStaticDead": true
-    },
-    {
-      "file": "app\\styles\\theme\\hc.css",
       "line": 51,
       "selector": "html[data-reduce-motion=\"1\"] .glass-card.fade-in",
       "alsoStaticDead": false
@@ -5101,8 +6930,25 @@
     {
       "file": "app\\styles\\theme\\hc.css",
       "line": 70,
+      "selector": ".three-d-card:has(.glass-card.fade-in)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\theme\\hc.css",
+      "line": 70,
+      "selector": ".three-d-card:has(.centered-back-left.fade-in)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\theme\\hc.css",
+      "line": 70,
       "selector": ".three-d-card:has(.centered-back-right.fade-in)",
       "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\theme\\hc.css",
+      "line": 337,
+      "selector": "html[data-ui-scale=\"mac\"][data-contrast=\"hc\"]"
     },
     {
       "file": "app\\styles\\theme\\hc.css",
@@ -5124,7 +6970,19 @@
     {
       "file": "app\\styles\\theme\\hc.css",
       "line": 394,
+      "selector": "html[data-contrast=\"hc\"] .register-success-shell .register-success-panel",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\theme\\hc.css",
+      "line": 394,
       "selector": "html[data-contrast=\"hc\"] .register-success-shell .register-success-panel *",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\theme\\hc.css",
+      "line": 403,
+      "selector": "html[data-contrast=\"hc\"] .homepage-root .home-before-contact-copy",
       "alsoStaticDead": false
     },
     {
@@ -5213,6 +7071,11 @@
     {
       "file": "app\\styles\\theme\\hc.css",
       "line": 702,
+      "selector": "html[data-contrast=\"hc\"] #nav-meist:hover"
+    },
+    {
+      "file": "app\\styles\\theme\\hc.css",
+      "line": 702,
       "selector": "html[data-contrast=\"hc\"] #nav-meist:focus-visible"
     },
     {
@@ -5236,7 +7099,19 @@
     {
       "file": "app\\styles\\theme\\hc.css",
       "line": 1159,
+      "selector": "html[data-contrast=\"hc\"] .invite-modal-content [data-control-type][data-checked=\"true\"]",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\theme\\hc.css",
+      "line": 1159,
       "selector": "html[data-contrast=\"hc\"] .person-invite-modal-content [data-control-type][data-checked=\"true\"]",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\theme\\hc.css",
+      "line": 1173,
+      "selector": "html[data-contrast=\"hc\"] .invite-modal-content [data-control-type][data-checked=\"true\"]::before",
       "alsoStaticDead": false
     },
     {
@@ -5406,7 +7281,19 @@
     {
       "file": "app\\styles\\theme\\hc.css",
       "line": 1356,
+      "selector": "html[data-contrast=\"hc\"] #login-modal :is(a, .home-link, .pin-layout-toggle)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\theme\\hc.css",
+      "line": 1356,
       "selector": "html[data-contrast=\"hc\"] #login-modal :is(a, .home-link, .pin-layout-toggle):is(:hover, :focus-visible, :active)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\theme\\hc.css",
+      "line": 1364,
+      "selector": "html[data-contrast=\"hc\"] #login-modal .pin-layout-toggle",
       "alsoStaticDead": false
     },
     {
@@ -5456,6 +7343,12 @@
     {
       "file": "app\\styles\\theme\\hc.css",
       "line": 1402,
+      "selector": "html[data-contrast=\"hc\"] #login-modal .login-email-icon [fill]:not([fill=\"none\"])",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\theme\\hc.css",
+      "line": 1402,
       "selector": "html[data-contrast=\"hc\"] #login-modal .login-submit-icon [fill]:not([fill=\"none\"])",
       "alsoStaticDead": false
     },
@@ -5487,6 +7380,24 @@
       "file": "app\\styles\\theme\\hc.css",
       "line": 1423,
       "selector": "html[data-contrast=\"hc\"] #login-modal :is(.fancy-checkbox--otp .text, #otp-deadline)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\theme\\hc.css",
+      "line": 1560,
+      "selector": "html[data-contrast=\"hc\"]\n  body\n  .profile-orbit-mobile-panel\n  .profile-orbit-mobile-action.dock-item",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\theme\\hc.css",
+      "line": 1560,
+      "selector": "html[data-contrast=\"hc\"]\n  body\n  .profile-orbit-mobile-panel\n  .profile-orbit-mobile-action.dock-item:is(:hover, :focus-visible, :active)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\theme\\hc.css",
+      "line": 1560,
+      "selector": "html[data-contrast=\"hc\"]\n  body\n  .profile-orbit-mobile-panel\n  .profile-orbit-mobile-row.is-active\n  .profile-orbit-mobile-action.dock-item",
       "alsoStaticDead": false
     },
     {
@@ -5564,6 +7475,12 @@
     {
       "file": "app\\styles\\theme\\light.css",
       "line": 334,
+      "selector": "html[data-ui-scale=\"mac\"].theme-light",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\theme\\light.css",
+      "line": 334,
       "selector": "html[data-ui-scale=\"lg\"].theme-light",
       "alsoStaticDead": false
     },
@@ -5607,6 +7524,12 @@
       "file": "app\\styles\\theme\\mid.css",
       "line": 307,
       "selector": ":root.theme-mid .login-modal-box.login-modal--otp .home-link",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\theme\\mid.css",
+      "line": 375,
+      "selector": ":root.theme-mid body .invite-glow-field:hover",
       "alsoStaticDead": false
     },
     {
@@ -5661,6 +7584,18 @@
     {
       "file": "app\\styles\\theme\\mid.css",
       "line": 561,
+      "selector": ":root.theme-mid .modal-confirm-content .button[data-variant=\"danger\"]:hover",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\theme\\mid.css",
+      "line": 561,
+      "selector": ":root.theme-mid .modal-confirm-content .button[data-variant=\"danger\"]:focus-visible",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\theme\\mid.css",
+      "line": 561,
       "selector": ":root.theme-mid .modal-confirm-content .button[data-variant=\"danger\"]:active",
       "alsoStaticDead": false
     },
@@ -5668,6 +7603,12 @@
       "file": "app\\styles\\theme\\mid.css",
       "line": 567,
       "selector": ":root.theme-mid .modal-confirm-content .button:not([data-variant=\"danger\"])",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\theme\\mid.css",
+      "line": 580,
+      "selector": ":root.theme-mid .modal-confirm-content .button:not([data-variant=\"danger\"]):hover",
       "alsoStaticDead": false
     },
     {
@@ -5763,6 +7704,12 @@
     {
       "file": "app\\styles\\theme\\mono.css",
       "line": 575,
+      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .invite-glow-field:hover",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\theme\\mono.css",
+      "line": 575,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .invite-glow-field:focus-within",
       "alsoStaticDead": false
     },
@@ -5775,9 +7722,28 @@
     {
       "file": "app\\styles\\theme\\mono.css",
       "line": 798,
+      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-stack-item",
+      "media": "@media (max-width: 48em)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\theme\\mono.css",
+      "line": 798,
+      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-stack-label",
+      "media": "@media (max-width: 48em)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\theme\\mono.css",
+      "line": 798,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-stack-bubble.dock-item",
       "media": "@media (max-width: 48em)",
       "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\tokens.css",
+      "line": 422,
+      "selector": "html[data-ui-scale=\"mac\"]"
     },
     {
       "file": "app\\styles\\tokens.css",
@@ -5787,7 +7753,18 @@
     {
       "file": "app\\styles\\tokens.css",
       "line": 438,
+      "selector": "html[data-ui-profile=\"mac\"]"
+    },
+    {
+      "file": "app\\styles\\tokens.css",
+      "line": 438,
       "selector": "html[data-ui-scale=\"mac\"]"
+    },
+    {
+      "file": "app\\styles\\tokens.css",
+      "line": 453,
+      "selector": "html[data-ui-profile=\"mac\"]",
+      "media": "@media (min-width: 1280px)"
     },
     {
       "file": "app\\styles\\tokens.css",
@@ -5798,8 +7775,20 @@
     {
       "file": "app\\styles\\tokens.css",
       "line": 469,
+      "selector": "html[data-ui-profile=\"mac\"]",
+      "media": "@media (min-width: 1440px)"
+    },
+    {
+      "file": "app\\styles\\tokens.css",
+      "line": 469,
       "selector": "html[data-ui-scale=\"mac\"]",
       "media": "@media (min-width: 1440px)"
+    },
+    {
+      "file": "app\\styles\\tokens.css",
+      "line": 485,
+      "selector": "html[data-ui-profile=\"mac\"]",
+      "media": "@media (min-width: 1760px)"
     },
     {
       "file": "app\\styles\\tokens.css",
@@ -5842,6 +7831,12 @@
     {
       "file": "app\\styles\\features\\chat\\mono.css",
       "line": 255,
+      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) body .chat-inputbar .chat-send-btn:hover",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\mono.css",
+      "line": 255,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) body .chat-inputbar .chat-send-btn:focus-visible",
       "alsoStaticDead": false
     },
@@ -5849,6 +7844,30 @@
       "file": "app\\styles\\features\\chat\\mono.css",
       "line": 316,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .drawer-panel--chat-glass .chat-sidebar-search-glow.ui-glow-field:is(:hover, :focus-within)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\shell.css",
+      "line": 501,
+      "selector": "body .chat-inputbar .chat-dictate-btn:hover",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\shell.css",
+      "line": 501,
+      "selector": "body .chat-inputbar .chat-dictate-btn:focus-visible",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\shell.css",
+      "line": 501,
+      "selector": "body .chat-inputbar .chat-dictate-btn:active",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\shell.css",
+      "line": 501,
+      "selector": "body .chat-inputbar .chat-dictate-btn:hover svg",
       "alsoStaticDead": false
     },
     {
@@ -5896,13 +7915,43 @@
     {
       "file": "app\\styles\\features\\chat\\shell.css",
       "line": 758,
+      "selector": "html[data-contrast=\"hc\"] body .chat-input-row .chat-side-control-btn:is(:hover, :focus-visible, :active)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\shell.css",
+      "line": 758,
       "selector": "html[data-contrast=\"hc\"] body .chat-inputbar .chat-dictate-btn:is(:hover, :focus-visible, :active)",
       "alsoStaticDead": false
     },
     {
       "file": "app\\styles\\features\\chat\\shell.css",
       "line": 770,
+      "selector": "html[data-contrast=\"hc\"] body .chat-inputbar .chat-listen-btn:hover",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\shell.css",
+      "line": 770,
+      "selector": "html[data-contrast=\"hc\"] body .chat-inputbar .chat-listen-btn:focus-visible",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\shell.css",
+      "line": 770,
       "selector": "html[data-contrast=\"hc\"] body .chat-inputbar .chat-listen-btn:active",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\themes.css",
+      "line": 251,
+      "selector": ":root.theme-light .chat-inputbar .chat-listen-btn:hover",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\themes.css",
+      "line": 251,
+      "selector": ":root.theme-light .chat-inputbar .chat-listen-btn:focus-visible",
       "alsoStaticDead": false
     },
     {
@@ -5926,7 +7975,19 @@
     {
       "file": "app\\styles\\features\\chat\\themes.css",
       "line": 462,
+      "selector": ":root.theme-mid .chat-inputbar .chat-listen-btn:hover",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\themes.css",
+      "line": 462,
       "selector": ":root.theme-mid .chat-inputbar .chat-listen-btn:focus-visible",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\themes.css",
+      "line": 504,
+      "selector": ":root.theme-mid .chat-inputbar .chat-send-btn:hover",
       "alsoStaticDead": false
     },
     {
@@ -5938,7 +7999,19 @@
     {
       "file": "app\\styles\\features\\chat\\themes.css",
       "line": 512,
+      "selector": ":root.theme-mid .chat-inputbar .chat-send-btn:hover::before",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\themes.css",
+      "line": 512,
       "selector": ":root.theme-mid .chat-inputbar .chat-send-btn:focus-visible::before",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\themes.css",
+      "line": 564,
+      "selector": ":root.theme-mid .chat-inputbar .chat-send-btn:hover",
       "alsoStaticDead": false
     },
     {
@@ -5951,6 +8024,12 @@
       "file": "app\\styles\\features\\chat\\themes.css",
       "line": 753,
       "selector": ":root:not(.theme-light):not(.theme-mid) .chat-inputbar .chat-listen-btn:focus-visible",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\chat\\themes.css",
+      "line": 768,
+      "selector": ":root:not(.theme-light):not(.theme-mid)\n  .chat-inputbar\n  .chat-listen-btn:hover\n  svg",
       "alsoStaticDead": false
     },
     {
@@ -5974,7 +8053,25 @@
     {
       "file": "app\\styles\\features\\home\\desktop.css",
       "line": 659,
+      "selector": ":root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast=\"hc\"])\r\n  .homepage-root\r\n  .home-about-panel:is(:hover, :focus-within, :active)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\home\\desktop.css",
+      "line": 659,
+      "selector": ":root.theme-night:not(.theme-mid) .homepage-root .home-about-panel:is(:hover, :focus-within, :active)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\home\\desktop.css",
+      "line": 659,
       "selector": "html[data-contrast=\"hc\"]:not(.theme-mid) .homepage-root .home-about-panel:is(:hover, :focus-within, :active)",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\features\\profile\\hc.css",
+      "line": 200,
+      "selector": "html[data-contrast=\"hc\"]\n  body\n  .profile-email-dock-wrapper.profile-orbit-menu-wrapper\n  .profile-orbit-menu__center-shell:hover",
       "alsoStaticDead": false
     },
     {
@@ -5993,6 +8090,13 @@
       "file": "app\\styles\\features\\service-map\\desktop.css",
       "line": 1580,
       "selector": ".workspace-feature-fancy-checkbox:hover .box",
+      "alsoStaticDead": false
+    },
+    {
+      "file": "app\\styles\\mobile\\accessibility-touch.css",
+      "line": 122,
+      "selector": ":root.theme-mid .register-step--field .register-input-shell--mid:hover",
+      "media": "@media (max-width: 768px) and (pointer: coarse)",
       "alsoStaticDead": false
     },
     {
@@ -6018,12 +8122,6 @@
       "file": "app\\styles\\shared\\register.css",
       "line": 66,
       "selector": ":root.theme-light .register-checkbox-card:focus-within",
-      "alsoStaticDead": false
-    },
-    {
-      "file": "app\\styles\\shared\\ui-glow.css",
-      "line": 98,
-      "selector": ".ui-glow-button-frame:focus-within:not(:hover) > [class*=\"edgeLight\"]",
       "alsoStaticDead": false
     },
     {
@@ -6078,262 +8176,6 @@
       "line": 689,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is(\n  .update-pin-content .ui-glow-field,\n  .update-email-content .ui-glow-field\n):is(:hover, :focus-within)",
       "alsoStaticDead": false
-    }
-  ],
-  "keptDynamic": [
-    {
-      "file": "app\\styles\\features\\documents\\ui.css",
-      "line": 264,
-      "selector": ".documents-dropdown--align-start .documents-dropdown-menu",
-      "alsoStaticDead": true,
-      "ignoreReason": "Template-literal class `documents-dropdown--align-${align}`/`--open-${dir}` (DocumentsDropdown.jsx:129); static scan can't see the interpolated suffix."
-    },
-    {
-      "file": "app\\styles\\features\\documents\\ui.css",
-      "line": 269,
-      "selector": ".documents-dropdown--align-end .documents-dropdown-menu",
-      "alsoStaticDead": true,
-      "ignoreReason": "Template-literal class `documents-dropdown--align-${align}`/`--open-${dir}` (DocumentsDropdown.jsx:129); static scan can't see the interpolated suffix."
-    },
-    {
-      "file": "app\\styles\\features\\documents\\ui.css",
-      "line": 274,
-      "selector": ".documents-dropdown--open-up .documents-dropdown-menu",
-      "alsoStaticDead": true,
-      "ignoreReason": "Template-literal class `documents-dropdown--align-${align}`/`--open-${dir}` (DocumentsDropdown.jsx:129); static scan can't see the interpolated suffix."
-    },
-    {
-      "file": "app\\styles\\features\\service-map\\desktop.css",
-      "line": 2504,
-      "selector": ".service-map-leaflet .leaflet-div-icon",
-      "alsoStaticDead": false,
-      "ignoreReason": "Leaflet injects .leaflet-* DOM + classes at runtime on the map; never in static markup."
-    },
-    {
-      "file": "app\\styles\\features\\service-map\\desktop.css",
-      "line": 2509,
-      "selector": ".service-map-leaflet__status",
-      "alsoStaticDead": false,
-      "ignoreReason": "Leaflet marker/status variants built in JS (ServiceMapLeaflet); class names assembled at runtime."
-    },
-    {
-      "file": "app\\styles\\features\\service-map\\desktop.css",
-      "line": 2662,
-      "selector": ".service-map-leaflet__marker--mixed",
-      "alsoStaticDead": false,
-      "ignoreReason": "Leaflet marker/status variants built in JS (ServiceMapLeaflet); class names assembled at runtime."
-    },
-    {
-      "file": "app\\styles\\features\\service-map\\desktop.css",
-      "line": 2669,
-      "selector": ".service-map-leaflet__marker--group",
-      "alsoStaticDead": false,
-      "ignoreReason": "Leaflet marker/status variants built in JS (ServiceMapLeaflet); class names assembled at runtime."
-    },
-    {
-      "file": "app\\styles\\features\\service-map\\desktop.css",
-      "line": 2673,
-      "selector": ".service-map-leaflet__marker--selected",
-      "alsoStaticDead": false,
-      "ignoreReason": "Leaflet marker/status variants built in JS (ServiceMapLeaflet); class names assembled at runtime."
-    },
-    {
-      "file": "app\\styles\\features\\service-map\\desktop.css",
-      "line": 2683,
-      "selector": ".service-map-leaflet__popup .leaflet-popup-content-wrapper",
-      "alsoStaticDead": false,
-      "ignoreReason": "Leaflet injects .leaflet-* DOM + classes at runtime on the map; never in static markup."
-    },
-    {
-      "file": "app\\styles\\features\\service-map\\desktop.css",
-      "line": 2698,
-      "selector": ".service-map-leaflet__popup .leaflet-popup-content-wrapper::before",
-      "alsoStaticDead": false,
-      "ignoreReason": "Leaflet injects .leaflet-* DOM + classes at runtime on the map; never in static markup."
-    },
-    {
-      "file": "app\\styles\\features\\service-map\\desktop.css",
-      "line": 2710,
-      "selector": ".service-map-leaflet__popup .leaflet-popup-content",
-      "alsoStaticDead": false,
-      "ignoreReason": "Leaflet injects .leaflet-* DOM + classes at runtime on the map; never in static markup."
-    },
-    {
-      "file": "app\\styles\\features\\service-map\\desktop.css",
-      "line": 2719,
-      "selector": ".service-map-leaflet__popup--group .leaflet-popup-content",
-      "alsoStaticDead": false,
-      "ignoreReason": "Leaflet injects .leaflet-* DOM + classes at runtime on the map; never in static markup."
-    },
-    {
-      "file": "app\\styles\\features\\service-map\\desktop.css",
-      "line": 2723,
-      "selector": ".service-map-leaflet__popup .leaflet-popup-tip",
-      "alsoStaticDead": false,
-      "ignoreReason": "Leaflet injects .leaflet-* DOM + classes at runtime on the map; never in static markup."
-    },
-    {
-      "file": "app\\styles\\features\\service-map\\desktop.css",
-      "line": 2730,
-      "selector": ".service-map-leaflet__popup.leaflet-popup",
-      "alsoStaticDead": false,
-      "ignoreReason": "Leaflet injects .leaflet-* DOM + classes at runtime on the map; never in static markup."
-    },
-    {
-      "file": "app\\styles\\features\\service-map\\desktop.css",
-      "line": 2734,
-      "selector": ".service-map-leaflet.leaflet-fade-anim .service-map-leaflet__popup.leaflet-popup",
-      "alsoStaticDead": false,
-      "ignoreReason": "Leaflet injects .leaflet-* DOM + classes at runtime on the map; never in static markup."
-    },
-    {
-      "file": "app\\styles\\features\\service-map\\desktop.css",
-      "line": 2739,
-      "selector": ".service-map-leaflet__popup .leaflet-popup-close-button",
-      "alsoStaticDead": false,
-      "ignoreReason": "Leaflet injects .leaflet-* DOM + classes at runtime on the map; never in static markup."
-    },
-    {
-      "file": "app\\styles\\features\\service-map\\desktop.css",
-      "line": 2763,
-      "selector": ".service-map-leaflet__popup .leaflet-popup-close-button:focus-visible",
-      "alsoStaticDead": false,
-      "ignoreReason": "Leaflet injects .leaflet-* DOM + classes at runtime on the map; never in static markup."
-    },
-    {
-      "file": "app\\styles\\features\\service-map\\desktop.css",
-      "line": 2903,
-      "selector": ".service-map-leaflet__popup .service-map-popup__actions.service-map-popup__contact-actions a",
-      "alsoStaticDead": false,
-      "ignoreReason": "Leaflet marker/status variants built in JS (ServiceMapLeaflet); class names assembled at runtime."
-    },
-    {
-      "file": "app\\styles\\features\\service-map\\desktop.css",
-      "line": 2938,
-      "selector": "html[data-contrast=\"hc\"] .service-map-leaflet__popup .leaflet-popup-tip",
-      "alsoStaticDead": false,
-      "ignoreReason": "Leaflet injects .leaflet-* DOM + classes at runtime on the map; never in static markup."
-    },
-    {
-      "file": "app\\styles\\features\\service-map\\desktop.css",
-      "line": 2948,
-      "selector": "html[data-contrast=\"hc\"] .service-map-leaflet__popup .leaflet-popup-content-wrapper::before",
-      "alsoStaticDead": false,
-      "ignoreReason": "Leaflet injects .leaflet-* DOM + classes at runtime on the map; never in static markup."
-    },
-    {
-      "file": "app\\styles\\features\\service-map\\desktop.css",
-      "line": 2954,
-      "selector": ".service-map-leaflet__popup .service-map-popup :is(h3, h4, p)",
-      "alsoStaticDead": false,
-      "ignoreReason": "Leaflet marker/status variants built in JS (ServiceMapLeaflet); class names assembled at runtime."
-    },
-    {
-      "file": "app\\styles\\features\\service-map\\desktop.css",
-      "line": 3081,
-      "selector": ".service-map-leaflet__popup .service-map-popup__actions :is(a, button)",
-      "alsoStaticDead": false,
-      "ignoreReason": "Leaflet marker/status variants built in JS (ServiceMapLeaflet); class names assembled at runtime."
-    },
-    {
-      "file": "app\\styles\\features\\service-map\\desktop.css",
-      "line": 3108,
-      "selector": ".service-map-leaflet__popup .service-map-popup__actions :is(a, button)::before",
-      "alsoStaticDead": false,
-      "ignoreReason": "Leaflet marker/status variants built in JS (ServiceMapLeaflet); class names assembled at runtime."
-    },
-    {
-      "file": "app\\styles\\features\\service-map\\desktop.css",
-      "line": 3119,
-      "selector": ".service-map-leaflet__popup .service-map-popup__actions :is(a, button)",
-      "alsoStaticDead": false,
-      "ignoreReason": "Leaflet marker/status variants built in JS (ServiceMapLeaflet); class names assembled at runtime."
-    },
-    {
-      "file": "app\\styles\\features\\service-map\\desktop.css",
-      "line": 3123,
-      "selector": ":root:not(.theme-light):not(.theme-mid) .service-map-leaflet__popup .service-map-popup__actions :is(a, button)",
-      "alsoStaticDead": false,
-      "ignoreReason": "Leaflet marker/status variants built in JS (ServiceMapLeaflet); class names assembled at runtime."
-    },
-    {
-      "file": "app\\styles\\features\\service-map\\desktop.css",
-      "line": 3133,
-      "selector": ".service-map-leaflet__popup .service-map-popup__actions :is(a, button) > span",
-      "alsoStaticDead": false,
-      "ignoreReason": "Leaflet marker/status variants built in JS (ServiceMapLeaflet); class names assembled at runtime."
-    },
-    {
-      "file": "app\\styles\\features\\service-map\\desktop.css",
-      "line": 3139,
-      "selector": ".service-map-leaflet__popup .service-map-popup__actions :is(a, button):is(:hover, :focus-visible)::before",
-      "alsoStaticDead": false,
-      "ignoreReason": "Leaflet marker/status variants built in JS (ServiceMapLeaflet); class names assembled at runtime."
-    },
-    {
-      "file": "app\\styles\\features\\service-map\\desktop.css",
-      "line": 3143,
-      "selector": ".service-map-leaflet__popup .service-map-popup__actions :is(a, button):is(:hover, :focus-visible)",
-      "alsoStaticDead": false,
-      "ignoreReason": "Leaflet marker/status variants built in JS (ServiceMapLeaflet); class names assembled at runtime."
-    },
-    {
-      "file": "app\\styles\\features\\service-map\\desktop.css",
-      "line": 3149,
-      "selector": ":root:not(.theme-light):not(.theme-mid) .service-map-leaflet__popup .service-map-popup__actions :is(a, button):is(:hover, :focus-visible)",
-      "alsoStaticDead": false,
-      "ignoreReason": "Leaflet marker/status variants built in JS (ServiceMapLeaflet); class names assembled at runtime."
-    },
-    {
-      "file": "app\\styles\\features\\service-map\\desktop.css",
-      "line": 3159,
-      "selector": "html[data-contrast=\"hc\"] .service-map-leaflet__popup .service-map-popup__actions :is(a, button):is(:hover, :focus-visible)",
-      "alsoStaticDead": false,
-      "ignoreReason": "Leaflet marker/status variants built in JS (ServiceMapLeaflet); class names assembled at runtime."
-    },
-    {
-      "file": "app\\styles\\features\\service-map\\desktop.css",
-      "line": 3168,
-      "selector": ".service-map-leaflet__popup .service-map-popup__actions :is(a, button):active",
-      "alsoStaticDead": false,
-      "ignoreReason": "Leaflet marker/status variants built in JS (ServiceMapLeaflet); class names assembled at runtime."
-    },
-    {
-      "file": "app\\styles\\features\\service-map\\desktop.css",
-      "line": 3174,
-      "selector": ".service-map-leaflet__popup .service-map-popup__actions :is(a, button):active::before",
-      "alsoStaticDead": false,
-      "ignoreReason": "Leaflet marker/status variants built in JS (ServiceMapLeaflet); class names assembled at runtime."
-    },
-    {
-      "file": "app\\styles\\features\\service-map\\desktop.css",
-      "line": 3178,
-      "selector": ".service-map-leaflet__popup .service-map-popup__actions button:disabled",
-      "alsoStaticDead": false,
-      "ignoreReason": "Leaflet marker/status variants built in JS (ServiceMapLeaflet); class names assembled at runtime."
-    },
-    {
-      "file": "app\\styles\\features\\service-map\\desktop.css",
-      "line": 3209,
-      "selector": ".service-map-leaflet .leaflet-control-attribution a",
-      "alsoStaticDead": false,
-      "ignoreReason": "Leaflet injects .leaflet-* DOM + classes at runtime on the map; never in static markup."
-    },
-    {
-      "file": "app\\styles\\features\\service-map\\mobile.css",
-      "line": 313,
-      "selector": ".service-map-leaflet__status",
-      "media": "@media (max-width: 768px)",
-      "alsoStaticDead": false,
-      "ignoreReason": "Leaflet marker/status variants built in JS (ServiceMapLeaflet); class names assembled at runtime."
-    },
-    {
-      "file": "app\\styles\\features\\service-map\\mobile.css",
-      "line": 323,
-      "selector": ".service-map-leaflet__popup--group .leaflet-popup-content",
-      "media": "@media (max-width: 520px)",
-      "alsoStaticDead": false,
-      "ignoreReason": "Leaflet injects .leaflet-* DOM + classes at runtime on the map; never in static markup."
     }
   ]
 }
