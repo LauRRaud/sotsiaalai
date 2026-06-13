@@ -13,5 +13,13 @@
     "steps": [{ "hover": "[data-key=\"back\"]" }],
     "selectors": ["[data-key=\"back\"] svg"],
     "properties": ["transform"]
+  },
+  {
+    "name": "rail-tooltip-hc",
+    "route": "/vestlus",
+    "auth": true,
+    "themes": ["hc"],
+    "selectors": ["[role=\"tooltip\"]"],
+    "properties": ["border-top-width", "border-top-style", "border-top-color", "background-clip"]
   }
 ]
