@@ -565,8 +565,7 @@ const ChatAnalysisPanel = memo(function ChatAnalysisPanel({
     "relative z-[999] col-start-3 inline-flex w-fit shrink-0 items-center justify-self-start self-center";
   const actionsInlineClassName =
     "mx-auto mt-[0.35rem] mb-[0.5rem] flex w-fit max-w-full flex-wrap items-center justify-center gap-[0.65rem]";
-  const uploadButtonClassName =
-    glassPrimaryButtonToneClassName;
+  const uploadButtonClassName = "";
   const actionButtonStabilityClassName =
     "!w-auto !justify-center !whitespace-nowrap " +
     "[transform:none] hover:[transform:none] focus-visible:[transform:none] active:[transform:none] " +
