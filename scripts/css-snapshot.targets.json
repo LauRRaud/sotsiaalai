@@ -1,9 +1,17 @@
 [
   {
-    "name": "chat-rail-icon",
+    "name": "rail-back-resting",
     "route": "/vestlus",
     "auth": true,
-    "selectors": [".chat-rail-icon-btn", ".chat-rail-icon-btn svg path"],
-    "properties": ["color", "stroke", "fill", "background-color", "box-shadow", "opacity"]
+    "selectors": ["[data-key=\"back\"] svg"],
+    "properties": ["transform"]
+  },
+  {
+    "name": "rail-back-hover",
+    "route": "/vestlus",
+    "auth": true,
+    "steps": [{ "hover": "[data-key=\"back\"]" }],
+    "selectors": ["[data-key=\"back\"] svg"],
+    "properties": ["transform"]
   }
 ]

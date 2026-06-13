@@ -46,11 +46,13 @@ before and after, across every theme and viewport.** That is exactly what
 7. **Commit** one logical stage. End the message with
    `Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>`.
 
-## No timeouts
-The snapshot harness has no arbitrary delays: it waits for real conditions
-(theme actually applied via `waitForFunction`; render flushed via two animation
-frames), with no time limit. `--keep-open` leaves a visible window open after
-capture so you can inspect and close it yourself.
+## No guessed delays (but finite limits)
+The harness never gates on a fixed sleep — it waits for real conditions (theme
+actually applied via `waitForFunction`; render flushed via two animation frames).
+Waits use generous-but-finite limits (nav 120s, actions/conditions 30s) so real
+slowness (route compile) passes, but a dead/unreachable dev server errors instead
+of hanging forever (a literal infinite wait hangs if the server dies mid-run).
+`--keep-open` leaves a visible window open after capture for you to inspect/close.
 
 ## Viewports matter — cover every breakpoint band
 CSS branches on width: main split `max-width:768px`, also `min-width:769px` and

@@ -6,9 +6,10 @@
 // — far more reliable than eyeballing screenshots (contract tests do not catch
 // visual regressions). See reports/css-struktuuriplaan-2026-06-11.md §9.
 //
-// No arbitrary timeouts: every wait is for a real condition (theme actually
-// applied, target element actually present), with no time limit — the run
-// finishes when the work is genuinely done, never on a guessed delay.
+// No guessed delays: every wait is for a real condition (theme actually
+// applied, render flushed via animation frames) — the run proceeds when the
+// work is genuinely done. Waits use generous-but-finite limits so a dead dev
+// server errors instead of hanging forever; they never gate on a fixed sleep.
 //
 // Usage:
 //   node scripts/css-snapshot.mjs --out reports/css-snapshots/<name>.json
@@ -132,9 +133,36 @@ async function applyTheme(page, theme) {
       return contrastOk && themeOk;
     },
     theme,
-    { timeout: 0, polling: 100 }
+    { timeout: 30000, polling: 100 }
   );
 }
+
+// Make hover/focus/open states settle instantly so we capture their final
+// computed value, not a mid-transition frame — keeps the snapshot deterministic
+// with no timing dependency. Re-injected after every navigation/reload.
+async function freezeMotion(page) {
+  await page
+    .addStyleTag({
+      content: "*, *::before, *::after { transition: none !important; animation: none !important; }",
+    })
+    .catch(() => {});
+}
+
+// Real browser interactions (unlike synthetic dispatchEvent, these trigger CSS
+// :hover/:focus AND React handlers). Steps run before capture so we can snapshot
+// interactive states: the back button growing on hover, tooltips appearing, an
+// opened modal, a focused input.
+async function runSteps(page, steps) {
+  for (const step of steps ?? []) {
+    if (step.hover) await page.hover(step.hover);
+    else if (step.click) await page.click(step.click);
+    else if (step.focus) await page.focus(step.focus);
+    else if (step.fill) await page.fill(step.fill.selector, step.fill.value);
+    else if (step.move) await page.mouse.move(step.move.x, step.move.y);
+  }
+}
+
+const flush = (page) => page.evaluate(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))));
 
 async function captureTarget(page, target) {
   const result = {};
@@ -144,11 +172,16 @@ async function captureTarget(page, target) {
     await page.goto(`${page.context()._baseUrl}${target.route}`, { waitUntil: "domcontentloaded" });
     for (const theme of THEMES) {
       await applyTheme(page, theme);
+      await freezeMotion(page); // re-inject: the reload in applyTheme dropped it
       // Deterministic render flush instead of a guessed settle or a timeout:0
-      // wait (which would hang if a target legitimately has no element in this
-      // theme/viewport). Two animation frames = styles/layout flushed; then we
-      // read whatever is there (absent element -> null, which is a real result).
-      await page.evaluate(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))));
+      // wait. Two animation frames = styles/layout flushed.
+      await flush(page);
+      // Drive interactive states (hover/click/focus) then flush again so their
+      // (now instant) result is settled before we read computed styles. Park the
+      // mouse first so a prior theme's hover never bleeds into this capture.
+      await page.mouse.move(0, 0);
+      await runSteps(page, target.steps);
+      await flush(page);
       const captured = await page.evaluate(
         ({ selectors, properties }) => {
           const out = {};
@@ -193,9 +226,11 @@ async function main() {
   }
 
   const page = await context.newPage();
-  // No navigation/action time limit: wait for real conditions, not the clock.
-  page.setDefaultNavigationTimeout(0);
-  page.setDefaultTimeout(0);
+  // Generous but FINITE limits: real slowness (route compile) passes, but a
+  // dead/unreachable dev server surfaces as an error instead of hanging forever
+  // (a literal 0/infinite wait hangs if the server dies mid-run).
+  page.setDefaultNavigationTimeout(120000);
+  page.setDefaultTimeout(30000);
   page.context()._baseUrl = args.baseUrl;
 
   if (token) await login(page, args.baseUrl, token);
