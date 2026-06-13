@@ -1,6 +1,10 @@
 # SotsiaalAI — CSS & Tailwindi korrastuse master-plaan
 
-Kuupäev: 13.06.2026. See on **koondav sisenemispunkt** kogu allesjäänud CSS/Tailwind-võla korrastusele. Detailid mujal:
+Kuupäev: 13.06.2026. See on **koondav sisenemispunkt** kogu allesjäänud CSS/Tailwind-võla korrastusele.
+
+> **Uus sessioon / konto algab siit:** loe esmalt `reports/css-progress-log.md` (jätka-siit: praegune seis + mis tehtud + järgmine samm — elab repos, et säilida üle kontode, sest sessiooni-mälu on konto-lokaalne).
+
+Detailid mujal:
 - `reports/css-struktuuriplaan-2026-06-11.md` §9 — võla juured + mõõdetud andmed.
 - `reports/css-cleanup-runbook.md` — samm-sammuline snapshot-väravaga töövoog (ka odavale mudelile).
 - Mälu: `css-debt-roadmap.md`, `css-restructure-progress.md`.

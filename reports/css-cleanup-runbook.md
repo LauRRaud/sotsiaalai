@@ -50,6 +50,10 @@ before and after, across every theme and viewport.** That is exactly what
      (it corrupts UTF-8); edit with a normal editor / the Edit tool.
 7. **Commit** one logical stage. End the message with
    `Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>`.
+8. **Journal it:** append a dated entry to `reports/css-progress-log.md` (commit
+   hash + what/why + how verified) and refresh its "PRAEGUNE SEIS / JÄRGMINE
+   SAMM". This lives in the repo so a new session/account continues without
+   starting over (session memory is account-local).
 
 ## No guessed delays (but finite limits)
 The harness never gates on a fixed sleep — it waits for real conditions (theme
