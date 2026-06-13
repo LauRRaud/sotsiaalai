@@ -336,9 +336,13 @@ async function existencePass(page, rules) {
 
 // For each rule that has a forceable dynamic pseudo and whose base matches in the
 // current DOM, force that pseudo on up to N matching elements and diff computed
-// style idle-vs-forced. Returns the set of rule ids that produced ANY change.
+// style idle-vs-forced. Returns { effective, tested }: ids that produced ANY
+// change, and ids we actually exercised (base matched ≥1 node). Only `tested`
+// rules may be called state-no-op — a rule seen ONLY via the mount/android
+// existence passes was never exercised here, so its state is UNKNOWN, not no-op.
 async function behaviourPass(cdp, rootNodeId, rules, maxEls) {
   const effective = new Set();
+  const tested = new Set();
   // only rules whose forceable pseudo sits on the SUBJECT — :has()/:not()-internal
   // state cannot be exercised by forcing on the matched node (would be false no-op).
   const stateRules = rules.filter((r) => r.forcePseudos.length > 0);
@@ -351,6 +355,7 @@ async function behaviourPass(cdp, rootNodeId, rules, maxEls) {
     } catch {
       continue; // base invalid for the agent
     }
+    if (nodeIds.length > 0) tested.add(r.id);
     let checked = 0;
     for (const nodeId of nodeIds) {
       if (checked >= maxEls) break;
@@ -371,7 +376,7 @@ async function behaviourPass(cdp, rootNodeId, rules, maxEls) {
       }
     }
   }
-  return effective;
+  return { effective, tested };
 }
 
 // Open JS-mounted popups (dropdowns/menus/comboboxes) so their conditionally
@@ -464,6 +469,7 @@ async function main() {
 
   const everSeen = new Set();   // rule ids whose base matched somewhere
   const everEffective = new Set(); // state rule ids whose forced state changed computed
+  const everStateTested = new Set(); // state rule ids the behaviour pass actually exercised
   const keepInvalid = new Set(); // rule ids whose base is invalid for querySelector
 
   const needsAuth = routes.some((r) => r.auth !== false);
@@ -518,8 +524,9 @@ async function main() {
 
           if (args.states) {
             const { root } = await cdp.send("DOM.getDocument", { depth: -1 });
-            const eff = await behaviourPass(cdp, root.nodeId, rules, args.maxStateEls);
-            for (const id of eff) everEffective.add(id);
+            const { effective, tested } = await behaviourPass(cdp, root.nodeId, rules, args.maxStateEls);
+            for (const id of effective) everEffective.add(id);
+            for (const id of tested) everStateTested.add(id);
           }
           okThemes += 1;
         } catch (e) {
@@ -572,7 +579,11 @@ async function main() {
   for (const r of rules) {
     if (!r.testable || keepInvalid.has(r.id)) continue;
     const isDead = !everSeen.has(r.id);
-    const isStateNoOp = !isDead && args.states && r.forcePseudos.length > 0 && !everEffective.has(r.id);
+    // state-no-op only if the behaviour pass actually exercised it (base matched
+    // during a behaviourPass run) — a rule seen only via mount/android existence
+    // was never state-tested, so its state is unknown, not no-op.
+    const isStateNoOp = !isDead && args.states && r.forcePseudos.length > 0
+      && everStateTested.has(r.id) && !everEffective.has(r.id);
     if (!isDead && !isStateNoOp) continue;
     const reason = ignoredReason(r.selector);
     if (reason) { keptDynamic.push({ ...r, ignoreReason: reason }); continue; }
