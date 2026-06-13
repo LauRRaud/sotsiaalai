@@ -15,19 +15,28 @@
 ## PRAEGUNE SEIS (13.06.2026)
 - **Struktuurne restruktuur:** valmis (etapid 0–7 + 6a/b/c).
 - **Rail-dedup + orbiit + surnud mask:** valmis (vt allpool).
-- **Verifikatsiooni-infra (tööriistad):** valmis ja serveris — snapshot + diff + matched-rules. NB: `[role="tooltip"]` on `null` tühja testikonto kontekstis (tooltip ei renderduta ilma rail-itemiteta) ja `rail-back-hover` ajab timeout (pointer-events: none rail; vajab force:true või teist selektor). Tööriistad töötavad — targets vajab viimistlust.
-- **Faas 1 (surnud kood):** alustatud — HC tooltip Block 1 eemaldatud (vt allpool).
+- **Verifikatsiooni-infra (tööriistad):** valmis ja serveris — snapshot + diff + matched-rules. NB: `[role="tooltip"]` on `null` tühja testikonto kontekstis. `rail-back-hover` nüüd try/catch + `force:true` (ei krahhita enam timeoutist). Targets töötavad.
+- **Faas 1 (surnud kood):** käimas — Block 1 + Block 3 border + defer-fade eemaldatud (vt allpool). css:audit = 26 notSeen (kõik false positives/a11y).
 
 ## JÄRGMINE SAMM
-**Faas 1 surnud kood jätkub.** Järgmised kandidaadid (css:audit analüüsitud 13.06):
-- **`skip-link` hc.css-is** (read 3–26): CSS-ainult, JSX-is pole kasutusel. Standard a11y klass — kas eemaldada või jätta? Küsi kasutajalt.
-- **`defer-fade` animations.css + hc.css** (animations.css:285, hc.css:57): animatsiooni-klass, JSX-is pole. Tõenäoliselt surnud, aga võib olla JS-i kaudu kasutusel (`classList.add`). Grep näitas null osumeid.
-- **Snapshot-targets täiustus:** `rail-back-hover` vajab `force:true` parameetrit (pointer-events:none rail) ja `rail-tooltip-hc` vajab workspace-teadlikku sessiooni (tooltip renderdub ainult täidetud railiga). CSS-muutusteks kasuta kaskaadi-analüüsi + teste, kui snapshot-element on `null`.
-Nupu-konsolideerimine on järgmine suurem samm (faas 2, kõrgem risk).
+**Faas 1 surnud kood jätkub.** Praegune seis: −240+ rida selles sessioonis. Järgmised suunad:
+- **Veel `body[data-*]` kandideate?** data-platform, data-theme-switching, data-initial-page — kontrollida kas need seatakse ainult html-l vm ka body-l.
+- **`-webkit-backface-visibility` (12 tk)** — `backface-visibility` on standard alates 2013, webkit prefix dead. Iga juhum vajab konteksti-kontrovertsi.
+- **`glass-policy-back` `:not()`-ahelates** (hc.css, mono.css): keeruline, madal prioriteet.
+- **Nupu-konsolideerimine** = järgmine suurem samm (faas 2, kõrgem risk).
 
 ---
 
 ## Tehtud (krooniline)
+
+### Faas 1 — surnud `body[data-reduce-*]` selektorid 6 failis  [972f7d37]
+`data-reduce-motion` ja `data-reduce-transparency` seatakse ainult `<html>`-l (AccessibilityProvider + layout init script). `<body>`-l mitte kunagi. Eemaldati kõik `body[data-reduce-motion]` + `body[data-reduce-transparency]` selektorid: core.css (9 selektor-rida), backgrounds.css (2), chat/shell.css (3), profile/mobile.css (3), glass-subpage.css (1), WorkspacePanel.module.css (1). Kokku −27 rida. Testid: 968/12 baseline.
+
+### Faas 1 — orvud @keyframes animatsioonifailides  [61c51331 → b99a2f51 + f0d5afc4 + 1f6075e2]
+`@-webkit-keyframes indicator` + `@keyframes indicator` (animations.css, −28 rida): null referentse. 7 orvust @keyframes animations.css-ist (cardBlurIntro, chat-sources-pulse, skel, topnav-toggle-pulse, chat-enter-clear, pinAltZeroFade, pinAltClearFade, −115 rida). 4 orvust @keyframes teema/feature-failides (home-logo-shine-fade-mobile, profile-orbit-mobile-hub-pulse, profile-orbit-hub-mobile-pulse, hc-orbit-glow-pulse, −68 rida). Kokku −211 rida.
+
+### Faas 1 — HC tooltip Block 3 surnud `border: 1.5px` + snapshot hover fix  [61c51331]
+`components/chat/rail.module.css` Block 3 (read 252): `border: 1.5px solid var(--hc-accent, #ffea00)` eemaldatud. Block 2 (sama selektor, spetsiifilisus 0,2,0) on `border: 2px solid !important` — alati võidab normaale. Kaskaadi-tõend deterministlik. Lisaks: `css-snapshot.mjs` hover-samm nüüd try/catch (timeoutist mitte krahhita) + `force:true` tugi. `css-snapshot.targets.json` uuendatud. Testid: 968 pass, 12 fail (baseline, 0 uut).
 
 ### Faas 1 — .defer-fade + @keyframes dfade-in (surnud kood)  [0e52c29c]
 `app/styles/base/animations.css` `.defer-fade` klass (12 rida) + `@keyframes dfade-in` (16 rida) eemaldatud. `app/styles/theme/hc.css` reduce-motion valvur (6 rida) eemaldatud. Kokku −35 rida. Verifikatsioon: grep 0 osumeid JSX/HTML-is; testid 12/12 baseline. Kaskaad-ohutu (ükski element ei vastanud selektorile).
