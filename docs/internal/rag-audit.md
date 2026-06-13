@@ -1015,14 +1015,27 @@ Status: DONE / all four stages committed and pushed; no deploy, no prisma migrat
 - **C1 graph-lite phase 1 (commit d01c3552):** Prisma models `RagEntity`/`RagRelation`/`RagChunkEntity` + enums (deliberately NO migration file: creating one would auto-apply on the next `prisma migrate deploy`; activation is a separate approved step). `lib/rag/graph/graphSchema.js` defines the vocabulary, allowed (from, relation, to) triples, mandatory evidence on every relation, and forces risk relations to NEEDS_REVIEW. `lib/rag/graph/kovGraphBuilder.js` builds deterministically from KOV canonical bundles; free-text fields are not turned into entities. `npm run rag:graph:plan` over 78 KOV bundles produced 4046 entities and 9385 evidence-carrying relations with 185 data-quality warnings (dangling relatedForms/relatedContacts references — useful KOV data findings). Plan JSON (7.9 MB) is regenerable and not committed.
 - Final broad regression incl. new suites: **280/280**; `npm run build` green with the schema change.
 
+### Graph-lite Track C Complete + Live 2026-06-12/13 (C1 activation + C2 + matcher)
+
+Status: DONE / deployed / `RAG_GRAPH_CHANNEL_ENABLED=1` ON in production
+
+- **C1 activation:** prisma migration applied, graph persisted in Postgres (4046 entities / 9385 relations).
+- **C2 graph retrieval channel (commits fa152401 → 70b68d3e, f28911df):** the channel matches question entities and 1-hop-traverses `RagRelation` to produce extra retrieval query anchors — never answer text, never bypasses attribution. Two design refinements after the first eval comparison (graph-on 28/30 vs off 30/30, where graph queries diluted comparison/legal balance):
+  - **Mode-gate:** excluded `comparison`/`legal_exact`/`explicit_paragraph`/`overview_synthesis`/`national_source_lookup`/`source_lookup`/`temporal` — modes with purpose-built query plans that graph expansion measurably dilutes.
+  - **Separate tagged pass + quota:** graph queries run as their own `searchRagQueries` pass (not mixed into native queries), so native per-query depth is structurally untouched. `selectGraphChannelSupplement` keeps only documents native retrieval missed (native wins via `ragMatchKey` dedupe), marks them `graph_channel_origin`/`retrieval_channel_graph`, and caps to `GRAPH_CHANNEL_MAX_DISPLAYED` (default 3, env `RAG_GRAPH_CHANNEL_MAX_SLOTS`). `graphChannelSearchTopK` sizes the separate pass budget. Trace: `query_plan.graph_channel.added_candidate_count`.
+- **Municipality matcher fix (commit 5c071fec):** people ask "kas Kuusalus on koduteenus?", not "Kuusalu vallas". `municipalityStem` matches the name minus trailing vald/linn with Estonian case-ending tolerance (tighter suffix window for short stems so `rae` ≠ `raekoja`). `scopeMatchesToMunicipalities` scopes per-municipality `kov_item:*` entities to the municipality named in the question (via matched MUNICIPALITY entity) or carried by the conversation — with no municipality context they are dropped rather than linked to an alphabetical pick. Matching is uncapped → scoped → then capped so the right municipality is not crowded out by a same-name service across 78 bundles. Live probe confirmed `"Kas Kuusalus on koduteenus?"` → `municipality:kuusalu_vald` + its koduteenus (previously Alutaguse/Anija by alphabet).
+- **Eval parity:** golden eval re-run after each change — graph-off 37/37 and graph-on 37/37 (`RAG_EVAL_GRAPH_TEST=1` override; reports `golden-eval-graph{off,on}-2026-06-13.json`). The activation gate (graph-on must not regress) is met.
+- **Flag enabled (deploy 9c2d6e9f, commit ee6ac2c7):** `RAG_GRAPH_CHANNEL_ENABLED=1` set in `/etc/sotsiaalai/frontend.env` + service restart. Live probe WITHOUT the test override confirms `graph_channel` fires in the production trace. Rollback = env `=0` + restart (code stays, channel sleeps).
+- **Corpus growth alongside (track B):** B1 high 32 PDFs + B2 medium 129 PDFs ingested; embedding sub-batching fix (`rag-service/main.py`) re-ingested 6 large reports that previously hit BadRequest. DB 5824 docs / 50410 vectors.
+
 ## Current Next Steps
 
-The full forward plan lives in `docs/internal/rag-roadmap.md` (quality track A, ingestion track B, architecture track C). With A1/B0/A2/C1 done, the next candidates are:
+The full forward plan lives in `docs/internal/rag-roadmap.md` (quality track A, ingestion track B, architecture track C). As of 2026-06-13 A1/A2, B0–B2 and the whole architecture track C (C1 activation + C2 channel, flag ON in production) are DONE; the original 6 golden-eval baseline failures were all closed (eval grew to 37/37). Remaining candidates:
 
-1. Triage the 6 golden-eval baseline failures: crisis detection review first (safety), then follow-up source reuse, worksheet retrieval, inflected-fee retrieval; loosen the Harku wording expectation if the answer is actually fine. V2.8 diversity tuning now has a measurable target (`ajakiri_overview_omastehooldus`).
-2. B1: 39 high-priority master-list PDFs via `knowledge:source-master:ingest` in batches, +1-2 eval cases per batch.
-3. C1 activation when approved: `npx prisma migrate dev --name rag_graph_lite --create-only`, review SQL, deploy, then an apply script writes the graph plan into Postgres. C2 (graph retrieval channel behind `RAG_GRAPH_CHANNEL_ENABLED`) compares against the golden-eval baseline.
-4. Fix the 185 KOV dangling-reference warnings from the graph plan as a small KOV data-quality pass.
+1. **0-source fix (next genuine item):** a general topic question with no source hint (e.g. "Mis on integreeritud teenused?") stays in default mode and displays 0 sources even though the answer comes from RAG. Same class as the V2.8 diversity question — make the mode/source-display decision recognize topic questions that RAG actually answered.
+2. **B3** journal articles from the master list (11) via the existing `rag:ingest:ajakiri` pipeline; **B4** organization-harvest automation (60 orgs) — the large remaining ingest item.
+3. **Optional / future:** B5 HTML/theme pages, A3 diversity tuning (only if eval shows narrow corpus use), C3 LLM-planner experiment, C4 graph-lite phase 2 (LLM extraction with review).
+4. **Graph polish:** per-source UI marking of graph origin (marker currently dies at `groupMatches`, trace-only), same-stem municipality dedupe (rare), the 185 KOV dangling-reference warnings, `needs_review` dead-link URL fixes, OCR path for image brochures.
 
 `master_sources_final.json` was restored from git history on 2026-06-11 (323 sources, 180 PDF ingest candidates, 39 high priority) after being accidentally deleted in commit 8a4c767b.
 
@@ -1036,20 +1049,9 @@ Guardrails:
 
 ## Next Window Handoff Task
 
-Platform live smoke and the server trace check passed on 2026-06-10; that validation milestone is closed.
+The validation, metadata-backfill, golden-eval and graph-lite milestones are all closed (2026-06-10 → 06-13). Graph-lite track C is live in production. The canonical forward handoff now lives in `docs/internal/rag-roadmap.md` "JÄTKA SIIT".
 
-Task:
-
-- Run the final broad RAG/chat regression command and `npm run build`.
-- Start the source metadata backfill track: run `rag:audit:freshness`, `organization:audit-metadata` and `rag:plan:metadata` to produce a concrete backfill plan before changing any stored metadata.
-- Design the golden eval set for overview/resource-discovery/life-situation/comparison modes.
-
-Expected final sequence:
-
-1. Final regression/build.
-2. Metadata backfill (plan first, then apply).
-3. Golden eval.
-4. V2.8 diversity tuning only if eval shows broad questions use too little of the corpus.
+Next task: the **0-source fix**. A general topic question with no source hint ("Mis on integreeritud teenused?") falls into default mode and shows 0 sources even though the answer is RAG-derived. Investigate the mode/source-display decision in `lib/chat/retrievalContextAssembler.js`, get a baseline (probe + a couple of golden-eval cases of this class), make a targeted change behind the existing patterns, and re-run the golden eval for parity. Keep the cookie-based smoke + eval workflow (`SOTSIAALAI_SMOKE_COOKIE` from the browser).
 
 ## Previous V2.4A Live Smoke Prompt List
 

@@ -1,8 +1,16 @@
 # SotsiaalAI RAG tegevuskava
 
-Seis: 2026-06-11 (õhtu)
+Seis: 2026-06-13
 Omanik: Laur + Claude
 Seotud: `docs/internal/rag-audit.md` (tehniline audit ja tehtud tööde logi)
+
+**Lühiseis 2026-06-13:** Graph-lite (rada C) on VALMIS ja PRODUKTSIOONIS —
+C1 aktiveeritud, C2 graafi-kanal (eraldi tag-otsing + kvoot + mode-gate +
+munitsipaliteedi-matcher) deploytud ja flag `RAG_GRAPH_CHANNEL_ENABLED=1` sees,
+live-probe kinnitatud. Eval 37/37 graaf sees = väljas. Tehtud ka A1/A2, B0–B2,
+embedding sub-batching. JÄRGMINE PÄRIS-AVATUD SAMM: 0-allika parandussiht
+(üldine teemaküsimus ilma allika-vihjeta kuvab 0 allikat — vt allpool).
+Ülejäänud lahtine: B3–B5 ingest, C3/C4 (tulevik), graafi-viimistlus.
 
 ## JÄTKA SIIT (käsiraamat uuele sessioonile)
 
