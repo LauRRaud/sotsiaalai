@@ -42,7 +42,7 @@ const ORBIT_GLOW_BTN_CLASS =
 
 // Edge-glow sheen layer rendered inside every dock glow button.
 const OrbitStaticGlow = () => (
-  <OrbitStaticGlow />
+  <span className="profile-orbit-static-glow" aria-hidden="true" />
 );
 
 function focusWithoutScroll(element) {
