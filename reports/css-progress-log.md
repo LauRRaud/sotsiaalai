@@ -15,15 +15,22 @@
 ## PRAEGUNE SEIS (13.06.2026)
 - **Struktuurne restruktuur:** valmis (etapid 0–7 + 6a/b/c).
 - **Rail-dedup + orbiit + surnud mask:** valmis (vt allpool).
-- **Verifikatsiooni-infra (tööriistad):** valmis ja serveris — snapshot + diff + matched-rules.
-- **Tegelik korrastustöö (faasid 1–5):** EI ole alustatud. Eeltöö (tööriistad + plaan + runbook) on tehtud.
+- **Verifikatsiooni-infra (tööriistad):** valmis ja serveris — snapshot + diff + matched-rules. NB: `[role="tooltip"]` on `null` tühja testikonto kontekstis (tooltip ei renderduta ilma rail-itemiteta) ja `rail-back-hover` ajab timeout (pointer-events: none rail; vajab force:true või teist selektor). Tööriistad töötavad — targets vajab viimistlust.
+- **Faas 1 (surnud kood):** alustatud — HC tooltip Block 1 eemaldatud (vt allpool).
 
 ## JÄRGMINE SAMM
-Esimene päris snapshot-väravaga etapp. Soovitus: **faas 1 (surnud kood)** VÕI **nupu-konsolideerimine** (vt master-plaan §4). Mehaaniline + snapshot-väravaga → sobib ka Sonnet 4.6-le. **NB:** jooksuta snapshot'e vastu `next build` + `next start` (mitte `npm run dev` — sureb korduvatel reload'idel).
+**Faas 1 surnud kood jätkub.** Järgmised kandidaadid (css:audit analüüsitud 13.06):
+- **`skip-link` hc.css-is** (read 3–26): CSS-ainult, JSX-is pole kasutusel. Standard a11y klass — kas eemaldada või jätta? Küsi kasutajalt.
+- **`defer-fade` animations.css + hc.css** (animations.css:285, hc.css:57): animatsiooni-klass, JSX-is pole. Tõenäoliselt surnud, aga võib olla JS-i kaudu kasutusel (`classList.add`). Grep näitas null osumeid.
+- **Snapshot-targets täiustus:** `rail-back-hover` vajab `force:true` parameetrit (pointer-events:none rail) ja `rail-tooltip-hc` vajab workspace-teadlikku sessiooni (tooltip renderdub ainult täidetud railiga). CSS-muutusteks kasuta kaskaadi-analüüsi + teste, kui snapshot-element on `null`.
+Nupu-konsolideerimine on järgmine suurem samm (faas 2, kõrgem risk).
 
 ---
 
 ## Tehtud (krooniline)
+
+### Faas 1 — HC tooltip Block 1 (surnud kood)  [c6c0d387, 992fc096]
+`components/chat/rail.module.css` HC tooltip Block 1 eemaldatud: `html[data-contrast="hc"] .tooltip { border: 2px solid var(--rail-tooltip-border,...); background-clip: padding-box; }` — 100% surnud kood, mida Block 2 (sama selektor, !important) alati üle kirjutas. Testid: 12 baseline, 0 uut. Kaskaadi-analüüs deterministlik (snapshot-element null tühja konto kontekstis — vt JÄRGMINE SAMM). Paigaldati Playwright browserid serverile; genereeriti tmp-create-login-token.mjs serverile.
 
 ### Etapp 6c — kaskaadi-konsolideerimine (night)  [5b6485ef, c345cf40, 344fc51d]
 dark.css `:not()`-ahela baidi-identsed night-koopiad konsolideeritud: login-otp ×3 (dup 1388→1381), framework-page-shell. Testid = 12 baseline; brauseris arvutatud stiilid identsed. dark.css `:not()`-ahel ammendatud baidi-identsete osas.
