@@ -613,7 +613,7 @@ export default function RagAdminDocumentsView({ controller, showMessage = true }
             )}
             {selectedIds.size ? (
               <Button
-                variant="primary"
+                variant="ghost"
                 className={`${buttonBaseClassName} ${buttonPrimaryClassName}`}
                 onClick={handleBulkReindex}
                 disabled={reindexingId !== null}
@@ -869,7 +869,7 @@ export default function RagAdminDocumentsView({ controller, showMessage = true }
           {visibleCount < filteredDocs.length ? (
             <div className="flex flex-wrap items-center gap-2">
               <Button
-                variant="primary"
+                variant="ghost"
                 className={`${buttonBaseClassName} ${buttonSecondaryClassName}`}
                 onClick={() => setVisibleCount(count => count + 25)}
               >

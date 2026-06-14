@@ -363,7 +363,7 @@ function renderFileCards({
                   }}
                 />
                 <Button
-                  variant="primary"
+                  variant="ghost"
                   className={`${buttonBaseClassName} ${buttonSecondaryClassName} ${buttonTinyClassName}`}
                   onClick={() => fileInputRefs.current[file.key]?.click()}
                   disabled={busy}
@@ -403,7 +403,7 @@ function renderSaveActions({ et, saveBusy, onSave, message, hint }) {
   return (
     <div className="flex flex-wrap items-center gap-2 rounded-[12px] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)] px-3 py-2.5">
       <Button
-        variant="primary"
+        variant="ghost"
         className={`${buttonBaseClassName} ${buttonPrimaryClassName} ${buttonCompactClassName}`}
         onClick={() => onSave()}
         disabled={saveBusy}
@@ -626,7 +626,7 @@ export default function KovDetailPanel({
                   {et ? "Värskendatud" : "Updated"}: {ragSnapshot.checkedAt ? formatDateTime(ragSnapshot.checkedAt, locale) : "-"}
                 </span>
                 <Button
-                  variant="primary"
+                  variant="ghost"
                   className={buttonRefreshClassName}
                   onClick={() => onRefreshRagStatus?.()}
                   disabled={ragStatusLoading}
@@ -688,7 +688,7 @@ export default function KovDetailPanel({
               ) : null}
               <div className="flex flex-wrap gap-2">
                 <Button
-                  variant="primary"
+                  variant="ghost"
                   className={`${buttonBaseClassName} ${buttonPrimaryClassName} ${buttonCompactClassName}`}
                   onClick={() => onReplaceIngest?.()}
                   disabled={_ingestBusy || entry.ingestSummary?.canIngest !== true}
@@ -797,7 +797,7 @@ export default function KovDetailPanel({
 
           <div className="flex flex-wrap gap-2 pt-1 pb-1">
             <Button
-              variant="primary"
+              variant="ghost"
               className={`${buttonBaseClassName} ${buttonSecondaryClassName} ${buttonCompactClassName}`}
               onClick={() => onLightCheck?.()}
               disabled={lightCheckBusy}
@@ -807,7 +807,7 @@ export default function KovDetailPanel({
                 : et ? "Kontrolli muudatusi" : "Check for changes"}
             </Button>
             <Button
-              variant="primary"
+              variant="ghost"
               className={`${buttonBaseClassName} ${buttonSecondaryClassName} ${buttonCompactClassName}`}
               onClick={() => onRtLightCheck?.()}
               disabled={rtLightCheckBusy}
@@ -828,7 +828,7 @@ export default function KovDetailPanel({
                 {et ? "Märgi KOV ülevaatuseks" : "Mark KOV for review"}
               </Button>
               <Button
-                variant="primary"
+                variant="ghost"
                 className={`${buttonBaseClassName} ${buttonSecondaryClassName} ${buttonCompactClassName}`}
                 onClick={() => onConfirmWebLightCheck?.()}
               >
@@ -847,7 +847,7 @@ export default function KovDetailPanel({
                 {et ? "Märgi RT ülevaatuseks" : "Mark RT for review"}
               </Button>
               <Button
-                variant="primary"
+                variant="ghost"
                 className={`${buttonBaseClassName} ${buttonSecondaryClassName} ${buttonCompactClassName}`}
                 onClick={() => onConfirmRtLightCheck?.()}
               >

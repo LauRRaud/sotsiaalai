@@ -132,7 +132,7 @@ export default function RagAdminIngestView({ controller, showMessage = true }) {
             <div className={cardActionsClassName}>
               <Button
                 size="sm"
-                variant="primary"
+                variant="ghost"
                 className={`${buttonBaseClassName} ${buttonSecondaryClassName} ${buttonCompactClassName}`}
                 onClick={handleSelftest}
                 disabled={selftestBusy}
@@ -141,7 +141,7 @@ export default function RagAdminIngestView({ controller, showMessage = true }) {
               </Button>
               <Button
                 size="sm"
-                variant="primary"
+                variant="ghost"
                 className={buttonRefreshClassName}
                 onClick={fetchDocuments}
                 disabled={loadingList}
@@ -187,7 +187,7 @@ export default function RagAdminIngestView({ controller, showMessage = true }) {
                   <Button
                     size="sm"
                     type="submit"
-                    variant="primary"
+                    variant="ghost"
                     className={`${buttonBaseClassName} ${buttonPrimaryClassName} ${buttonCompactClassName} self-start`}
                     disabled={urlBusy}
                   >
@@ -276,7 +276,7 @@ export default function RagAdminIngestView({ controller, showMessage = true }) {
                     <Button
                       size="sm"
                       type="submit"
-                      variant="primary"
+                      variant="ghost"
                       className={`${buttonBaseClassName} ${buttonPrimaryClassName} ${buttonCompactClassName}`}
                       disabled={pdfMetaBusy}
                     >
@@ -329,7 +329,7 @@ export default function RagAdminIngestView({ controller, showMessage = true }) {
                   <Button
                     size="sm"
                     type="submit"
-                    variant="primary"
+                    variant="ghost"
                     className={`${buttonBaseClassName} ${buttonPrimaryClassName} ${buttonCompactClassName} self-start`}
                     disabled={rtXmlBusy}
                   >
@@ -405,7 +405,7 @@ export default function RagAdminIngestView({ controller, showMessage = true }) {
                   <div className={articlesActionsClassName}>
                     <Button
                       type="submit"
-                      variant="primary"
+                      variant="ghost"
                       className={`${buttonBaseClassName} ${buttonPrimaryClassName}`}
                       disabled={articlesBusy}
                     >

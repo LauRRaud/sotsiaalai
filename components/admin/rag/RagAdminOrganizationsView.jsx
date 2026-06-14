@@ -238,7 +238,7 @@ export default function RagAdminOrganizationsView({ locale, initialItems = [] })
             ) : null}
             {selectedSlugs.size ? (
               <Button
-                variant="primary"
+                variant="ghost"
                 className={`${buttonBaseClassName} ${buttonPrimaryClassName} ${buttonCompactClassName}`}
                 onClick={ingestSelected}
                 disabled={bulkIngestBusy}
@@ -483,7 +483,7 @@ export default function RagAdminOrganizationsView({ locale, initialItems = [] })
                       {et ? "Margi valmis" : "Mark ready"}
                     </Button>
                     <Button
-                      variant="primary"
+                      variant="ghost"
                       className={`${buttonBaseClassName} ${buttonPrimaryClassName} ${buttonCompactClassName}`}
                       onClick={saveDetail}
                       disabled={saveBusy || !editing}
@@ -520,7 +520,7 @@ export default function RagAdminOrganizationsView({ locale, initialItems = [] })
                         : et ? "Valideeri tuumfailid uuesti" : "Revalidate core files"}
                     </Button>
                     <Button
-                      variant="primary"
+                      variant="ghost"
                       className={`${buttonBaseClassName} ${buttonPrimaryClassName} ${buttonCompactClassName}`}
                       onClick={() => ingestSingle(selectedEntry.slug)}
                       disabled={ingestBusySlug === selectedEntry.slug || selectedEntry.ingestSummary?.canIngest !== true}
@@ -652,7 +652,7 @@ export default function RagAdminOrganizationsView({ locale, initialItems = [] })
                         {et ? "Värskendatud" : "Updated"}: {ragStatus?.checkedAt ? formatDateTime(ragStatus.checkedAt, locale) : "-"}
                       </span>
                       <Button
-                        variant="primary"
+                        variant="ghost"
                         className={buttonRefreshClassName}
                         onClick={() => refreshSelectedRagStatus()}
                         disabled={ragStatusLoading}
@@ -813,7 +813,7 @@ export default function RagAdminOrganizationsView({ locale, initialItems = [] })
 
                   <div className={filePickerClassName}>
                     <Button
-                      variant="primary"
+                      variant="ghost"
                       className={`${buttonBaseClassName} ${buttonSecondaryClassName} ${buttonCompactClassName}`}
                       onClick={() => attachmentInputRef.current?.click()}
                       disabled={fileBusyKey === `${selectedEntry.slug}:attachment`}

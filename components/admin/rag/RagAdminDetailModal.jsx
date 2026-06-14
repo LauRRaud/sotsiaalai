@@ -42,7 +42,7 @@ export default function RagAdminDetailModal({ controller }) {
               {detailDoc.title || tr("admin.rag.documents.untitled")}
             </div>
           </div>
-          <Button variant="primary" className={`${buttonBaseClassName} ${buttonSecondaryClassName}`} onClick={closeDetail}>
+          <Button variant="ghost" className={`${buttonBaseClassName} ${buttonSecondaryClassName}`} onClick={closeDetail}>
             {tr("admin.rag.actions.close")}
           </Button>
         </div>
@@ -147,10 +147,10 @@ export default function RagAdminDetailModal({ controller }) {
             <div className={readOnlyFieldClassName}>{tr("admin.rag.modal.language")}: {detailDoc.language || "-"}</div>
           </div>
           <div className="flex flex-wrap items-center gap-2">
-            <Button variant="primary" className={`${buttonBaseClassName} ${buttonPrimaryClassName}`} onClick={saveDetail}>
+            <Button variant="ghost" className={`${buttonBaseClassName} ${buttonPrimaryClassName}`} onClick={saveDetail}>
               {tr("admin.rag.actions.save")}
             </Button>
-            <Button variant="primary" className={`${buttonBaseClassName} ${buttonSecondaryClassName}`} onClick={closeDetail}>
+            <Button variant="ghost" className={`${buttonBaseClassName} ${buttonSecondaryClassName}`} onClick={closeDetail}>
               {tr("admin.rag.actions.cancel")}
             </Button>
           </div>

@@ -186,7 +186,8 @@ export const buttonSecondaryClassName =
   "disabled:!opacity-100 disabled:![border:1px_solid_var(--admin-button-disabled-border)] disabled:![background:var(--admin-button-disabled-bg)] disabled:!text-[color:var(--admin-button-disabled-text)] " +
   "aria-disabled:!opacity-100 aria-disabled:![border:1px_solid_var(--admin-button-disabled-border)] aria-disabled:![background:var(--admin-button-disabled-bg)] aria-disabled:!text-[color:var(--admin-button-disabled-text)]";
 export const buttonRefreshClassName =
-  "invite-primary-btn !min-h-[2.24rem] !rounded-[1.12rem] !border !px-[0.88rem] !py-[0.36rem] !text-[0.88rem] !leading-[1.08] !tracking-[0.012rem] " +
+  `${buttonBaseClassName} ${buttonPrimaryClassName} ` +
+  "!min-h-[2.24rem] !rounded-[1.12rem] !px-[0.88rem] !py-[0.36rem] !text-[0.88rem] !leading-[1.08] !tracking-[0.012rem] " +
   "!transform-none hover:!transform-none focus-visible:!transform-none active:!transform-none disabled:!transform-none aria-disabled:!transform-none " +
   "max-[768px]:!min-h-[2.34rem] max-[768px]:!rounded-[1.08rem] max-[768px]:!text-[0.9rem]";
 

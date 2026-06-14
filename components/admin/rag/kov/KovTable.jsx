@@ -144,7 +144,7 @@ export default function KovTable({
                   : et ? "Kontrolli RT muudatusi" : "Check RT changes"}
               </Button>
               <Button
-                variant="primary"
+                variant="ghost"
                 className={`${buttonBaseClassName} ${buttonPrimaryClassName} ${buttonCompactClassName}`}
                 onClick={onRevalidateSelected}
                 disabled={bulkRevalidateBusy}
@@ -164,7 +164,7 @@ export default function KovTable({
                   : et ? "Valideeri RT" : "Revalidate RT"}
               </Button>
               <Button
-                variant="primary"
+                variant="ghost"
                 className={`${buttonBaseClassName} ${buttonPrimaryClassName} ${buttonCompactClassName}`}
                 onClick={onIngestSelected}
                 disabled={bulkWebIngestBusy}
@@ -174,7 +174,7 @@ export default function KovTable({
                   : et ? "Ingest KOV" : "Ingest KOV web"}
               </Button>
               <Button
-                variant="primary"
+                variant="ghost"
                 className={`${buttonBaseClassName} ${buttonPrimaryClassName} ${buttonCompactClassName}`}
                 onClick={onIngestRtSelected}
                 disabled={bulkRtIngestBusy}
@@ -430,7 +430,7 @@ export default function KovTable({
                       {rtRowBusy ? (et ? "RT val..." : "RT val...") : et ? "Valideeri RT" : "Validate RT"}
                     </Button>
                     <Button
-                      variant="primary"
+                      variant="ghost"
                       className={`${buttonBaseClassName} ${buttonPrimaryClassName} ${buttonTinyClassName}`}
                       onClick={event => stopEvent(event, () => onIngestRow(row.slug))}
                       disabled={!canIngest || ingestBusy}
@@ -447,7 +447,7 @@ export default function KovTable({
                       {ingestBusy ? (et ? "Asendan..." : "Replacing...") : et ? "Asenda" : "Replace"}
                     </Button>
                     <Button
-                      variant="primary"
+                      variant="ghost"
                       className={`${buttonBaseClassName} ${buttonPrimaryClassName} ${buttonTinyClassName}`}
                       onClick={event => stopEvent(event, () => onIngestRtRow(row.slug))}
                       disabled={!canRtIngest || rtIngestBusy}
