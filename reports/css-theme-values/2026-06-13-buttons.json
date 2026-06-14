@@ -1,0 +1,688 @@
+{
+  "capturedAt": "2026-06-13T15:04:01.871Z",
+  "baseUrl": "http://localhost:3000",
+  "themes": [
+    "light",
+    "mid",
+    "dark",
+    "night",
+    "mono",
+    "hc"
+  ],
+  "viewports": [
+    "mobile",
+    "desktop"
+  ],
+  "routes": 37,
+  "summary": {
+    "archetypes": 3,
+    "themeCellsWithDrift": 5
+  },
+  "table": {
+    "button-primary": {
+      "keys": [
+        "--btn-primary-bg::backgroundColor",
+        "--btn-primary-bg::backgroundImage",
+        "--btn-primary-bg-hover::backgroundColor",
+        "--btn-primary-bg-hover::backgroundImage",
+        "--btn-primary-shadow::boxShadow",
+        "--btn-primary-text::color",
+        "--btn-primary-border::borderTopColor",
+        "--btn-primary-border::borderTopWidth",
+        "--btn-primary-border::borderTopStyle"
+      ],
+      "themes": {
+        "light": {
+          "distinct": 4,
+          "variants": [
+            {
+              "values": {
+                "--btn-primary-bg::backgroundColor": "rgba(0, 0, 0, 0)",
+                "--btn-primary-bg::backgroundImage": "none",
+                "--btn-primary-bg-hover::backgroundColor": "rgba(0, 0, 0, 0)",
+                "--btn-primary-bg-hover::backgroundImage": "none",
+                "--btn-primary-shadow::boxShadow": "none",
+                "--btn-primary-text::color": "rgb(0, 0, 0)",
+                "--btn-primary-border::borderTopColor": "rgb(0, 0, 0)",
+                "--btn-primary-border::borderTopWidth": "0px",
+                "--btn-primary-border::borderTopStyle": "none"
+              },
+              "count": 18,
+              "routes": [
+                "/eelpoordumised",
+                "/hinnastus",
+                "/materjalid",
+                "/taasta-parool",
+                "/uuenda-epost",
+                "/uuenda-pin"
+              ],
+              "selectors": [
+                ".button[data-variant=\"primary\"]"
+              ]
+            },
+            {
+              "values": {
+                "--btn-primary-bg::backgroundColor": "rgba(0, 0, 0, 0)",
+                "--btn-primary-bg::backgroundImage": "none",
+                "--btn-primary-bg-hover::backgroundColor": "rgba(0, 0, 0, 0)",
+                "--btn-primary-bg-hover::backgroundImage": "none",
+                "--btn-primary-shadow::boxShadow": "none",
+                "--btn-primary-text::color": "rgb(0, 0, 238)",
+                "--btn-primary-border::borderTopColor": "rgb(0, 0, 238)",
+                "--btn-primary-border::borderTopWidth": "0px",
+                "--btn-primary-border::borderTopStyle": "none"
+              },
+              "count": 4,
+              "routes": [
+                "/tooalase-kasutuse-raamistik"
+              ],
+              "selectors": [
+                ".button[data-variant=\"primary\"]"
+              ]
+            },
+            {
+              "values": {
+                "--btn-primary-bg::backgroundColor": "rgba(0, 0, 0, 0)",
+                "--btn-primary-bg::backgroundImage": "none",
+                "--btn-primary-bg-hover::backgroundColor": "rgba(0, 0, 0, 0)",
+                "--btn-primary-bg-hover::backgroundImage": "none",
+                "--btn-primary-shadow::boxShadow": "none",
+                "--btn-primary-text::color": "rgba(16, 16, 16, 0.3)",
+                "--btn-primary-border::borderTopColor": "rgba(16, 16, 16, 0.3)",
+                "--btn-primary-border::borderTopWidth": "0px",
+                "--btn-primary-border::borderTopStyle": "none"
+              },
+              "count": 4,
+              "routes": [
+                "/materjalid",
+                "/registreerimine"
+              ],
+              "selectors": [
+                ".button[data-variant=\"primary\"]"
+              ]
+            },
+            {
+              "values": {
+                "--btn-primary-bg::backgroundColor": "rgba(0, 0, 0, 0)",
+                "--btn-primary-bg::backgroundImage": "none",
+                "--btn-primary-bg-hover::backgroundColor": "rgba(0, 0, 0, 0)",
+                "--btn-primary-bg-hover::backgroundImage": "none",
+                "--btn-primary-shadow::boxShadow": "none",
+                "--btn-primary-text::color": "rgba(0, 0, 0, 0.88)",
+                "--btn-primary-border::borderTopColor": "rgba(0, 0, 0, 0.88)",
+                "--btn-primary-border::borderTopWidth": "0px",
+                "--btn-primary-border::borderTopStyle": "none"
+              },
+              "count": 2,
+              "routes": [
+                "/teenuseprofiil"
+              ],
+              "selectors": [
+                ".button[data-variant=\"primary\"]"
+              ]
+            }
+          ]
+        },
+        "mid": {
+          "distinct": 4,
+          "variants": [
+            {
+              "values": {
+                "--btn-primary-bg::backgroundColor": "rgba(0, 0, 0, 0)",
+                "--btn-primary-bg::backgroundImage": "none",
+                "--btn-primary-bg-hover::backgroundColor": "rgba(0, 0, 0, 0)",
+                "--btn-primary-bg-hover::backgroundImage": "none",
+                "--btn-primary-shadow::boxShadow": "none",
+                "--btn-primary-text::color": "rgb(0, 0, 0)",
+                "--btn-primary-border::borderTopColor": "rgb(0, 0, 0)",
+                "--btn-primary-border::borderTopWidth": "0px",
+                "--btn-primary-border::borderTopStyle": "none"
+              },
+              "count": 18,
+              "routes": [
+                "/eelpoordumised",
+                "/hinnastus",
+                "/materjalid",
+                "/taasta-parool",
+                "/uuenda-epost",
+                "/uuenda-pin"
+              ],
+              "selectors": [
+                ".button[data-variant=\"primary\"]"
+              ]
+            },
+            {
+              "values": {
+                "--btn-primary-bg::backgroundColor": "rgba(0, 0, 0, 0)",
+                "--btn-primary-bg::backgroundImage": "none",
+                "--btn-primary-bg-hover::backgroundColor": "rgba(0, 0, 0, 0)",
+                "--btn-primary-bg-hover::backgroundImage": "none",
+                "--btn-primary-shadow::boxShadow": "none",
+                "--btn-primary-text::color": "rgb(0, 0, 238)",
+                "--btn-primary-border::borderTopColor": "rgb(0, 0, 238)",
+                "--btn-primary-border::borderTopWidth": "0px",
+                "--btn-primary-border::borderTopStyle": "none"
+              },
+              "count": 4,
+              "routes": [
+                "/tooalase-kasutuse-raamistik"
+              ],
+              "selectors": [
+                ".button[data-variant=\"primary\"]"
+              ]
+            },
+            {
+              "values": {
+                "--btn-primary-bg::backgroundColor": "rgba(0, 0, 0, 0)",
+                "--btn-primary-bg::backgroundImage": "none",
+                "--btn-primary-bg-hover::backgroundColor": "rgba(0, 0, 0, 0)",
+                "--btn-primary-bg-hover::backgroundImage": "none",
+                "--btn-primary-shadow::boxShadow": "none",
+                "--btn-primary-text::color": "rgba(16, 16, 16, 0.3)",
+                "--btn-primary-border::borderTopColor": "rgba(16, 16, 16, 0.3)",
+                "--btn-primary-border::borderTopWidth": "0px",
+                "--btn-primary-border::borderTopStyle": "none"
+              },
+              "count": 4,
+              "routes": [
+                "/materjalid",
+                "/registreerimine"
+              ],
+              "selectors": [
+                ".button[data-variant=\"primary\"]"
+              ]
+            },
+            {
+              "values": {
+                "--btn-primary-bg::backgroundColor": "rgba(0, 0, 0, 0)",
+                "--btn-primary-bg::backgroundImage": "none",
+                "--btn-primary-bg-hover::backgroundColor": "rgba(0, 0, 0, 0)",
+                "--btn-primary-bg-hover::backgroundImage": "none",
+                "--btn-primary-shadow::boxShadow": "none",
+                "--btn-primary-text::color": "rgba(0, 0, 0, 0.88)",
+                "--btn-primary-border::borderTopColor": "rgba(0, 0, 0, 0.88)",
+                "--btn-primary-border::borderTopWidth": "0px",
+                "--btn-primary-border::borderTopStyle": "none"
+              },
+              "count": 2,
+              "routes": [
+                "/teenuseprofiil"
+              ],
+              "selectors": [
+                ".button[data-variant=\"primary\"]"
+              ]
+            }
+          ]
+        },
+        "dark": {
+          "distinct": 4,
+          "variants": [
+            {
+              "values": {
+                "--btn-primary-bg::backgroundColor": "rgba(0, 0, 0, 0)",
+                "--btn-primary-bg::backgroundImage": "none",
+                "--btn-primary-bg-hover::backgroundColor": "rgba(0, 0, 0, 0)",
+                "--btn-primary-bg-hover::backgroundImage": "none",
+                "--btn-primary-shadow::boxShadow": "none",
+                "--btn-primary-text::color": "rgb(0, 0, 0)",
+                "--btn-primary-border::borderTopColor": "rgb(0, 0, 0)",
+                "--btn-primary-border::borderTopWidth": "0px",
+                "--btn-primary-border::borderTopStyle": "none"
+              },
+              "count": 18,
+              "routes": [
+                "/eelpoordumised",
+                "/hinnastus",
+                "/materjalid",
+                "/taasta-parool",
+                "/uuenda-epost",
+                "/uuenda-pin"
+              ],
+              "selectors": [
+                ".button[data-variant=\"primary\"]"
+              ]
+            },
+            {
+              "values": {
+                "--btn-primary-bg::backgroundColor": "rgba(0, 0, 0, 0)",
+                "--btn-primary-bg::backgroundImage": "none",
+                "--btn-primary-bg-hover::backgroundColor": "rgba(0, 0, 0, 0)",
+                "--btn-primary-bg-hover::backgroundImage": "none",
+                "--btn-primary-shadow::boxShadow": "none",
+                "--btn-primary-text::color": "rgb(0, 0, 238)",
+                "--btn-primary-border::borderTopColor": "rgb(0, 0, 238)",
+                "--btn-primary-border::borderTopWidth": "0px",
+                "--btn-primary-border::borderTopStyle": "none"
+              },
+              "count": 4,
+              "routes": [
+                "/tooalase-kasutuse-raamistik"
+              ],
+              "selectors": [
+                ".button[data-variant=\"primary\"]"
+              ]
+            },
+            {
+              "values": {
+                "--btn-primary-bg::backgroundColor": "rgba(0, 0, 0, 0)",
+                "--btn-primary-bg::backgroundImage": "none",
+                "--btn-primary-bg-hover::backgroundColor": "rgba(0, 0, 0, 0)",
+                "--btn-primary-bg-hover::backgroundImage": "none",
+                "--btn-primary-shadow::boxShadow": "none",
+                "--btn-primary-text::color": "rgba(16, 16, 16, 0.3)",
+                "--btn-primary-border::borderTopColor": "rgba(16, 16, 16, 0.3)",
+                "--btn-primary-border::borderTopWidth": "0px",
+                "--btn-primary-border::borderTopStyle": "none"
+              },
+              "count": 4,
+              "routes": [
+                "/materjalid",
+                "/registreerimine"
+              ],
+              "selectors": [
+                ".button[data-variant=\"primary\"]"
+              ]
+            },
+            {
+              "values": {
+                "--btn-primary-bg::backgroundColor": "rgba(0, 0, 0, 0)",
+                "--btn-primary-bg::backgroundImage": "none",
+                "--btn-primary-bg-hover::backgroundColor": "rgba(0, 0, 0, 0)",
+                "--btn-primary-bg-hover::backgroundImage": "none",
+                "--btn-primary-shadow::boxShadow": "none",
+                "--btn-primary-text::color": "rgba(255, 255, 255, 0.92)",
+                "--btn-primary-border::borderTopColor": "rgba(255, 255, 255, 0.92)",
+                "--btn-primary-border::borderTopWidth": "0px",
+                "--btn-primary-border::borderTopStyle": "none"
+              },
+              "count": 2,
+              "routes": [
+                "/teenuseprofiil"
+              ],
+              "selectors": [
+                ".button[data-variant=\"primary\"]"
+              ]
+            }
+          ]
+        },
+        "night": {
+          "distinct": 4,
+          "variants": [
+            {
+              "values": {
+                "--btn-primary-bg::backgroundColor": "rgba(0, 0, 0, 0)",
+                "--btn-primary-bg::backgroundImage": "none",
+                "--btn-primary-bg-hover::backgroundColor": "rgba(0, 0, 0, 0)",
+                "--btn-primary-bg-hover::backgroundImage": "none",
+                "--btn-primary-shadow::boxShadow": "none",
+                "--btn-primary-text::color": "rgb(0, 0, 0)",
+                "--btn-primary-border::borderTopColor": "rgb(0, 0, 0)",
+                "--btn-primary-border::borderTopWidth": "0px",
+                "--btn-primary-border::borderTopStyle": "none"
+              },
+              "count": 18,
+              "routes": [
+                "/eelpoordumised",
+                "/hinnastus",
+                "/materjalid",
+                "/taasta-parool",
+                "/uuenda-epost",
+                "/uuenda-pin"
+              ],
+              "selectors": [
+                ".button[data-variant=\"primary\"]"
+              ]
+            },
+            {
+              "values": {
+                "--btn-primary-bg::backgroundColor": "rgba(0, 0, 0, 0)",
+                "--btn-primary-bg::backgroundImage": "none",
+                "--btn-primary-bg-hover::backgroundColor": "rgba(0, 0, 0, 0)",
+                "--btn-primary-bg-hover::backgroundImage": "none",
+                "--btn-primary-shadow::boxShadow": "none",
+                "--btn-primary-text::color": "rgb(0, 0, 238)",
+                "--btn-primary-border::borderTopColor": "rgb(0, 0, 238)",
+                "--btn-primary-border::borderTopWidth": "0px",
+                "--btn-primary-border::borderTopStyle": "none"
+              },
+              "count": 4,
+              "routes": [
+                "/tooalase-kasutuse-raamistik"
+              ],
+              "selectors": [
+                ".button[data-variant=\"primary\"]"
+              ]
+            },
+            {
+              "values": {
+                "--btn-primary-bg::backgroundColor": "rgba(0, 0, 0, 0)",
+                "--btn-primary-bg::backgroundImage": "none",
+                "--btn-primary-bg-hover::backgroundColor": "rgba(0, 0, 0, 0)",
+                "--btn-primary-bg-hover::backgroundImage": "none",
+                "--btn-primary-shadow::boxShadow": "none",
+                "--btn-primary-text::color": "rgba(16, 16, 16, 0.3)",
+                "--btn-primary-border::borderTopColor": "rgba(16, 16, 16, 0.3)",
+                "--btn-primary-border::borderTopWidth": "0px",
+                "--btn-primary-border::borderTopStyle": "none"
+              },
+              "count": 4,
+              "routes": [
+                "/materjalid",
+                "/registreerimine"
+              ],
+              "selectors": [
+                ".button[data-variant=\"primary\"]"
+              ]
+            },
+            {
+              "values": {
+                "--btn-primary-bg::backgroundColor": "rgba(0, 0, 0, 0)",
+                "--btn-primary-bg::backgroundImage": "none",
+                "--btn-primary-bg-hover::backgroundColor": "rgba(0, 0, 0, 0)",
+                "--btn-primary-bg-hover::backgroundImage": "none",
+                "--btn-primary-shadow::boxShadow": "none",
+                "--btn-primary-text::color": "rgba(255, 255, 255, 0.92)",
+                "--btn-primary-border::borderTopColor": "rgba(255, 255, 255, 0.92)",
+                "--btn-primary-border::borderTopWidth": "0px",
+                "--btn-primary-border::borderTopStyle": "none"
+              },
+              "count": 2,
+              "routes": [
+                "/teenuseprofiil"
+              ],
+              "selectors": [
+                ".button[data-variant=\"primary\"]"
+              ]
+            }
+          ]
+        },
+        "mono": {
+          "distinct": 4,
+          "variants": [
+            {
+              "values": {
+                "--btn-primary-bg::backgroundColor": "rgba(0, 0, 0, 0)",
+                "--btn-primary-bg::backgroundImage": "none",
+                "--btn-primary-bg-hover::backgroundColor": "rgba(0, 0, 0, 0)",
+                "--btn-primary-bg-hover::backgroundImage": "none",
+                "--btn-primary-shadow::boxShadow": "none",
+                "--btn-primary-text::color": "rgb(0, 0, 0)",
+                "--btn-primary-border::borderTopColor": "rgb(0, 0, 0)",
+                "--btn-primary-border::borderTopWidth": "0px",
+                "--btn-primary-border::borderTopStyle": "none"
+              },
+              "count": 18,
+              "routes": [
+                "/eelpoordumised",
+                "/hinnastus",
+                "/materjalid",
+                "/taasta-parool",
+                "/uuenda-epost",
+                "/uuenda-pin"
+              ],
+              "selectors": [
+                ".button[data-variant=\"primary\"]"
+              ]
+            },
+            {
+              "values": {
+                "--btn-primary-bg::backgroundColor": "rgba(0, 0, 0, 0)",
+                "--btn-primary-bg::backgroundImage": "none",
+                "--btn-primary-bg-hover::backgroundColor": "rgba(0, 0, 0, 0)",
+                "--btn-primary-bg-hover::backgroundImage": "none",
+                "--btn-primary-shadow::boxShadow": "none",
+                "--btn-primary-text::color": "rgb(0, 0, 238)",
+                "--btn-primary-border::borderTopColor": "rgb(0, 0, 238)",
+                "--btn-primary-border::borderTopWidth": "0px",
+                "--btn-primary-border::borderTopStyle": "none"
+              },
+              "count": 4,
+              "routes": [
+                "/tooalase-kasutuse-raamistik"
+              ],
+              "selectors": [
+                ".button[data-variant=\"primary\"]"
+              ]
+            },
+            {
+              "values": {
+                "--btn-primary-bg::backgroundColor": "rgba(0, 0, 0, 0)",
+                "--btn-primary-bg::backgroundImage": "none",
+                "--btn-primary-bg-hover::backgroundColor": "rgba(0, 0, 0, 0)",
+                "--btn-primary-bg-hover::backgroundImage": "none",
+                "--btn-primary-shadow::boxShadow": "none",
+                "--btn-primary-text::color": "rgba(16, 16, 16, 0.3)",
+                "--btn-primary-border::borderTopColor": "rgba(16, 16, 16, 0.3)",
+                "--btn-primary-border::borderTopWidth": "0px",
+                "--btn-primary-border::borderTopStyle": "none"
+              },
+              "count": 4,
+              "routes": [
+                "/materjalid",
+                "/registreerimine"
+              ],
+              "selectors": [
+                ".button[data-variant=\"primary\"]"
+              ]
+            },
+            {
+              "values": {
+                "--btn-primary-bg::backgroundColor": "rgba(0, 0, 0, 0)",
+                "--btn-primary-bg::backgroundImage": "none",
+                "--btn-primary-bg-hover::backgroundColor": "rgba(0, 0, 0, 0)",
+                "--btn-primary-bg-hover::backgroundImage": "none",
+                "--btn-primary-shadow::boxShadow": "none",
+                "--btn-primary-text::color": "rgba(255, 255, 255, 0.92)",
+                "--btn-primary-border::borderTopColor": "rgba(255, 255, 255, 0.92)",
+                "--btn-primary-border::borderTopWidth": "0px",
+                "--btn-primary-border::borderTopStyle": "none"
+              },
+              "count": 2,
+              "routes": [
+                "/teenuseprofiil"
+              ],
+              "selectors": [
+                ".button[data-variant=\"primary\"]"
+              ]
+            }
+          ]
+        },
+        "hc": {
+          "distinct": 1,
+          "variants": [
+            {
+              "values": {
+                "--btn-primary-bg::backgroundColor": "rgba(0, 0, 0, 0)",
+                "--btn-primary-bg::backgroundImage": "none",
+                "--btn-primary-bg-hover::backgroundColor": "rgba(0, 0, 0, 0)",
+                "--btn-primary-bg-hover::backgroundImage": "none",
+                "--btn-primary-shadow::boxShadow": "none",
+                "--btn-primary-text::color": "rgb(255, 234, 0)",
+                "--btn-primary-border::borderTopColor": "rgb(255, 234, 0)",
+                "--btn-primary-border::borderTopWidth": "0px",
+                "--btn-primary-border::borderTopStyle": "none"
+              },
+              "count": 28,
+              "routes": [
+                "/eelpoordumised",
+                "/hinnastus",
+                "/materjalid",
+                "/registreerimine",
+                "/taasta-parool",
+                "/teenuseprofiil",
+                "/tooalase-kasutuse-raamistik",
+                "/uuenda-epost",
+                "/uuenda-pin"
+              ],
+              "selectors": [
+                ".button[data-variant=\"primary\"]"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "button-secondary": {
+      "keys": [
+        "--btn-primary-bg::backgroundColor",
+        "--btn-primary-bg::backgroundImage",
+        "--btn-primary-text::color"
+      ],
+      "themes": {
+        "light": {
+          "distinct": 1,
+          "variants": [
+            {
+              "values": {
+                "--btn-primary-bg::backgroundColor": "rgba(0, 0, 0, 0)",
+                "--btn-primary-bg::backgroundImage": "none",
+                "--btn-primary-text::color": "rgba(0, 0, 0, 0.88)"
+              },
+              "count": 4,
+              "routes": [
+                "/teenuseprofiil"
+              ],
+              "selectors": [
+                ".button[data-variant=\"secondary\"]"
+              ]
+            }
+          ]
+        },
+        "mid": {
+          "distinct": 1,
+          "variants": [
+            {
+              "values": {
+                "--btn-primary-bg::backgroundColor": "rgba(0, 0, 0, 0)",
+                "--btn-primary-bg::backgroundImage": "none",
+                "--btn-primary-text::color": "rgba(0, 0, 0, 0.88)"
+              },
+              "count": 4,
+              "routes": [
+                "/teenuseprofiil"
+              ],
+              "selectors": [
+                ".button[data-variant=\"secondary\"]"
+              ]
+            }
+          ]
+        },
+        "dark": {
+          "distinct": 1,
+          "variants": [
+            {
+              "values": {
+                "--btn-primary-bg::backgroundColor": "rgba(0, 0, 0, 0)",
+                "--btn-primary-bg::backgroundImage": "none",
+                "--btn-primary-text::color": "rgba(255, 255, 255, 0.92)"
+              },
+              "count": 4,
+              "routes": [
+                "/teenuseprofiil"
+              ],
+              "selectors": [
+                ".button[data-variant=\"secondary\"]"
+              ]
+            }
+          ]
+        },
+        "night": {
+          "distinct": 1,
+          "variants": [
+            {
+              "values": {
+                "--btn-primary-bg::backgroundColor": "rgba(0, 0, 0, 0)",
+                "--btn-primary-bg::backgroundImage": "none",
+                "--btn-primary-text::color": "rgba(255, 255, 255, 0.92)"
+              },
+              "count": 4,
+              "routes": [
+                "/teenuseprofiil"
+              ],
+              "selectors": [
+                ".button[data-variant=\"secondary\"]"
+              ]
+            }
+          ]
+        },
+        "mono": {
+          "distinct": 1,
+          "variants": [
+            {
+              "values": {
+                "--btn-primary-bg::backgroundColor": "rgba(0, 0, 0, 0)",
+                "--btn-primary-bg::backgroundImage": "none",
+                "--btn-primary-text::color": "rgba(255, 255, 255, 0.92)"
+              },
+              "count": 4,
+              "routes": [
+                "/teenuseprofiil"
+              ],
+              "selectors": [
+                ".button[data-variant=\"secondary\"]"
+              ]
+            }
+          ]
+        },
+        "hc": {
+          "distinct": 1,
+          "variants": [
+            {
+              "values": {
+                "--btn-primary-bg::backgroundColor": "rgba(0, 0, 0, 0)",
+                "--btn-primary-bg::backgroundImage": "none",
+                "--btn-primary-text::color": "rgba(255, 255, 255, 0.92)"
+              },
+              "count": 4,
+              "routes": [
+                "/teenuseprofiil"
+              ],
+              "selectors": [
+                ".button[data-variant=\"secondary\"]"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "button-danger": {
+      "keys": [
+        "--btn-danger-bg::backgroundColor",
+        "--btn-danger-bg::backgroundImage",
+        "--btn-danger-bg-hover::backgroundColor",
+        "--btn-danger-bg-hover::backgroundImage",
+        "--btn-danger-shadow::boxShadow",
+        "--btn-danger-text::color",
+        "--btn-danger-border::borderTopColor",
+        "--btn-danger-border::borderTopWidth",
+        "--btn-danger-border::borderTopStyle"
+      ],
+      "themes": {
+        "light": {
+          "distinct": 0,
+          "variants": []
+        },
+        "mid": {
+          "distinct": 0,
+          "variants": []
+        },
+        "dark": {
+          "distinct": 0,
+          "variants": []
+        },
+        "night": {
+          "distinct": 0,
+          "variants": []
+        },
+        "mono": {
+          "distinct": 0,
+          "variants": []
+        },
+        "hc": {
+          "distinct": 0,
+          "variants": []
+        }
+      }
+    }
+  }
+}

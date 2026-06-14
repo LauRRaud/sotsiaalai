@@ -1,0 +1,10 @@
+{ "routes": [
+  { "route": "/admin/analytics", "auth": true },
+  { "route": "/admin/framework-acceptances", "auth": true },
+  { "route": "/admin/rag", "auth": true },
+  { "route": "/admin/rag/documents", "auth": true },
+  { "route": "/admin/rag/ingest", "auth": true },
+  { "route": "/admin/rag/kov", "auth": true },
+  { "route": "/admin/rag/organizations", "auth": true },
+  { "route": "/admin/rag/source-packages", "auth": true }
+] }

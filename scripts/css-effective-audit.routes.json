@@ -2,12 +2,19 @@
   "_comment": [
     "Routes crawled by css-effective-audit.mjs. Each entry = one page.",
     "auth:true needs a logged-in session (SNAPSHOT_SESSION cookie or --token).",
-    "Dynamic ([id]/[roomId]/[token]) and admin routes are intentionally omitted",
-    "from v1 — they need fixture ids / an admin session. Add them here when ready,",
-    "giving a concrete resolved path (e.g. \"/teekond/123\")."
+    "Admin routes (/admin/*) work with the standard token: the e2e login user",
+    "(scripts/tmp-create-login-token.mjs) has isAdmin=true, so the admin guard",
+    "(session.user.isAdmin) passes. RAG exposes 5 real sub-routes; analytics",
+    "sub-sections are in-page #anchors (one route covers them).",
+    "Dynamic ([id]/[roomId]/[token]) routes are still omitted — they need fixture",
+    "ids; add them with a concrete resolved path (e.g. \"/teekond/123\").",
+    "Modal/overlay states (login, OTP, konto-seaded, keele-seaded, invite panel,",
+    "help panels) have no standalone URL — add interaction sequences in targets.json",
+    "flows[] when those primitives need auditing."
   ],
   "routes": [
     { "route": "/", "auth": false },
+    { "route": "/join", "auth": false },
     { "route": "/hinnastus", "auth": false },
     { "route": "/voimalused", "auth": false },
     { "route": "/autorilt", "auth": false },
@@ -44,6 +51,15 @@
     { "route": "/rooms", "auth": true },
     { "route": "/ruum", "auth": true },
     { "route": "/uuenda-epost", "auth": true },
-    { "route": "/uuenda-pin", "auth": true }
+    { "route": "/uuenda-pin", "auth": true },
+
+    { "route": "/admin/analytics", "auth": true },
+    { "route": "/admin/framework-acceptances", "auth": true },
+    { "route": "/admin/rag", "auth": true },
+    { "route": "/admin/rag/documents", "auth": true },
+    { "route": "/admin/rag/ingest", "auth": true },
+    { "route": "/admin/rag/kov", "auth": true },
+    { "route": "/admin/rag/organizations", "auth": true },
+    { "route": "/admin/rag/source-packages", "auth": true }
   ]
 }

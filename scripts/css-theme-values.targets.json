@@ -1,0 +1,49 @@
+{
+  "_comment": [
+    "Archetype → { selectors, probe } for scripts/css-theme-values.mjs.",
+    "",
+    "We do NOT read the matched button's own rendered background: primary/glow",
+    "buttons paint their themed surface via <BorderGlow> on a CANVAS (and hover via",
+    "::before), so the element's own computed background is a flat fallback. Instead",
+    "we read TOKEN values: for each probe spec we append a probe child to every",
+    "matched element, apply `token` to the real CSS property `apply`, and read back",
+    "the `read` longhands. Custom properties inherit, so the probe resolves the",
+    "button's EFFECTIVE token (theme baseline + any feature/element override).",
+    "",
+    "Result per archetype × theme: ONE value tuple = the token value to write into",
+    ":root.theme-X { --…: }. MORE THAN ONE = drift (a feature override sets the token",
+    "differently on some page) → reconcile or promote to a real variant.",
+    "",
+    "Selectors target the rendered signal: <Button> emits data-variant + literal",
+    "class 'button' (Button.jsx:81-83), so [data-variant] is the canonical marker."
+  ],
+  "archetypes": {
+    "button-primary": {
+      "selectors": [".button[data-variant=\"primary\"]"],
+      "probe": [
+        { "token": "--btn-primary-bg", "apply": "background", "read": ["backgroundColor", "backgroundImage"] },
+        { "token": "--btn-primary-bg-hover", "apply": "background", "read": ["backgroundColor", "backgroundImage"] },
+        { "token": "--btn-primary-shadow", "apply": "box-shadow", "read": ["boxShadow"] },
+        { "token": "--btn-primary-text", "apply": "color", "read": ["color"] },
+        { "token": "--btn-primary-border", "apply": "border", "read": ["borderTopColor", "borderTopWidth", "borderTopStyle"] }
+      ]
+    },
+    "button-secondary": {
+      "selectors": [".button[data-variant=\"secondary\"]", ".button[data-variant=\"ghost\"]"],
+      "probe": [
+        { "token": "--btn-primary-bg", "apply": "background", "read": ["backgroundColor", "backgroundImage"] },
+        { "token": "--btn-primary-text", "apply": "color", "read": ["color"] }
+      ]
+    },
+    "button-danger": {
+      "selectors": [".button[data-variant=\"danger\"]"],
+      "probe": [
+        { "token": "--btn-danger-bg", "apply": "background", "read": ["backgroundColor", "backgroundImage"] },
+        { "token": "--btn-danger-bg-hover", "apply": "background", "read": ["backgroundColor", "backgroundImage"] },
+        { "token": "--btn-danger-shadow", "apply": "box-shadow", "read": ["boxShadow"] },
+        { "token": "--btn-danger-text", "apply": "color", "read": ["color"] },
+        { "token": "--btn-danger-border", "apply": "border", "read": ["borderTopColor", "borderTopWidth", "borderTopStyle"] }
+      ]
+    }
+  }
+}

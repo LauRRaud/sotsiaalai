@@ -1,0 +1,35 @@
+{
+  "capturedAt": "2026-06-13T14:17:18.527Z",
+  "pseudo": [
+    "normal",
+    "hover",
+    "focus"
+  ],
+  "targets": {
+    ".btn": {
+      "selector": ".btn",
+      "route": "/vestlus",
+      "byState": {
+        "light/normal": null,
+        "light/hover": null,
+        "light/focus": null,
+        "mid/normal": null,
+        "mid/hover": null,
+        "mid/focus": null,
+        "dark/normal": null,
+        "dark/hover": null,
+        "dark/focus": null,
+        "night/normal": null,
+        "night/hover": null,
+        "night/focus": null,
+        "mono/normal": null,
+        "mono/hover": null,
+        "mono/focus": null,
+        "hc/normal": null,
+        "hc/hover": null,
+        "hc/focus": null
+      },
+      "distinctRules": []
+    }
+  }
+}

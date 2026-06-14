@@ -36,5 +36,37 @@
     ".chat-send-btn",
     ".chat-listen-btn",
     ".modal-close-btn"
+  ],
+
+  "_flows_comment": [
+    "Interaction sequences that reveal primitives with NO standalone URL —",
+    "portaled modals, overlays, panels opened behind a click. Each flow runs on",
+    "ONE route per theme: goto route (+ optional query), run steps, then inspect",
+    "with the GLOBAL selectors (plus any flow-only selectors). Output is keyed as",
+    "'<route>#<name>'. step kinds: {goto:'/x'} (override url incl. query),",
+    "{click:'sel'}, {waitFor:'sel'}, {waitMs:N}. waitFor after a click is",
+    "recommended so the portal has mounted before inspection.",
+    "WHY THIS MATTERS: portaled modals render OUTSIDE their opener's DOM subtree,",
+    "so CSS-variable inheritance (e.g. --btn-primary-shadow scoped via",
+    "glassPrimaryButtonToneClassName) silently breaks — a class of bug the plain",
+    "route crawl is blind to because it never opens the modal."
+  ],
+  "flows": [
+    {
+      "name": "account-settings-modal",
+      "route": "/profiil",
+      "steps": [
+        { "waitFor": ".profile-orbit-menu__center" },
+        { "click": ".profile-orbit-menu__center" },
+        { "waitFor": "[data-key=\"account\"] .profile-orbit-menu__item" },
+        { "click": "[data-key=\"account\"] .profile-orbit-menu__item" },
+        { "waitFor": ".account-settings-modal-content" },
+        { "waitMs": 300 }
+      ],
+      "selectors": [
+        ".account-settings-modal-content .button[data-variant=\"primary\"]",
+        ".account-settings-modal-button"
+      ]
+    }
   ]
 }

@@ -24,7 +24,7 @@ import BackIcon from "@/components/ui/icons/BackIcon";
 import { PowerExitIcon } from "@/components/ui/icons/AuthIcons";
 import EuroIcon from "@/components/ui/icons/EuroIcon";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
-import { glassPageBackMobileBottomCenterClassName, glassPageBackRightClassName, glassPageMobileCardClassName, glassPageShellCenteredClassName, glassSubpageTitleWrapClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import { glassPageBackMobileBottomCenterClassName, glassPageBackRightClassName, glassPageMobileCardClassName, glassPageShellCenteredClassName, glassSubpageTitleWrapClassName, glassPageTitleClassName, glassPrimaryButtonToneClassName } from "@/components/ui/glassPageStyles";
 const TILT_ACTIVE_FLAG_KEY = "__SOTSIAALAI_GLASS_RING_TILT_ACTIVE";
 const ROUTE_TILT_STATE_EVENT = "sotsiaalai:glass-ring-tilt-state";
 const CHAT_SKIP_ENTRY_SETTLE_KEY = "sotsiaalai:chat:skip-entry-settle";
@@ -155,7 +155,7 @@ const modalInputClassName =
 const accountModalOverlayClassName =
   "invite-modal-overlay account-settings-modal-overlay z-[140] max-[768px]:p-0 max-[768px]:items-stretch";
 const accountModalContentClassName =
-  `glass-ring glass-ring--desktop-stable invite-modal-content account-settings-modal-content mobile-keep-desktop-glass-cards relative flex flex-col items-stretch !overflow-hidden ` +
+  `glass-ring glass-ring--desktop-stable invite-modal-content account-settings-modal-content mobile-keep-desktop-glass-cards relative flex flex-col items-stretch !overflow-hidden ${glassPrimaryButtonToneClassName} ` +
   `!w-[var(--ring-diameter,var(--ring-diameter-default))] !min-w-[var(--ring-diameter,var(--ring-diameter-default))] !h-[var(--ring-diameter,var(--ring-diameter-default))] !min-h-[var(--ring-diameter,var(--ring-diameter-default))] !max-w-[var(--ring-diameter,var(--ring-diameter-default))] !max-h-[var(--ring-diameter,var(--ring-diameter-default))] !aspect-square !rounded-full ` +
   `max-[768px]:!min-w-0 max-[768px]:!min-h-0 max-[768px]:!aspect-auto max-[768px]:!rounded-[var(--mobile-glass-card-radius,clamp(1.05rem,3.8vw,1.45rem))] ` +
   `![border:none] !bg-[color:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] !shadow-[var(--glass-shell-shadow,none)] ` +
