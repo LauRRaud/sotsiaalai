@@ -1,8 +1,16 @@
+/* tokens/ — Rada B migratsiooni sihtfailid (praegu tühjad, vt css-restructure-plan.md §3).
+ * Iga tokens/theme-X.css asub PÄRAST oma theme/X.css-i, et migreeritud token-blokid
+ * asendaksid (mitte topeldaksid) theme-faili sama ploki. */
 @import url("./tokens.css");
+@import url("./tokens/base.css");
 @import url("./theme/light.css");
+@import url("./tokens/theme-light.css");
 @import url("./theme/mid.css");
+@import url("./tokens/theme-mid.css");
 @import url("./theme/dark.css");
+@import url("./tokens/theme-dark.css");
 @import url("./theme/night.css");
+@import url("./tokens/theme-night.css");
 @import url("./tailwind.css");
 @import url("./base/core.css");
 @import url("./base/backgrounds.css");
@@ -12,7 +20,9 @@
 @import url("./components/glass.css");
 @import url("./components/journey.css");
 @import url("./theme/mono.css");
+@import url("./tokens/theme-mono.css");
 @import url("./theme/hc.css");
+@import url("./tokens/theme-hc.css");
 @import url("./utilities/helpers.css");
 @import url("./mobile/chat-bootstrap.css");
 @import url("./mobile/index.css") screen and (max-width: 768px);
