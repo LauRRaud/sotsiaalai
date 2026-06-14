@@ -1866,7 +1866,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
                   ? readText(t, "workspace_feature_pages.pre_inquiries.receiving.admin_note", "Admini testvaade; salvestus käib ainult sinu kontole.")
                   : readText(t, "workspace_feature_pages.pre_inquiries.receiving.note", "Lubab sinu kontole adresseeritud eelpöördumised platvormis vastu võtta.")}
               </p>
-              <Button type="button" size="sm" className="workspace-feature-action-btn justify-self-start" disabled={savingPreferences} onClick={handleSavePreferences}>
+              <Button type="button" size="sm" className="justify-self-start" disabled={savingPreferences} onClick={handleSavePreferences}>
                 {savingPreferences
                   ? readText(t, "workspace_feature_pages.pre_inquiries.actions.saving", "Salvestan...")
                   : readText(t, "workspace_feature_pages.pre_inquiries.actions.save_preferences", "Salvesta vastuvõtt")}
@@ -2470,7 +2470,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
                 ? readText(t, "workspace_feature_pages.pre_inquiries.receiving.admin_note", "Admini testvaade; salvestus käib ainult sinu kontole.")
                 : readText(t, "workspace_feature_pages.pre_inquiries.receiving.note", "Lubab sinu kontole adresseeritud eelpöördumised platvormis vastu võtta.")}
             </p>
-            <Button type="button" size="sm" className="workspace-feature-action-btn justify-self-start" disabled={savingPreferences} onClick={handleSavePreferences}>
+            <Button type="button" size="sm" className="justify-self-start" disabled={savingPreferences} onClick={handleSavePreferences}>
               {savingPreferences
                 ? readText(t, "workspace_feature_pages.pre_inquiries.actions.saving", "Salvestan...")
                 : readText(t, "workspace_feature_pages.pre_inquiries.actions.save_preferences", "Salvesta vastuvõtt")}

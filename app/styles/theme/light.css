@@ -318,7 +318,7 @@
   p {
   color: #1f2937 !important;
 }
-:root.theme-light .drawer-panel .drawer-pill-btn.button[data-variant="primary"] {
+:root.theme-light .drawer-panel .drawer-chat-sidebar [data-variant="primary"] {
   -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;
   background: var(--btn-primary-bg) !important;
@@ -327,7 +327,8 @@
 }
 :root.theme-light
   .drawer-panel
-  .drawer-pill-btn.button[data-variant="primary"]::before {
+  .drawer-chat-sidebar
+  [data-variant="primary"]::before {
   background: var(--btn-primary-bg-hover) !important;
 }
 

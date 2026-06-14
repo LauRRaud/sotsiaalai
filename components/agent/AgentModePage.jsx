@@ -42,7 +42,7 @@ import { pushWithTransition } from "@/lib/routeTransition"
 
 const CHAT_WORKSPACE_RESTORE_STORAGE_KEY = "__SOTSIAALAI_CHAT_WORKSPACE_RESTORE__"
 const agentPrimaryButtonClassName =
-  "drawer-pill-btn invite-primary-btn !inline-flex !w-fit !justify-center !self-center !min-h-[3.05rem] !rounded-[1.6rem] !px-[1.15rem] !py-[0.78rem] !text-[1.12rem] !tracking-[0.03rem] !whitespace-nowrap " +
+  "invite-primary-btn !inline-flex !w-fit !justify-center !self-center !min-h-[3.05rem] !rounded-[1.6rem] !px-[1.15rem] !py-[0.78rem] !text-[1.12rem] !tracking-[0.03rem] !whitespace-nowrap " +
   "max-[768px]:!w-fit max-[768px]:!min-h-[3.2rem] max-[768px]:!rounded-[1.45rem] max-[768px]:!text-[1.18rem] " +
   glassPrimaryButtonToneClassName
 const agentPrimaryButtonCompactClassName =

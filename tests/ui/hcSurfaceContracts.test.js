@@ -202,8 +202,8 @@ test("HC invite selected payment cards and workspace action buttons have clear o
   const workspace = read("components/workspace/WorkspaceFeaturePage.jsx");
 
   assert.match(hc, /\.invite-modal-content \[data-control-type\]\[data-checked="true"\][\s\S]*?background:\s*rgba\(255,\s*234,\s*0,\s*0\.1\)\s*!important/);
-  assert.match(serviceMap, /\.workspace-feature-action-btn[\s\S]*?background:\s*transparent\s*!important[\s\S]*?border:\s*2px solid rgba\(255,\s*234,\s*0/);
-  assert.match(workspace, /workspace-feature-action-btn/);
+  assert.match(serviceMap, /\.workspace-feature-panel \[data-variant="primary"\][\s\S]*?background:\s*transparent\s*!important[\s\S]*?border:\s*2px solid rgba\(255,\s*234,\s*0/);
+  assert.doesNotMatch(workspace, /workspace-feature-action-btn/);
 });
 
 test("HC selected option cards keep a yellow fill after the generic glow reset", () => {

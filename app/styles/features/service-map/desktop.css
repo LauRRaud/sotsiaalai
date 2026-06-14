@@ -701,8 +701,8 @@ html[data-contrast="hc"] .workspace-feature-panel :is(.workspace-feature-glow-ca
   box-shadow: none !important;
 }
 
-html[data-contrast="hc"] .workspace-feature-panel .workspace-feature-action-btn,
-html[data-contrast="hc"] .workspace-feature-panel .workspace-feature-action-btn:is(:hover, :focus-visible, :active) {
+html[data-contrast="hc"] .workspace-feature-panel [data-variant="primary"],
+html[data-contrast="hc"] .workspace-feature-panel [data-variant="primary"]:is(:hover, :focus-visible, :active) {
   color: var(--hc-accent, #ffea00) !important;
   background: transparent !important;
   border: 2px solid rgba(255, 234, 0, 0.78) !important;

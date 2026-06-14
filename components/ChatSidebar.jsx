@@ -667,7 +667,7 @@ export default function ChatSidebar() {
     "invite-primary-btn !min-h-[2.42rem] !px-[0.74rem] !py-[0.48rem] max-[768px]:!min-h-[2.52rem] max-[768px]:!px-[0.74rem] max-[768px]:!py-[0.52rem] " +
     glassPrimaryButtonToneClassName;
   const sidebarPrimaryButtonClassName =
-    "drawer-pill-btn invite-primary-btn !min-h-[2.42rem] !px-[0.86rem] !py-[0.48rem] !text-[0.98rem] !tracking-[0.012rem] !whitespace-nowrap " +
+    "invite-primary-btn !min-h-[2.42rem] !px-[0.86rem] !py-[0.48rem] !text-[0.98rem] !tracking-[0.012rem] !whitespace-nowrap " +
     "max-[768px]:!min-h-[2.52rem] max-[768px]:!px-[0.92rem] max-[768px]:!py-[0.52rem] max-[768px]:!text-[1.02rem] " +
     glassPrimaryButtonToneClassName;
   const searchInputShellClassName = "relative flex justify-center";

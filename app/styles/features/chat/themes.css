@@ -616,7 +616,7 @@
 
 :root:not(.theme-light):not(.theme-mid):not(.theme-night):not(.theme-mono):not([data-contrast="hc"])
   .drawer-chat-sidebar
-  .drawer-pill-btn {
+  [data-variant="primary"] {
   --btn-primary-bg: radial-gradient(
       ellipse at top,
       rgba(46, 52, 62, 0.64) 0%,
