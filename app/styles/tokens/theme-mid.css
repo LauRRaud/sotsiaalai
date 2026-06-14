@@ -1,4 +1,250 @@
 /* tokens/theme-mid.css — mid teema tokeniblokk
- * Väärtused migreeritakse siia app/styles/theme/mid.css-ist (Rada B token-viilud).
- * Praegu tühi — theme/mid.css on endiselt autoriteetne.
- */
+ * Migreeritud siia app/styles/theme/mid.css-ist (Rada B token-viilud, viil 2.2).
+ * globals.css laadib selle PÄRAST theme/mid.css-i — sama :root.theme-mid blokk siin
+ * asendab (mitte ei topelda) theme-faili ploki. */
+:root.theme-mid {
+  --click-pulse-ring-color: rgba(96, 70, 65, 0.74);
+  --mid-bg-top: #9f807a;
+  --mid-bg-mid: #7e5f58;
+  --mid-bg-bottom: #644843;
+  --glass-surface-bg: rgba(253, 250, 248, 0.39);
+  --glass-ring-surface-bg: rgba(253, 249, 247, 0.46);
+  --mid-round-shell-shadow:
+    0 18px 34px rgba(12, 7, 6, 0.22),
+    0 9px 18px rgba(12, 7, 6, 0.12);
+  --mid-shell-soft-shadow:
+    0 16px 28px rgba(12, 7, 6, 0.15),
+    0 8px 14px rgba(12, 7, 6, 0.08);
+  --glass-shell-shadow:
+    var(--mid-round-shell-shadow);
+  --glass-ring-edge-stroke-width-desktop: 1.46px;
+  --glass-ring-edge-stroke-opacity-desktop: 0.95;
+  --glass-ring-edge-stroke-blur-desktop: 0.12px;
+  --glass-ring-edge-stroke-desktop: conic-gradient(
+    from -104deg at 50% 50%,
+    rgba(255, 255, 255, 0) 0deg,
+    rgba(255, 255, 255, 0) 14deg,
+    rgba(255, 252, 250, 0.024) 26deg,
+    rgba(255, 251, 248, 0.084) 38deg,
+    rgba(255, 251, 248, 0.18) 46deg,
+    rgba(255, 250, 247, 0.3) 54deg,
+    rgba(255, 250, 247, 0.36) 60deg,
+    rgba(255, 248, 245, 0.24) 70deg,
+    rgba(255, 246, 243, 0.1) 82deg,
+    rgba(255, 244, 241, 0.026) 94deg,
+    rgba(255, 255, 255, 0) 108deg,
+    rgba(255, 255, 255, 0) 360deg
+  );
+  --glass-ring-glow-dark:
+    0 14px 24px -12px rgba(44, 28, 25, 0.3);
+  --glass-modal-bg: var(--glass-ring-surface-bg);
+  --glass-surface-text: #2c3340;
+  --glass-modal-text: #2c3340;
+  --chat-ui-solid-surface: rgb(231, 223, 219);
+  --mid-utility-panel-bg:
+    radial-gradient(
+      92% 88% at 50% 16%,
+      rgb(236, 230, 226) 0%,
+      rgb(224, 217, 212) 42%,
+      rgb(208, 200, 194) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgb(228, 222, 217) 0%,
+      rgb(212, 205, 200) 100%
+    );
+  --mid-utility-panel-bg-hover:
+    radial-gradient(
+      92% 88% at 50% 16%,
+      rgb(239, 234, 230) 0%,
+      rgb(228, 221, 216) 42%,
+      rgb(213, 206, 201) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgb(231, 226, 221) 0%,
+      rgb(216, 209, 204) 100%
+    );
+  --chat-rail-tooltip-bg: var(--mid-utility-panel-bg);
+  --chat-tools-panel-bg: var(--mid-utility-panel-bg);
+  --chat-upload-picker-bg: var(--mid-utility-panel-bg);
+  --chat-analysis-preview-surface: var(--subpage-card-bg);
+  --chat-analysis-preview-text: var(--subpage-card-text);
+  --chat-analysis-preview-border: var(--subpage-card-border);
+  --chat-analysis-preview-shadow: var(--subpage-card-shadow);
+  --chat-analysis-preview-blur: 0px;
+  --drawer-glass-bg: var(--glass-ring-surface-bg);
+  --drawer-card-shadow:
+    0 0 0.55rem rgba(82, 50, 46, 0.032),
+    0 0.48rem 0.95rem rgba(20, 12, 10, 0.088);
+  --drawer-card-shadow-hover:
+    0 0 0.68rem rgba(82, 50, 46, 0.04),
+    0 0.58rem 1.08rem rgba(20, 12, 10, 0.1);
+  --mid-unified-surface-bg:
+    radial-gradient(
+      92% 88% at 50% 16%,
+      rgba(248, 240, 237, 0.62) 0%,
+      rgba(240, 230, 226, 0.54) 42%,
+      rgba(231, 219, 214, 0.48) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(242, 233, 229, 0.42) 0%,
+      rgba(233, 223, 218, 0.36) 100%
+    );
+  --mid-unified-surface-bg-hover:
+    radial-gradient(
+      92% 88% at 50% 16%,
+      rgba(246, 237, 233, 0.56) 0%,
+      rgba(238, 228, 223, 0.48) 42%,
+      rgba(229, 217, 212, 0.42) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(239, 229, 224, 0.34) 0%,
+      rgba(230, 219, 214, 0.29) 100%
+    );
+  --mid-unified-surface-bg-active:
+    radial-gradient(
+      92% 88% at 50% 16%,
+      rgba(246, 237, 233, 0.74) 0%,
+      rgba(239, 228, 224, 0.66) 42%,
+      rgba(231, 219, 214, 0.58) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(241, 232, 228, 0.52) 0%,
+      rgba(233, 222, 217, 0.44) 100%
+    );
+  --mid-unified-surface-border: 1px solid rgba(126, 95, 88, 0.16);
+  --mid-unified-surface-border-hover: 1px solid rgba(126, 95, 88, 0.19);
+  --mid-unified-surface-shadow:
+    0 6px 14px rgba(38, 24, 22, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.34);
+  --mid-unified-surface-shadow-hover:
+    0 7px 16px rgba(38, 24, 22, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.38);
+  --mid-unified-surface-shadow-active:
+    0 7px 16px rgba(38, 24, 22, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.38);
+  --input-bg: var(--mid-unified-surface-bg);
+  --input-bg-hover: var(--mid-unified-surface-bg-hover);
+  --input-bg-focus: var(--mid-unified-surface-bg-hover);
+  --input-flat-bg: var(--mid-pill-surface-bg, var(--btn-primary-bg));
+  --input-flat-bg-hover: var(
+    --mid-pill-surface-bg-hover,
+    var(--btn-primary-bg-hover)
+  );
+  --input-text: #2f3a4a;
+  --input-caret: #2f3a4a;
+  --chat-composer-action-icon-color: #7a3a38;
+  --input-border: var(--mid-unified-surface-border);
+  --input-placeholder: rgba(55, 65, 81, 0.82);
+  --input-shadow: var(--mid-unified-surface-shadow);
+  --input-shadow-hover: var(--mid-unified-surface-shadow-hover);
+  --input-surface-overlay: inset 0 0 0 999px rgba(255, 255, 255, 0);
+  --input-surface-overlay-hover: inset 0 0 0 999px rgba(255, 255, 255, 0.08);
+  --input-surface-overlay-focus: inset 0 0 0 999px rgba(255, 255, 255, 0.1);
+  --btn-primary-hover-brightness: 1;
+  --btn-primary-bg: var(--mid-unified-surface-bg);
+  --btn-primary-bg-hover: var(--mid-unified-surface-bg-hover);
+  --btn-primary-bg-active: var(--mid-unified-surface-bg-active);
+  --btn-primary-text: #2f3a4a;
+  --btn-primary-border: transparent;
+  --btn-primary-border-hover: transparent;
+  --btn-primary-border-active: transparent;
+  --btn-primary-shadow: var(--mid-unified-surface-shadow);
+  --btn-primary-shadow-hover: var(--mid-unified-surface-shadow);
+  --btn-primary-shadow-active: var(--mid-unified-surface-shadow-active);
+  --btn-primary-focus-ring-color: rgba(147, 111, 105, 0.22);
+  --btn-primary-shadow-focus:
+    0 8px 18px rgba(38, 24, 22, 0.11),
+    0 0 0 3px var(--btn-primary-focus-ring-color);
+  --mid-pill-surface-bg: var(--btn-primary-bg);
+  --mid-pill-surface-bg-hover: var(--btn-primary-bg-hover);
+  --mid-pill-surface-bg-active: var(--btn-primary-bg-active);
+  --mid-pill-surface-border: rgba(126, 95, 88, 0.16);
+  --mid-pill-surface-border-hover: rgba(126, 95, 88, 0.19);
+  --mid-pill-surface-border-shorthand: var(--mid-unified-surface-border);
+  --mid-pill-surface-shadow: var(--btn-primary-shadow);
+  --mid-pill-surface-shadow-hover: var(--btn-primary-shadow-hover);
+  --mid-pill-surface-shadow-focus: var(--btn-primary-shadow-focus);
+  --seg-button-text: var(--btn-primary-text);
+  --seg-button-text-hover: var(--title-color);
+  --seg-button-text-selected: var(--title-color);
+  --seg-button-bg: var(--seg-card-bg);
+  --seg-button-bg-hover: var(--seg-card-bg-hover);
+  --seg-button-bg-selected: var(--seg-card-bg-selected);
+  --seg-button-bg-active: var(--seg-card-bg-selected);
+  --seg-card-bg: var(--mid-unified-surface-bg);
+  --seg-card-bg-hover: var(--mid-unified-surface-bg-hover);
+  --seg-card-bg-selected: var(--mid-unified-surface-bg-hover);
+  --seg-card-text: #2f3a4a;
+  --seg-card-text-hover: #81504b;
+  --seg-card-text-selected: #7a3a38;
+  --seg-card-border: rgba(126, 95, 88, 0.16);
+  --seg-card-border-hover: rgba(126, 95, 88, 0.16);
+  --seg-card-border-selected: rgba(126, 95, 88, 0.19);
+  --seg-card-border-active: rgba(126, 95, 88, 0.19);
+  --seg-card-shadow: var(--mid-unified-surface-shadow);
+  --seg-card-shadow-hover: var(--mid-unified-surface-shadow);
+  --seg-card-shadow-selected: var(--mid-unified-surface-shadow-hover);
+  --seg-card-shadow-active: var(--mid-unified-surface-shadow-active);
+  --seg-radio-bg: rgba(253, 250, 249, 0.62);
+  --seg-radio-border: rgba(255, 255, 255, 0.56);
+  --seg-radio-inner-ring: inset 0 0 0 1px rgba(122, 58, 56, 0.2);
+  --subscription-error-color: rgba(78, 57, 52, 0.92);
+  --panel-secondary-bg: var(--btn-primary-bg);
+  --panel-secondary-border: rgba(126, 95, 88, 0.16);
+  --panel-secondary-border-width: 0px;
+  --panel-secondary-shadow: var(--btn-primary-shadow);
+  --subpage-card-bg:
+    radial-gradient(
+      92% 88% at 50% 16%,
+      rgba(249, 241, 238, 0.48) 0%,
+      rgba(242, 232, 228, 0.4) 42%,
+      rgba(233, 221, 216, 0.34) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(244, 235, 231, 0.28) 0%,
+      rgba(236, 226, 222, 0.22) 100%
+    );
+  --subpage-card-bg-hover:
+    radial-gradient(
+      92% 88% at 50% 16%,
+      rgba(246, 238, 235, 0.43) 0%,
+      rgba(239, 229, 225, 0.36) 44%,
+      rgba(231, 220, 215, 0.3) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(240, 231, 227, 0.24) 0%,
+      rgba(232, 222, 218, 0.2) 100%
+    );
+  --subpage-card-border: transparent;
+  --subpage-card-border-width: 0px;
+  --subpage-card-border-hover: transparent;
+  --subpage-card-shadow: var(--btn-primary-shadow);
+  --subpage-card-shadow-hover: var(--btn-primary-shadow-hover);
+  --subpage-card-text: #2f3a4a;
+  --opaque-panel-bg: var(--subpage-card-bg);
+  --opaque-panel-bg-hover: var(--subpage-card-bg-hover);
+  --opaque-panel-border: transparent;
+  --opaque-panel-shadow: var(--btn-primary-shadow);
+  --opaque-panel-text: #2f3a4a;
+  --drawer-delete-border: rgba(167, 145, 137, 0.34);
+  --drawer-delete-bg: rgba(250, 244, 242, 0.16);
+  --drawer-delete-text: var(--opaque-panel-text);
+  --drawer-delete-border-hover: rgba(186, 104, 100, 0.48);
+  --drawer-delete-bg-hover: rgba(250, 244, 242, 0.24);
+  --drawer-delete-text-hover: #9a534d;
+  --drawer-delete-shadow: 0 9px 20px rgba(31, 23, 22, 0.08);
+  --drawer-delete-shadow-hover: 0 12px 24px rgba(31, 23, 22, 0.12);
+  --rail-tooltip-bg: var(--mid-utility-panel-bg);
+  --glass-analysis-bg: var(--mid-utility-panel-bg);
+  --rail-tooltip-border: var(--subpage-card-border);
+  --rail-tooltip-shadow: var(--btn-primary-shadow);
+  --rail-tooltip-text: var(--subpage-card-text);
+  --chat-tools-item-hover-bg: rgba(122, 58, 56, 0.12);
+}
