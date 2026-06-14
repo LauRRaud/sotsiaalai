@@ -325,7 +325,7 @@ test("service map result cards use toolbar control styling without shadows", () 
 
   assert.match(
     source,
-    /"workspace-feature-list-card button invite-primary-btn service-map-toolbar__result-button ui-glow-button-frame ui-glow-button-control/
+    /"workspace-feature-list-card button service-map-toolbar__result-button ui-glow-button-frame ui-glow-button-control/
   );
   assert.match(
     resultButton,

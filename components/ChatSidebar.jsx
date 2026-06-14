@@ -660,14 +660,14 @@ export default function ChatSidebar() {
     "transition-[opacity,transform] duration-150 hover:-translate-y-[1px] hover:opacity-100 focus-visible:-translate-y-[1px] focus-visible:opacity-100 focus-visible:outline-none " +
     "disabled:cursor-not-allowed disabled:opacity-45";
   const sidebarTopPrimaryButtonClassName =
-    "invite-primary-btn !min-h-[2.42rem] !px-[0.86rem] !py-[0.48rem] !text-[0.98rem] !tracking-[0.012rem] !whitespace-nowrap " +
+    "!min-h-[2.42rem] !px-[0.86rem] !py-[0.48rem] !text-[0.98rem] !tracking-[0.012rem] !whitespace-nowrap " +
     "max-[768px]:!min-h-[2.52rem] max-[768px]:!px-[0.92rem] max-[768px]:!py-[0.52rem] max-[768px]:!text-[1.02rem] " +
     glassPrimaryButtonToneClassName;
   const sidebarTopIconButtonClassName =
-    "invite-primary-btn !min-h-[2.42rem] !px-[0.74rem] !py-[0.48rem] max-[768px]:!min-h-[2.52rem] max-[768px]:!px-[0.74rem] max-[768px]:!py-[0.52rem] " +
+    "!min-h-[2.42rem] !px-[0.74rem] !py-[0.48rem] max-[768px]:!min-h-[2.52rem] max-[768px]:!px-[0.74rem] max-[768px]:!py-[0.52rem] " +
     glassPrimaryButtonToneClassName;
   const sidebarPrimaryButtonClassName =
-    "invite-primary-btn !min-h-[2.42rem] !px-[0.86rem] !py-[0.48rem] !text-[0.98rem] !tracking-[0.012rem] !whitespace-nowrap " +
+    "!min-h-[2.42rem] !px-[0.86rem] !py-[0.48rem] !text-[0.98rem] !tracking-[0.012rem] !whitespace-nowrap " +
     "max-[768px]:!min-h-[2.52rem] max-[768px]:!px-[0.92rem] max-[768px]:!py-[0.52rem] max-[768px]:!text-[1.02rem] " +
     glassPrimaryButtonToneClassName;
   const searchInputShellClassName = "relative flex justify-center";

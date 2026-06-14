@@ -3147,7 +3147,7 @@ function ServiceMapSurface({
                       data-variant="primary"
                       data-selected={selectedEntryId === entry.id ? "true" : "false"}
                       className={cn(
-                        "workspace-feature-list-card button invite-primary-btn service-map-toolbar__result-button ui-glow-button-frame ui-glow-button-control grid gap-[0.12rem] rounded-[0.72rem] border px-[0.62rem] py-[0.4rem] text-left transition",
+                        "workspace-feature-list-card button service-map-toolbar__result-button ui-glow-button-frame ui-glow-button-control grid gap-[0.12rem] rounded-[0.72rem] border px-[0.62rem] py-[0.4rem] text-left transition",
                         selectedEntryId === entry.id && "ring-2 ring-[color:var(--title-color,var(--brand-primary,#c57171))]"
                       )}
                       edgeSensitivity={22}
