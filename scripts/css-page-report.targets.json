@@ -35,7 +35,9 @@
     ".back-button",
     ".chat-send-btn",
     ".chat-listen-btn",
-    ".modal-close-btn"
+    ".modal-close-btn",
+    ".profile-orbit-menu__center",
+    ".profile-orbit-menu__item"
   ],
 
   "_flows_comment": [
@@ -66,6 +68,20 @@
       "selectors": [
         ".account-settings-modal-content .button[data-variant=\"primary\"]",
         ".account-settings-modal-button"
+      ]
+    },
+    {
+      "name": "profile-orbit-open",
+      "route": "/profiil",
+      "steps": [
+        { "waitFor": ".profile-orbit-menu__center" },
+        { "click": ".profile-orbit-menu__center" },
+        { "waitFor": "[data-key=\"account\"] .profile-orbit-menu__item" },
+        { "waitMs": 500 }
+      ],
+      "selectors": [
+        ".profile-orbit-menu__center",
+        ".profile-orbit-menu__item"
       ]
     }
   ]

@@ -334,7 +334,15 @@ const HOVER_DESIGN_PROPS = ["backgroundImage", "backgroundColor"];
 // channels → nearest 1; alpha & other sub-unit values → nearest 0.05. The target
 // bug class (inset-vs-soft shadow, gradient-stop swaps, on/off shadow) is discrete
 // and survives untouched.
-const quantize = (v) => String(v).replace(/-?\d+(\.\d+)?/g, (m) => {
+// getComputedStyle preserves whatever CSS color-function authored the value, so
+// the SAME color can serialize as rgb(34,34,34) on one button and
+// color(srgb 0.133 0.133 0.133) on another — that would flag identical colors as
+// different. Canonicalise sRGB color() back to rgb() integers before fingerprinting.
+const normColor = (s) => String(s).replace(
+  /color\(srgb\s+([\d.]+)\s+([\d.]+)\s+([\d.]+)(?:\s*\/\s*([\d.]+))?\)/g,
+  (_, r, g, b, a) => `rgb(${Math.round(r * 255)} ${Math.round(g * 255)} ${Math.round(b * 255)}${a != null ? ` / ${a}` : ""})`);
+
+const quantize = (v) => normColor(v).replace(/-?\d+(\.\d+)?/g, (m) => {
   const n = parseFloat(m);
   if (Number.isNaN(n)) return m;
   return Math.abs(n) >= 1 ? String(Math.round(n)) : String(Math.round(n * 20) / 20);
