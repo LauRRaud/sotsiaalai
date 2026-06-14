@@ -24,6 +24,7 @@ const legacyCssBundles = new Map([
     // tests that read hc.css keep seeing the full pre-split contract.
     path.join(repoRoot, "app", "styles", "theme", "hc.css"),
     [
+      path.join(repoRoot, "app", "styles", "tokens", "theme-hc.css"),
       path.join(repoRoot, "app", "styles", "features", "chat", "hc.css"),
       path.join(repoRoot, "app", "styles", "features", "profile", "hc.css")
     ]

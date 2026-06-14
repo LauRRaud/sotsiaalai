@@ -74,7 +74,10 @@ Faas 2 ja faas 4 tehakse **koos, ühe viiluna per primitiiv** (mitte eraldi glob
 
 ## Tehtud (krooniline)
 
-### Rada B viil 2.4 — mono teema token-blokk  [TBD]  (14.06.2026)
+### Rada B viil 2.5 — hc teema token-blokid  [TBD]  (14.06.2026)
+`:root:not(.theme-light):not(.theme-mid) { ... }` (3 rida) ja `html[data-contrast="hc"] { ... }` (224 rida) — kokku 0 `!important` — liigutatud `theme/hc.css`-ist `tokens/theme-hc.css`-i. `hc.css`: 1992 → 1760 rida. Testilaadir uuendatud: `tokens/theme-hc.css` lisatud `hc.css` bundle'i. npm test 967/13.
+
+### Rada B viil 2.4 — mono teema token-blokk  [`6c5dde29`]  (14.06.2026)
 `:root.theme-mono:not([data-contrast="hc"]) { ... }` (250 rida, 0 `!important`) liigutatud `theme/mono.css`-ist `tokens/theme-mono.css`-i. `mono.css`: 780 → 530 rida. Testilaadir (`register-node-test-loader.mjs`) uuendatud: `tokens/theme-mono.css` lisatud `mono.css` bundle'i (ilma selleta kukkus `monoThemeContracts.test.js`). npm test 967/13.
 
 ### Rada B viil 2.3 — light + dark + night token-blokid  [`c9692901`]  (14.06.2026)
