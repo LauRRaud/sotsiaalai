@@ -558,7 +558,7 @@ export default function RagAdminDocumentsView({ controller, showMessage = true }
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <Button
                     type="button"
-                    variant="ghost"
+                    variant="primary"
                     size="sm"
                     aria-expanded={showAllTags ? "true" : "false"}
                     onClick={() => setShowAllTags(current => !current)}
@@ -808,7 +808,7 @@ export default function RagAdminDocumentsView({ controller, showMessage = true }
                         ) : null}
                         <div className={docDetailActionsClassName}>
                           <Button
-                            variant="ghost"
+                            variant="primary"
                             size="sm"
                             onClick={() => openDetail(previewDoc)}
                             disabled={!canEdit}
@@ -816,7 +816,7 @@ export default function RagAdminDocumentsView({ controller, showMessage = true }
                             {tr("admin.rag.actions.edit")}
                           </Button>
                           <Button
-                            variant="ghost"
+                            variant="primary"
                             size="sm"
                             onClick={() => handleReindex(previewDoc.id)}
                             disabled={reindexingId === previewDoc.id || !canReindex}
@@ -835,14 +835,14 @@ export default function RagAdminDocumentsView({ controller, showMessage = true }
                             <Button
                               as="a"
                               href={kovManageHref}
-                              variant="ghost"
+                              variant="linkBrand"
                               size="sm"
                             >
                               Halda KOV vaates
                             </Button>
                           ) : null}
                           <Button
-                            variant="ghost"
+                            variant="primary"
                             size="sm"
                             onClick={() => viewSource(previewDoc)}
                             disabled={!canView}
@@ -863,7 +863,7 @@ export default function RagAdminDocumentsView({ controller, showMessage = true }
           {visibleCount < filteredDocs.length ? (
             <div className="flex flex-wrap items-center gap-2">
               <Button
-                variant="ghost"
+                variant="primary"
                 size="sm"
                 onClick={() => setVisibleCount(count => count + 25)}
               >
@@ -935,7 +935,7 @@ export default function RagAdminDocumentsView({ controller, showMessage = true }
                   </div>
                 </div>
                 <Button
-                  variant="ghost"
+                  variant="primary"
                   size="sm"
                   onClick={() => setFilterSource("ALL")}
                 >
@@ -1002,13 +1002,13 @@ export default function RagAdminDocumentsView({ controller, showMessage = true }
               <Button
                 as="a"
                 href={localizePath("/admin/rag/ingest", locale)}
-                variant="ghost"
+                variant="linkBrand"
                 size="sm"
               >
                 Ava ingesti mallid
               </Button>
               <Button
-                variant="ghost"
+                variant="primary"
                 size="sm"
                 onClick={() => document.getElementById("rag-documents-register")?.scrollIntoView({ behavior: "smooth", block: "start" })}
               >

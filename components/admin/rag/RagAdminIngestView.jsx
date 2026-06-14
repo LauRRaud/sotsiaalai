@@ -126,7 +126,7 @@ export default function RagAdminIngestView({ controller, showMessage = true }) {
             <div className={cardActionsClassName}>
               <Button
                 size="sm"
-                variant="ghost"
+                variant="primary"
                 onClick={handleSelftest}
                 disabled={selftestBusy}
               >
@@ -134,7 +134,7 @@ export default function RagAdminIngestView({ controller, showMessage = true }) {
               </Button>
               <Button
                 size="sm"
-                variant="ghost"
+                variant="primary"
                 onClick={fetchDocuments}
                 disabled={loadingList}
               >
@@ -248,7 +248,7 @@ export default function RagAdminIngestView({ controller, showMessage = true }) {
                     <Button
                       size="sm"
                       type="button"
-                      variant="ghost"
+                      variant="primary"
                       onClick={() => setShowMetaGuide(state => !state)}
                       aria-expanded={showMetaGuide}
                       aria-controls="rag-meta-panel"
@@ -258,7 +258,7 @@ export default function RagAdminIngestView({ controller, showMessage = true }) {
                     <Button
                       size="sm"
                       type="button"
-                      variant="ghost"
+                      variant="primary"
                       onClick={handleMetaCheck}
                     >
                       {tr("admin.rag.meta.check_json")}
@@ -344,7 +344,7 @@ export default function RagAdminIngestView({ controller, showMessage = true }) {
                   </div>
                   <Button
                     as="a"
-                    variant="ghost"
+                    variant="linkBrand"
                     size="sm"
                     href="/rag-meta-templates/articles.json"
                     target="_blank"
