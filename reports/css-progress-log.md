@@ -74,6 +74,9 @@ Faas 2 ja faas 4 tehakse **koos, ühe viiluna per primitiiv** (mitte eraldi glob
 
 ## Tehtud (krooniline)
 
+### Rada B viil 2.2 — mid teema token-blokk  [`6eb27bca`]  (14.06.2026)
+`:root.theme-mid { ... }` (246 rida, 0 `!important`) liigutatud `theme/mid.css`-ist `tokens/theme-mid.css`-i. `globals.css` laadib `tokens/` faili PÄRAST `theme/` faili — kaskaadi seis muutumatu. Kaks redundantset `--btn-primary-bg-hover/active` definitsiooni scoped `.button[data-variant="primary"]`-reeglist eemaldatud (samad väärtused on nüüd tokens/ plokis). `mid.css`: 629 → 381 rida. npm test 967/13.
+
 ### Rada 1 nupu-konsolidatsioon — viilud 1–5 + platvormi ghost/secondary puhastus  [689e4471 · 84877344 · b345cb42 · 1bacf204 · 0cb3d95e · eb4b64c5 · b210de30 · 1e75c9e4]  (14.06.2026)
 **Mis:** kõik `variant="ghost"` ja `variant="secondary"` Button-kasutused üle platvormi → kanooniline kolmik:
 - **tegevus-nupp** → `variant="primary"` (klaaspill + glow);
