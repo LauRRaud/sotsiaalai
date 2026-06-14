@@ -89,6 +89,7 @@ export default function RagAdminPageFrame({
                   data-checked={isActive ? "true" : "false"}
                   aria-current={isActive ? "page" : undefined}
                 >
+                  <span className="ui-glow-button-soft-edge" aria-hidden="true" />
                   <span>{item.label}</span>
                 </Link>
               );
