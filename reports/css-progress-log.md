@@ -74,6 +74,22 @@ Faas 2 ja faas 4 tehakse **koos, ühe viiluna per primitiiv** (mitte eraldi glob
 
 ## Tehtud (krooniline)
 
+### Rada 1 nupu-konsolidatsioon — viilud 1–5 + platvormi ghost/secondary puhastus  [689e4471 · 84877344 · b345cb42 · 1bacf204 · 0cb3d95e · eb4b64c5 · b210de30 · 1e75c9e4]  (14.06.2026)
+**Mis:** kõik `variant="ghost"` ja `variant="secondary"` Button-kasutused üle platvormi → kanooniline kolmik:
+- **tegevus-nupp** → `variant="primary"` (klaaspill + glow);
+- **hävitav** (kustuta/eemalda) → `variant="danger"`;
+- **tühista / tagasi / sulge + `as="a"` navigatsioonilingid** → `variant="linkBrand"`.
+
+Migreeritud failid (viil 1.4/5): KovTable, CovisionPage (22×), WellbeingPage/RecoveryWorkflow/OverviewWorkflow/SupportRequestPanel, ChatComposer, DocumentsPage, ArtifactDetailPage, AgentModePage, JourneyDetail (+10 `as="a"`), JourneyDashboard, WorkspaceFeaturePage, RagAdminSourcePackagesScreen (lammutas ad-hoc `BUTTON_CLASS` → kanooniline `<Button>`). Admin-viilud 1/2/2b: KovSourceMonitor, RtRegistry, RagAdminDocuments/Ingest/OrganizationsView.
+
+**KANOONILINE NUPP (kasutaja kinnitas 14.06, vt [[canonical-button-look]]):** õige nupk = `<Button variant="primary">` valkjas **klaaspill + pehme vari + glow-serv**, NÄIDIS = "Salvesta" nupp `/uuenda-pin` lehel. Adapteerub teemaga `--btn-primary-*` kaudu. Nähtavus hele-pinnal tuleb varjust+glow'st, MITTE värvilisest/hallist taustast.
+
+**LÕKS (tehtud + tagasi võetud):** kui admin-nupud tundusid valgel kaardil nähtamatud, üritati `--btn-primary-bg`→hall + `--btn-primary-bg-hover`→brändi/amber + `glow={false}` + nav-tabid punaseks (`e03ecc40`). Kasutaja lükkas tagasi ("nupud läksid punaseks", "kaks edge-glow efekti"). **Tagasi võetud `4f56fa09`** → admin tegevus-nupud + nav-tabid taas puhas kanooniline. ÄRA korda: admin-nuppe ei tohi halliks/punaseks värvida ega glow'd keelata.
+
+**Verifikatsioon:** Jest-suite hetkel pre-existing ESM-import-fail (sõltumatu, kontrollitud `git stash`-iga). Snapshot-värav button-viilude jaoks: need on className/JSX muutused (Tailwind), mitte CSS-faili muutused.
+
+
+
 ### PROD-CRASH — OrbitStaticGlow ise-rekursioon  [d3a92302, deploy 8cc8063b]
 `9e3b1cd9` OrbitalMenu-refaktor lõi `const OrbitStaticGlow = () => (<OrbitStaticGlow/>)` = komponent renderdab iseennast → lõputu rekursioon → render-protsessi OOM ("Aw Snap") IGAL /profiil külastusel produktsioonis. Lokaalne vana build (enne `9e3b1cd9`) töötas → segadus. Fix: taastatud `<span className="profile-orbit-static-glow">`. **Diagnoosi võti:** prod jooksis uuemat commitit kui lokaalne build; `git log` deployitud commit + serveri `OrbitStaticGlow` grep. **ÕPPETUND:** JSX-render-dup ekstraheerimine vajab BRAUSERI-renderdust kinnituseks — kontraktitestid ei püüa. Tööriist `scripts/profiil-mem-probe.mjs` (CDP `Performance.getMetrics` üle aja → Nodes/heap kasv = render-loop).
 
@@ -138,6 +154,23 @@ CSS oli juba puhas (css:audit 0 kasutamata 42-st, 0 CSS-klooni). "531 dup" = fan
 - `reports/css-tailwind-cleanup-plan.md` (master), `css-cleanup-runbook.md`, `css-struktuuriplaan §9`.
 
 ## Avatud küsimused / teadaolevad lõksud
+
+### ⭐ LAHTINE (14.06.2026) — admin RAG nav-tabi VALITUD-olek "ei ole ikka õige"
+**Asukoht:** `components/admin/rag/ragAdminShellStyles.js` → `ragAdminShellNavLinkClassName` (segmented control, kasutab `primarySegmentedButtonClassName`). Renderdub `RagAdminPageFrame.jsx`-is (tabid: Dokumendid · Sisestus · KOV · Organisatsioonid · Lähtepaketid).
+
+**Sümptom (kasutaja screenshot):** valitud tab (nt "Organisatsioonid") = peaaegu-valge klaaspill + **brändi-punane tekst** PUHAS-VALGE admin-kaardi peal (`--admin-surface:#ffffff`). Madal kontrast → ainus selge signaal on punane tekst, mille kasutaja leiab vale olevat. Praegu kanooniline segmented vaikeolek (pärast `4f56fa09` revert'i): hover/selected bg = `--btn-primary-bg-hover` (peaaegu-valge gradient), tekst = `--seg-card-text-selected` = `var(--title-color,var(--brand-primary))` = `#7a3a38` (telliskivi-punane, sama mis lehe pealkiri).
+
+**MIKS lahtine:** see on disaini-/kontrasti-otsus, mis on põimunud admin-kaardi pinna-värviga (Salvesta klaaspill "töötab" sest ta istub kontrastsel kreem/klaas-pinnal; admin-kaart on puhas valge → pillid ei eristu). Sonnet on proovinud 4× ja iga kord pihta pannud → **eskaleeritud Opusele + brauseri-verifikatsioon vajalik** (admin-leht on auth-taga, vajab login-cookie't).
+
+**Kandidaat-suunad (ÄRA pimesi vali — vaja kasutaja/Opus otsus + brauser):**
+- **(A)** anna admin-kaardile õrn off-white/kreem pind (nagu Salvesta pinnal), et valged klaaspillid eristuksid — muuda `--admin-surface` või kaardi bg `ragAdminShellCardClassName`-is.
+- **(B)** admin-nav-spetsiifiline selgem selected pinna-/varjudefinitsioon.
+- **(C)** valitud tabi tekst brändi-punaselt → tume/neutraalne, pill jääb.
+- **(D)** kinnita kasutajaga, mis täpselt "õige" on — tabel-pill vs alljoon vs muu.
+
+Otsus on kasutaja oma. Tegevus-nupud ise on JUBA õiged (kanooniline primary, `1e75c9e4`/`4f56fa09`).
+
+### Üldised lõksud
 - Dev-server sureb korduvatel reload'idel → kasuta production-buildi snapshot'imisel.
 - matched-rules vajab auth-taga elementide jaoks tervet serverit + renderdatud elementi; asukoht = kompileeritud chunk (grep selektorit lähtekoodist).
 - Committimata `lib/rag/*` WIP (teise konto, lõhub 2 testi) — MITTE puutuda.

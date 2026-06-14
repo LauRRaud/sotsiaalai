@@ -40,6 +40,14 @@ teema-CSS-ahelad). Korrastus = vii kujundus komponenti + tokenisse, kustuta kaot
 
 Eesmärk: kõik 81 konstanti → kas `<Button>` prop/variant, või Tailwind-layout kutsumiskohas, või kustutatud. Iga viil = `css-button-system.md §3` otsustusreegel + §3 ⚠ variant-kontroll.
 
+> **SEIS 14.06.2026 (vt `css-progress-log.md` dateeritud kirje + [[canonical-button-look]]):**
+> Viilud **1.1–1.4 TEHTUD** (commits `1bacf204`→`1e75c9e4`). Kogu platvormi `ghost`/`secondary`
+> Button-kasutus migreeritud: tegevus → `primary`, hävitav → `danger`, tühista/tagasi/sulge +
+> `as="a"` → `linkBrand`. Kanooniline nupp = `/uuenda-pin` "Salvesta" klaaspill.
+> **⚠ LAHTINE → Opus:** admin RAG nav-tabi VALITUD-olek "ei ole ikka õige" (punane tekst valgel
+> kaardil, madal kontrast) — vt `css-progress-log.md` § "⭐ LAHTINE". Vajab brauseri-verifikatsiooni.
+> **Viil 1.5 (mono/hc ahelad) + 1.6 (segmented sulgemine) endiselt Opusele.**
+
 ### Viil 1.1 — `ragAdminShared.js` varisüsteem ⭐ PILOOT (halvim kolle)
 
 [components/admin/rag/ragAdminShared.js:155–192](../components/admin/rag/ragAdminShared.js) on **terve paralleelne nupu-süsteem** — halvim üksik kolle kogu koodibaasis:
