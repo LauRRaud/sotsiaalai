@@ -3,9 +3,6 @@
 import Button from "@/components/ui/Button";
 
 import {
-  buttonBaseClassName,
-  buttonCompactClassName,
-  buttonGhostClassName,
   cardBodyClassName,
   cardClassName,
   cardSubClassName
@@ -29,11 +26,7 @@ export default function KovEmptyState({ et, hasActiveFilters, onReset }) {
         </div>
         {hasActiveFilters ? (
           <div className="pt-1">
-            <Button
-              variant="ghost"
-              className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonCompactClassName}`}
-              onClick={onReset}
-            >
+            <Button variant="ghost" size="xs" onClick={onReset}>
               {et ? "Nulli filtrid" : "Reset filters"}
             </Button>
           </div>

@@ -16,12 +16,6 @@ import {
   articlesNoteClassName,
   articlesResultClassName,
   articlesTitleClassName,
-  buttonBaseClassName,
-  buttonCompactClassName,
-  buttonGhostClassName,
-  buttonPrimaryClassName,
-  buttonRefreshClassName,
-  buttonSecondaryClassName,
   cardActionsClassName,
   cardBodyClassName,
   cardClassName,
@@ -133,7 +127,6 @@ export default function RagAdminIngestView({ controller, showMessage = true }) {
               <Button
                 size="sm"
                 variant="ghost"
-                className={`${buttonBaseClassName} ${buttonSecondaryClassName} ${buttonCompactClassName}`}
                 onClick={handleSelftest}
                 disabled={selftestBusy}
               >
@@ -142,7 +135,6 @@ export default function RagAdminIngestView({ controller, showMessage = true }) {
               <Button
                 size="sm"
                 variant="ghost"
-                className={buttonRefreshClassName}
                 onClick={fetchDocuments}
                 disabled={loadingList}
               >
@@ -187,8 +179,8 @@ export default function RagAdminIngestView({ controller, showMessage = true }) {
                   <Button
                     size="sm"
                     type="submit"
-                    variant="ghost"
-                    className={`${buttonBaseClassName} ${buttonPrimaryClassName} ${buttonCompactClassName} self-start`}
+                    variant="primary"
+                    className="self-start"
                     disabled={urlBusy}
                   >
                     {urlBusy ? tr("admin.rag.ingest.sending") : tr("admin.rag.ingest.send_url")}
@@ -210,7 +202,7 @@ export default function RagAdminIngestView({ controller, showMessage = true }) {
                     <Button
                       type="button"
                       size="sm"
-                      className={`${buttonBaseClassName} ${buttonPrimaryClassName} ${buttonCompactClassName}`}
+                      variant="primary"
                       onClick={() => pdfFileInputRef.current?.click()}
                     >
                       Vali fail
@@ -229,7 +221,7 @@ export default function RagAdminIngestView({ controller, showMessage = true }) {
                     <Button
                       type="button"
                       size="sm"
-                      className={`${buttonBaseClassName} ${buttonPrimaryClassName} ${buttonCompactClassName}`}
+                      variant="primary"
                       onClick={() => pdfMetaFileInputRef.current?.click()}
                     >
                       Vali fail
@@ -257,7 +249,6 @@ export default function RagAdminIngestView({ controller, showMessage = true }) {
                       size="sm"
                       type="button"
                       variant="ghost"
-                      className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonCompactClassName}`}
                       onClick={() => setShowMetaGuide(state => !state)}
                       aria-expanded={showMetaGuide}
                       aria-controls="rag-meta-panel"
@@ -268,7 +259,6 @@ export default function RagAdminIngestView({ controller, showMessage = true }) {
                       size="sm"
                       type="button"
                       variant="ghost"
-                      className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonCompactClassName}`}
                       onClick={handleMetaCheck}
                     >
                       {tr("admin.rag.meta.check_json")}
@@ -276,8 +266,7 @@ export default function RagAdminIngestView({ controller, showMessage = true }) {
                     <Button
                       size="sm"
                       type="submit"
-                      variant="ghost"
-                      className={`${buttonBaseClassName} ${buttonPrimaryClassName} ${buttonCompactClassName}`}
+                      variant="primary"
                       disabled={pdfMetaBusy}
                     >
                       {pdfMetaBusy ? tr("admin.rag.ingest.sending") : tr("admin.rag.ingest.send_pdf_with_meta")}
@@ -319,7 +308,7 @@ export default function RagAdminIngestView({ controller, showMessage = true }) {
                     <Button
                       type="button"
                       size="sm"
-                      className={`${buttonBaseClassName} ${buttonPrimaryClassName} ${buttonCompactClassName}`}
+                      variant="primary"
                       onClick={() => rtXmlFileInputRef.current?.click()}
                     >
                       {tr("admin.rag.ingest.choose_rt_xml")}
@@ -329,8 +318,8 @@ export default function RagAdminIngestView({ controller, showMessage = true }) {
                   <Button
                     size="sm"
                     type="submit"
-                    variant="ghost"
-                    className={`${buttonBaseClassName} ${buttonPrimaryClassName} ${buttonCompactClassName} self-start`}
+                    variant="primary"
+                    className="self-start"
                     disabled={rtXmlBusy}
                   >
                     {rtXmlBusy ? tr("admin.rag.ingest.sending") : tr("admin.rag.ingest.send_rt_xml")}
@@ -356,7 +345,7 @@ export default function RagAdminIngestView({ controller, showMessage = true }) {
                   <Button
                     as="a"
                     variant="ghost"
-                    className={`${buttonBaseClassName} ${buttonGhostClassName}`}
+                    size="sm"
                     href="/rag-meta-templates/articles.json"
                     target="_blank"
                     rel="noopener noreferrer"
@@ -386,7 +375,7 @@ export default function RagAdminIngestView({ controller, showMessage = true }) {
                     <Button
                       type="button"
                       size="sm"
-                      className={`${buttonBaseClassName} ${buttonPrimaryClassName} ${buttonCompactClassName}`}
+                      variant="primary"
                       onClick={() => articlesFileInputRef.current?.click()}
                     >
                       Vali fail
@@ -405,8 +394,8 @@ export default function RagAdminIngestView({ controller, showMessage = true }) {
                   <div className={articlesActionsClassName}>
                     <Button
                       type="submit"
-                      variant="ghost"
-                      className={`${buttonBaseClassName} ${buttonPrimaryClassName}`}
+                      variant="primary"
+                      size="sm"
                       disabled={articlesBusy}
                     >
                       {articlesBusy ? tr("admin.rag.ingest.sending") : tr("admin.rag.articles.send")}

@@ -152,44 +152,6 @@ export const ragModalHeadClassName = "flex flex-wrap items-start justify-between
 export const modalBodyClassName = "grid gap-3";
 export const readOnlyFieldClassName =
   "rounded-[12px] border border-[color:var(--admin-border-strong)] bg-[color:var(--admin-surface-2)] px-3 py-[0.55rem] text-[0.95rem] text-[color:var(--admin-muted)]";
-export const buttonBaseClassName =
-  "!min-h-[2.02rem] !rounded-[0.82rem] !px-[0.86rem] !py-[0.34rem] !text-[0.92rem] font-semibold !leading-[1.1] tracking-[0.01em] " +
-  "[--admin-button-primary-bg:color-mix(in_srgb,var(--admin-accent)_22%,var(--admin-surface-3)_78%)] " +
-  "[--admin-button-primary-bg-hover:color-mix(in_srgb,var(--admin-accent)_32%,var(--admin-surface-3)_68%)] " +
-  "[--admin-button-primary-bg-active:color-mix(in_srgb,var(--admin-accent)_18%,var(--admin-surface-3)_82%)] " +
-  "[--admin-button-secondary-bg:color-mix(in_srgb,var(--admin-surface-2)_92%,var(--admin-accent)_8%)] " +
-  "[--admin-button-secondary-bg-hover:color-mix(in_srgb,var(--admin-surface-2)_84%,var(--admin-accent)_16%)] " +
-  "[--admin-button-ghost-bg:color-mix(in_srgb,var(--admin-surface-3)_54%,transparent)] " +
-  "[--admin-button-ghost-bg-hover:color-mix(in_srgb,var(--admin-surface-2)_84%,var(--admin-accent)_16%)] " +
-  "[--admin-button-disabled-bg:color-mix(in_srgb,var(--admin-surface-3)_92%,var(--admin-border)_8%)] " +
-  "[--admin-button-disabled-text:color-mix(in_srgb,var(--admin-muted)_62%,var(--admin-text)_38%)] " +
-  "[--admin-button-disabled-border:color-mix(in_srgb,var(--admin-border-strong)_82%,var(--admin-surface-3)_18%)] " +
-  "shadow-[var(--admin-shadow-soft)]";
-export const buttonCompactClassName = "!min-h-[1.9rem] !px-[0.72rem] !py-[0.3rem] !text-[0.86rem] !leading-[1.08]";
-export const buttonTinyClassName = "!min-h-[1.52rem] !rounded-[0.62rem] !px-[0.48rem] !py-[0.15rem] !text-[0.72rem] !leading-[1.02]";
-export const buttonPrimaryClassName =
-  "![border:1px_solid_color-mix(in_srgb,var(--admin-accent)_66%,var(--admin-border)_34%)] ![background:var(--admin-button-primary-bg)] !text-[color:var(--admin-text)] " +
-  "before:![background:var(--admin-button-primary-bg-hover)] hover:![border:1px_solid_var(--admin-accent)] hover:!shadow-[0_0_0_2px_var(--admin-accent-soft),var(--admin-shadow-soft)] " +
-  "active:![background:var(--admin-button-primary-bg-active)] active:!shadow-[var(--admin-shadow-soft)] " +
-  "disabled:!opacity-100 disabled:![border:1px_solid_var(--admin-button-disabled-border)] disabled:![background:var(--admin-button-disabled-bg)] disabled:!text-[color:var(--admin-button-disabled-text)] disabled:!shadow-none " +
-  "aria-disabled:!opacity-100 aria-disabled:![border:1px_solid_var(--admin-button-disabled-border)] aria-disabled:![background:var(--admin-button-disabled-bg)] aria-disabled:!text-[color:var(--admin-button-disabled-text)] aria-disabled:!shadow-none";
-export const buttonGhostClassName =
-  "![border:1px_solid_var(--admin-border-strong)] ![background:var(--admin-button-ghost-bg)] !text-[color:var(--admin-text)] !shadow-none before:!opacity-0 " +
-  "hover:![background:var(--admin-button-ghost-bg-hover)] hover:![border:1px_solid_color-mix(in_srgb,var(--admin-accent)_44%,var(--admin-border-strong)_56%)] " +
-  "disabled:!opacity-100 disabled:![border:1px_solid_var(--admin-button-disabled-border)] disabled:![background:var(--admin-button-disabled-bg)] disabled:!text-[color:var(--admin-button-disabled-text)] " +
-  "aria-disabled:!opacity-100 aria-disabled:![border:1px_solid_var(--admin-button-disabled-border)] aria-disabled:![background:var(--admin-button-disabled-bg)] aria-disabled:!text-[color:var(--admin-button-disabled-text)]";
-export const buttonDangerClassName =
-  "![border:1px_solid_color-mix(in_srgb,var(--admin-danger)_48%,var(--admin-border)_52%)] ![background:color-mix(in_srgb,var(--admin-danger)_14%,var(--admin-surface-3)_86%)] !text-[color:var(--admin-danger)] !shadow-none before:!opacity-0 hover:![background:color-mix(in_srgb,var(--admin-danger)_22%,var(--admin-surface-3)_78%)]";
-export const buttonSecondaryClassName =
-  "![border:1px_solid_var(--admin-border-strong)] ![background:var(--admin-button-secondary-bg)] !text-[color:var(--admin-text)] !shadow-none before:!opacity-0 " +
-  "hover:![background:var(--admin-button-secondary-bg-hover)] hover:![border:1px_solid_color-mix(in_srgb,var(--admin-accent)_38%,var(--admin-border-strong)_62%)] " +
-  "disabled:!opacity-100 disabled:![border:1px_solid_var(--admin-button-disabled-border)] disabled:![background:var(--admin-button-disabled-bg)] disabled:!text-[color:var(--admin-button-disabled-text)] " +
-  "aria-disabled:!opacity-100 aria-disabled:![border:1px_solid_var(--admin-button-disabled-border)] aria-disabled:![background:var(--admin-button-disabled-bg)] aria-disabled:!text-[color:var(--admin-button-disabled-text)]";
-export const buttonRefreshClassName =
-  `${buttonBaseClassName} ${buttonPrimaryClassName} ` +
-  "!min-h-[2.24rem] !rounded-[1.12rem] !px-[0.88rem] !py-[0.36rem] !text-[0.88rem] !leading-[1.08] !tracking-[0.012rem] " +
-  "!transform-none hover:!transform-none focus-visible:!transform-none active:!transform-none disabled:!transform-none aria-disabled:!transform-none " +
-  "max-[768px]:!min-h-[2.34rem] max-[768px]:!rounded-[1.08rem] max-[768px]:!text-[0.9rem]";
 
 export const STATUS_CLASSES = {
   PENDING: `${badgeBaseClassName} ${badgeYellowClassName}`,

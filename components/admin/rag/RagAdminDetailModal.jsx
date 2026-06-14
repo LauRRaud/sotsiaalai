@@ -8,9 +8,6 @@ import Textarea from "@/components/ui/Textarea";
 import DocumentsDropdown from "@/components/documents/DocumentsDropdown";
 
 import {
-  buttonBaseClassName,
-  buttonPrimaryClassName,
-  buttonSecondaryClassName,
   dropdownClassName,
   inputClassName,
   modalBodyClassName,
@@ -42,7 +39,7 @@ export default function RagAdminDetailModal({ controller }) {
               {detailDoc.title || tr("admin.rag.documents.untitled")}
             </div>
           </div>
-          <Button variant="ghost" className={`${buttonBaseClassName} ${buttonSecondaryClassName}`} onClick={closeDetail}>
+          <Button variant="ghost" size="sm" onClick={closeDetail}>
             {tr("admin.rag.actions.close")}
           </Button>
         </div>
@@ -147,10 +144,10 @@ export default function RagAdminDetailModal({ controller }) {
             <div className={readOnlyFieldClassName}>{tr("admin.rag.modal.language")}: {detailDoc.language || "-"}</div>
           </div>
           <div className="flex flex-wrap items-center gap-2">
-            <Button variant="ghost" className={`${buttonBaseClassName} ${buttonPrimaryClassName}`} onClick={saveDetail}>
+            <Button variant="primary" size="sm" onClick={saveDetail}>
               {tr("admin.rag.actions.save")}
             </Button>
-            <Button variant="ghost" className={`${buttonBaseClassName} ${buttonSecondaryClassName}`} onClick={closeDetail}>
+            <Button variant="ghost" size="sm" onClick={closeDetail}>
               {tr("admin.rag.actions.cancel")}
             </Button>
           </div>

@@ -5,9 +5,6 @@ import Button from "@/components/ui/Button";
 import DocumentsDropdown from "@/components/documents/DocumentsDropdown";
 
 import {
-  buttonBaseClassName,
-  buttonCompactClassName,
-  buttonGhostClassName,
   dropdownClassName,
   inputClassName
 } from "../ragAdminShared";
@@ -78,12 +75,7 @@ export default function KovFilters({
               ? "Vaikimisi kuvatakse aktiivsed KOV-id."
               : "Active municipalities are shown by default."}
         </div>
-        <Button
-          variant="ghost"
-          className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonCompactClassName}`}
-          onClick={onReset}
-          disabled={!hasActiveFilters}
-        >
+        <Button variant="ghost" size="xs" onClick={onReset} disabled={!hasActiveFilters}>
           {et ? "Nulli filtrid" : "Reset"}
         </Button>
       </div>

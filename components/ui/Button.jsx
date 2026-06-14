@@ -40,6 +40,8 @@ const variantStyles = {
 };
 const sizeStyles = {
   sm: "text-[0.98rem] px-[0.7rem] py-[0.35rem] min-h-[2.25rem]",
+  xs: "text-[0.86rem] px-[0.65rem] py-[0.27rem] min-h-[1.9rem]",
+  "2xs": "text-[0.72rem] px-[0.44rem] py-[0.12rem] min-h-[1.5rem]",
   md: "",
   lg: "text-[1.2rem] px-[1.35rem] py-[0.8rem] min-h-[2.85rem]"
 };
@@ -63,7 +65,7 @@ const Button = forwardRef(function Button({
   const isDisabled = Boolean(disabled);
   const variantClass = variantStyles[variant] ?? variantStyles.primary;
   const useBaseStyles = variant !== "linkBrand";
-  const useGlow = useBaseStyles && glow && variant === "primary";
+  const useGlow = useBaseStyles && glow && variant === "primary" && size !== "xs" && size !== "2xs";
   const handleClick = event => {
     if (isDisabled) {
       event.preventDefault();

@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
+import Button from "@/components/ui/Button";
 
 const panelClassName =
   "relative mt-3 overflow-hidden rounded-[1.45rem] px-[clamp(0.95rem,2vw,1.25rem)] py-[clamp(0.9rem,2vw,1.15rem)] " +
@@ -16,13 +17,7 @@ const statClassName =
 const statLabelClassName = "text-[0.72rem] font-semibold uppercase tracking-[0.06em] text-[color:var(--documents-page-muted)]";
 const statValueClassName = "mt-1 text-[1.15rem] font-semibold leading-none tracking-[0] text-[color:var(--documents-page-text)]";
 const actionRowClassName = "mt-4 flex flex-wrap gap-2";
-const buttonClassName =
-  "inline-flex min-h-[2.6rem] items-center justify-center rounded-[999px] px-4 py-2 text-[0.92rem] font-semibold " +
-  "text-[color:var(--documents-page-text)] transition disabled:cursor-not-allowed disabled:opacity-55 " +
-  "[background:color-mix(in_srgb,var(--documents-content-bg)_78%,rgba(255,255,255,0.16)_22%)] " +
-  "shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--documents-card-border)_76%,transparent),0_8px_20px_rgba(10,18,32,0.10)]";
-const primaryButtonClassName =
-  `${buttonClassName} [background:color-mix(in_srgb,var(--documents-accent)_22%,var(--documents-content-bg)_78%)]`;
+const actionButtonClassName = "!min-h-[2.6rem]";
 const messageClassName = "mt-3 text-[0.86rem] leading-[1.45] text-[color:var(--documents-page-muted)]";
 const changeListClassName =
   "mt-4 overflow-hidden rounded-[1rem] [background:color-mix(in_srgb,var(--documents-card-bg)_76%,rgba(255,255,255,0.10)_24%)] " +
@@ -177,20 +172,20 @@ export default function RagAdminContactRegistryPanel() {
       ) : null}
 
       <div className={actionRowClassName}>
-        <button type="button" className={buttonClassName} onClick={loadStatus} disabled={busy}>
+        <Button type="button" variant="primary" size="sm" className={actionButtonClassName} onClick={loadStatus} disabled={busy}>
           Kontrolli seisu
-        </button>
-        <button type="button" className={primaryButtonClassName} onClick={runWebCheck} disabled={busy}>
+        </Button>
+        <Button type="button" variant="primary" size="sm" className={actionButtonClassName} onClick={runWebCheck} disabled={busy}>
           Käivita veebikontroll
-        </button>
+        </Button>
         {status?.needsRefresh ? (
-          <button type="button" className={buttonClassName} onClick={confirmBaseline} disabled={busy}>
+          <Button type="button" variant="primary" size="sm" className={actionButtonClassName} onClick={confirmBaseline} disabled={busy}>
             Kinnita baasjoon
-          </button>
+          </Button>
         ) : null}
-        <button type="button" className={buttonClassName} onClick={applyCheck} disabled={busy || !canApplyCheck}>
+        <Button type="button" variant="primary" size="sm" className={actionButtonClassName} onClick={applyCheck} disabled={busy || !canApplyCheck}>
           Uuenda põhifail
-        </button>
+        </Button>
       </div>
 
       {message ? <p className={messageClassName}>{message}</p> : null}

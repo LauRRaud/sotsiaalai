@@ -1,21 +1,12 @@
 "use client";
 
 import { useRef } from "react";
-import Link from "next/link";
-
 import DocumentsDropdown from "@/components/documents/DocumentsDropdown";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import Textarea from "@/components/ui/Textarea";
 import { localizePath } from "@/lib/localizePath";
 import {
-  buttonBaseClassName,
-  buttonCompactClassName,
-  buttonGhostClassName,
-  buttonPrimaryClassName,
-  buttonRefreshClassName,
-  buttonSecondaryClassName,
-  buttonTinyClassName,
   cardBodyClassName,
   cardClassName,
   cardHeadClassName,
@@ -364,7 +355,7 @@ function renderFileCards({
                 />
                 <Button
                   variant="ghost"
-                  className={`${buttonBaseClassName} ${buttonSecondaryClassName} ${buttonTinyClassName}`}
+                  size="2xs"
                   onClick={() => fileInputRefs.current[file.key]?.click()}
                   disabled={busy}
                 >
@@ -373,7 +364,7 @@ function renderFileCards({
                 {state.downloadUrl ? (
                   <Button
                     variant="ghost"
-                    className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonTinyClassName}`}
+                    size="2xs"
                     onClick={() => window.open(state.downloadUrl, "_blank", "noopener,noreferrer")}
                     disabled={busy}
                   >
@@ -383,7 +374,7 @@ function renderFileCards({
                 {state.status !== "missing" && state.storageKind !== "repository" ? (
                   <Button
                     variant="ghost"
-                    className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonTinyClassName}`}
+                    size="2xs"
                     onClick={() => onRemoveFile(entry.slug, file.key)}
                     disabled={busy}
                   >
@@ -403,8 +394,8 @@ function renderSaveActions({ et, saveBusy, onSave, message, hint }) {
   return (
     <div className="flex flex-wrap items-center gap-2 rounded-[12px] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)] px-3 py-2.5">
       <Button
-        variant="ghost"
-        className={`${buttonBaseClassName} ${buttonPrimaryClassName} ${buttonCompactClassName}`}
+        variant="primary"
+        size="sm"
         onClick={() => onSave()}
         disabled={saveBusy}
       >
@@ -627,7 +618,7 @@ export default function KovDetailPanel({
                 </span>
                 <Button
                   variant="ghost"
-                  className={buttonRefreshClassName}
+                  size="sm"
                   onClick={() => onRefreshRagStatus?.()}
                   disabled={ragStatusLoading}
                 >
@@ -688,8 +679,8 @@ export default function KovDetailPanel({
               ) : null}
               <div className="flex flex-wrap gap-2">
                 <Button
-                  variant="ghost"
-                  className={`${buttonBaseClassName} ${buttonPrimaryClassName} ${buttonCompactClassName}`}
+                  variant="primary"
+                  size="sm"
                   onClick={() => onReplaceIngest?.()}
                   disabled={_ingestBusy || entry.ingestSummary?.canIngest !== true}
                 >
@@ -699,7 +690,7 @@ export default function KovDetailPanel({
                 </Button>
                 <Button
                   variant="ghost"
-                  className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonCompactClassName}`}
+                  size="sm"
                   onClick={() => onResetRagState?.()}
                   disabled={resetBusy}
                 >
@@ -707,12 +698,14 @@ export default function KovDetailPanel({
                     ? et ? "Valmistan reseti..." : "Preparing reset..."
                     : et ? "Reseti KOV RAG state" : "Reset KOV RAG state"}
                 </Button>
-                <Link
+                <Button
+                  as="a"
                   href={sourcePackagesHref}
-                  className={`${buttonBaseClassName} ${buttonSecondaryClassName} ${buttonCompactClassName}`}
+                  variant="ghost"
+                  size="sm"
                 >
                   {et ? "Ava source packages" : "Open source packages"}
-                </Link>
+                </Button>
               </div>
             </div>
           </div>
@@ -798,7 +791,7 @@ export default function KovDetailPanel({
           <div className="flex flex-wrap gap-2 pt-1 pb-1">
             <Button
               variant="ghost"
-              className={`${buttonBaseClassName} ${buttonSecondaryClassName} ${buttonCompactClassName}`}
+              size="sm"
               onClick={() => onLightCheck?.()}
               disabled={lightCheckBusy}
             >
@@ -808,7 +801,7 @@ export default function KovDetailPanel({
             </Button>
             <Button
               variant="ghost"
-              className={`${buttonBaseClassName} ${buttonSecondaryClassName} ${buttonCompactClassName}`}
+              size="sm"
               onClick={() => onRtLightCheck?.()}
               disabled={rtLightCheckBusy}
             >
@@ -822,14 +815,14 @@ export default function KovDetailPanel({
             <div className="flex flex-wrap gap-2 pt-1">
               <Button
                 variant="ghost"
-                className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonCompactClassName}`}
+                size="sm"
                 onClick={() => onMarkWebReviewNeeded?.()}
               >
                 {et ? "Märgi KOV ülevaatuseks" : "Mark KOV for review"}
               </Button>
               <Button
                 variant="ghost"
-                className={`${buttonBaseClassName} ${buttonSecondaryClassName} ${buttonCompactClassName}`}
+                size="sm"
                 onClick={() => onConfirmWebLightCheck?.()}
               >
                 {et ? "Kinnita KOV kontrollituks" : "Confirm KOV check"}
@@ -841,14 +834,14 @@ export default function KovDetailPanel({
             <div className="flex flex-wrap gap-2 pt-1">
               <Button
                 variant="ghost"
-                className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonCompactClassName}`}
+                size="sm"
                 onClick={() => onMarkRtReviewNeeded?.()}
               >
                 {et ? "Märgi RT ülevaatuseks" : "Mark RT for review"}
               </Button>
               <Button
                 variant="ghost"
-                className={`${buttonBaseClassName} ${buttonSecondaryClassName} ${buttonCompactClassName}`}
+                size="sm"
                 onClick={() => onConfirmRtLightCheck?.()}
               >
                 {et ? "Kinnita RT kontrollituks" : "Confirm RT check"}

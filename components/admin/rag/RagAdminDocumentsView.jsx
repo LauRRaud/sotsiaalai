@@ -2,8 +2,6 @@
 
 import { useMemo, useState } from "react";
 
-import Link from "next/link";
-
 import Button from "@/components/ui/Button";
 import CardTitle from "@/components/ui/CardTitle";
 import Input from "@/components/ui/Input";
@@ -18,12 +16,6 @@ import {
   STATUS_CLASSES,
   badgeBaseClassName,
   badgeGhostClassName,
-  buttonBaseClassName,
-  buttonCompactClassName,
-  buttonDangerClassName,
-  buttonGhostClassName,
-  buttonPrimaryClassName,
-  buttonSecondaryClassName,
   cardBodyClassName,
   cardClassName,
   cardHeadClassName,
@@ -567,7 +559,7 @@ export default function RagAdminDocumentsView({ controller, showMessage = true }
                   <Button
                     type="button"
                     variant="ghost"
-                    className={`${buttonBaseClassName} ${buttonSecondaryClassName}`}
+                    size="sm"
                     aria-expanded={showAllTags ? "true" : "false"}
                     onClick={() => setShowAllTags(current => !current)}
                   >
@@ -613,8 +605,8 @@ export default function RagAdminDocumentsView({ controller, showMessage = true }
             )}
             {selectedIds.size ? (
               <Button
-                variant="ghost"
-                className={`${buttonBaseClassName} ${buttonPrimaryClassName}`}
+                variant="primary"
+                size="sm"
                 onClick={handleBulkReindex}
                 disabled={reindexingId !== null}
               >
@@ -817,7 +809,7 @@ export default function RagAdminDocumentsView({ controller, showMessage = true }
                         <div className={docDetailActionsClassName}>
                           <Button
                             variant="ghost"
-                            className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonCompactClassName}`}
+                            size="sm"
                             onClick={() => openDetail(previewDoc)}
                             disabled={!canEdit}
                           >
@@ -825,7 +817,7 @@ export default function RagAdminDocumentsView({ controller, showMessage = true }
                           </Button>
                           <Button
                             variant="ghost"
-                            className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonCompactClassName}`}
+                            size="sm"
                             onClick={() => handleReindex(previewDoc.id)}
                             disabled={reindexingId === previewDoc.id || !canReindex}
                           >
@@ -833,23 +825,25 @@ export default function RagAdminDocumentsView({ controller, showMessage = true }
                           </Button>
                           <Button
                             variant="danger"
-                            className={`${buttonBaseClassName} ${buttonDangerClassName} ${buttonCompactClassName}`}
+                            size="sm"
                             onClick={() => handleDelete(previewDoc.id)}
                             disabled={deletingId === previewDoc.id || !canDelete}
                           >
                             {deletingId === previewDoc.id ? tr("admin.rag.actions.deleting") : tr("admin.rag.actions.delete")}
                           </Button>
                           {kovManageHref ? (
-                            <Link
+                            <Button
+                              as="a"
                               href={kovManageHref}
-                              className={`${buttonBaseClassName} ${buttonSecondaryClassName} ${buttonCompactClassName}`}
+                              variant="ghost"
+                              size="sm"
                             >
                               Halda KOV vaates
-                            </Link>
+                            </Button>
                           ) : null}
                           <Button
                             variant="ghost"
-                            className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonCompactClassName}`}
+                            size="sm"
                             onClick={() => viewSource(previewDoc)}
                             disabled={!canView}
                           >
@@ -870,7 +864,7 @@ export default function RagAdminDocumentsView({ controller, showMessage = true }
             <div className="flex flex-wrap items-center gap-2">
               <Button
                 variant="ghost"
-                className={`${buttonBaseClassName} ${buttonSecondaryClassName}`}
+                size="sm"
                 onClick={() => setVisibleCount(count => count + 25)}
               >
                 {tr("admin.rag.documents.load_more")} {Math.min(25, filteredDocs.length - visibleCount)}
@@ -940,13 +934,13 @@ export default function RagAdminDocumentsView({ controller, showMessage = true }
                     {activeSourceDocSummary.latestTitle ? ` | viimane: ${activeSourceDocSummary.latestTitle}` : ""}
                   </div>
                 </div>
-                <button
-                  type="button"
-                  className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonCompactClassName}`}
+                <Button
+                  variant="ghost"
+                  size="sm"
                   onClick={() => setFilterSource("ALL")}
                 >
                   Eemalda filter
-                </button>
+                </Button>
               </div>
             ) : null}
 
@@ -1005,19 +999,21 @@ export default function RagAdminDocumentsView({ controller, showMessage = true }
             </div>
 
             <div className="flex flex-wrap gap-2">
-              <Link
+              <Button
+                as="a"
                 href={localizePath("/admin/rag/ingest", locale)}
-                className={`${buttonBaseClassName} ${buttonSecondaryClassName}`}
+                variant="ghost"
+                size="sm"
               >
                 Ava ingesti mallid
-              </Link>
-              <button
-                type="button"
-                className={`${buttonBaseClassName} ${buttonGhostClassName}`}
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
                 onClick={() => document.getElementById("rag-documents-register")?.scrollIntoView({ behavior: "smooth", block: "start" })}
               >
                 Tagasi registrisse
-              </button>
+              </Button>
             </div>
           </div>
         </div>

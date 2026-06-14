@@ -9,12 +9,6 @@ import { ORGANIZATION_CORE_FILE_KEYS, ORGANIZATION_FILE_ROLE_META } from "@/lib/
 import RagAdminAlert from "./RagAdminAlert";
 import {
   badgeBaseClassName,
-  buttonBaseClassName,
-  buttonCompactClassName,
-  buttonGhostClassName,
-  buttonPrimaryClassName,
-  buttonRefreshClassName,
-  buttonSecondaryClassName,
   cardBodyClassName,
   cardClassName,
   cardHeadClassName,
@@ -228,7 +222,7 @@ export default function RagAdminOrganizationsView({ locale, initialItems = [] })
             {examplePlaceholderCount ? (
               <Button
                 variant="ghost"
-                className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonCompactClassName}`}
+                size="sm"
                 onClick={() => setShowExamplePlaceholders(!showExamplePlaceholders)}
               >
                 {showExamplePlaceholders
@@ -238,8 +232,8 @@ export default function RagAdminOrganizationsView({ locale, initialItems = [] })
             ) : null}
             {selectedSlugs.size ? (
               <Button
-                variant="ghost"
-                className={`${buttonBaseClassName} ${buttonPrimaryClassName} ${buttonCompactClassName}`}
+                variant="primary"
+                size="sm"
                 onClick={ingestSelected}
                 disabled={bulkIngestBusy}
               >
@@ -250,7 +244,7 @@ export default function RagAdminOrganizationsView({ locale, initialItems = [] })
             ) : null}
             <Button
               variant="ghost"
-              className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonCompactClassName}`}
+              size="sm"
               onClick={resetFilters}
             >
               {et ? "Nulli filtrid" : "Reset filters"}
@@ -470,21 +464,21 @@ export default function RagAdminOrganizationsView({ locale, initialItems = [] })
                   <div className="flex flex-wrap gap-2">
                     <Button
                       variant="ghost"
-                      className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonCompactClassName}`}
+                      size="sm"
                       onClick={() => applyQuickReadiness("REVIEW")}
                     >
                       {et ? "Margi ulevaatuseks" : "Mark for review"}
                     </Button>
                     <Button
                       variant="ghost"
-                      className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonCompactClassName}`}
+                      size="sm"
                       onClick={() => applyQuickReadiness("READY")}
                     >
                       {et ? "Margi valmis" : "Mark ready"}
                     </Button>
                     <Button
-                      variant="ghost"
-                      className={`${buttonBaseClassName} ${buttonPrimaryClassName} ${buttonCompactClassName}`}
+                      variant="primary"
+                      size="sm"
                       onClick={saveDetail}
                       disabled={saveBusy || !editing}
                     >
@@ -511,7 +505,7 @@ export default function RagAdminOrganizationsView({ locale, initialItems = [] })
                   <div className="flex flex-wrap gap-2">
                     <Button
                       variant="ghost"
-                      className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonCompactClassName}`}
+                      size="sm"
                       onClick={() => revalidateSingle(selectedEntry.slug)}
                       disabled={revalidateBusySlug === selectedEntry.slug}
                     >
@@ -520,8 +514,8 @@ export default function RagAdminOrganizationsView({ locale, initialItems = [] })
                         : et ? "Valideeri tuumfailid uuesti" : "Revalidate core files"}
                     </Button>
                     <Button
-                      variant="ghost"
-                      className={`${buttonBaseClassName} ${buttonPrimaryClassName} ${buttonCompactClassName}`}
+                      variant="primary"
+                      size="sm"
                       onClick={() => ingestSingle(selectedEntry.slug)}
                       disabled={ingestBusySlug === selectedEntry.slug || selectedEntry.ingestSummary?.canIngest !== true}
                     >
@@ -653,7 +647,7 @@ export default function RagAdminOrganizationsView({ locale, initialItems = [] })
                       </span>
                       <Button
                         variant="ghost"
-                        className={buttonRefreshClassName}
+                        size="sm"
                         onClick={() => refreshSelectedRagStatus()}
                         disabled={ragStatusLoading}
                       >
@@ -747,7 +741,7 @@ export default function RagAdminOrganizationsView({ locale, initialItems = [] })
                               />
                               <Button
                                 variant="ghost"
-                                className={`${buttonBaseClassName} ${buttonSecondaryClassName} ${buttonCompactClassName}`}
+                                size="sm"
                                 onClick={() => document.getElementById(inputId)?.click()}
                                 disabled={busy}
                               >
@@ -756,7 +750,7 @@ export default function RagAdminOrganizationsView({ locale, initialItems = [] })
                               {file?.downloadUrl ? (
                                 <Button
                                   variant="ghost"
-                                  className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonCompactClassName}`}
+                                  size="sm"
                                   onClick={() => window.open(file.downloadUrl, "_blank", "noopener,noreferrer")}
                                 >
                                   {et ? "Laadi alla" : "Download"}
@@ -765,7 +759,7 @@ export default function RagAdminOrganizationsView({ locale, initialItems = [] })
                               {file?.id ? (
                                 <Button
                                   variant="ghost"
-                                  className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonCompactClassName}`}
+                                  size="sm"
                                   onClick={() => removeFile(selectedEntry.slug, file.id)}
                                 >
                                   {et ? "Eemalda" : "Remove"}
@@ -814,7 +808,7 @@ export default function RagAdminOrganizationsView({ locale, initialItems = [] })
                   <div className={filePickerClassName}>
                     <Button
                       variant="ghost"
-                      className={`${buttonBaseClassName} ${buttonSecondaryClassName} ${buttonCompactClassName}`}
+                      size="sm"
                       onClick={() => attachmentInputRef.current?.click()}
                       disabled={fileBusyKey === `${selectedEntry.slug}:attachment`}
                     >
@@ -843,7 +837,7 @@ export default function RagAdminOrganizationsView({ locale, initialItems = [] })
                               <div className="flex flex-wrap gap-2">
                                 <Button
                                   variant="ghost"
-                                  className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonCompactClassName}`}
+                                  size="sm"
                                   onClick={() => window.open(file.downloadUrl, "_blank", "noopener,noreferrer")}
                                   disabled={busy}
                                 >
@@ -851,7 +845,7 @@ export default function RagAdminOrganizationsView({ locale, initialItems = [] })
                                 </Button>
                                 <Button
                                   variant="ghost"
-                                  className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonCompactClassName}`}
+                                  size="sm"
                                   onClick={() => removeFile(selectedEntry.slug, file.id)}
                                   disabled={busy}
                                 >

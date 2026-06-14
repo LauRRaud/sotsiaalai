@@ -17,7 +17,6 @@ import {
   ragAdminShellTitleClassName
 } from "@/components/admin/rag/ragAdminShellStyles";
 import {
-  buttonRefreshClassName as ragAdminRefreshButtonClassName,
   cardClassName as ragAdminCardClassName,
   rootInputVars as ragAdminRootInputVars
 } from "@/components/admin/rag/ragAdminShared";
@@ -109,10 +108,8 @@ const alertCriticalClassName =
   "min-w-0 max-w-full break-words rounded-[12px] border border-[color:var(--admin-danger)] bg-[color-mix(in_srgb,var(--admin-danger)_18%,var(--admin-surface-2)_82%)] px-3 py-2 text-[color:var(--admin-text)] [overflow-wrap:anywhere]";
 const alertSuccessClassName =
   "min-w-0 max-w-full break-words rounded-[12px] border border-[color:var(--admin-success)] bg-[color-mix(in_srgb,var(--admin-success)_16%,var(--admin-surface-2)_84%)] px-3 py-2 text-[color:var(--admin-text)] [overflow-wrap:anywhere]";
-const refreshButtonClassName =
-  `${ragAdminRefreshButtonClassName} !justify-self-center !self-center !w-auto max-[768px]:!w-full max-[768px]:!justify-center`;
-const actionButtonClassName =
-  `${ragAdminRefreshButtonClassName} !justify-self-start !self-start !w-auto !max-w-full max-[768px]:!w-full max-[768px]:!justify-center`;
+const refreshButtonClassName = "!justify-self-center !self-center !w-auto max-[768px]:!w-full max-[768px]:!justify-center";
+const actionButtonClassName = "!justify-self-start !self-start !w-auto !max-w-full max-[768px]:!w-full max-[768px]:!justify-center";
 const resetActionGridClassName = "mt-2 grid grid-cols-1 gap-1.5 sm:grid-cols-2 xl:grid-cols-3";
 const resetActionButtonClassName =
   `${actionButtonClassName} !w-full !justify-center`;

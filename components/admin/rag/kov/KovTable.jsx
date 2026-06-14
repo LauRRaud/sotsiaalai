@@ -3,11 +3,6 @@
 import Button from "@/components/ui/Button";
 import {
   badgeBaseClassName,
-  buttonBaseClassName,
-  buttonCompactClassName,
-  buttonGhostClassName,
-  buttonPrimaryClassName,
-  buttonTinyClassName,
   formatDateTime
 } from "../ragAdminShared";
 
@@ -116,7 +111,7 @@ export default function KovTable({
         <div className="flex flex-wrap gap-1.5">
           <Button
             variant="ghost"
-            className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonCompactClassName}`}
+            size="sm"
             onClick={allVisibleSelected ? onClearSelected : onSelectAllVisible}
           >
             {allVisibleSelected ? (et ? "Tühjenda valik" : "Clear selection") : (et ? "Vali nähtavad" : "Select visible")}
@@ -125,7 +120,7 @@ export default function KovTable({
             <>
               <Button
                 variant="ghost"
-                className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonCompactClassName}`}
+                size="sm"
                 onClick={onLightCheckSelected}
                 disabled={bulkLightCheckBusy}
               >
@@ -135,7 +130,7 @@ export default function KovTable({
               </Button>
               <Button
                 variant="ghost"
-                className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonCompactClassName}`}
+                size="sm"
                 onClick={onLightCheckRtSelected}
                 disabled={bulkRtLightCheckBusy}
               >
@@ -144,8 +139,8 @@ export default function KovTable({
                   : et ? "Kontrolli RT muudatusi" : "Check RT changes"}
               </Button>
               <Button
-                variant="ghost"
-                className={`${buttonBaseClassName} ${buttonPrimaryClassName} ${buttonCompactClassName}`}
+                variant="primary"
+                size="sm"
                 onClick={onRevalidateSelected}
                 disabled={bulkRevalidateBusy}
               >
@@ -155,7 +150,7 @@ export default function KovTable({
               </Button>
               <Button
                 variant="ghost"
-                className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonCompactClassName}`}
+                size="sm"
                 onClick={onRevalidateRtSelected}
                 disabled={bulkRevalidateRtBusy}
               >
@@ -164,8 +159,8 @@ export default function KovTable({
                   : et ? "Valideeri RT" : "Revalidate RT"}
               </Button>
               <Button
-                variant="ghost"
-                className={`${buttonBaseClassName} ${buttonPrimaryClassName} ${buttonCompactClassName}`}
+                variant="primary"
+                size="sm"
                 onClick={onIngestSelected}
                 disabled={bulkWebIngestBusy}
               >
@@ -174,8 +169,8 @@ export default function KovTable({
                   : et ? "Ingest KOV" : "Ingest KOV web"}
               </Button>
               <Button
-                variant="ghost"
-                className={`${buttonBaseClassName} ${buttonPrimaryClassName} ${buttonCompactClassName}`}
+                variant="primary"
+                size="sm"
                 onClick={onIngestRtSelected}
                 disabled={bulkRtIngestBusy}
               >
@@ -408,14 +403,14 @@ export default function KovTable({
                   <div className="grid gap-1">
                     <Button
                       variant={isActive ? "primary" : "ghost"}
-                      className={`${buttonBaseClassName} ${isActive ? buttonPrimaryClassName : buttonGhostClassName} ${buttonTinyClassName}`}
+                      size="2xs"
                       onClick={event => stopEvent(event, () => onOpenEditor(row.slug))}
                     >
                       {et ? "Ava" : "Open"}
                     </Button>
                     <Button
                       variant="ghost"
-                      className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonTinyClassName}`}
+                      size="2xs"
                       onClick={event => stopEvent(event, () => onRevalidateRow(row.slug))}
                       disabled={rowBusy}
                     >
@@ -423,15 +418,15 @@ export default function KovTable({
                     </Button>
                     <Button
                       variant="ghost"
-                      className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonTinyClassName}`}
+                      size="2xs"
                       onClick={event => stopEvent(event, () => onRevalidateRtRow(row.slug))}
                       disabled={rtRowBusy}
                     >
                       {rtRowBusy ? (et ? "RT val..." : "RT val...") : et ? "Valideeri RT" : "Validate RT"}
                     </Button>
                     <Button
-                      variant="ghost"
-                      className={`${buttonBaseClassName} ${buttonPrimaryClassName} ${buttonTinyClassName}`}
+                      variant="primary"
+                      size="2xs"
                       onClick={event => stopEvent(event, () => onIngestRow(row.slug))}
                       disabled={!canIngest || ingestBusy}
                     >
@@ -439,7 +434,7 @@ export default function KovTable({
                     </Button>
                     <Button
                       variant="ghost"
-                      className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonTinyClassName}`}
+                      size="2xs"
                       onClick={event => stopEvent(event, () => onReplaceIngestRow?.(row.slug))}
                       disabled={!canIngest || ingestBusy}
                       title={et ? "Kustutab enne sama KOV-i vana veebikihi ja ingestib uuesti" : "Remove old web layer for this municipality before ingesting again"}
@@ -447,8 +442,8 @@ export default function KovTable({
                       {ingestBusy ? (et ? "Asendan..." : "Replacing...") : et ? "Asenda" : "Replace"}
                     </Button>
                     <Button
-                      variant="ghost"
-                      className={`${buttonBaseClassName} ${buttonPrimaryClassName} ${buttonTinyClassName}`}
+                      variant="primary"
+                      size="2xs"
                       onClick={event => stopEvent(event, () => onIngestRtRow(row.slug))}
                       disabled={!canRtIngest || rtIngestBusy}
                     >
