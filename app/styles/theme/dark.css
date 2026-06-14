@@ -214,7 +214,7 @@
 }
 
 :root:not(.theme-light):not(.theme-mid):not(.theme-night):not(.theme-mono):not([data-contrast="hc"])
-  :is(.invite-refresh-btn, .materials-surface-button) {
+  .materials-surface-button {
   --btn-primary-bg: radial-gradient(
       ellipse at top,
       rgba(46, 52, 62, 0.64) 0%,

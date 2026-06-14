@@ -76,7 +76,8 @@ test("mono theme renders black and gray glass, icons, controls and home/about to
   assert.match(mono, /--mono-field-hole-shadow-hover:[\s\S]*?0 6px 16px rgba\(0,\s*0,\s*0,\s*0\.28\),[\s\S]*?0 18px 24px -18px rgba\(230,\s*230,\s*230,\s*0\.26\);/);
   assert.match(mono, /\.drawer-panel--chat-glass \.chat-sidebar-search-glow\.ui-glow-field\s*\{[\s\S]*?min-height:\s*3\.12rem;[\s\S]*?border-radius:\s*999px !important;/);
   assert.match(inviteModal, /"invite-glow-field ui-glow-field service-map-toolbar__glow-field "/);
-  assert.match(inviteModal, /className=\{`\$\{inviteRefreshButtonClassName\} invite-primary-btn invite-refresh-btn`\}/);
+  assert.doesNotMatch(inviteModal, /invite-primary-btn|invite-refresh-btn|inviteRefreshButtonClassName/);
+  assert.match(inviteModal, /variant="primary"[\s\S]*?loadInvites/);
   assert.match(mono, /\.drawer-panel--chat-glass \.chat-sidebar-search-glow\.ui-glow-field\s*\{[\s\S]*?--card-bg:\s*var\(--mono-field-hole-bg\) !important;[\s\S]*?background:\s*var\(--mono-field-hole-bg\) !important;[\s\S]*?box-shadow:\s*var\(--mono-field-hole-shadow\) !important;/);
   assert.doesNotMatch(mono, /data-glass-field-hole="invite"/);
   assert.doesNotMatch(mono, /data-glass-field-hole='invite'/);
@@ -127,7 +128,7 @@ test("mono theme renders black and gray glass, icons, controls and home/about to
   assert.match(mono, /--home-scroll-cue-color:\s*var\(--forest-title\)/);
   assert.match(mono, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) :is\(\.button, \.btn, \.invite-primary-btn[\s\S]*?background:\s*var\(--btn-primary-bg\) !important/);
   assert.match(mono, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) :is\(\.button, \.btn, \.invite-primary-btn[\s\S]*?:is\(:hover, :focus-visible\) \{[\s\S]*?color:\s*var\(--btn-primary-text-hover,\s*var\(--forest-title-soft\)\) !important/);
-  assert.match(darkTheme, /:root:not\(\.theme-light\):not\(\.theme-mid\):not\(\.theme-night\):not\(\.theme-mono\):not\(\[data-contrast="hc"\]\)[\s\S]*?:is\(\.invite-refresh-btn, \.materials-surface-button\)/);
+  assert.match(darkTheme, /:root:not\(\.theme-light\):not\(\.theme-mid\):not\(\.theme-night\):not\(\.theme-mono\):not\(\[data-contrast="hc"\]\)[\s\S]*?\.materials-surface-button/);
   assert.match(darkTheme, /:root:not\(\.theme-light\):not\(\.theme-mid\):not\(\.theme-night\):not\(\.theme-mono\) \.materials-page-shell/);
   assert.match(documentsMode, /:root:not\(\.theme-light\):not\(\.theme-mid\):not\(\.theme-night\):not\(\.theme-mono\):not\(\[data-contrast="hc"\]\) \.documents-workspace-page--library/);
   assert.match(mono, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) \.materials-page-shell\s*\{[\s\S]*?--subpage-card-bg:\s*var\(--forest-input-surface\) !important;[\s\S]*?--input-bg:\s*var\(--forest-input-surface\) !important;/);

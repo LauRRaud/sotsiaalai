@@ -1042,7 +1042,7 @@ html[data-contrast="hc"] :is(
     .reset-password-content,
     .chat-analysis-overlay .chat-analysis-overlay-card
   )
-  :is(button, .button, .btn, .invite-primary-btn, .invite-refresh-btn):not(.back-button):not(.chat-back-button):not(.glass-policy-back):not(.profile-logout-button):not(.chat-rail-icon-btn):not(.chat-send-btn):not(.chat-listen-btn):not(.chat-assistant-action-btn):not(.chat-dictate-btn):not(.chat-side-control-btn):not(.chat-tools-btn):not(.chat-document-attach-btn) {
+  :is(button, .button, .btn):not(.back-button):not(.chat-back-button):not(.glass-policy-back):not(.profile-logout-button):not(.chat-rail-icon-btn):not(.chat-send-btn):not(.chat-listen-btn):not(.chat-assistant-action-btn):not(.chat-dictate-btn):not(.chat-side-control-btn):not(.chat-tools-btn):not(.chat-document-attach-btn) {
   color: var(--hc-accent) !important;
   border-color: rgba(255, 234, 0, 0.66) !important;
   box-shadow: var(--btn-primary-shadow) !important;
@@ -1056,7 +1056,7 @@ html[data-contrast="hc"] :is(
     .reset-password-content,
     .chat-analysis-overlay .chat-analysis-overlay-card
   )
-  :is(button, .button, .btn, .invite-primary-btn, .invite-refresh-btn):not(.back-button):not(.chat-back-button):not(.glass-policy-back):not(.profile-logout-button):not(.chat-rail-icon-btn):not(.chat-send-btn):not(.chat-listen-btn):not(.chat-assistant-action-btn):not(.chat-dictate-btn):not(.chat-side-control-btn):not(.chat-tools-btn):not(.chat-document-attach-btn):is(:hover, :focus-visible) {
+  :is(button, .button, .btn):not(.back-button):not(.chat-back-button):not(.glass-policy-back):not(.profile-logout-button):not(.chat-rail-icon-btn):not(.chat-send-btn):not(.chat-listen-btn):not(.chat-assistant-action-btn):not(.chat-dictate-btn):not(.chat-side-control-btn):not(.chat-tools-btn):not(.chat-document-attach-btn):is(:hover, :focus-visible) {
   border-color: rgba(255, 234, 0, 0.9) !important;
   box-shadow: var(--btn-primary-shadow-hover) !important;
 }
@@ -1069,7 +1069,7 @@ html[data-contrast="hc"] :is(
     .reset-password-content,
     .chat-analysis-overlay .chat-analysis-overlay-card
   )
-  :is(button, .button, .btn, .invite-primary-btn, .invite-refresh-btn):not(.back-button):not(.chat-back-button):not(.glass-policy-back):not(.profile-logout-button):not(.chat-rail-icon-btn):not(.chat-send-btn):not(.chat-listen-btn):not(.chat-assistant-action-btn):not(.chat-dictate-btn):not(.chat-side-control-btn):not(.chat-tools-btn):not(.chat-document-attach-btn):active {
+  :is(button, .button, .btn):not(.back-button):not(.chat-back-button):not(.glass-policy-back):not(.profile-logout-button):not(.chat-rail-icon-btn):not(.chat-send-btn):not(.chat-listen-btn):not(.chat-assistant-action-btn):not(.chat-dictate-btn):not(.chat-side-control-btn):not(.chat-tools-btn):not(.chat-document-attach-btn):active {
   border-color: rgba(255, 234, 0, 0.95) !important;
   box-shadow: var(--btn-primary-shadow-active) !important;
 }

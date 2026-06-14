@@ -97,7 +97,7 @@
   );
 }
 
-:root:not(.theme-light):not(.theme-mid) .invite-primary-btn {
+:root:not(.theme-light):not(.theme-mid) [data-variant="primary"] {
   --btn-primary-bg-active: var(--btn-primary-bg);
   --btn-primary-shadow-active: var(--btn-primary-shadow-hover);
   --btn-primary-border-active: var(
@@ -121,7 +121,7 @@
   );
 }
 
-:root:not(.theme-light):not(.theme-mid) .invite-primary-btn:active::before,
+:root:not(.theme-light):not(.theme-mid) [data-variant="primary"]:active::before,
 :root:not(.theme-light) .invite-sponsor-toggle-card:active::before {
   opacity: 1 !important;
 }

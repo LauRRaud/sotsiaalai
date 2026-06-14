@@ -152,9 +152,6 @@ export default function InviteModal({ embedded = false, onBack = null, hideHeade
   const inviteInputClassName =
     `${mobileInviteInputClassName} ` +
     "text-[color:var(--input-text)] light:text-[#17212b] light:placeholder:text-[#3b4a59] [.theme-mid_&]:text-[#263343] [.theme-mid_&]:placeholder:text-[#4a5a6b] hc:text-[color:var(--hc-accent)] hc:placeholder:text-[color:var(--hc-accent)]";
-  const invitePrimaryButtonClassName =
-    "!min-h-[3.05rem] !px-[1.15rem] !py-[0.78rem] !text-[1.12rem] !tracking-[0.03rem] " +
-    "max-[768px]:!min-h-[3.2rem] max-[768px]:!text-[1.18rem]";
   const sponsoredAmount = Number(process.env.NEXT_PUBLIC_INVITE_SPONSORED_AMOUNT || 4);
   const sponsoredAmountLabel = formatEuroAmount(
     Number.isFinite(sponsoredAmount) && sponsoredAmount > 0 ? sponsoredAmount : 4,
@@ -171,8 +168,6 @@ export default function InviteModal({ embedded = false, onBack = null, hideHeade
     },
   ];
   const inviteOptionButtonClassName = primarySegmentedButtonClassName;
-  const inviteRefreshButtonClassName =
-    `${invitePrimaryButtonClassName} !w-auto !whitespace-nowrap max-[768px]:!min-w-[7rem]`;
   const inviteSponsorToggleClassName =
     "!inline-flex !w-fit !justify-center !justify-self-center !self-center !mt-[0.56rem] !min-h-[2.72rem] !rounded-[1.6rem] !px-[1.05rem] !py-[0.64rem] !text-[1.06rem] !leading-[1.2] " +
     "[--seg-control-size:1.42rem] [--seg-check-size:1.1rem] " +
@@ -718,7 +713,6 @@ export default function InviteModal({ embedded = false, onBack = null, hideHeade
                           type="submit"
                           variant="primary"
                           size="md"
-                          className={`${invitePrimaryButtonClassName} invite-primary-btn`}
                           disabled={sponsoredCheckoutDisabled || busy || !targetRole || !sponsoredCheckoutAgreed}
                         >
                           {busy
@@ -749,7 +743,6 @@ export default function InviteModal({ embedded = false, onBack = null, hideHeade
                     type="submit"
                     variant="primary"
                     size="md"
-                    className={`${invitePrimaryButtonClassName} invite-primary-btn`}
                     disabled={busy}
                   >
                     {busy ? t("invite.sending") : sendLabel}
@@ -775,7 +768,7 @@ export default function InviteModal({ embedded = false, onBack = null, hideHeade
               type="button"
               variant="primary"
               size="md"
-              className={`${inviteRefreshButtonClassName} invite-primary-btn invite-refresh-btn`}
+              className="!w-auto !whitespace-nowrap max-[768px]:!min-w-[7rem]"
               onClick={loadInvites}
               disabled={loadingList}
             >
