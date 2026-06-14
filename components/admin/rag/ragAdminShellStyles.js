@@ -27,7 +27,8 @@ export const ragAdminShellDividerClassName =
   "mt-1 h-px w-full bg-[linear-gradient(90deg,rgba(122,58,56,0)_0%,rgba(122,58,56,0.12)_12%,rgba(122,58,56,0.12)_88%,rgba(122,58,56,0)_100%)]";
 
 export const ragAdminShellNavClassName =
-  "flex w-full flex-wrap items-center justify-center gap-2 pt-1";
+  "flex w-full flex-wrap items-center justify-center gap-2 pt-1 " +
+  "[--seg-button-bg-hover:rgba(122,58,56,0.07)] [--seg-button-bg-selected:rgba(122,58,56,0.13)]";
 
 export const ragAdminShellNavLinkClassName =
   `relative inline-flex min-h-[2.7rem] min-w-[8.6rem] items-center justify-center gap-[0.35rem] overflow-hidden rounded-[1rem] ` +
