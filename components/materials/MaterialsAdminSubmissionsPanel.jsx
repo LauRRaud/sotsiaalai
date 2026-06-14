@@ -12,11 +12,6 @@ import {
   glassSubpagePanelWideClassName
 } from "@/components/ui/glassPageStyles"
 import {
-  buttonBaseClassName,
-  buttonCompactClassName,
-  buttonDangerClassName,
-  buttonGhostClassName,
-  buttonSecondaryClassName,
   cardBodyClassName,
   cardClassName,
   cardHeadClassName,
@@ -213,15 +208,10 @@ export default function MaterialsAdminSubmissionsPanel({
     }
   }
 
-  const buttonClassName = isRagAdmin
-    ? `${buttonBaseClassName} ${buttonGhostClassName} ${buttonCompactClassName}`
-    : materialsSecondaryButtonClassName
-  const secondaryButtonClassName = isRagAdmin
-    ? `${buttonBaseClassName} ${buttonSecondaryClassName} ${buttonCompactClassName}`
-    : materialsSecondaryButtonClassName
-  const dangerButtonClassName = isRagAdmin
-    ? `${buttonBaseClassName} ${buttonDangerClassName} ${buttonCompactClassName}`
-    : materialsSecondaryButtonClassName
+  const buttonClassName = isRagAdmin ? "" : materialsSecondaryButtonClassName
+  const secondaryButtonClassName = isRagAdmin ? "" : materialsSecondaryButtonClassName
+  const dangerButtonClassName = isRagAdmin ? "" : materialsSecondaryButtonClassName
+  const actionButtonSize = isRagAdmin ? "sm" : "md"
   const metaClassName = isRagAdmin
     ? ragAdminMetaClassName
     : "flex flex-wrap items-center gap-[0.45rem] text-[0.86rem] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] opacity-[0.76]"
@@ -243,7 +233,8 @@ export default function MaterialsAdminSubmissionsPanel({
         <div className={cardSubClassName}>{t("materials_page.admin.subtitle")}</div>
       </div>
       <Button
-        variant="ghost"
+        variant="primary"
+        size={actionButtonSize}
         onClick={() => void refreshItems()}
         disabled={loadingItems}
         className={secondaryButtonClassName}
@@ -312,13 +303,15 @@ export default function MaterialsAdminSubmissionsPanel({
                 <div className="flex flex-wrap gap-[0.5rem]">
                   <Button
                     as="a"
+                    size={actionButtonSize}
                     href={`/api/materials/${encodeURIComponent(item.id)}/download`}
                     className={secondaryButtonClassName}
                   >
                     {t("materials_page.admin.download")}
                   </Button>
                   <Button
-                    variant="secondary"
+                    variant={isRagAdmin ? "primary" : "secondary"}
+                    size={actionButtonSize}
                     disabled={reviewingId === item.id || item.status === "reviewed"}
                     onClick={() => void handleReview(item.id, "mark_reviewed")}
                     className={buttonClassName}
@@ -326,7 +319,8 @@ export default function MaterialsAdminSubmissionsPanel({
                     {t("materials_page.admin.mark_reviewed", "Margi ule vaadatuks")}
                   </Button>
                   <Button
-                    variant="secondary"
+                    variant={isRagAdmin ? "primary" : "secondary"}
+                    size={actionButtonSize}
                     disabled={reviewingId === item.id || item.status === "imported"}
                     onClick={() => void handleReview(item.id, "mark_imported")}
                     className={buttonClassName}
@@ -335,6 +329,7 @@ export default function MaterialsAdminSubmissionsPanel({
                   </Button>
                   <Button
                     variant="danger"
+                    size={actionButtonSize}
                     disabled={reviewingId === item.id || item.status === "rejected"}
                     onClick={() => void handleReview(item.id, "reject")}
                     className={dangerButtonClassName}
@@ -343,6 +338,7 @@ export default function MaterialsAdminSubmissionsPanel({
                   </Button>
                   <Button
                     variant="danger"
+                    size={actionButtonSize}
                     onClick={() => void handleDelete(item.id)}
                     className={dangerButtonClassName}
                   >
