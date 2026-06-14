@@ -155,20 +155,14 @@ CSS oli juba puhas (css:audit 0 kasutamata 42-st, 0 CSS-klooni). "531 dup" = fan
 
 ## Avatud küsimused / teadaolevad lõksud
 
-### ⭐ LAHTINE (14.06.2026) — admin RAG nav-tabi VALITUD-olek "ei ole ikka õige"
-**Asukoht:** `components/admin/rag/ragAdminShellStyles.js` → `ragAdminShellNavLinkClassName` (segmented control, kasutab `primarySegmentedButtonClassName`). Renderdub `RagAdminPageFrame.jsx`-is (tabid: Dokumendid · Sisestus · KOV · Organisatsioonid · Lähtepaketid).
+### ✅ LAHENDATUD (14.06.2026) — admin RAG nav-tabi VALITUD-olek [`a64cdbc0`]
+**Sümptom:** valitud tab = peaaegu-valge pill + brändi-punane tekst puhas-valge admin-kaardi peal → madal kontrast.
 
-**Sümptom (kasutaja screenshot):** valitud tab (nt "Organisatsioonid") = peaaegu-valge klaaspill + **brändi-punane tekst** PUHAS-VALGE admin-kaardi peal (`--admin-surface:#ffffff`). Madal kontrast → ainus selge signaal on punane tekst, mille kasutaja leiab vale olevat. Praegu kanooniline segmented vaikeolek (pärast `4f56fa09` revert'i): hover/selected bg = `--btn-primary-bg-hover` (peaaegu-valge gradient), tekst = `--seg-card-text-selected` = `var(--title-color,var(--brand-primary))` = `#7a3a38` (telliskivi-punane, sama mis lehe pealkiri).
+**Juur:** heleda teema `--btn-primary-bg-hover` ≈ läbipaistev valge → `ragAdminShellNavClassName` konteiner ei defineerinud oma `--seg-button-bg-*` tokene → selected tab nähtamatu.
 
-**MIKS lahtine:** see on disaini-/kontrasti-otsus, mis on põimunud admin-kaardi pinna-värviga (Salvesta klaaspill "töötab" sest ta istub kontrastsel kreem/klaas-pinnal; admin-kaart on puhas valge → pillid ei eristu). Sonnet on proovinud 4× ja iga kord pihta pannud → **eskaleeritud Opusele + brauseri-verifikatsioon vajalik** (admin-leht on auth-taga, vajab login-cookie't).
+**Fix (1 rida):** `ragAdminShellNavClassName` saab `[--seg-button-bg-hover:rgba(122,58,56,0.07)] [--seg-button-bg-selected:rgba(122,58,56,0.13)]`. CSS-pärand viib need `primarySegmentedButtonClassName` → `--seg-card-bg-hover/selected` kaudu nav-link elementideni. Tekst jääb `--title-color` (#7a3a38 heleda teemas) — brändivärv tümpil taustal, kontrastne ja tahtlik.
 
-**Kandidaat-suunad (ÄRA pimesi vali — vaja kasutaja/Opus otsus + brauser):**
-- **(A)** anna admin-kaardile õrn off-white/kreem pind (nagu Salvesta pinnal), et valged klaaspillid eristuksid — muuda `--admin-surface` või kaardi bg `ragAdminShellCardClassName`-is.
-- **(B)** admin-nav-spetsiifiline selgem selected pinna-/varjudefinitsioon.
-- **(C)** valitud tabi tekst brändi-punaselt → tume/neutraalne, pill jääb.
-- **(D)** kinnita kasutajaga, mis täpselt "õige" on — tabel-pill vs alljoon vs muu.
-
-Otsus on kasutaja oma. Tegevus-nupud ise on JUBA õiged (kanooniline primary, `1e75c9e4`/`4f56fa09`).
+**Verifikatsioon:** npm test 967/13 (muutumatu baseline).
 
 ### Üldised lõksud
 - Dev-server sureb korduvatel reload'idel → kasuta production-buildi snapshot'imisel.
