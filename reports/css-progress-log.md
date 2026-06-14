@@ -12,7 +12,7 @@
 
 ---
 
-## PRAEGUNE SEIS (13.06.2026)
+## PRAEGUNE SEIS (14.06.2026)
 - **Struktuurne restruktuur:** valmis (etapid 0–7 + 6a/b/c).
 - **Rail-dedup + orbiit + surnud mask:** valmis (vt allpool).
 - **PROD-CRASH PARANDATUD** — `OrbitStaticGlow` ise-rekursioon (`9e3b1cd9`) → /profiil OOM produktsioonis; fix `d3a92302`, deployitud `8cc8063b`. Vt allpool + `[[css-restructure-progress]]` HOIATUS.
@@ -73,6 +73,24 @@ Faas 2 ja faas 4 tehakse **koos, ühe viiluna per primitiiv** (mitte eraldi glob
 ---
 
 ## Tehtud (krooniline)
+
+### ⚠️ VIIL 2.3 — POOLELI (EI OLE COMMITITUD) — light + dark + night token-blokid
+**Seis:** failimuudatused TEHTUD, testid JOOKSMATA, commit TEGEMATA. Järgmine sessioon peab: (1) `npm test` → verifitseerida 967/13, (2) commit, (3) progress-logi uuendus.
+
+**Mis on muudetud (node.js kaudu, mitte Edit-tööriistaga):**
+- `tokens/theme-light.css` ← `light.css` `:root.theme-light { ... }` (255 rida, 0 !important)
+- `tokens/theme-dark.css` ← `dark.css` `:root:not(.theme-light) { ... }` (56 rida, 0 !important)
+- `tokens/theme-night.css` ← `night.css` `:root.theme-night { ... }` (200 rida, 0 !important)
+- `light.css`: 379 → 124 rida (root-blokk eemaldatud)
+- `dark.css`: 367 → 311 rida (root-blokk eemaldatud, ülejäänud koosneb `:root:not()...` plokid mis jäävad)
+- `night.css`: 274 → 73 rida (root-blokk eemaldatud; `.space-backdrop` + `@media` + ülejäänud jäävad)
+
+**Commit-sõnum ettepanek:**
+```
+refactor(css): viil 2.3 — light/dark/night token-blokid → tokens/
+```
+
+**HOIATUS:** Kuna muudatused tehti `node.js`-iga (mitte Edit-tööriistaga), ei pruugi järgmine sessioon faile "loetud" staatuses näha. Loe failid enne muutmist: `app/styles/theme/light.css`, `app/styles/theme/dark.css`, `app/styles/theme/night.css`.
 
 ### Rada B viil 2.2 — mid teema token-blokk  [`6eb27bca`]  (14.06.2026)
 `:root.theme-mid { ... }` (246 rida, 0 `!important`) liigutatud `theme/mid.css`-ist `tokens/theme-mid.css`-i. `globals.css` laadib `tokens/` faili PÄRAST `theme/` faili — kaskaadi seis muutumatu. Kaks redundantset `--btn-primary-bg-hover/active` definitsiooni scoped `.button[data-variant="primary"]`-reeglist eemaldatud (samad väärtused on nüüd tokens/ plokis). `mid.css`: 629 → 381 rida. npm test 967/13.

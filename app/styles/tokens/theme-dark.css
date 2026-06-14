@@ -1,4 +1,60 @@
 /* tokens/theme-dark.css — dark teema tokeniblokk
- * Väärtused migreeritakse siia app/styles/theme/dark.css-ist (Rada B token-viilud).
- * Praegu tühi — theme/dark.css on endiselt autoriteetne.
- */
+ * Migreeritud siia app/styles/theme/dark.css-ist (Rada B token-viilud, viil 2.3).
+ * globals.css laadib selle PÄRAST theme/dark.css-i — sama :root:not(.theme-light) blokk siin
+ * asendab (mitte ei topelda) theme-faili ploki. */
+:root:not(.theme-light) {
+  --glass-shell-shadow: var(--glass-ring-glow-dark);
+  --glass-ring-edge-stroke-width-desktop: 1.36px;
+  --glass-ring-edge-stroke-opacity-desktop: 0.78;
+  --glass-ring-edge-stroke-blur-desktop: 0.12px;
+  --glass-ring-edge-stroke-desktop: conic-gradient(
+    from -104deg at 50% 50%,
+    rgba(242, 247, 255, 0) 0deg,
+    rgba(242, 247, 255, 0) 14deg,
+    rgba(242, 247, 255, 0.024) 26deg,
+    rgba(242, 247, 255, 0.09) 38deg,
+    rgba(242, 247, 255, 0.19) 46deg,
+    rgba(242, 247, 255, 0.32) 54deg,
+    rgba(242, 247, 255, 0.4) 60deg,
+    rgba(242, 247, 255, 0.26) 70deg,
+    rgba(242, 247, 255, 0.11) 82deg,
+    rgba(242, 247, 255, 0.028) 94deg,
+    rgba(242, 247, 255, 0) 108deg,
+    rgba(242, 247, 255, 0) 360deg
+  );
+  --drawer-overlay-bg: rgba(0, 0, 0, 0.36);
+  --subscription-error-color: rgba(232, 219, 217, 0.9);
+  --drawer-glass-bg: var(--glass-ring-surface-bg);
+  --chat-invite-surface: var(--subpage-card-bg);
+  --chat-invite-surface-hover: var(--subpage-card-bg-hover);
+  --chat-ui-solid-surface: rgb(26, 29, 34);
+  --chat-rail-tooltip-bg: rgb(26, 29, 34);
+  --chat-tools-panel-bg: rgb(26, 29, 34);
+  --chat-upload-picker-bg: rgb(26, 29, 34);
+  --glass-ring-surface-bg: rgba(14, 16, 20, 0.42);
+  --glass-ring-glow-dark:
+    0 10px 20px -18px rgba(248, 253, 255, 0.2),
+    0 20px 32px -28px rgba(248, 253, 255, 0.1);
+  --chat-invite-list-border: transparent;
+  --chat-invite-shadow:
+    0 6px 16px rgba(0, 0, 0, 0.22),
+    var(
+      --invite-under-glow,
+      0 10px 18px -14px rgba(248, 253, 255, 0.72),
+      0 22px 32px -22px rgba(248, 253, 255, 0.44)
+    );
+  --rail-tooltip-bg: rgb(26, 29, 34);
+  --rail-tooltip-border: var(--subpage-card-border);
+  --rail-tooltip-shadow: var(--subpage-card-shadow);
+  --rail-tooltip-text: var(--subpage-card-text);
+  --chat-tools-panel-border: var(--rail-tooltip-border);
+  --chat-tools-panel-shadow: var(--rail-tooltip-shadow);
+  --chat-tools-panel-text: var(--rail-tooltip-text);
+  --chat-tools-item-hover-bg: rgba(197, 113, 113, 0.12);
+  --glass-analysis-bg: rgb(26, 29, 34);
+  --chat-analysis-preview-surface: var(--chat-card-surface-standard-bg);
+  --chat-analysis-preview-text: var(--subpage-card-text);
+  --chat-analysis-preview-border: 0 solid transparent;
+  --chat-analysis-preview-shadow: none;
+  --chat-analysis-preview-blur: 0px;
+}
