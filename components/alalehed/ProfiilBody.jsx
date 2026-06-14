@@ -178,7 +178,11 @@ const accountModalTitleClassName =
   `account-modal-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ${glassPageTitleClassName} ` +
   "";
 const accountModalActionStackClassName =
-  "invite-modal-scroll mx-auto grid min-h-0 w-full max-w-[clamp(17rem,42vw,27rem)] overflow-y-auto overscroll-contain touch-pan-y px-[1.15rem] pt-0 pb-[0.3rem] [-webkit-overflow-scrolling:touch] [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0 max-[768px]:max-w-none max-[768px]:px-0";
+  // pt/pb give the buttons' edge-glow + idle shadow room to render INSIDE the
+  // scroll/clip box — overflow-y-auto otherwise clips the top button's glow at
+  // the flush top edge (the "kuma ülaservast ära lõigatud" bug). The hover edge
+  // glow reaches ~20px (0 0 20px #ff7a7e0a layer), so pad past that.
+  "invite-modal-scroll mx-auto grid min-h-0 w-full max-w-[clamp(17rem,42vw,27rem)] overflow-y-auto overscroll-contain touch-pan-y px-[1.15rem] pt-[clamp(0.9rem,2.3vh,1.4rem)] pb-[clamp(0.7rem,2vh,1.2rem)] [-webkit-overflow-scrolling:touch] [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0 max-[768px]:max-w-none max-[768px]:px-0";
 const accountModalCardClassName =
   "rounded-none border-0 bg-transparent p-0 min-h-0 text-[color:var(--glass-modal-text)] shadow-none " +
   "[.theme-mid_&]:text-[#3f4756] [.theme-light_&]:text-[#1f2937]";
