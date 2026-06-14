@@ -257,7 +257,7 @@ export default function OverviewWorkflow() {
           <div className={styles.supportActions}>
             <Button
               type="button"
-              variant="secondary"
+              variant="primary"
               onClick={saveManagerMemoDraft}
               disabled={!managerMemo?.text || draftStatus === "saving"}
             >

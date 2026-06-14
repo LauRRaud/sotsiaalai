@@ -255,13 +255,13 @@ export default function ArtifactDetailPage({ artifactId }) {
                       <Button type="button" size="sm" onClick={() => void approveArtifact()} disabled={approving}>
                         {approving ? t("documents.actions.approving") : t("documents.actions.approve")}
                       </Button>
-                      <Button type="button" size="sm" variant="ghost" onClick={() => void saveDraft()} disabled={saving}>
+                      <Button type="button" size="sm" variant="primary" onClick={() => void saveDraft()} disabled={saving}>
                         {saving ? t("documents.actions.saving") : t("documents.actions.save_draft")}
                       </Button>
-                      <Button type="button" size="sm" variant="ghost" onClick={() => setFeedback(t("documents.feedback.refine_stub"))}>
+                      <Button type="button" size="sm" variant="primary" onClick={() => setFeedback(t("documents.feedback.refine_stub"))}>
                         {t("documents.actions.refine_stub")}
                       </Button>
-                      <Button type="button" size="sm" variant="ghost" onClick={() => void copyContent()}>
+                      <Button type="button" size="sm" variant="primary" onClick={() => void copyContent()}>
                         {t("documents.actions.copy")}
                       </Button>
                       <Button type="button" size="sm" variant="danger" onClick={() => void deleteArtifact()}>
@@ -284,11 +284,11 @@ export default function ArtifactDetailPage({ artifactId }) {
                         </Button>
                       ) : null}
                       {artifact.downloadUrls?.pdf ? (
-                        <Button as="a" href={artifact.downloadUrls.pdf} size="sm" variant="ghost">
+                        <Button as="a" href={artifact.downloadUrls.pdf} size="sm" variant="linkBrand">
                           {t("documents.actions.download_pdf")}
                         </Button>
                       ) : null}
-                      <Button type="button" size="sm" variant="ghost" onClick={() => void copyContent()}>
+                      <Button type="button" size="sm" variant="primary" onClick={() => void copyContent()}>
                         {t("documents.actions.copy")}
                       </Button>
                       <Button type="button" size="sm" variant="danger" onClick={() => void deleteArtifact()}>

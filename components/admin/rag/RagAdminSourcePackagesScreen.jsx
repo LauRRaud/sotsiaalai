@@ -2,7 +2,8 @@
 
 import { Fragment, useCallback, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import Link from "next/link";
+
+import Button from "@/components/ui/Button";
 
 import { localizePath } from "@/lib/localizePath";
 
@@ -14,8 +15,7 @@ import {
 
 const SUMMARY_CARD_CLASS =
   "rounded-[0.82rem] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-3)] px-3 py-2.5 shadow-[var(--admin-shadow-soft)]";
-const BUTTON_CLASS =
-  "inline-flex min-h-[2.02rem] items-center justify-center rounded-[0.82rem] border border-[color:var(--admin-border-strong)] bg-[color-mix(in_srgb,var(--admin-surface-2)_92%,var(--admin-accent)_8%)] px-[0.86rem] py-[0.34rem] text-[0.9rem] font-semibold leading-[1.1] text-[color:var(--admin-text)] no-underline shadow-none transition-[background,border-color,box-shadow] duration-150 ease-out hover:border-[color:var(--admin-accent)] hover:bg-[color-mix(in_srgb,var(--admin-surface-2)_84%,var(--admin-accent)_16%)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--admin-accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-transparent disabled:cursor-not-allowed disabled:border-[color:var(--admin-border)] disabled:bg-[color-mix(in_srgb,var(--admin-surface-3)_92%,var(--admin-border)_8%)] disabled:text-[color-mix(in_srgb,var(--admin-muted)_62%,var(--admin-text)_38%)]";
+const actionButtonClassName = "!min-h-[2.02rem]";
 const HEADER_CELL_CLASS = "border-b border-[color:var(--admin-border)] p-2 align-top font-semibold";
 const BODY_CELL_CLASS = "border-b border-[color:var(--admin-border)] p-2 align-top";
 const ACCEPTANCE_DISPOSITIONS = [
@@ -432,9 +432,9 @@ export default function RagAdminSourcePackagesScreen({ locale = "en" }) {
             <h2 className="text-lg font-semibold text-[color:var(--admin-text)]">{copy.title}</h2>
             {municipalityId ? <div className="text-sm text-[color:var(--admin-muted)]">{copy.municipalityFilter}: {municipalityId}</div> : null}
           </div>
-          <button type="button" className={BUTTON_CLASS} onClick={load} disabled={loading}>
+          <Button type="button" variant="primary" size="sm" className={actionButtonClassName} onClick={load} disabled={loading}>
             {copy.refresh}
-          </button>
+          </Button>
         </div>
         <div className="mb-3 flex flex-wrap items-center gap-3 text-sm text-[color:var(--admin-text)]">
           <label className="inline-flex items-center gap-2">
@@ -521,18 +521,18 @@ export default function RagAdminSourcePackagesScreen({ locale = "en" }) {
                       <td className={`${BODY_CELL_CLASS} whitespace-normal break-words`}>{formatDate(item.lastBuiltAt, localeTag)}</td>
                       <td className={BODY_CELL_CLASS}>
                         <div className="flex flex-wrap gap-2">
-                          <button type="button" className={BUTTON_CLASS} disabled={!!busyId || effectiveReview === "reviewed" || effectiveReview === "archived"} onClick={() => runAction(item.id, "mark_reviewed")}>
+                          <Button type="button" variant="primary" size="sm" className={actionButtonClassName} disabled={!!busyId || effectiveReview === "reviewed" || effectiveReview === "archived"} onClick={() => runAction(item.id, "mark_reviewed")}>
                             {busyId === `${item.id}:mark_reviewed` ? copy.actions.saving : copy.actions.markReviewed}
-                          </button>
-                          <button type="button" className={BUTTON_CLASS} disabled={!!busyId || effectiveReview === "archived"} onClick={() => runAction(item.id, "archive")}>
+                          </Button>
+                          <Button type="button" variant="primary" size="sm" className={actionButtonClassName} disabled={!!busyId || effectiveReview === "archived"} onClick={() => runAction(item.id, "archive")}>
                             {busyId === `${item.id}:archive` ? copy.actions.saving : copy.actions.archive}
-                          </button>
-                          <button type="button" className={BUTTON_CLASS} disabled={!!busyId || item.active === true} onClick={() => runAction(item.id, "restore_active")}>
+                          </Button>
+                          <Button type="button" variant="primary" size="sm" className={actionButtonClassName} disabled={!!busyId || item.active === true} onClick={() => runAction(item.id, "restore_active")}>
                             {busyId === `${item.id}:restore_active` ? copy.actions.saving : copy.actions.restoreActive}
-                          </button>
-                          <button type="button" className={BUTTON_CLASS} disabled={!!busyId} onClick={() => runAction(item.id, "recompute")}>
+                          </Button>
+                          <Button type="button" variant="primary" size="sm" className={actionButtonClassName} disabled={!!busyId} onClick={() => runAction(item.id, "recompute")}>
                             {busyId === `${item.id}:recompute` ? copy.actions.saving : copy.actions.recompute}
-                          </button>
+                          </Button>
                         </div>
                       </td>
                     </tr>
@@ -565,22 +565,21 @@ export default function RagAdminSourcePackagesScreen({ locale = "en" }) {
                                           sourceKeys: {(reason.repair?.sourceKeys || []).join(", ") || "-"}
                                         </div>
                                         <div className="mt-2 flex flex-wrap gap-2">
-                                          <Link
-                                            href={localizePath(reason.repair?.kovHref || "/admin/rag/kov", locale)}
-                                            className={BUTTON_CLASS}
-                                          >
+                                          <Button as="a" href={localizePath(reason.repair?.kovHref || "/admin/rag/kov", locale)} variant="primary" size="sm" className={actionButtonClassName}>
                                             {copy.actions.fix}
-                                          </Link>
+                                          </Button>
                                           {reason.acceptable && !reason.accepted ? ACCEPTANCE_DISPOSITIONS.map(([value, labels]) => (
-                                            <button
+                                            <Button
                                               key={value}
                                               type="button"
-                                              className={BUTTON_CLASS}
+                                              variant="primary"
+                                              size="sm"
+                                              className={actionButtonClassName}
                                               disabled={!!acceptBusyKey}
                                               onClick={() => acceptReason(item.id, reason, value)}
                                             >
                                               {acceptBusyKey === `${item.id}:${reason.code}:${value}` ? copy.actions.saving : labels[isEstonian(locale) ? "et" : "en"]}
-                                            </button>
+                                            </Button>
                                           )) : null}
                                         </div>
                                       </div>

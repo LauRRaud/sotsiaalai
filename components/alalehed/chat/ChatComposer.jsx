@@ -913,7 +913,7 @@ export default function ChatComposer({
         ) : null}
       </div>
       <div className="flex flex-wrap gap-[0.42rem]">
-        <Button as="button" type="button" size="sm" variant="secondary" onClick={handlePrivacyEdit}>
+        <Button as="button" type="button" size="sm" variant="primary" onClick={handlePrivacyEdit}>
           {privacyCopy.edit}
         </Button>
         {privacyPrompt.redactedText ? (
@@ -922,7 +922,7 @@ export default function ChatComposer({
           </Button>
         ) : null}
         {privacyPrompt.allowOriginal ? (
-          <Button as="button" type="button" size="sm" variant="secondary" onClick={handlePrivacyOriginal}>
+          <Button as="button" type="button" size="sm" variant="primary" onClick={handlePrivacyOriginal}>
             {privacyCopy.original}
           </Button>
         ) : null}

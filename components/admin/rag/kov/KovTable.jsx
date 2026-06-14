@@ -402,7 +402,7 @@ export default function KovTable({
                 <td className="border-b border-[color:var(--documents-card-border)] px-3 py-2.5 align-top">
                   <div className="grid gap-1">
                     <Button
-                      variant={isActive ? "primary" : "ghost"}
+                      variant="primary"
                       size="2xs"
                       onClick={event => stopEvent(event, () => onOpenEditor(row.slug))}
                     >

@@ -196,7 +196,7 @@ export default function SupportRequestPanel({
             </label>
           </div>
           <div className={styles.supportActions}>
-            <Button type="button" variant="secondary" onClick={saveDraft} disabled={status === "saving"}>
+            <Button type="button" variant="primary" onClick={saveDraft} disabled={status === "saving"}>
               {t("wellbeing.support.save_draft", "Salvesta privaatne mustand")}
             </Button>
             <Button
@@ -208,7 +208,7 @@ export default function SupportRequestPanel({
               {t("wellbeing.support.confirm_draft", "Kinnita jagatav versioon")}
             </Button>
             {selected.outputType === "covision_input" && status === "ready" ? (
-              <Button type="button" variant="secondary" onClick={() => onNavigate?.("/kovisioon")}>
+              <Button type="button" variant="primary" onClick={() => onNavigate?.("/kovisioon")}>
                 {t("wellbeing.support.open_covision", "Ava olemasolevas Kovisioonis")}
               </Button>
             ) : null}

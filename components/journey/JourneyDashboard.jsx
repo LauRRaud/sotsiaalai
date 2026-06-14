@@ -348,16 +348,16 @@ function DraftReview({ draft, setDraft, onSave, onEditDescription, onDecline, bu
             </p>
           )}
           <div className="flex flex-wrap gap-[0.5rem] pt-[0.15rem]">
-            <Button type="button" variant="secondary" size="sm" onClick={() => updateField("primaryPath", "SERVICE_MAP")}>
+            <Button type="button" variant="primary" size="sm" onClick={() => updateField("primaryPath", "SERVICE_MAP")}>
               {t("journey.service_map.open", "Ava teenusekaart")}
             </Button>
-            <Button type="button" variant="secondary" size="sm" onClick={() => updateField("primaryPath", "PRE_INQUIRY")}>
+            <Button type="button" variant="primary" size="sm" onClick={() => updateField("primaryPath", "PRE_INQUIRY")}>
               {t("journey.pre_inquiry.open", "Koosta eelpöördumine")}
             </Button>
-            <Button type="button" variant="secondary" size="sm" onClick={() => updateField("primaryPath", "DOCUMENT")}>
+            <Button type="button" variant="primary" size="sm" onClick={() => updateField("primaryPath", "DOCUMENT")}>
               {t("journey.review.add_document", "Lisa dokument")}
             </Button>
-            <Button type="button" variant="secondary" size="sm" onClick={() => updateField("primaryPath", "HELP_REQUEST")}>
+            <Button type="button" variant="primary" size="sm" onClick={() => updateField("primaryPath", "HELP_REQUEST")}>
               {t("journey.review.create_help_request", "Loo abisoov")}
             </Button>
           </div>
@@ -373,10 +373,10 @@ function DraftReview({ draft, setDraft, onSave, onEditDescription, onDecline, bu
           <Check size={17} aria-hidden="true" />
           {t("journey.actions.save_private", "Salvesta teekond")}
         </Button>
-        <Button type="button" variant="secondary" onClick={onEditDescription} disabled={busy}>
+        <Button type="button" variant="primary" onClick={onEditDescription} disabled={busy}>
           {t("journey.actions.edit_description", "Muuda kirjeldust")}
         </Button>
-        <Button type="button" variant="secondary" onClick={onDecline} disabled={busy}>
+        <Button type="button" variant="linkBrand" onClick={onDecline} disabled={busy}>
           {t("journey.actions.decline", "Loobu")}
         </Button>
       </div>
@@ -386,7 +386,7 @@ function DraftReview({ draft, setDraft, onSave, onEditDescription, onDecline, bu
 
 function RoleWorkspaceAction({ href, icon: Icon, title, description }) {
   return (
-    <Button as="a" href={href} variant="secondary" className="min-h-[3.1rem] justify-start text-left">
+    <Button as="a" href={href} variant="linkBrand" className="min-h-[3.1rem] justify-start text-left">
       <span className="inline-flex min-w-0 items-center gap-[0.58rem]">
         {Icon ? <Icon size={17} aria-hidden="true" /> : null}
         <span className="grid min-w-0 gap-[0.1rem]">

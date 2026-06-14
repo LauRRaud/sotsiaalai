@@ -103,7 +103,7 @@ function PaginationControls({ itemCount, pagination, t, onPrevious, onNext }) {
         <Button
           type="button"
           size="sm"
-          variant="ghost"
+          variant="primary"
           disabled={!pagination.hasPrevious}
           onClick={onPrevious}
         >
@@ -112,7 +112,7 @@ function PaginationControls({ itemCount, pagination, t, onPrevious, onNext }) {
         <Button
           type="button"
           size="sm"
-          variant="ghost"
+          variant="primary"
           disabled={!pagination.hasNext}
           onClick={onNext}
         >
@@ -522,7 +522,7 @@ export default function DocumentsPage({ initialArtifactLimit = ARTIFACT_LIST_LIM
             as="a"
             href={frameworkAcceptance.documentDownloadUrl}
             size="sm"
-            variant="ghost"
+            variant="linkBrand"
             >
             {t("documents.framework_acceptance.download_record")}
           </Button>
@@ -733,8 +733,8 @@ export default function DocumentsPage({ initialArtifactLimit = ARTIFACT_LIST_LIM
                         {editingId === document.id && !isReadOnly ? (
                           <div className="flex flex-wrap gap-[0.45rem]">
                             <Input value={editingTitle} onChange={(event) => setEditingTitle(event.target.value)} className="documents-form-input min-w-[15rem] flex-1" />
-                            <Button type="button" size="sm" variant="ghost" onClick={() => void saveRename(document.id)}>{t("buttons.save")}</Button>
-                            <Button type="button" size="sm" variant="ghost" onClick={() => { setEditingId(null); setEditingTitle("") }}>{t("buttons.cancel")}</Button>
+                            <Button type="button" size="sm" variant="primary" onClick={() => void saveRename(document.id)}>{t("buttons.save")}</Button>
+                            <Button type="button" size="sm" variant="linkBrand" onClick={() => { setEditingId(null); setEditingTitle("") }}>{t("buttons.cancel")}</Button>
                           </div>
                         ) : (
                           <>
@@ -776,8 +776,8 @@ export default function DocumentsPage({ initialArtifactLimit = ARTIFACT_LIST_LIM
                       {document.kind === "TEMPLATE" ? <DocumentsDropdown ariaLabel={t("documents.form.template_for_placeholder")} value={document.templateFor || ""} onChange={(nextValue) => { void patchDocument(document.id, { templateFor: nextValue || null }) }} options={templateForOptions} placeholder={t("documents.form.template_for_placeholder")} align="end" /> : <div className="documents-row-spacer" aria-hidden="true" />}
                     </div> : <div className="documents-row-spacer" aria-hidden="true" />}
                     <div className="documents-row-actions">
-                      <Button as="a" href={`/api/documents/${encodeURIComponent(document.id)}/download`} size="sm" variant="ghost">{t("documents.actions.download")}</Button>
-                      {!isReadOnly ? <Button type="button" size="sm" variant="ghost" onClick={() => { setEditingId(document.id); setEditingTitle(document.title || "") }}>{t("documents.actions.rename")}</Button> : null}
+                      <Button as="a" href={`/api/documents/${encodeURIComponent(document.id)}/download`} size="sm" variant="linkBrand">{t("documents.actions.download")}</Button>
+                      {!isReadOnly ? <Button type="button" size="sm" variant="primary" onClick={() => { setEditingId(document.id); setEditingTitle(document.title || "") }}>{t("documents.actions.rename")}</Button> : null}
                       {!isReadOnly ? <Button type="button" size="sm" variant="danger" onClick={() => void deleteDocument(document.id)}>{t("documents.actions.delete")}</Button> : null}
                     </div>
                   </div>
@@ -891,7 +891,7 @@ export default function DocumentsPage({ initialArtifactLimit = ARTIFACT_LIST_LIM
                       <Button
                         type="button"
                         size="sm"
-                        variant="ghost"
+                        variant="primary"
                                       onClick={() => {
                           setArtifactSearch("")
                           setArtifactsOffset(0)
@@ -920,9 +920,9 @@ export default function DocumentsPage({ initialArtifactLimit = ARTIFACT_LIST_LIM
                   {isArtifactsExpanded && artifact.sources?.length ? <div className="mt-[0.45rem] flex flex-wrap gap-[0.4rem]">{artifact.sources.slice(0, 4).map((source) => <span key={source.id} className="documents-source-pill rounded-full border px-[0.55rem] py-[0.18rem] text-[0.8rem]">{source.title || source.originalName}</span>)}{artifact.sources.length > 4 ? <span className="documents-source-pill rounded-full border px-[0.55rem] py-[0.18rem] text-[0.8rem]">{t("documents.artifacts.source_preview_more", { count: artifact.sources.length - 4 })}</span> : null}</div> : null}
                   <div className="documents-row-actions">
                     {artifact.downloadUrls?.docx ? <Button as="a" href={artifact.downloadUrls.docx} size="sm">{t("documents.actions.download_docx")}</Button> : null}
-                    {artifact.downloadUrls?.pdf ? <Button as="a" href={artifact.downloadUrls.pdf} size="sm" variant="ghost">{t("documents.actions.download_pdf")}</Button> : null}
+                    {artifact.downloadUrls?.pdf ? <Button as="a" href={artifact.downloadUrls.pdf} size="sm" variant="linkBrand">{t("documents.actions.download_pdf")}</Button> : null}
                     <Link href={localizePath(`/documents/artifacts/${encodeURIComponent(artifact.id)}`, locale)} className={`${linkBrandInlineClass} documents-link-button inline-flex min-h-[2.5rem] items-center justify-center rounded-full px-[0.98rem] py-[0.5rem] text-[0.96rem]`}>{t("documents.actions.open")}</Link>
-                    <Button type="button" size="sm" variant="ghost" onClick={() => void copyArtifact(artifact.id)}>{t("documents.actions.copy")}</Button>
+                    <Button type="button" size="sm" variant="primary" onClick={() => void copyArtifact(artifact.id)}>{t("documents.actions.copy")}</Button>
                     <Button type="button" size="sm" variant="danger" onClick={() => void deleteArtifact(artifact.id)}>{t("documents.actions.delete")}</Button>
                   </div>
                 </article>

@@ -1043,7 +1043,7 @@ export default function JourneyDetail({ journeyId }) {
               <p className={bodyTextClassName}>
                 {t("journey.messages.not_found", "This journey is not available or does not belong to your account.")}
               </p>
-              <Button onClick={handleBack} variant="secondary">
+              <Button onClick={handleBack} variant="linkBrand">
                 {t("journey.actions.back_to_list", "Back to journey")}
               </Button>
             </section>
@@ -1099,7 +1099,7 @@ export default function JourneyDetail({ journeyId }) {
                     </div>
                   </div>
                   <div className="flex flex-wrap gap-[0.56rem]">
-                    <Button variant="secondary" onClick={() => setEditing((current) => !current)} disabled={busy}>
+                    <Button variant="primary" onClick={() => setEditing((current) => !current)} disabled={busy}>
                       <Edit3 size={16} aria-hidden="true" />
                       {editing ? t("journey.actions.close_edit", "Close editing") : t("journey.actions.edit", "Edit")}
                     </Button>
@@ -1170,7 +1170,7 @@ export default function JourneyDetail({ journeyId }) {
                         </p>
                       </div>
                       <div className="flex flex-wrap justify-end gap-[0.52rem]">
-                        <Button as="a" href={serviceMapHref} variant="secondary">
+                        <Button as="a" href={serviceMapHref} variant="linkBrand">
                           <Map size={17} aria-hidden="true" />
                           {t("journey.service_map.open", "Ava teenusekaart")}
                         </Button>
@@ -1178,11 +1178,11 @@ export default function JourneyDetail({ journeyId }) {
                           <Send size={17} aria-hidden="true" />
                           {t("journey.pre_inquiry.open", "Koosta eelpöördumine")}
                         </Button>
-                        <Button as="a" href={documentsHref} variant="secondary">
+                        <Button as="a" href={documentsHref} variant="linkBrand">
                           <FileText size={17} aria-hidden="true" />
                           {t("journey.assistiveDevices.addDocument", "Lisa dokument")}
                         </Button>
-                        <Button type="button" variant="secondary" onClick={() => setAssistiveHelpRequestShareOpen((current) => !current)}>
+                        <Button type="button" variant="primary" onClick={() => setAssistiveHelpRequestShareOpen((current) => !current)}>
                           <HeartPulse size={17} aria-hidden="true" />
                           {t("journey.assistiveDevices.createPracticalHelpRequest", "Loo abisoov praktiliseks abiks")}
                         </Button>
@@ -1245,7 +1245,7 @@ export default function JourneyDetail({ journeyId }) {
                     </div>
                     <div className="flex flex-wrap justify-end gap-[0.52rem]">
                       {hasHelpOfferMatches ? (
-                        <Button as="a" href={helpOffersHref} variant="secondary">
+                        <Button as="a" href={helpOffersHref} variant="linkBrand">
                           <Map size={17} aria-hidden="true" />
                           {t("journey.helpMediation.viewOffers", "Vaata abipakkumisi")}
                         </Button>
@@ -1254,11 +1254,11 @@ export default function JourneyDetail({ journeyId }) {
                         <HeartPulse size={17} aria-hidden="true" />
                         {t("journey.helpMediation.createRequest", "Loo abisoov")}
                       </Button>
-                      <Button as="a" href={helpRequestsHref} variant="secondary">
+                      <Button as="a" href={helpRequestsHref} variant="linkBrand">
                         <Map size={17} aria-hidden="true" />
                         {t("journey.helpMediation.viewRequests", "Vaata abisoove")}
                       </Button>
-                      <Button as="a" href={createHelpOfferHref} variant="secondary">
+                      <Button as="a" href={createHelpOfferHref} variant="linkBrand">
                         <HeartPulse size={17} aria-hidden="true" />
                         {t("journey.helpMediation.createOffer", "Loo abipakkumine")}
                       </Button>
@@ -1310,7 +1310,7 @@ export default function JourneyDetail({ journeyId }) {
                   </div>
                   <Button
                     type="button"
-                    variant="secondary"
+                    variant="primary"
                     onClick={() => setContinuityOpen((current) => !current)}
                     disabled={busy}
                   >
@@ -1365,11 +1365,11 @@ export default function JourneyDetail({ journeyId }) {
                         <Send size={17} aria-hidden="true" />
                         {t("journey.serviceContinuity.createPreInquiry", "Koosta eelpöördumine")}
                       </Button>
-                      <Button as="a" href={documentsHref} variant="secondary">
+                      <Button as="a" href={documentsHref} variant="linkBrand">
                         <FileText size={17} aria-hidden="true" />
                         {t("journey.serviceContinuity.addDocument", "Lisa dokument analüüsiks")}
                       </Button>
-                      <Button as="a" href={serviceMapHref} variant="secondary">
+                      <Button as="a" href={serviceMapHref} variant="linkBrand">
                         <Map size={17} aria-hidden="true" />
                         {t("journey.serviceContinuity.openServiceMap", "Ava teenusekaart")}
                       </Button>
@@ -1486,7 +1486,7 @@ export default function JourneyDetail({ journeyId }) {
                         <Save size={17} aria-hidden="true" />
                         {t("journey.serviceContinuity.save", "Salvesta kontroll")}
                       </Button>
-                      <Button type="button" variant="secondary" onClick={() => setContinuityOpen(false)} disabled={busy}>
+                      <Button type="button" variant="linkBrand" onClick={() => setContinuityOpen(false)} disabled={busy}>
                         {t("journey.serviceContinuity.close", "Sulge kontroll")}
                       </Button>
                     </div>
@@ -1509,7 +1509,7 @@ export default function JourneyDetail({ journeyId }) {
                         {t("journey.healthContact.notMedicalAdvice", "SotsiaalAI ei anna meditsiinilist hinnangut, diagnoosi ega ravisoovitust, kuid saab aidata küsimused selgelt sõnastada. Kui on vahetu oht, tuleb pöörduda hädaabinumbrile või erakorralise abi poole.")}
                       </p>
                     </div>
-                    <Button type="button" variant="secondary" onClick={handleCreateHealthQuestions} disabled={busy}>
+                    <Button type="button" variant="primary" onClick={handleCreateHealthQuestions} disabled={busy}>
                       <HeartPulse size={17} aria-hidden="true" />
                       {t("journey.healthContact.createQuestions", "Koosta küsimused tervisekontaktile")}
                     </Button>
@@ -1520,15 +1520,15 @@ export default function JourneyDetail({ journeyId }) {
                   </p>
 
                   <div className="flex flex-wrap gap-[0.56rem]">
-                    <Button as="a" href={serviceMapHref} variant="secondary">
+                    <Button as="a" href={serviceMapHref} variant="linkBrand">
                       <Map size={17} aria-hidden="true" />
                       {t("journey.healthContact.openServiceMap", "Ava teenusekaart")}
                     </Button>
-                    <Button as="a" href={documentsHref} variant="secondary">
+                    <Button as="a" href={documentsHref} variant="linkBrand">
                       <FileText size={17} aria-hidden="true" />
                       {t("journey.serviceContinuity.addDocument", "Lisa dokument analüüsiks")}
                     </Button>
-                    <Button as="a" href={preInquiryHref} variant="secondary">
+                    <Button as="a" href={preInquiryHref} variant="linkBrand">
                       <Send size={17} aria-hidden="true" />
                       {t("journey.healthContact.createPreInquiry", "Koosta eelpöördumine")}
                     </Button>
@@ -1627,7 +1627,7 @@ export default function JourneyDetail({ journeyId }) {
                       <Save size={17} aria-hidden="true" />
                       {t("journey.actions.save_changes", "Save changes")}
                     </Button>
-                    <Button variant="secondary" onClick={handleCancelEdit} disabled={busy}>
+                    <Button variant="linkBrand" onClick={handleCancelEdit} disabled={busy}>
                       {t("journey.actions.cancel", "Cancel")}
                     </Button>
                   </div>

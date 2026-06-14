@@ -61,7 +61,6 @@ const smallButtonClassName =
   "!min-h-[2.5rem] !px-[0.95rem] !py-[0.5rem] !text-[0.96rem] !leading-[1.15] !tracking-[0.01em]";
 
 const primaryButtonClassName = "";
-const secondaryButtonClassName = cn(styles.cancelButton);
 const compactPrimaryButtonClassName =
   "!min-h-[2.5rem] !px-[0.95rem] !py-[0.5rem] !text-[0.96rem] !leading-[1.15] !tracking-[0.01em]";
 const dangerButtonClassName =
@@ -411,7 +410,7 @@ function CovisionCard({ item, onOpen, onEdit, locale, t }) {
         <span>{formatDate(item.lastActivityAt || item.updatedAt, locale)}</span>
       </div>
       <div className="flex flex-wrap justify-end gap-[0.45rem]">
-        <Button type="button" variant="secondary" onClick={() => onEdit(item)} className={smallButtonClassName}>
+        <Button type="button" variant="primary" onClick={() => onEdit(item)} className={smallButtonClassName}>
           {t("covision.common.edit", "Muuda")}
         </Button>
         <Button type="button" onClick={() => onOpen(item)} className={compactPrimaryButtonClassName}>
@@ -593,8 +592,8 @@ function ContributionList({ messages, locale, emptyText, onPromote, onNextStep, 
             ))}
           </div>
           <div className="flex flex-wrap justify-end gap-[0.36rem]">
-            <Button type="button" variant="secondary" onClick={() => onPromote?.(message)} className={smallButtonClassName}>{t("covision.room.add_to_canvas", "Lisa lõuendile")}</Button>
-            <Button type="button" variant="secondary" onClick={() => onNextStep?.(message)} className={smallButtonClassName}>{t("covision.room.convert_to_next_step", "Muuda järgmiseks sammuks")}</Button>
+            <Button type="button" variant="primary" onClick={() => onPromote?.(message)} className={smallButtonClassName}>{t("covision.room.add_to_canvas", "Lisa lõuendile")}</Button>
+            <Button type="button" variant="primary" onClick={() => onNextStep?.(message)} className={smallButtonClassName}>{t("covision.room.convert_to_next_step", "Muuda järgmiseks sammuks")}</Button>
           </div>
         </article>
       ))}
@@ -1327,7 +1326,7 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
             <SectionPanel
               title={t("covision.wellbeing_inputs.section_title", "Heaolu töövoogudest ette valmistatud sisendid")}
               aside={
-                <Button type="button" variant="secondary" onClick={() => setView("overview")} className={smallButtonClassName}>
+                <Button type="button" variant="primary" onClick={() => setView("overview")} className={smallButtonClassName}>
                   {t("buttons.back", "Tagasi")}
                 </Button>
               }
@@ -1397,7 +1396,7 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
               {caseStep === 1 ? (
               <SectionPanel
                 title={`2. ${t("covision.workflow.steps.anonymous_description", "Anonüümne olukorrakirjeldus")}`}
-                aside={<Button type="button" variant="secondary" onClick={runAnonymityCheck} className={smallButtonClassName}>{t("covision.workflow.check_anonymity", "Kontrolli anonüümsust")}</Button>}
+                aside={<Button type="button" variant="primary" onClick={runAnonymityCheck} className={smallButtonClassName}>{t("covision.workflow.check_anonymity", "Kontrolli anonüümsust")}</Button>}
               >
                 <p className={mutedTextClassName}>
                   {t(
@@ -1435,7 +1434,7 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
               ) : null}
 
               {caseStep === 2 ? (
-              <SectionPanel title={`3. ${t("covision.workflow.steps.process_flow", "Olukorra kulg")}`} aside={<Button type="button" variant="secondary" onClick={addJourneyStep} className={smallButtonClassName}>{t("covision.workflow.add_step", "Lisa samm")}</Button>}>
+              <SectionPanel title={`3. ${t("covision.workflow.steps.process_flow", "Olukorra kulg")}`} aside={<Button type="button" variant="primary" onClick={addJourneyStep} className={smallButtonClassName}>{t("covision.workflow.add_step", "Lisa samm")}</Button>}>
                 <p className={mutedTextClassName}>
                   {t("covision.workflow.process_flow_hint", "Kirjelda tööprotsessi või olukorra kulgu. Keskendu sellele, mis on seni toimunud, mida on proovitud, mis on toiminud ja mis on takerdunud. Ära lisa tuvastatavaid kliendiandmeid.")}
                 </p>
@@ -1480,7 +1479,7 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
 
               {caseStep === 3 ? (
               <div className="grid gap-[0.9rem]">
-              <SectionPanel title="4. Võrgustik ja osapooled" aside={<Button type="button" variant="secondary" onClick={addParty} className={smallButtonClassName}>{t("covision.workflow.add_party", "Lisa osapool")}</Button>}>
+              <SectionPanel title="4. Võrgustik ja osapooled" aside={<Button type="button" variant="primary" onClick={addParty} className={smallButtonClassName}>{t("covision.workflow.add_party", "Lisa osapool")}</Button>}>
                 <div className="grid gap-[0.52rem] md:grid-cols-[0.8fr_0.8fr]">
                   <SelectField
                     value={partyCategory}
@@ -1507,7 +1506,7 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
                 ) : null}
               </SectionPanel>
 
-              <SectionPanel title="5. Riskid ja kaitsetegurid" aside={<Button type="button" variant="secondary" onClick={addRiskFactor} className={smallButtonClassName}>{t("covision.workflow.add_factor", "Lisa tegur")}</Button>}>
+              <SectionPanel title="5. Riskid ja kaitsetegurid" aside={<Button type="button" variant="primary" onClick={addRiskFactor} className={smallButtonClassName}>{t("covision.workflow.add_factor", "Lisa tegur")}</Button>}>
                 <div className="grid gap-[0.52rem] md:grid-cols-[0.45fr_1fr_0.45fr]">
                   <SelectField
                     value={riskKind}
@@ -1554,7 +1553,7 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
               {caseStep === 4 ? (
               <SectionPanel
                 title={`5. ${t("covision.workflow.steps.central_question", "Keskne küsimus ja ootus")}`}
-                aside={<Button type="button" variant="secondary" onClick={runQuestionAssist} className={smallButtonClassName}>{t("covision.workflow.suggest_questions", "Paku küsimusi")}</Button>}
+                aside={<Button type="button" variant="primary" onClick={runQuestionAssist} className={smallButtonClassName}>{t("covision.workflow.suggest_questions", "Paku küsimusi")}</Button>}
               >
                 <CovisionTextarea value={caseForm.centralQuestion} onChange={(event) => updateCaseForm("centralQuestion", event.target.value)} rows={3} placeholder="Sõnasta üks keskne küsimus kolleegidele." />
                 {questionSuggestions.length ? (
@@ -1593,8 +1592,8 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
               ) : null}
 
               <div className="flex flex-wrap justify-end gap-[0.55rem]">
-                <Button type="button" variant="secondary" onClick={() => setView("overview")} className={secondaryButtonClassName}>{t("buttons.cancel", "Tühista")}</Button>
-                {caseStep > 0 ? <Button type="button" variant="secondary" onClick={() => setCaseStep((step) => Math.max(0, step - 1))} className={secondaryButtonClassName}>{t("buttons.back", "Tagasi")}</Button> : null}
+                <Button type="button" variant="linkBrand" onClick={() => setView("overview")}>{t("buttons.cancel", "Tühista")}</Button>
+                {caseStep > 0 ? <Button type="button" variant="linkBrand" onClick={() => setCaseStep((step) => Math.max(0, step - 1))}>{t("buttons.back", "Tagasi")}</Button> : null}
                 {caseStep < caseCreationSteps.length - 1 ? (
                   <Button type="button" onClick={() => setCaseStep((step) => Math.min(caseCreationSteps.length - 1, step + 1))} className={primaryButtonClassName}>{t("covision.common.next", "Järgmine")}</Button>
                 ) : (
@@ -1620,11 +1619,11 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
                     <CardTags tags={activeCase.topics} />
                   </div>
                   <div className="flex flex-wrap gap-[0.5rem]">
-                    <Button type="button" variant="secondary" className={smallButtonClassName}>{t("covision.room.request_to_speak", "Soovin sõna")}</Button>
-                    <Button type="button" variant="secondary" onClick={loadKnowledgeSupport} disabled={knowledgeLoading} className={smallButtonClassName}>
+                    <Button type="button" variant="primary" className={smallButtonClassName}>{t("covision.room.request_to_speak", "Soovin sõna")}</Button>
+                    <Button type="button" variant="primary" onClick={loadKnowledgeSupport} disabled={knowledgeLoading} className={smallButtonClassName}>
                       {knowledgeLoading ? "Otsin taustainfot..." : "Otsi taustainfot"}
                     </Button>
-                    <Button type="button" variant="secondary" onClick={startPracticeFromCase} className={smallButtonClassName}>{t("covision.room.create_practice", "Loo toimiv praktika")}</Button>
+                    <Button type="button" variant="primary" onClick={startPracticeFromCase} className={smallButtonClassName}>{t("covision.room.create_practice", "Loo toimiv praktika")}</Button>
                   </div>
                 </div>
                 <CovisionCallBar
@@ -1681,7 +1680,7 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
                     <div className="grid gap-[0.52rem] md:grid-cols-[1fr_0.62fr_auto]">
                       <CovisionInput value={participantEmail} onChange={(event) => setParticipantEmail(event.target.value)} placeholder="kolleeg@example.ee" type="email" />
                       <SelectField value={participantRole} onChange={setParticipantRole} ariaLabel="Osaleja roll" options={COVISION_PARTICIPANT_ROLES} />
-                      <Button type="button" variant="secondary" onClick={inviteParticipant} disabled={saving || !participantEmail.trim()} className={smallButtonClassName}>{t("covision.room.invite_participant", "Kutsu osaleja")}</Button>
+                      <Button type="button" variant="primary" onClick={inviteParticipant} disabled={saving || !participantEmail.trim()} className={smallButtonClassName}>{t("covision.room.invite_participant", "Kutsu osaleja")}</Button>
                     </div>
                     <p className={mutedTextClassName}>{t("covision.room.invite_notice", "Kutsutav ei näe sisu enne autentimist ja õiguste kontrolli.")}</p>
                   </div>
@@ -1732,7 +1731,7 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
 
               <SectionPanel
                 title="Kovisiooni kokkuvõte"
-                aside={<Button type="button" variant="secondary" onClick={draftSummary} className={smallButtonClassName}>{t("covision.room.draft_summary", "Koosta mustand")}</Button>}
+                aside={<Button type="button" variant="primary" onClick={draftSummary} className={smallButtonClassName}>{t("covision.room.draft_summary", "Koosta mustand")}</Button>}
               >
                 <p className={mutedTextClassName}>
                   {t("covision.room.summary_intro", "Kokkuvõte põhineb juhtumilõuendil ja tekstiliselt sisestatud arutelul. Kovisiooni heli ei salvestata, ei transkribeerita ja seda ei kasutata kokkuvõtte koostamiseks.")}
@@ -1760,11 +1759,11 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
                   <CardTags tags={activeCase.topics} />
                 </div>
                 <div className="flex flex-wrap gap-[0.5rem]">
-                  <Button type="button" variant="secondary" onClick={loadKnowledgeSupport} disabled={knowledgeLoading} className={smallButtonClassName}>
+                  <Button type="button" variant="primary" onClick={loadKnowledgeSupport} disabled={knowledgeLoading} className={smallButtonClassName}>
                     {knowledgeLoading ? "Otsin taustainfot..." : "Otsi taustainfot"}
                   </Button>
-                  <Button type="button" variant="secondary" onClick={() => editCase(activeCase)} className={smallButtonClassName}>{t("covision.room.edit_case", "Muuda juhtumit")}</Button>
-                  <Button type="button" variant="secondary" onClick={startPracticeFromCase} className={smallButtonClassName}>{t("covision.room.create_practice", "Loo toimiv praktika")}</Button>
+                  <Button type="button" variant="primary" onClick={() => editCase(activeCase)} className={smallButtonClassName}>{t("covision.room.edit_case", "Muuda juhtumit")}</Button>
+                  <Button type="button" variant="primary" onClick={startPracticeFromCase} className={smallButtonClassName}>{t("covision.room.create_practice", "Loo toimiv praktika")}</Button>
                 </div>
               </div>
 
@@ -1836,7 +1835,7 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
 
               <SectionPanel
                 title="Kovisiooni kokkuvõte"
-                aside={<Button type="button" variant="secondary" onClick={draftSummary} className={smallButtonClassName}>{t("covision.room.draft_summary", "Koosta mustand")}</Button>}
+                aside={<Button type="button" variant="primary" onClick={draftSummary} className={smallButtonClassName}>{t("covision.room.draft_summary", "Koosta mustand")}</Button>}
               >
                 <div className="grid gap-[0.58rem] md:grid-cols-2">
                   <SummaryField label="Peamised tähelepanekud" value={summaryForm.keyObservations} onChange={(value) => setSummaryForm((current) => ({ ...current, keyObservations: value }))} />
@@ -1889,7 +1888,7 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
                 <p className={mutedTextClassName}>{t("covision.practice.publish_notice", "Toimivat praktikat ei avaldata ilma anonüümsuse kontrolli ja ülevaatuseta.")}</p>
               </SectionPanel>
               <div className="flex flex-wrap justify-end gap-[0.55rem]">
-                <Button type="button" variant="secondary" onClick={() => setView(activeCase ? "room" : "overview")} className={secondaryButtonClassName}>{t("buttons.cancel", "Tühista")}</Button>
+                <Button type="button" variant="linkBrand" onClick={() => setView(activeCase ? "room" : "overview")}>{t("buttons.cancel", "Tühista")}</Button>
                 <Button type="submit" disabled={saving || !practiceForm.title.trim()} className={primaryButtonClassName}>{saving ? t("covision.common.saving", "Salvestan...") : t("covision.practice.save", "Salvesta toimiv praktika")}</Button>
               </div>
             </form>

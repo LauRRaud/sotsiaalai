@@ -1995,7 +1995,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
               <Button type="button" size="sm" disabled={savingReceiverWorkflowId === activeReceivedInquiry.id || activeReceivedInquiry.status === "READY"} onClick={() => handleSaveReceiverWorkflow(activeReceivedInquiry, "READY")}>
                 {readText(t, "workspace_feature_pages.pre_inquiries.actions.mark_ready", "Märgi vastuvõetuks")}
               </Button>
-              <Button type="button" size="sm" variant="ghost" disabled={savingReceiverWorkflowId === activeReceivedInquiry.id || activeReceivedInquiry.status === "ARCHIVED"} onClick={() => handleSaveReceiverWorkflow(activeReceivedInquiry, "ARCHIVED")}>
+              <Button type="button" size="sm" variant="primary" disabled={savingReceiverWorkflowId === activeReceivedInquiry.id || activeReceivedInquiry.status === "ARCHIVED"} onClick={() => handleSaveReceiverWorkflow(activeReceivedInquiry, "ARCHIVED")}>
                 {readText(t, "workspace_feature_pages.pre_inquiries.actions.archive", "Arhiveeri")}
               </Button>
             </div>
@@ -2115,7 +2115,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
             ))}
           </div>
           <div className="flex flex-wrap justify-end gap-[0.54rem]">
-            <Button type="button" size="sm" variant="ghost" onClick={() => setActiveWorkflowStep("recipient")}>
+            <Button type="button" size="sm" variant="primary" onClick={() => setActiveWorkflowStep("recipient")}>
               Vali adressaat
             </Button>
             <Button type="button" size="sm" onClick={() => setActiveWorkflowStep("collect")}>
@@ -2346,7 +2346,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
       </SectionCard>
 
       <div className="flex flex-wrap justify-end gap-[0.54rem]">
-        <Button type="button" size="sm" variant="ghost" onClick={() => setActiveWorkflowStep("review")}>
+        <Button type="button" size="sm" variant="primary" onClick={() => setActiveWorkflowStep("review")}>
           Vaata eelinfo üle
         </Button>
         <Button type="button" size="sm" onClick={() => setActiveWorkflowStep("recipient")}>
@@ -2583,11 +2583,11 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
                   <Button type="button" size="sm" onClick={() => handleSelectRecipient(entry)}>
                     Vali see kontakt
                   </Button>
-                  <Button as="a" href={localizePath(`/teenusekaart?entryId=${encodeURIComponent(entry.id)}`, locale)} size="sm" variant="ghost">
+                  <Button as="a" href={localizePath(`/teenusekaart?entryId=${encodeURIComponent(entry.id)}`, locale)} size="sm" variant="linkBrand">
                     Vaata teenusekaardil
                   </Button>
                   {entry.providerProfileId ? (
-                    <Button as="a" href={localizePath(`/teenuseprofiil?profileId=${encodeURIComponent(entry.providerProfileId)}`, locale)} size="sm" variant="ghost">
+                    <Button as="a" href={localizePath(`/teenuseprofiil?profileId=${encodeURIComponent(entry.providerProfileId)}`, locale)} size="sm" variant="linkBrand">
                       Vaata profiili
                     </Button>
                   ) : null}
@@ -2635,14 +2635,14 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
               </p>
             ) : null}
             <div className="flex flex-wrap gap-[0.5rem]">
-              <Button type="button" size="sm" variant="ghost" onClick={handleEditSaveText}>
+              <Button type="button" size="sm" variant="primary" onClick={handleEditSaveText}>
                 {readText(t, "privacy.confirmation.actions.edit", "Muudan teksti")}
               </Button>
               <Button type="button" size="sm" onClick={handleSaveRedacted} disabled={saving}>
                 {readText(t, "privacy.confirmation.actions.send_redacted", "Saada maskeeritult")}
               </Button>
               {savePrivacyPrompt.allowOriginal ? (
-                <Button type="button" size="sm" variant="ghost" onClick={handleSaveOriginal} disabled={saving}>
+                <Button type="button" size="sm" variant="primary" onClick={handleSaveOriginal} disabled={saving}>
                   {readText(t, "privacy.confirmation.actions.send_original", "Saada siiski")}
                 </Button>
               ) : null}
@@ -2744,19 +2744,19 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
                 <Button type="button" size="sm" onClick={() => handleOpenInquiry(inquiry)}>
                   {readText(t, "workspace_feature_pages.pre_inquiries.actions.open", "Ava")}
                 </Button>
-                <Button type="button" size="sm" variant="ghost" onClick={() => handleOpenInquiry(inquiry)}>
+                <Button type="button" size="sm" variant="primary" onClick={() => handleOpenInquiry(inquiry)}>
                   Muuda
                 </Button>
-                <Button type="button" size="sm" variant="ghost" onClick={() => navigator?.clipboard?.writeText(inquiry.userEditedDraft || inquiry.generatedDraft || inquiry.situation || "")}>
+                <Button type="button" size="sm" variant="primary" onClick={() => navigator?.clipboard?.writeText(inquiry.userEditedDraft || inquiry.generatedDraft || inquiry.situation || "")}>
                   Kopeeri
                 </Button>
-                <Button type="button" size="sm" variant="ghost" onClick={() => downloadTextFile(inquiry.userEditedDraft || inquiry.generatedDraft || inquiry.situation || "", buildPreInquiryDownloadName(inquiry.topic))}>
+                <Button type="button" size="sm" variant="primary" onClick={() => downloadTextFile(inquiry.userEditedDraft || inquiry.generatedDraft || inquiry.situation || "", buildPreInquiryDownloadName(inquiry.topic))}>
                   Laadi alla
                 </Button>
                 <Button
                   type="button"
                   size="sm"
-                  variant="ghost"
+                  variant="primary"
                   disabled={saving || inquiry.status === "SENT" || inquiry.status === "ARCHIVED"}
                   onClick={() => handleArchiveAuthoredInquiry(inquiry)}
                 >
@@ -4251,7 +4251,7 @@ function ServiceProfileSurface({ t }) {
                 </p>
                 <Button
                   type="button"
-                  variant="secondary"
+                  variant="danger"
                   onClick={() => removeServiceItem(index)}
                   className="service-profile-secondary-action"
                 >
@@ -4621,7 +4621,7 @@ function ServiceProfileSurface({ t }) {
               {readText(t, "workspace_feature_pages.service_profile.service_items.empty", "Eraldi teenuseid ei ole veel lisatud.")}
             </p>
           )}
-          <Button type="button" variant="secondary" onClick={addServiceItem} className="justify-self-start">
+          <Button type="button" variant="primary" onClick={addServiceItem} className="justify-self-start">
             {readText(t, "workspace_feature_pages.service_profile.service_items.add", "Lisa teenus")}
           </Button>
         </div>
@@ -4643,7 +4643,7 @@ function ServiceProfileSurface({ t }) {
                 <p className="m-0 text-[0.98rem] font-[680] leading-[1.25] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]">
                   {location.label || location.normalizedAddress || location.address || readText(t, "workspace_feature_pages.service_profile.locations.new_item_title", "Uus teeninduskoht")}
                 </p>
-                <Button type="button" variant="secondary" onClick={() => removeServiceLocation(index)} className="service-profile-secondary-action">
+                <Button type="button" variant="danger" onClick={() => removeServiceLocation(index)} className="service-profile-secondary-action">
                   {readText(t, "workspace_feature_pages.service_profile.locations.remove", "Eemalda")}
                 </Button>
               </div>
@@ -4696,7 +4696,7 @@ function ServiceProfileSurface({ t }) {
               {readText(t, "workspace_feature_pages.service_profile.locations.empty", "Teeninduskohti ei ole veel lisatud.")}
             </p>
           )}
-          <Button type="button" variant="secondary" onClick={addServiceLocation} className="justify-self-start">
+          <Button type="button" variant="primary" onClick={addServiceLocation} className="justify-self-start">
             {readText(t, "workspace_feature_pages.service_profile.locations.add", "Lisa teeninduskoht")}
           </Button>
         </div>

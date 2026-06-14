@@ -244,7 +244,7 @@ export default function RecoveryWorkflow({ onNavigate }) {
               ? t("wellbeing.recovery.saving", "Salvestan...")
               : t("wellbeing.recovery.save", "Salvesta taastumisplaan")}
           </Button>
-          <Button type="button" variant="secondary" onClick={() => onNavigate?.("/tooheaolu/toopiirid")}>
+          <Button type="button" variant="primary" onClick={() => onNavigate?.("/tooheaolu/toopiirid")}>
             {t("wellbeing.recovery.open_boundaries", "Ava tööpiirid")}
           </Button>
         </div>

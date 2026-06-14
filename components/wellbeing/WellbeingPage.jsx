@@ -232,7 +232,7 @@ export default function WellbeingPage({ activeTool = null, locale = "et" }) {
                 </p>
                 <Button
                   type="button"
-                  variant="secondary"
+                  variant="linkBrand"
                   onClick={() => navigate("/tooheaolu")}
                   className={styles.secondaryButton}
                 >

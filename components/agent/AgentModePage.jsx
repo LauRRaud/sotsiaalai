@@ -1977,7 +1977,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
                                 <Button
                                   type="button"
                                   size="sm"
-                                  variant="ghost"
+                                  variant="primary"
                                                                    onClick={() => void handleSaveAudioTranscript()}
                                   disabled={!canSaveAudioTranscript || savingAudioTranscript}
                                 >
@@ -2205,15 +2205,15 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
                           </p>
                         </div>
                         <div className="documents-agent-row-actions">
-                          <Button as="a" href={`/api/documents/${encodeURIComponent(document.id)}/download`} size="sm" variant="ghost">
+                          <Button as="a" href={`/api/documents/${encodeURIComponent(document.id)}/download`} size="sm" variant="linkBrand">
                             {t("documents.actions.download")}
                           </Button>
                           {isClientRole ? (
                             <Button
                               type="button"
                               size="sm"
-                              variant="ghost"
-                                                           onClick={() => void handleClientRemoveDocument(document.id)}
+                              variant="danger"
+                              onClick={() => void handleClientRemoveDocument(document.id)}
                             >
                               {t("documents.agent_workspace.client_remove_document")}
                             </Button>
@@ -2374,7 +2374,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
                       <Button
                         type="button"
                         size="sm"
-                        variant="ghost"
+                        variant="primary"
                                                onClick={handleClearWorkspaceResult}
                         disabled={!canClearWorkspaceResult}
                       >
@@ -2477,15 +2477,15 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
                           <Button type="button" size="sm" className={agentPrimaryButtonClassName} onClick={() => void handleApprove()} disabled={!canPersistResult || refiningResult || savingResult || approvingResult}>
                             {approvingResult ? t("documents.actions.approving") : t(isClientRole ? "documents.agent_workspace.client_finish" : "documents.actions.approve")}
                           </Button>
-                          <Button type="button" size="sm" variant="ghost" onClick={() => void handleSaveDraft()} disabled={!canPersistResult || refiningResult || savingResult || approvingResult}>
+                          <Button type="button" size="sm" variant="primary" onClick={() => void handleSaveDraft()} disabled={!canPersistResult || refiningResult || savingResult || approvingResult}>
                             {savingResult ? t("documents.actions.saving") : t(isClientRole ? "documents.actions.save" : "documents.actions.save_draft")}
                           </Button>
                           {!isClientRole && canRestoreSavedVersion ? (
-                            <Button type="button" size="sm" variant="ghost" onClick={handleRestoreSavedVersion}>
+                            <Button type="button" size="sm" variant="primary" onClick={handleRestoreSavedVersion}>
                               {t("documents.agent_workspace.restore_saved")}
                             </Button>
                           ) : null}
-                          <Button type="button" size="sm" variant="ghost" onClick={() => void handleCopyResult()}>
+                          <Button type="button" size="sm" variant="primary" onClick={() => void handleCopyResult()}>
                             {t("documents.actions.copy")}
                           </Button>
                         </div>
@@ -2522,7 +2522,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
                                       <Button
                                         type="button"
                                         size="sm"
-                                        variant="ghost"
+                                        variant="primary"
                                                                                onClick={() => handleRestoreWorkspaceVersion(version.id)}
                                       >
                                         {t("documents.agent_workspace.restore_version")}
@@ -2542,8 +2542,8 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
                         </div>
                         <div className="documents-row-actions">
                           {workspaceResult.downloadUrls?.docx ? <Button as="a" href={workspaceResult.downloadUrls.docx} size="sm" className={agentPrimaryButtonClassName}>{t("documents.actions.download_docx")}</Button> : null}
-                          {workspaceResult.downloadUrls?.pdf ? <Button as="a" href={workspaceResult.downloadUrls.pdf} size="sm" variant="ghost">{t("documents.actions.download_pdf")}</Button> : null}
-                          <Button type="button" size="sm" variant="ghost" onClick={() => void handleCopyResult()}>
+                          {workspaceResult.downloadUrls?.pdf ? <Button as="a" href={workspaceResult.downloadUrls.pdf} size="sm" variant="linkBrand">{t("documents.actions.download_pdf")}</Button> : null}
+                          <Button type="button" size="sm" variant="primary" onClick={() => void handleCopyResult()}>
                             {t("documents.actions.copy")}
                           </Button>
                         </div>
@@ -2608,28 +2608,28 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
                             </p>
                           </div>
                           <div className="documents-agent-row-actions">
-                            <Button type="button" size="sm" variant="ghost" onClick={() => void handleOpenClientArtifact(artifact.id)}>
+                            <Button type="button" size="sm" variant="primary" onClick={() => void handleOpenClientArtifact(artifact.id)}>
                               {t("documents.agent_workspace.client_open_result")}
                             </Button>
                               {artifact.downloadUrls?.docx ? (
-                                <Button as="a" href={artifact.downloadUrls.docx} size="sm" variant="ghost">
+                                <Button as="a" href={artifact.downloadUrls.docx} size="sm" variant="linkBrand">
                                   {t("documents.actions.download_docx")}
                                 </Button>
                               ) : null}
                               {artifact.downloadUrls?.pdf ? (
-                                <Button as="a" href={artifact.downloadUrls.pdf} size="sm" variant="ghost">
+                                <Button as="a" href={artifact.downloadUrls.pdf} size="sm" variant="linkBrand">
                                   {t("documents.actions.download_pdf")}
                                 </Button>
                               ) : null}
                               <Button
                                 type="button"
                                 size="sm"
-                                variant="ghost"
-                                                           onClick={() => void handleCopyRecentArtifact(artifact.id)}
+                                variant="primary"
+                                onClick={() => void handleCopyRecentArtifact(artifact.id)}
                             >
                               {t("documents.actions.copy")}
                             </Button>
-                            <Button type="button" size="sm" variant="ghost" onClick={() => void handleDeleteClientArtifact(artifact.id)}>
+                            <Button type="button" size="sm" variant="danger" onClick={() => void handleDeleteClientArtifact(artifact.id)}>
                               {t("documents.actions.delete")}
                             </Button>
                           </div>
