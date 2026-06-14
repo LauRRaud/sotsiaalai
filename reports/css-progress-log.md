@@ -74,23 +74,11 @@ Faas 2 ja faas 4 tehakse **koos, ühe viiluna per primitiiv** (mitte eraldi glob
 
 ## Tehtud (krooniline)
 
-### ⚠️ VIIL 2.3 — POOLELI (EI OLE COMMITITUD) — light + dark + night token-blokid
-**Seis:** failimuudatused TEHTUD, testid JOOKSMATA, commit TEGEMATA. Järgmine sessioon peab: (1) `npm test` → verifitseerida 967/13, (2) commit, (3) progress-logi uuendus.
+### Rada B viil 2.4 — mono teema token-blokk  [TBD]  (14.06.2026)
+`:root.theme-mono:not([data-contrast="hc"]) { ... }` (250 rida, 0 `!important`) liigutatud `theme/mono.css`-ist `tokens/theme-mono.css`-i. `mono.css`: 780 → 530 rida. Testilaadir (`register-node-test-loader.mjs`) uuendatud: `tokens/theme-mono.css` lisatud `mono.css` bundle'i (ilma selleta kukkus `monoThemeContracts.test.js`). npm test 967/13.
 
-**Mis on muudetud (node.js kaudu, mitte Edit-tööriistaga):**
-- `tokens/theme-light.css` ← `light.css` `:root.theme-light { ... }` (255 rida, 0 !important)
-- `tokens/theme-dark.css` ← `dark.css` `:root:not(.theme-light) { ... }` (56 rida, 0 !important)
-- `tokens/theme-night.css` ← `night.css` `:root.theme-night { ... }` (200 rida, 0 !important)
-- `light.css`: 379 → 124 rida (root-blokk eemaldatud)
-- `dark.css`: 367 → 311 rida (root-blokk eemaldatud, ülejäänud koosneb `:root:not()...` plokid mis jäävad)
-- `night.css`: 274 → 73 rida (root-blokk eemaldatud; `.space-backdrop` + `@media` + ülejäänud jäävad)
-
-**Commit-sõnum ettepanek:**
-```
-refactor(css): viil 2.3 — light/dark/night token-blokid → tokens/
-```
-
-**HOIATUS:** Kuna muudatused tehti `node.js`-iga (mitte Edit-tööriistaga), ei pruugi järgmine sessioon faile "loetud" staatuses näha. Loe failid enne muutmist: `app/styles/theme/light.css`, `app/styles/theme/dark.css`, `app/styles/theme/night.css`.
+### Rada B viil 2.3 — light + dark + night token-blokid  [`c9692901`]  (14.06.2026)
+`:root.theme-light` (255 rida), `:root:not(.theme-light)` (56 rida), `:root.theme-night` (200 rida) — kõik 0 `!important` — liigutatud `tokens/theme-{light,dark,night}.css`-i. `light.css` 379→124, `dark.css` 367→311, `night.css` 274→73 rida. npm test 967/13.
 
 ### Rada B viil 2.2 — mid teema token-blokk  [`6eb27bca`]  (14.06.2026)
 `:root.theme-mid { ... }` (246 rida, 0 `!important`) liigutatud `theme/mid.css`-ist `tokens/theme-mid.css`-i. `globals.css` laadib `tokens/` faili PÄRAST `theme/` faili — kaskaadi seis muutumatu. Kaks redundantset `--btn-primary-bg-hover/active` definitsiooni scoped `.button[data-variant="primary"]`-reeglist eemaldatud (samad väärtused on nüüd tokens/ plokis). `mid.css`: 629 → 381 rida. npm test 967/13.

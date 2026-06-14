@@ -31,6 +31,7 @@ const legacyCssBundles = new Map([
   [
     path.join(repoRoot, "app", "styles", "theme", "mono.css"),
     [
+      path.join(repoRoot, "app", "styles", "tokens", "theme-mono.css"),
       path.join(repoRoot, "app", "styles", "features", "profile", "mono.css"),
       path.join(repoRoot, "app", "styles", "features", "home", "themes.css")
     ]
