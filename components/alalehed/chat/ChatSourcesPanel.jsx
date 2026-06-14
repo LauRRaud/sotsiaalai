@@ -122,10 +122,10 @@ const ChatSourcesPanel = memo(function ChatSourcesPanel({
     "[font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif]";
   const closeClassName =
     "absolute right-[0.42rem] top-[0.36rem] inline-flex h-[2.65rem] w-[2.65rem] items-center justify-center " +
-    "rounded-none border-0 bg-transparent p-0 text-[2.05rem] leading-none text-[#c57171] shadow-none " +
+    "rounded-none border-0 bg-transparent p-0 text-[2.05rem] leading-none text-[color:var(--icon-btn-close-color)] shadow-none " +
     "transition-[color,opacity] duration-[180ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] " +
     "[transform:none] hover:[transform:none] focus-visible:[transform:none] active:[transform:none] " +
-    "focus-visible:outline-none light:text-[#7a3a38]";
+    "focus-visible:outline-none";
   const bodyClassName =
     "min-h-0 flex-1 overflow-y-auto px-[0.75rem] pb-[0.85rem] pt-[0.18rem]";
   const scopeClassName =

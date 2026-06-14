@@ -86,6 +86,11 @@ Faas 2 ja faas 4 tehakse **koos, ühe viiluna per primitiiv** (mitte eraldi glob
 ### Rada B viil 2.2 — mid teema token-blokk  [`6eb27bca`]  (14.06.2026)
 `:root.theme-mid { ... }` (246 rida, 0 `!important`) liigutatud `theme/mid.css`-ist `tokens/theme-mid.css`-i. `globals.css` laadib `tokens/` faili PÄRAST `theme/` faili — kaskaadi seis muutumatu. Kaks redundantset `--btn-primary-bg-hover/active` definitsiooni scoped `.button[data-variant="primary"]`-reeglist eemaldatud (samad väärtused on nüüd tokens/ plokis). `mid.css`: 629 → 381 rida. npm test 967/13.
 
+### Rada 1 viil 1.6 — ikoon-archetype osaline + segmented  [TBD]  (14.06.2026)
+**Segmented VALMIS:** `primarySegmentedButtonClassName.js` = puhas Tailwind, `--seg-*` tokeneid.
+**Ikoon-close token VALMIS:** `--icon-btn-close-color: var(--brand-primary)` baasis + `#7a3a38` light + `var(--forest-title)` monos; `IconButton.jsx` tarbib. `chatDrawerCloseButtonStyles.js` + `ChatSourcesPanel.jsx` uuendatud: hardkodeeritud `#c57171`/`#7a3a38` → `var(--icon-btn-close-color)`. Tokeni ekvivalents matemaatiliselt identne → snapshot-muutus null.
+**LAHTINE (vajab brauserit):** back-button `:is()`-ahelad (`mono.css` 48–80), chat-ikoon-btn `:is()`-ahelad (`chat/mono.css` 130–206), HC ikoon-btn ahelad (`chat/hc.css`, `hc.css`) — need katuvad osaliselt viil 1.5 Opus-tööga; teha koos Opusele üleantud hiigel-ahela-commitiga. npm test 967/13.
+
 ### Rada 1 viil 1.5 — invite-primary-btn eemaldus mono.css ahelatest + JSX  [`3def32aa`]  (14.06.2026)
 `mono.css` + `chat/mono.css`: `.invite-primary-btn` eemaldatud `:is()`-loendist — redundantne alias, kõik kasutuskohad kandsid juba `[data-variant="primary"]`/`.button`. JSX: `ChatSidebar` (3 konstanti), `AgentModePage`, `WorkspaceFeaturePage`. Testid uuendatud. npm test 967/13.
 
