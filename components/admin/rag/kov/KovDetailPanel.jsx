@@ -354,7 +354,7 @@ function renderFileCards({
                   }}
                 />
                 <Button
-                  variant="ghost"
+                  variant="primary"
                   size="2xs"
                   onClick={() => fileInputRefs.current[file.key]?.click()}
                   disabled={busy}
@@ -363,7 +363,7 @@ function renderFileCards({
                 </Button>
                 {state.downloadUrl ? (
                   <Button
-                    variant="ghost"
+                    variant="primary"
                     size="2xs"
                     onClick={() => window.open(state.downloadUrl, "_blank", "noopener,noreferrer")}
                     disabled={busy}
@@ -373,7 +373,7 @@ function renderFileCards({
                 ) : null}
                 {state.status !== "missing" && state.storageKind !== "repository" ? (
                   <Button
-                    variant="ghost"
+                    variant="danger"
                     size="2xs"
                     onClick={() => onRemoveFile(entry.slug, file.key)}
                     disabled={busy}
@@ -617,7 +617,7 @@ export default function KovDetailPanel({
                   {et ? "Värskendatud" : "Updated"}: {ragSnapshot.checkedAt ? formatDateTime(ragSnapshot.checkedAt, locale) : "-"}
                 </span>
                 <Button
-                  variant="ghost"
+                  variant="primary"
                   size="sm"
                   onClick={() => onRefreshRagStatus?.()}
                   disabled={ragStatusLoading}
@@ -689,7 +689,7 @@ export default function KovDetailPanel({
                     : et ? "Asenda KOV veeb RAG-is" : "Replace KOV web in RAG"}
                 </Button>
                 <Button
-                  variant="ghost"
+                  variant="danger"
                   size="sm"
                   onClick={() => onResetRagState?.()}
                   disabled={resetBusy}
@@ -701,7 +701,7 @@ export default function KovDetailPanel({
                 <Button
                   as="a"
                   href={sourcePackagesHref}
-                  variant="ghost"
+                  variant="linkBrand"
                   size="sm"
                 >
                   {et ? "Ava source packages" : "Open source packages"}
@@ -790,7 +790,7 @@ export default function KovDetailPanel({
 
           <div className="flex flex-wrap gap-2 pt-1 pb-1">
             <Button
-              variant="ghost"
+              variant="primary"
               size="sm"
               onClick={() => onLightCheck?.()}
               disabled={lightCheckBusy}
@@ -800,7 +800,7 @@ export default function KovDetailPanel({
                 : et ? "Kontrolli muudatusi" : "Check for changes"}
             </Button>
             <Button
-              variant="ghost"
+              variant="primary"
               size="sm"
               onClick={() => onRtLightCheck?.()}
               disabled={rtLightCheckBusy}
@@ -814,14 +814,14 @@ export default function KovDetailPanel({
           {hasWebDiffItems ? (
             <div className="flex flex-wrap gap-2 pt-1">
               <Button
-                variant="ghost"
+                variant="primary"
                 size="sm"
                 onClick={() => onMarkWebReviewNeeded?.()}
               >
                 {et ? "Märgi KOV ülevaatuseks" : "Mark KOV for review"}
               </Button>
               <Button
-                variant="ghost"
+                variant="primary"
                 size="sm"
                 onClick={() => onConfirmWebLightCheck?.()}
               >
@@ -833,14 +833,14 @@ export default function KovDetailPanel({
           {hasRtDiffItems ? (
             <div className="flex flex-wrap gap-2 pt-1">
               <Button
-                variant="ghost"
+                variant="primary"
                 size="sm"
                 onClick={() => onMarkRtReviewNeeded?.()}
               >
                 {et ? "Märgi RT ülevaatuseks" : "Mark RT for review"}
               </Button>
               <Button
-                variant="ghost"
+                variant="primary"
                 size="sm"
                 onClick={() => onConfirmRtLightCheck?.()}
               >

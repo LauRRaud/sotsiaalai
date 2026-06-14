@@ -26,7 +26,7 @@ export default function KovEmptyState({ et, hasActiveFilters, onReset }) {
         </div>
         {hasActiveFilters ? (
           <div className="pt-1">
-            <Button variant="ghost" size="xs" onClick={onReset}>
+            <Button variant="primary" size="xs" onClick={onReset}>
               {et ? "Nulli filtrid" : "Reset filters"}
             </Button>
           </div>

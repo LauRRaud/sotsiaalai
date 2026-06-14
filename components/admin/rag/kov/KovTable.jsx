@@ -110,7 +110,7 @@ export default function KovTable({
         </div>
         <div className="flex flex-wrap gap-1.5">
           <Button
-            variant="ghost"
+            variant="primary"
             size="sm"
             onClick={allVisibleSelected ? onClearSelected : onSelectAllVisible}
           >
@@ -119,7 +119,7 @@ export default function KovTable({
           {selectedCount > 0 ? (
             <>
               <Button
-                variant="ghost"
+                variant="primary"
                 size="sm"
                 onClick={onLightCheckSelected}
                 disabled={bulkLightCheckBusy}
@@ -129,7 +129,7 @@ export default function KovTable({
                   : et ? "Kontrolli KOV muudatusi" : "Check KOV changes"}
               </Button>
               <Button
-                variant="ghost"
+                variant="primary"
                 size="sm"
                 onClick={onLightCheckRtSelected}
                 disabled={bulkRtLightCheckBusy}
@@ -149,7 +149,7 @@ export default function KovTable({
                   : et ? "Valideeri KOV" : "Revalidate municipalities"}
               </Button>
               <Button
-                variant="ghost"
+                variant="primary"
                 size="sm"
                 onClick={onRevalidateRtSelected}
                 disabled={bulkRevalidateRtBusy}
@@ -409,7 +409,7 @@ export default function KovTable({
                       {et ? "Ava" : "Open"}
                     </Button>
                     <Button
-                      variant="ghost"
+                      variant="primary"
                       size="2xs"
                       onClick={event => stopEvent(event, () => onRevalidateRow(row.slug))}
                       disabled={rowBusy}
@@ -417,7 +417,7 @@ export default function KovTable({
                       {rowBusy ? (et ? "Valideerin..." : "Revalidating...") : et ? "Valideeri" : "Revalidate"}
                     </Button>
                     <Button
-                      variant="ghost"
+                      variant="primary"
                       size="2xs"
                       onClick={event => stopEvent(event, () => onRevalidateRtRow(row.slug))}
                       disabled={rtRowBusy}
@@ -433,7 +433,7 @@ export default function KovTable({
                       {ingestBusy ? (et ? "Saadan..." : "Ingesting...") : et ? "Ingest" : "Ingest"}
                     </Button>
                     <Button
-                      variant="ghost"
+                      variant="primary"
                       size="2xs"
                       onClick={event => stopEvent(event, () => onReplaceIngestRow?.(row.slug))}
                       disabled={!canIngest || ingestBusy}

@@ -39,7 +39,7 @@ export default function RagAdminDetailModal({ controller }) {
               {detailDoc.title || tr("admin.rag.documents.untitled")}
             </div>
           </div>
-          <Button variant="ghost" size="sm" onClick={closeDetail}>
+          <Button variant="linkBrand" size="sm" onClick={closeDetail}>
             {tr("admin.rag.actions.close")}
           </Button>
         </div>
@@ -147,7 +147,7 @@ export default function RagAdminDetailModal({ controller }) {
             <Button variant="primary" size="sm" onClick={saveDetail}>
               {tr("admin.rag.actions.save")}
             </Button>
-            <Button variant="ghost" size="sm" onClick={closeDetail}>
+            <Button variant="linkBrand" size="sm" onClick={closeDetail}>
               {tr("admin.rag.actions.cancel")}
             </Button>
           </div>

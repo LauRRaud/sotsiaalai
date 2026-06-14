@@ -1882,7 +1882,7 @@ export default function AnalyticsDashboard() {
             </div>
             <div className={pageHeaderToolbarClassName}>
               <Button
-                variant="ghost"
+                variant="primary"
                 className={refreshButtonClassName}
                 onClick={refreshAll}
                 disabled={refreshing || loadingSummary || loadingEvents || loadingUsers || loadingAiCosts}
@@ -3027,11 +3027,11 @@ export default function AnalyticsDashboard() {
               placeholder={t("admin.analytics.users.table.user", "User")}
               aria-label={t("admin.analytics.users.table.user", "User")}
             />
-            <Button variant="ghost" className={actionButtonClassName} type="submit" disabled={loadingUsers}>
+            <Button variant="primary" className={actionButtonClassName} type="submit" disabled={loadingUsers}>
               {t("admin.common.refresh", "Search")}
             </Button>
             <Button
-              variant="ghost"
+              variant="primary"
               className={actionButtonClassName}
               type="button"
               onClick={handleUsersSearchClear}
@@ -3060,7 +3060,7 @@ export default function AnalyticsDashboard() {
               <div className={`${usersSelectActionsClassName} 2xl:justify-end`}>
                 <Button
                   size="sm"
-                  variant="ghost"
+                  variant="primary"
                   className={actionButtonClassName}
                   onClick={toggleAllVisibleUsers}
                   disabled={loadingUsers || !visibleUserIds.length}
@@ -3141,7 +3141,7 @@ export default function AnalyticsDashboard() {
               />
             </div>
             <Button
-              variant="ghost"
+              variant="primary"
               className={actionButtonClassName}
               onClick={handleSendBulkEmail}
               disabled={sendingUsersEmail || deletingUsers}

@@ -75,7 +75,7 @@ export default function KovFilters({
               ? "Vaikimisi kuvatakse aktiivsed KOV-id."
               : "Active municipalities are shown by default."}
         </div>
-        <Button variant="ghost" size="xs" onClick={onReset} disabled={!hasActiveFilters}>
+        <Button variant="primary" size="xs" onClick={onReset} disabled={!hasActiveFilters}>
           {et ? "Nulli filtrid" : "Reset"}
         </Button>
       </div>
