@@ -30,7 +30,6 @@ export const ragAdminShellNavClassName =
   "flex w-full flex-wrap items-center justify-center gap-2 pt-1";
 
 export const ragAdminShellNavLinkClassName =
-  `[--seg-button-bg:transparent] [--seg-button-bg-hover:rgba(122,58,56,0.08)] ` +
   `relative inline-flex min-h-[2.7rem] min-w-[8.6rem] items-center justify-center gap-[0.35rem] overflow-hidden rounded-[1rem] ` +
   `px-[0.95rem] py-[0.62rem] text-center text-[0.98rem] font-[500] tracking-[0.01rem] no-underline select-none ` +
   `transition-[color,border-color,box-shadow,background] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] ` +

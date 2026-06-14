@@ -15,12 +15,7 @@ import {
 
 const SUMMARY_CARD_CLASS =
   "rounded-[0.82rem] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-3)] px-3 py-2.5 shadow-[var(--admin-shadow-soft)]";
-const actionButtonClassName =
-  "!min-h-[2.02rem] " +
-  "[--btn-primary-bg:var(--admin-surface-2)] " +
-  "[--btn-primary-bg-hover:var(--admin-accent-soft)] " +
-  "[--btn-primary-border:1px_solid_var(--admin-border-strong)] " +
-  "[--btn-primary-shadow:0_1px_3px_rgba(15,23,42,0.09)]";
+const actionButtonClassName = "!min-h-[2.02rem]";
 const HEADER_CELL_CLASS = "border-b border-[color:var(--admin-border)] p-2 align-top font-semibold";
 const BODY_CELL_CLASS = "border-b border-[color:var(--admin-border)] p-2 align-top";
 const ACCEPTANCE_DISPOSITIONS = [
