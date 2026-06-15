@@ -307,9 +307,9 @@
 
 .documents-agent-composer-slot .chat-input-row {
   margin-top: 0;
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-  transform: none !important;
+  padding-left: 0;
+  padding-right: 0;
+  transform: none;
   --chat-under-glow: none;
   --chat-under-glow-strong: none;
 }
@@ -345,7 +345,7 @@
 
 .documents-agent-composer-slot .chat-input-field {
   min-height: 1.8rem;
-  background: var(--documents-agent-composer-field-bg) !important;
+  background: var(--documents-agent-composer-field-bg);
 }
 
 .documents-agent-composer-slot .chat-inputbar:not(:focus-within) .chat-input-field {

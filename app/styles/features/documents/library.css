@@ -29,16 +29,16 @@
   background: var(--documents-surface-panel-bg) !important;
   border: none !important;
   box-shadow: var(--glass-shell-shadow, none) !important;
-  color: var(--documents-surface-panel-text) !important;
-  -webkit-backdrop-filter: var(--documents-glass-backdrop-filter, blur(var(--glass-blur-radius, 1rem))) !important;
-  backdrop-filter: var(--documents-glass-backdrop-filter, blur(var(--glass-blur-radius, 1rem))) !important;
+  color: var(--documents-surface-panel-text);
+  -webkit-backdrop-filter: var(--documents-glass-backdrop-filter, blur(var(--glass-blur-radius, 1rem)));
+  backdrop-filter: var(--documents-glass-backdrop-filter, blur(var(--glass-blur-radius, 1rem)));
 }
 
 .dashboard-info-panel .documents-framework-banner--info.documents-notice {
   margin-top: 0.12rem;
-  background: var(--documents-surface-panel-bg, var(--glass-ring-surface-bg, var(--glass-surface-bg))) !important;
-  color: var(--documents-surface-panel-text, var(--glass-modal-text, var(--glass-surface-text))) !important;
-  box-shadow: var(--glass-shell-shadow, none) !important;
+  background: var(--documents-surface-panel-bg, var(--glass-ring-surface-bg, var(--glass-surface-bg)));
+  color: var(--documents-surface-panel-text, var(--glass-modal-text, var(--glass-surface-text)));
+  box-shadow: var(--glass-shell-shadow, none);
 }
 
 .dashboard-info-panel .documents-framework-banner--info .documents-framework-banner-actions {

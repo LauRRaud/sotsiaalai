@@ -37,7 +37,9 @@ Legend: ✅ tehtud · 🔄 pooleli · ⬜ tegemata · 🔒 alles-jäetud (load-b
 | `features/chat/mobile.css` | 169 | **102** | 0 | 🔒 67 (63 force-keep: .chat-container(+--round) load-bearing + drawer; ülejäänu kontrakt). @media mobiil, gate püüab 390px | **67** | ✅ | (käes) |
 | `features/chat/themes.css` | 93 | 0 | 0 | 🔒 92 (kontrakt-lukus, oraakel STRIP 1) | 93 | 🔒 | — |
 | `features/profile/hc.css` | 40 | **12** | 0 | 🔒 28 (25 force-keep: .dock-item + .profile-orbit-menu__center load-bearing + kontrakt; orbit-menu ülejäänu = teema-dropout müra, mitte vaba) | **28** | ✅ | (käes) |
-| `features/documents/ui.css` | 110 | **52** | 0 | 🔒 58 (57 force-keep: ~14 base-pinda load-bearing — form-input/panel/surface/notice/field/workspace-shell/guide-panel + interaktsiooni-gated). Suurem load-bearing kui chat (base teeb päris tööd) | **58** | ✅ | (käes) |
+| `features/documents/ui.css` | 110 | **52** | 0 | 🔒 58 (57 force-keep: ~14 base-pinda load-bearing — form-input/panel/surface/notice/field/workspace-shell/guide-panel + interaktsiooni-gated). Suurem load-bearing kui chat (base teeb päris tööd) | **58** | ✅ | a635603e |
+| `features/documents/agent.css` | 51 | **4** | 0 | 🔒 47 (suuresti load-bearing: chat-inputbar + conversation-window + glow-composer/window background kõik teemad) | **47** | ✅ | (käes) |
+| `features/documents/library.css` | 11 | **6** | 0 | 🔒 5 (kontrakt) — full-strip render-ohutu | **5** | ✅ | (käes) |
 | `features/service-map` | 357 | 0 | 0 | — | 357 | ⬜ | — |
 | `mobile/` | 806 | 0 | 0 | — | 806 | ⬜ | — |
 | `shared/` | 384 | 0 | 0 | — | 384 | ⬜ | — |
