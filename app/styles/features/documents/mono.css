@@ -1,77 +1,77 @@
 :root.theme-mono:not([data-contrast="hc"]) .documents-workspace {
   --documents-heading-color: var(--forest-title);
   --documents-accent: var(--forest-title);
-  --documents-accent-soft: rgba(214, 214, 214, 0.14);
-  --documents-accent-border: rgba(230, 230, 230, 0.2);
+  --documents-accent-soft: rgba(var(--mono-mid-rgb), 0.14);
+  --documents-accent-border: rgba(var(--mono-light-rgb), 0.2);
   --documents-page-text: var(--forest-highlight);
   --documents-page-strong: var(--forest-highlight);
-  --documents-page-muted: rgba(230, 230, 230, 0.78);
+  --documents-page-muted: rgba(var(--mono-light-rgb), 0.78);
   --documents-glass-surface: var(--glass-ring-surface-bg);
   --documents-panel-bg: var(--glass-ring-surface-bg);
   --documents-card-bg: rgba(30, 30, 30, 0.64);
   --documents-subpanel-bg: rgba(28, 28, 28, 0.64);
   --documents-content-bg: rgba(30, 30, 30, 0.62);
   --documents-muted-bg: rgba(34, 34, 34, 0.62);
-  --documents-panel-border: rgba(214, 214, 214, 0.11);
-  --documents-card-border: rgba(214, 214, 214, 0.1);
-  --documents-subpanel-border: rgba(214, 214, 214, 0.1);
-  --documents-content-border: rgba(214, 214, 214, 0.1);
-  --documents-muted-border: rgba(214, 214, 214, 0.1);
+  --documents-panel-border: rgba(var(--mono-mid-rgb), 0.11);
+  --documents-card-border: rgba(var(--mono-mid-rgb), 0.1);
+  --documents-subpanel-border: rgba(var(--mono-mid-rgb), 0.1);
+  --documents-content-border: rgba(var(--mono-mid-rgb), 0.1);
+  --documents-muted-border: rgba(var(--mono-mid-rgb), 0.1);
   --documents-chip-bg: var(--forest-orbit-surface);
-  --documents-chip-border: rgba(214, 214, 214, 0.14);
+  --documents-chip-border: rgba(var(--mono-mid-rgb), 0.14);
   --documents-chip-text: var(--forest-highlight);
   --documents-chip-text-active: var(--forest-title-soft);
   --documents-info-bg: rgba(34, 34, 34, 0.92);
-  --documents-info-border: rgba(214, 214, 214, 0.12);
+  --documents-info-border: rgba(var(--mono-mid-rgb), 0.12);
   --documents-info-text: var(--forest-highlight);
   --documents-success-bg: rgba(34, 34, 34, 0.92);
-  --documents-success-border: rgba(214, 214, 214, 0.12);
+  --documents-success-border: rgba(var(--mono-mid-rgb), 0.12);
   --documents-success-text: var(--forest-highlight);
   --documents-warning-bg: rgba(34, 34, 34, 0.92);
-  --documents-warning-border: rgba(214, 214, 214, 0.12);
+  --documents-warning-border: rgba(var(--mono-mid-rgb), 0.12);
   --documents-warning-text: var(--forest-highlight);
   --documents-error-bg: rgba(42, 30, 30, 0.92);
   --documents-error-border: rgba(197, 113, 113, 0.22);
   --documents-error-text: var(--forest-title-soft);
   --documents-agent-stage-bg: rgba(27, 27, 27, 0.68);
-  --documents-agent-stage-border: rgba(214, 214, 214, 0.1);
+  --documents-agent-stage-border: rgba(var(--mono-mid-rgb), 0.1);
   --documents-agent-thread-bg: rgba(24, 24, 24, 0.7);
-  --documents-agent-thread-border: rgba(214, 214, 214, 0.1);
+  --documents-agent-thread-border: rgba(var(--mono-mid-rgb), 0.1);
   --documents-agent-thread-shadow: var(--subpage-card-shadow);
   --documents-agent-composer-bg: rgba(28, 28, 28, 0.72);
   --documents-agent-composer-bg-hover: rgba(34, 34, 34, 0.76);
-  --documents-agent-composer-border: rgba(214, 214, 214, 0.12);
+  --documents-agent-composer-border: rgba(var(--mono-mid-rgb), 0.12);
   --documents-elevated-bg: var(--forest-orbit-surface);
   --documents-elevated-bg-hover: var(--forest-orbit-surface-hover);
-  --documents-elevated-border: rgba(214, 214, 214, 0.14);
-  --documents-elevated-border-hover: rgba(230, 230, 230, 0.2);
+  --documents-elevated-border: rgba(var(--mono-mid-rgb), 0.14);
+  --documents-elevated-border-hover: rgba(var(--mono-light-rgb), 0.2);
   --documents-elevated-shadow: var(--subpage-card-shadow);
   --documents-surface-panel-bg: var(--glass-ring-surface-bg);
-  --documents-surface-panel-border: rgba(214, 214, 214, 0.11);
+  --documents-surface-panel-border: rgba(var(--mono-mid-rgb), 0.11);
   --documents-surface-panel-shadow: var(--glass-shell-shadow);
   --subpage-card-bg: var(--documents-card-bg);
   --subpage-card-bg-hover: var(--documents-card-bg);
   --subpage-card-border: var(--documents-card-border);
-  --subpage-card-border-hover: rgba(214, 214, 214, 0.14);
+  --subpage-card-border-hover: rgba(var(--mono-mid-rgb), 0.14);
   --subpage-card-shadow: var(--glass-shell-shadow);
   --subpage-card-shadow-hover: var(--glass-shell-shadow);
   --opaque-panel-bg: var(--forest-tooltip-surface);
   --opaque-panel-bg-hover: var(--forest-tooltip-surface-hover);
-  --opaque-panel-border: rgba(214, 214, 214, 0.14);
+  --opaque-panel-border: rgba(var(--mono-mid-rgb), 0.14);
   --opaque-panel-shadow: 0 16px 32px rgba(0, 0, 0, 0.38);
   --input-bg: var(--forest-input-surface);
   --input-bg-hover: var(--forest-input-surface-hover);
   --input-bg-focus: var(--forest-input-surface-hover);
   --input-flat-bg: var(--forest-input-surface);
   --input-flat-bg-hover: var(--forest-input-surface-hover);
-  --input-border: 1px solid rgba(214, 214, 214, 0.16);
+  --input-border: 1px solid rgba(var(--mono-mid-rgb), 0.16);
   --input-shadow: var(--mono-field-hole-shadow);
   --input-shadow-hover: var(--mono-field-hole-shadow-hover);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .documents-workspace :is(.documents-field, .documents-dropdown-trigger, .documents-form-input, .documents-agent-textarea) {
   background: var(--forest-input-surface) !important;
-  border-color: rgba(214, 214, 214, 0.16) !important;
+  border-color: rgba(var(--mono-mid-rgb), 0.16) !important;
   box-shadow: var(--mono-field-hole-shadow) !important;
   color: var(--forest-highlight) !important;
 }
@@ -82,7 +82,7 @@
 }
 
 :root.theme-mono:not([data-contrast="hc"]) :is(.documents-workspace .documents-dropdown-menu, .documents-dropdown-menu.documents-dropdown-menu--portal:not(.pre-inquiry-dropdown-menu)) {
-  border: 1px solid var(--documents-dropdown-border, rgba(214, 214, 214, 0.14));
+  border: 1px solid var(--documents-dropdown-border, rgba(var(--mono-mid-rgb), 0.14));
   background: var(--documents-dropdown-bg, var(--forest-tooltip-surface));
   background-color: rgb(28, 28, 28);
   box-shadow: var(--documents-dropdown-shadow, 0 16px 32px rgba(0, 0, 0, 0.38));
