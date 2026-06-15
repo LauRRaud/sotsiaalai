@@ -1,9 +1,9 @@
 # !important audit — 2026-06-15
 
-**Total `!important` declarations:** 3662
+**Total `!important` declarations:** 3654
 
-- on **surface props** (Root B theme-war: background/box-shadow/color/border/backdrop/opacity): **1596**
-- under **theme-override selectors** (`:not(.theme-)`/`:root.theme-`/`[data-contrast]`): **1539**
+- on **surface props** (Root B theme-war: background/box-shadow/color/border/backdrop/opacity): **1588**
+- under **theme-override selectors** (`:not(.theme-)`/`:root.theme-`/`[data-contrast]`): **1531**
 
 > Strategy (css-tailwind-cleanup-plan §1): these are a SYMPTOM. Surface-prop +
 > theme-override `!important` dissolves when theming moves to `:root.theme-X { --token }`
@@ -13,7 +13,7 @@
 
 | file | !important |
 |---|---|
-| `app/styles/theme/hc.css` | 336 |
+| `app/styles/theme/hc.css` | 328 |
 | `app/styles/features/service-map/desktop.css` | 281 |
 | `app/styles/features/chat/hc.css` | 207 |
 | `app/styles/features/chat/shell.css` | 191 |
@@ -43,11 +43,11 @@
 
 | property | count | surface? |
 |---|---|---|
-| `background` | 374 | ✓ |
-| `box-shadow` | 370 | ✓ |
-| `color` | 241 | ✓ |
+| `background` | 372 | ✓ |
+| `box-shadow` | 368 | ✓ |
+| `color` | 239 | ✓ |
 | `border` | 149 | ✓ |
-| `border-color` | 135 | ✓ |
+| `border-color` | 133 | ✓ |
 | `-webkit-backdrop-filter` | 95 | ✓ |
 | `backdrop-filter` | 95 | ✓ |
 | `width` | 94 |  |
@@ -74,14 +74,14 @@
 | category | count |
 |---|---|
 | plain | 1857 |
-| theme-override | 1539 |
-| state | 594 |
-| not-chain | 280 |
+| theme-override | 1531 |
+| state | 590 |
+| not-chain | 272 |
 | pseudo-el | 152 |
 
 ## Highest-value targets (surface prop + theme-override, same selector)
 
-- `app/styles/theme/hc.css` — 257 surface+theme-override `!important` (tokenise these first)
+- `app/styles/theme/hc.css` — 249 surface+theme-override `!important` (tokenise these first)
 - `app/styles/features/chat/hc.css` — 144 surface+theme-override `!important` (tokenise these first)
 - `app/styles/features/chat/themes.css` — 93 surface+theme-override `!important` (tokenise these first)
 - `app/styles/features/chat/mono.css` — 84 surface+theme-override `!important` (tokenise these first)

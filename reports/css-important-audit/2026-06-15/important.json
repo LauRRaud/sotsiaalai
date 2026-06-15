@@ -1,8 +1,8 @@
 {
-  "capturedAt": "2026-06-15T06:46:41.287Z",
-  "total": 3662,
-  "surfaceCount": 1596,
-  "themeOverrideCount": 1539,
+  "capturedAt": "2026-06-15T07:03:55.816Z",
+  "total": 3654,
+  "surfaceCount": 1588,
+  "themeOverrideCount": 1531,
   "rows": [
     {
       "file": "app/styles/base/backgrounds.css",
@@ -33621,109 +33621,17 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1279,
-      "selector": "html[data-contrast=\"hc\"] body :is( button, [role=\"button\"], .button, .btn, input[type=\"button\"], input[type=\"submit\"], input[type=\"reset\"] ):not(.back-button):n",
-      "prop": "color",
-      "surface": true,
-      "cats": [
-        "theme-override",
-        "not-chain"
-      ]
-    },
-    {
-      "file": "app/styles/theme/hc.css",
-      "line": 1280,
-      "selector": "html[data-contrast=\"hc\"] body :is( button, [role=\"button\"], .button, .btn, input[type=\"button\"], input[type=\"submit\"], input[type=\"reset\"] ):not(.back-button):n",
+      "line": 1281,
+      "selector": "html[data-contrast=\"hc\"] :is( .ui-glow-field, .materials-comment-glow-field, .service-map-toolbar__glow-field, .service-map-toolbar__type-card, .pre-inquiry-rec",
       "prop": "background",
       "surface": true,
       "cats": [
-        "theme-override",
-        "not-chain"
-      ]
-    },
-    {
-      "file": "app/styles/theme/hc.css",
-      "line": 1281,
-      "selector": "html[data-contrast=\"hc\"] body :is( button, [role=\"button\"], .button, .btn, input[type=\"button\"], input[type=\"submit\"], input[type=\"reset\"] ):not(.back-button):n",
-      "prop": "border-color",
-      "surface": true,
-      "cats": [
-        "theme-override",
-        "not-chain"
+        "theme-override"
       ]
     },
     {
       "file": "app/styles/theme/hc.css",
       "line": 1282,
-      "selector": "html[data-contrast=\"hc\"] body :is( button, [role=\"button\"], .button, .btn, input[type=\"button\"], input[type=\"submit\"], input[type=\"reset\"] ):not(.back-button):n",
-      "prop": "box-shadow",
-      "surface": true,
-      "cats": [
-        "theme-override",
-        "not-chain"
-      ]
-    },
-    {
-      "file": "app/styles/theme/hc.css",
-      "line": 1294,
-      "selector": "html[data-contrast=\"hc\"] body :is( button, [role=\"button\"], .button, .btn, input[type=\"button\"], input[type=\"submit\"], input[type=\"reset\"] ):not(.back-button):n",
-      "prop": "color",
-      "surface": true,
-      "cats": [
-        "theme-override",
-        "not-chain",
-        "state"
-      ]
-    },
-    {
-      "file": "app/styles/theme/hc.css",
-      "line": 1295,
-      "selector": "html[data-contrast=\"hc\"] body :is( button, [role=\"button\"], .button, .btn, input[type=\"button\"], input[type=\"submit\"], input[type=\"reset\"] ):not(.back-button):n",
-      "prop": "background",
-      "surface": true,
-      "cats": [
-        "theme-override",
-        "not-chain",
-        "state"
-      ]
-    },
-    {
-      "file": "app/styles/theme/hc.css",
-      "line": 1296,
-      "selector": "html[data-contrast=\"hc\"] body :is( button, [role=\"button\"], .button, .btn, input[type=\"button\"], input[type=\"submit\"], input[type=\"reset\"] ):not(.back-button):n",
-      "prop": "border-color",
-      "surface": true,
-      "cats": [
-        "theme-override",
-        "not-chain",
-        "state"
-      ]
-    },
-    {
-      "file": "app/styles/theme/hc.css",
-      "line": 1297,
-      "selector": "html[data-contrast=\"hc\"] body :is( button, [role=\"button\"], .button, .btn, input[type=\"button\"], input[type=\"submit\"], input[type=\"reset\"] ):not(.back-button):n",
-      "prop": "box-shadow",
-      "surface": true,
-      "cats": [
-        "theme-override",
-        "not-chain",
-        "state"
-      ]
-    },
-    {
-      "file": "app/styles/theme/hc.css",
-      "line": 1311,
-      "selector": "html[data-contrast=\"hc\"] :is( .ui-glow-field, .materials-comment-glow-field, .service-map-toolbar__glow-field, .service-map-toolbar__type-card, .pre-inquiry-rec",
-      "prop": "background",
-      "surface": true,
-      "cats": [
-        "theme-override"
-      ]
-    },
-    {
-      "file": "app/styles/theme/hc.css",
-      "line": 1312,
       "selector": "html[data-contrast=\"hc\"] :is( .ui-glow-field, .materials-comment-glow-field, .service-map-toolbar__glow-field, .service-map-toolbar__type-card, .pre-inquiry-rec",
       "prop": "color",
       "surface": true,
@@ -33733,7 +33641,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1313,
+      "line": 1283,
       "selector": "html[data-contrast=\"hc\"] :is( .ui-glow-field, .materials-comment-glow-field, .service-map-toolbar__glow-field, .service-map-toolbar__type-card, .pre-inquiry-rec",
       "prop": "border",
       "surface": true,
@@ -33743,7 +33651,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1314,
+      "line": 1284,
       "selector": "html[data-contrast=\"hc\"] :is( .ui-glow-field, .materials-comment-glow-field, .service-map-toolbar__glow-field, .service-map-toolbar__type-card, .pre-inquiry-rec",
       "prop": "box-shadow",
       "surface": true,
@@ -33753,7 +33661,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1315,
+      "line": 1285,
       "selector": "html[data-contrast=\"hc\"] :is( .ui-glow-field, .materials-comment-glow-field, .service-map-toolbar__glow-field, .service-map-toolbar__type-card, .pre-inquiry-rec",
       "prop": "caret-color",
       "surface": false,
@@ -33763,7 +33671,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1329,
+      "line": 1299,
       "selector": "html[data-contrast=\"hc\"] :is( .ui-glow-field, .materials-comment-glow-field, .service-map-toolbar__glow-field, .service-map-toolbar__type-card, .pre-inquiry-rec",
       "prop": "background",
       "surface": true,
@@ -33774,7 +33682,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1330,
+      "line": 1300,
       "selector": "html[data-contrast=\"hc\"] :is( .ui-glow-field, .materials-comment-glow-field, .service-map-toolbar__glow-field, .service-map-toolbar__type-card, .pre-inquiry-rec",
       "prop": "color",
       "surface": true,
@@ -33785,7 +33693,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1331,
+      "line": 1301,
       "selector": "html[data-contrast=\"hc\"] :is( .ui-glow-field, .materials-comment-glow-field, .service-map-toolbar__glow-field, .service-map-toolbar__type-card, .pre-inquiry-rec",
       "prop": "border-color",
       "surface": true,
@@ -33796,7 +33704,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1332,
+      "line": 1302,
       "selector": "html[data-contrast=\"hc\"] :is( .ui-glow-field, .materials-comment-glow-field, .service-map-toolbar__glow-field, .service-map-toolbar__type-card, .pre-inquiry-rec",
       "prop": "box-shadow",
       "surface": true,
@@ -33807,7 +33715,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1344,
+      "line": 1314,
       "selector": "html[data-contrast=\"hc\"] :is( .ui-glow-field, .materials-comment-glow-field, .service-map-toolbar__glow-field, .invite-glow-field, .service-profile-glow-field, ",
       "prop": "display",
       "surface": false,
@@ -33817,7 +33725,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1345,
+      "line": 1315,
       "selector": "html[data-contrast=\"hc\"] :is( .ui-glow-field, .materials-comment-glow-field, .service-map-toolbar__glow-field, .invite-glow-field, .service-profile-glow-field, ",
       "prop": "opacity",
       "surface": true,
@@ -33827,7 +33735,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1346,
+      "line": 1316,
       "selector": "html[data-contrast=\"hc\"] :is( .ui-glow-field, .materials-comment-glow-field, .service-map-toolbar__glow-field, .invite-glow-field, .service-profile-glow-field, ",
       "prop": "background",
       "surface": true,
@@ -33837,7 +33745,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1347,
+      "line": 1317,
       "selector": "html[data-contrast=\"hc\"] :is( .ui-glow-field, .materials-comment-glow-field, .service-map-toolbar__glow-field, .invite-glow-field, .service-profile-glow-field, ",
       "prop": "box-shadow",
       "surface": true,
@@ -33847,47 +33755,47 @@
     },
     {
       "file": "app/styles/theme/hc.css",
+      "line": 1331,
+      "selector": "html[data-contrast=\"hc\"] :is( .ui-glow-field, .materials-comment-glow-field, .service-map-toolbar__glow-field, .service-map-toolbar__type-card, .pre-inquiry-rec",
+      "prop": "color",
+      "surface": true,
+      "cats": [
+        "theme-override"
+      ]
+    },
+    {
+      "file": "app/styles/theme/hc.css",
+      "line": 1332,
+      "selector": "html[data-contrast=\"hc\"] :is( .ui-glow-field, .materials-comment-glow-field, .service-map-toolbar__glow-field, .service-map-toolbar__type-card, .pre-inquiry-rec",
+      "prop": "opacity",
+      "surface": true,
+      "cats": [
+        "theme-override"
+      ]
+    },
+    {
+      "file": "app/styles/theme/hc.css",
+      "line": 1337,
+      "selector": "html[data-contrast=\"hc\"] .service-map-workspace .service-map-toolbar__input::placeholder, html[data-contrast=\"hc\"] .service-map-page-panel .service-map-toolbar_",
+      "prop": "color",
+      "surface": true,
+      "cats": [
+        "theme-override"
+      ]
+    },
+    {
+      "file": "app/styles/theme/hc.css",
+      "line": 1338,
+      "selector": "html[data-contrast=\"hc\"] .service-map-workspace .service-map-toolbar__input::placeholder, html[data-contrast=\"hc\"] .service-map-page-panel .service-map-toolbar_",
+      "prop": "opacity",
+      "surface": true,
+      "cats": [
+        "theme-override"
+      ]
+    },
+    {
+      "file": "app/styles/theme/hc.css",
       "line": 1361,
-      "selector": "html[data-contrast=\"hc\"] :is( .ui-glow-field, .materials-comment-glow-field, .service-map-toolbar__glow-field, .service-map-toolbar__type-card, .pre-inquiry-rec",
-      "prop": "color",
-      "surface": true,
-      "cats": [
-        "theme-override"
-      ]
-    },
-    {
-      "file": "app/styles/theme/hc.css",
-      "line": 1362,
-      "selector": "html[data-contrast=\"hc\"] :is( .ui-glow-field, .materials-comment-glow-field, .service-map-toolbar__glow-field, .service-map-toolbar__type-card, .pre-inquiry-rec",
-      "prop": "opacity",
-      "surface": true,
-      "cats": [
-        "theme-override"
-      ]
-    },
-    {
-      "file": "app/styles/theme/hc.css",
-      "line": 1367,
-      "selector": "html[data-contrast=\"hc\"] .service-map-workspace .service-map-toolbar__input::placeholder, html[data-contrast=\"hc\"] .service-map-page-panel .service-map-toolbar_",
-      "prop": "color",
-      "surface": true,
-      "cats": [
-        "theme-override"
-      ]
-    },
-    {
-      "file": "app/styles/theme/hc.css",
-      "line": 1368,
-      "selector": "html[data-contrast=\"hc\"] .service-map-workspace .service-map-toolbar__input::placeholder, html[data-contrast=\"hc\"] .service-map-page-panel .service-map-toolbar_",
-      "prop": "opacity",
-      "surface": true,
-      "cats": [
-        "theme-override"
-      ]
-    },
-    {
-      "file": "app/styles/theme/hc.css",
-      "line": 1391,
       "selector": "html[data-contrast=\"hc\"] :is( .workspace-feature-card, .workspace-feature-chip, .workspace-feature-admin-role, .workspace-feature-toggle-row, .workspace-feature",
       "prop": "background",
       "surface": true,
@@ -33897,7 +33805,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1392,
+      "line": 1362,
       "selector": "html[data-contrast=\"hc\"] :is( .workspace-feature-card, .workspace-feature-chip, .workspace-feature-admin-role, .workspace-feature-toggle-row, .workspace-feature",
       "prop": "color",
       "surface": true,
@@ -33907,8 +33815,108 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1393,
+      "line": 1363,
       "selector": "html[data-contrast=\"hc\"] :is( .workspace-feature-card, .workspace-feature-chip, .workspace-feature-admin-role, .workspace-feature-toggle-row, .workspace-feature",
+      "prop": "border",
+      "surface": true,
+      "cats": [
+        "theme-override"
+      ]
+    },
+    {
+      "file": "app/styles/theme/hc.css",
+      "line": 1364,
+      "selector": "html[data-contrast=\"hc\"] :is( .workspace-feature-card, .workspace-feature-chip, .workspace-feature-admin-role, .workspace-feature-toggle-row, .workspace-feature",
+      "prop": "box-shadow",
+      "surface": true,
+      "cats": [
+        "theme-override"
+      ]
+    },
+    {
+      "file": "app/styles/theme/hc.css",
+      "line": 1371,
+      "selector": "html[data-contrast=\"hc\"] :is( .workspace-role-cycle-button, .documents-admin-role-menu .workspace-role-cycle-button )",
+      "prop": "color",
+      "surface": true,
+      "cats": [
+        "theme-override"
+      ]
+    },
+    {
+      "file": "app/styles/theme/hc.css",
+      "line": 1372,
+      "selector": "html[data-contrast=\"hc\"] :is( .workspace-role-cycle-button, .documents-admin-role-menu .workspace-role-cycle-button )",
+      "prop": "background",
+      "surface": true,
+      "cats": [
+        "theme-override"
+      ]
+    },
+    {
+      "file": "app/styles/theme/hc.css",
+      "line": 1373,
+      "selector": "html[data-contrast=\"hc\"] :is( .workspace-role-cycle-button, .documents-admin-role-menu .workspace-role-cycle-button )",
+      "prop": "border-color",
+      "surface": true,
+      "cats": [
+        "theme-override"
+      ]
+    },
+    {
+      "file": "app/styles/theme/hc.css",
+      "line": 1374,
+      "selector": "html[data-contrast=\"hc\"] :is( .workspace-role-cycle-button, .documents-admin-role-menu .workspace-role-cycle-button )",
+      "prop": "box-shadow",
+      "surface": true,
+      "cats": [
+        "theme-override"
+      ]
+    },
+    {
+      "file": "app/styles/theme/hc.css",
+      "line": 1385,
+      "selector": "html[data-contrast=\"hc\"] body :is( .back-button, .chat-back-button, .profile-logout-button, .service-map-toolbar__back, .service-map-workspace__toggle, button:h",
+      "prop": "color",
+      "surface": true,
+      "cats": [
+        "theme-override"
+      ]
+    },
+    {
+      "file": "app/styles/theme/hc.css",
+      "line": 1386,
+      "selector": "html[data-contrast=\"hc\"] body :is( .back-button, .chat-back-button, .profile-logout-button, .service-map-toolbar__back, .service-map-workspace__toggle, button:h",
+      "prop": "border-color",
+      "surface": true,
+      "cats": [
+        "theme-override"
+      ]
+    },
+    {
+      "file": "app/styles/theme/hc.css",
+      "line": 1387,
+      "selector": "html[data-contrast=\"hc\"] body :is( .back-button, .chat-back-button, .profile-logout-button, .service-map-toolbar__back, .service-map-workspace__toggle, button:h",
+      "prop": "box-shadow",
+      "surface": true,
+      "cats": [
+        "theme-override"
+      ]
+    },
+    {
+      "file": "app/styles/theme/hc.css",
+      "line": 1392,
+      "selector": "html[data-contrast=\"hc\"] body .chat-inputbar, html[data-contrast=\"hc\"] .documents-workspace .documents-agent-composer-slot .chat-inputbar",
+      "prop": "background",
+      "surface": true,
+      "cats": [
+        "theme-override"
+      ]
+    },
+    {
+      "file": "app/styles/theme/hc.css",
+      "line": 1393,
+      "selector": "html[data-contrast=\"hc\"] body .chat-inputbar, html[data-contrast=\"hc\"] .documents-workspace .documents-agent-composer-slot .chat-inputbar",
       "prop": "border",
       "surface": true,
       "cats": [
@@ -33918,106 +33926,6 @@
     {
       "file": "app/styles/theme/hc.css",
       "line": 1394,
-      "selector": "html[data-contrast=\"hc\"] :is( .workspace-feature-card, .workspace-feature-chip, .workspace-feature-admin-role, .workspace-feature-toggle-row, .workspace-feature",
-      "prop": "box-shadow",
-      "surface": true,
-      "cats": [
-        "theme-override"
-      ]
-    },
-    {
-      "file": "app/styles/theme/hc.css",
-      "line": 1401,
-      "selector": "html[data-contrast=\"hc\"] :is( .workspace-role-cycle-button, .documents-admin-role-menu .workspace-role-cycle-button )",
-      "prop": "color",
-      "surface": true,
-      "cats": [
-        "theme-override"
-      ]
-    },
-    {
-      "file": "app/styles/theme/hc.css",
-      "line": 1402,
-      "selector": "html[data-contrast=\"hc\"] :is( .workspace-role-cycle-button, .documents-admin-role-menu .workspace-role-cycle-button )",
-      "prop": "background",
-      "surface": true,
-      "cats": [
-        "theme-override"
-      ]
-    },
-    {
-      "file": "app/styles/theme/hc.css",
-      "line": 1403,
-      "selector": "html[data-contrast=\"hc\"] :is( .workspace-role-cycle-button, .documents-admin-role-menu .workspace-role-cycle-button )",
-      "prop": "border-color",
-      "surface": true,
-      "cats": [
-        "theme-override"
-      ]
-    },
-    {
-      "file": "app/styles/theme/hc.css",
-      "line": 1404,
-      "selector": "html[data-contrast=\"hc\"] :is( .workspace-role-cycle-button, .documents-admin-role-menu .workspace-role-cycle-button )",
-      "prop": "box-shadow",
-      "surface": true,
-      "cats": [
-        "theme-override"
-      ]
-    },
-    {
-      "file": "app/styles/theme/hc.css",
-      "line": 1415,
-      "selector": "html[data-contrast=\"hc\"] body :is( .back-button, .chat-back-button, .profile-logout-button, .service-map-toolbar__back, .service-map-workspace__toggle, button:h",
-      "prop": "color",
-      "surface": true,
-      "cats": [
-        "theme-override"
-      ]
-    },
-    {
-      "file": "app/styles/theme/hc.css",
-      "line": 1416,
-      "selector": "html[data-contrast=\"hc\"] body :is( .back-button, .chat-back-button, .profile-logout-button, .service-map-toolbar__back, .service-map-workspace__toggle, button:h",
-      "prop": "border-color",
-      "surface": true,
-      "cats": [
-        "theme-override"
-      ]
-    },
-    {
-      "file": "app/styles/theme/hc.css",
-      "line": 1417,
-      "selector": "html[data-contrast=\"hc\"] body :is( .back-button, .chat-back-button, .profile-logout-button, .service-map-toolbar__back, .service-map-workspace__toggle, button:h",
-      "prop": "box-shadow",
-      "surface": true,
-      "cats": [
-        "theme-override"
-      ]
-    },
-    {
-      "file": "app/styles/theme/hc.css",
-      "line": 1422,
-      "selector": "html[data-contrast=\"hc\"] body .chat-inputbar, html[data-contrast=\"hc\"] .documents-workspace .documents-agent-composer-slot .chat-inputbar",
-      "prop": "background",
-      "surface": true,
-      "cats": [
-        "theme-override"
-      ]
-    },
-    {
-      "file": "app/styles/theme/hc.css",
-      "line": 1423,
-      "selector": "html[data-contrast=\"hc\"] body .chat-inputbar, html[data-contrast=\"hc\"] .documents-workspace .documents-agent-composer-slot .chat-inputbar",
-      "prop": "border",
-      "surface": true,
-      "cats": [
-        "theme-override"
-      ]
-    },
-    {
-      "file": "app/styles/theme/hc.css",
-      "line": 1424,
       "selector": "html[data-contrast=\"hc\"] body .chat-inputbar, html[data-contrast=\"hc\"] .documents-workspace .documents-agent-composer-slot .chat-inputbar",
       "prop": "box-shadow",
       "surface": true,
@@ -34027,7 +33935,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1430,
+      "line": 1400,
       "selector": "html[data-contrast=\"hc\"] .chat-composer-glow-shell, html[data-contrast=\"hc\"] .documents-agent-glow-composer, html[data-contrast=\"hc\"] .documents-agent-glow-wind",
       "prop": "--glow-color",
       "surface": false,
@@ -34037,7 +33945,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1431,
+      "line": 1401,
       "selector": "html[data-contrast=\"hc\"] .chat-composer-glow-shell, html[data-contrast=\"hc\"] .documents-agent-glow-composer, html[data-contrast=\"hc\"] .documents-agent-glow-wind",
       "prop": "--glow-color-60",
       "surface": false,
@@ -34047,7 +33955,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1432,
+      "line": 1402,
       "selector": "html[data-contrast=\"hc\"] .chat-composer-glow-shell, html[data-contrast=\"hc\"] .documents-agent-glow-composer, html[data-contrast=\"hc\"] .documents-agent-glow-wind",
       "prop": "--glow-color-50",
       "surface": false,
@@ -34057,7 +33965,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1433,
+      "line": 1403,
       "selector": "html[data-contrast=\"hc\"] .chat-composer-glow-shell, html[data-contrast=\"hc\"] .documents-agent-glow-composer, html[data-contrast=\"hc\"] .documents-agent-glow-wind",
       "prop": "--glow-color-40",
       "surface": false,
@@ -34067,7 +33975,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1434,
+      "line": 1404,
       "selector": "html[data-contrast=\"hc\"] .chat-composer-glow-shell, html[data-contrast=\"hc\"] .documents-agent-glow-composer, html[data-contrast=\"hc\"] .documents-agent-glow-wind",
       "prop": "--glow-color-30",
       "surface": false,
@@ -34077,7 +33985,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1435,
+      "line": 1405,
       "selector": "html[data-contrast=\"hc\"] .chat-composer-glow-shell, html[data-contrast=\"hc\"] .documents-agent-glow-composer, html[data-contrast=\"hc\"] .documents-agent-glow-wind",
       "prop": "--glow-color-20",
       "surface": false,
@@ -34087,7 +33995,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1436,
+      "line": 1406,
       "selector": "html[data-contrast=\"hc\"] .chat-composer-glow-shell, html[data-contrast=\"hc\"] .documents-agent-glow-composer, html[data-contrast=\"hc\"] .documents-agent-glow-wind",
       "prop": "--glow-color-10",
       "surface": false,
@@ -34097,7 +34005,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1440,
+      "line": 1410,
       "selector": "html[data-contrast=\"hc\"] body .chat-inputbar .chat-send-btn.invite-primary-btn",
       "prop": "--btn-primary-text",
       "surface": false,
@@ -34107,7 +34015,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1441,
+      "line": 1411,
       "selector": "html[data-contrast=\"hc\"] body .chat-inputbar .chat-send-btn.invite-primary-btn",
       "prop": "--btn-primary-bg",
       "surface": false,
@@ -34117,7 +34025,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1442,
+      "line": 1412,
       "selector": "html[data-contrast=\"hc\"] body .chat-inputbar .chat-send-btn.invite-primary-btn",
       "prop": "--btn-primary-bg-hover",
       "surface": false,
@@ -34127,7 +34035,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1443,
+      "line": 1413,
       "selector": "html[data-contrast=\"hc\"] body .chat-inputbar .chat-send-btn.invite-primary-btn",
       "prop": "--btn-primary-bg-active",
       "surface": false,
@@ -34137,7 +34045,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1444,
+      "line": 1414,
       "selector": "html[data-contrast=\"hc\"] body .chat-inputbar .chat-send-btn.invite-primary-btn",
       "prop": "--btn-primary-border",
       "surface": false,
@@ -34147,7 +34055,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1445,
+      "line": 1415,
       "selector": "html[data-contrast=\"hc\"] body .chat-inputbar .chat-send-btn.invite-primary-btn",
       "prop": "--btn-primary-border-hover",
       "surface": false,
@@ -34157,7 +34065,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1446,
+      "line": 1416,
       "selector": "html[data-contrast=\"hc\"] body .chat-inputbar .chat-send-btn.invite-primary-btn",
       "prop": "--btn-primary-border-active",
       "surface": false,
@@ -34167,7 +34075,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1447,
+      "line": 1417,
       "selector": "html[data-contrast=\"hc\"] body .chat-inputbar .chat-send-btn.invite-primary-btn",
       "prop": "color",
       "surface": true,
@@ -34177,7 +34085,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1448,
+      "line": 1418,
       "selector": "html[data-contrast=\"hc\"] body .chat-inputbar .chat-send-btn.invite-primary-btn",
       "prop": "background",
       "surface": true,
@@ -34187,7 +34095,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1449,
+      "line": 1419,
       "selector": "html[data-contrast=\"hc\"] body .chat-inputbar .chat-send-btn.invite-primary-btn",
       "prop": "border-color",
       "surface": true,
@@ -34197,7 +34105,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1450,
+      "line": 1420,
       "selector": "html[data-contrast=\"hc\"] body .chat-inputbar .chat-send-btn.invite-primary-btn",
       "prop": "box-shadow",
       "surface": true,
@@ -34207,7 +34115,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1454,
+      "line": 1424,
       "selector": "html[data-contrast=\"hc\"] body .chat-inputbar .chat-send-btn.invite-primary-btn:is(:hover, :focus-visible, :active)",
       "prop": "color",
       "surface": true,
@@ -34218,7 +34126,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1455,
+      "line": 1425,
       "selector": "html[data-contrast=\"hc\"] body .chat-inputbar .chat-send-btn.invite-primary-btn:is(:hover, :focus-visible, :active)",
       "prop": "background",
       "surface": true,
@@ -34229,7 +34137,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1456,
+      "line": 1426,
       "selector": "html[data-contrast=\"hc\"] body .chat-inputbar .chat-send-btn.invite-primary-btn:is(:hover, :focus-visible, :active)",
       "prop": "border-color",
       "surface": true,
@@ -34240,7 +34148,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1457,
+      "line": 1427,
       "selector": "html[data-contrast=\"hc\"] body .chat-inputbar .chat-send-btn.invite-primary-btn:is(:hover, :focus-visible, :active)",
       "prop": "box-shadow",
       "surface": true,
@@ -34251,7 +34159,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1467,
+      "line": 1437,
       "selector": "html[data-contrast=\"hc\"] :is( .chat-send-btn, .chat-listen-btn, .chat-side-control-btn, .workspace-feature-panel svg, .documents-workspace svg ) :is(path, circl",
       "prop": "stroke",
       "surface": false,
@@ -34261,7 +34169,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1477,
+      "line": 1447,
       "selector": "html[data-contrast=\"hc\"] :is( .chat-send-btn, .chat-listen-btn, .chat-side-control-btn, .workspace-feature-panel svg, .documents-workspace svg ) [fill]:not([fil",
       "prop": "fill",
       "surface": false,
@@ -34271,7 +34179,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1482,
+      "line": 1452,
       "selector": "html[data-contrast=\"hc\"] .framework-page-shell .ui-glow-button-frame, html[data-contrast=\"hc\"] .framework-page-shell .ui-glow-button-frame:is(:hover, :focus-vis",
       "prop": "--btn-primary-border",
       "surface": false,
@@ -34282,7 +34190,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1483,
+      "line": 1453,
       "selector": "html[data-contrast=\"hc\"] .framework-page-shell .ui-glow-button-frame, html[data-contrast=\"hc\"] .framework-page-shell .ui-glow-button-frame:is(:hover, :focus-vis",
       "prop": "--btn-primary-border-hover",
       "surface": false,
@@ -34293,7 +34201,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1484,
+      "line": 1454,
       "selector": "html[data-contrast=\"hc\"] .framework-page-shell .ui-glow-button-frame, html[data-contrast=\"hc\"] .framework-page-shell .ui-glow-button-frame:is(:hover, :focus-vis",
       "prop": "--btn-primary-border-active",
       "surface": false,
@@ -34304,7 +34212,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1485,
+      "line": 1455,
       "selector": "html[data-contrast=\"hc\"] .framework-page-shell .ui-glow-button-frame, html[data-contrast=\"hc\"] .framework-page-shell .ui-glow-button-frame:is(:hover, :focus-vis",
       "prop": "border",
       "surface": true,
@@ -34315,7 +34223,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1486,
+      "line": 1456,
       "selector": "html[data-contrast=\"hc\"] .framework-page-shell .ui-glow-button-frame, html[data-contrast=\"hc\"] .framework-page-shell .ui-glow-button-frame:is(:hover, :focus-vis",
       "prop": "color",
       "surface": true,
@@ -34326,7 +34234,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1487,
+      "line": 1457,
       "selector": "html[data-contrast=\"hc\"] .framework-page-shell .ui-glow-button-frame, html[data-contrast=\"hc\"] .framework-page-shell .ui-glow-button-frame:is(:hover, :focus-vis",
       "prop": "background",
       "surface": true,
@@ -34337,7 +34245,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1488,
+      "line": 1458,
       "selector": "html[data-contrast=\"hc\"] .framework-page-shell .ui-glow-button-frame, html[data-contrast=\"hc\"] .framework-page-shell .ui-glow-button-frame:is(:hover, :focus-vis",
       "prop": "box-shadow",
       "surface": true,
@@ -34348,69 +34256,69 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1492,
+      "line": 1462,
       "selector": "html[data-contrast=\"hc\"] .framework-page-shell .ui-glow-button-frame:is(:hover, :focus-visible, :active)",
       "prop": "border-color",
       "surface": true,
       "cats": [
         "theme-override",
         "state"
+      ]
+    },
+    {
+      "file": "app/styles/theme/hc.css",
+      "line": 1463,
+      "selector": "html[data-contrast=\"hc\"] .framework-page-shell .ui-glow-button-frame:is(:hover, :focus-visible, :active)",
+      "prop": "background",
+      "surface": true,
+      "cats": [
+        "theme-override",
+        "state"
+      ]
+    },
+    {
+      "file": "app/styles/theme/hc.css",
+      "line": 1476,
+      "selector": "html[data-contrast=\"hc\"] body :is( .ui-glow-field, .materials-comment-glow-field, .service-map-toolbar__glow-field, .service-map-toolbar__type-card, .invite-glo",
+      "prop": "background",
+      "surface": true,
+      "cats": [
+        "theme-override"
+      ]
+    },
+    {
+      "file": "app/styles/theme/hc.css",
+      "line": 1477,
+      "selector": "html[data-contrast=\"hc\"] body :is( .ui-glow-field, .materials-comment-glow-field, .service-map-toolbar__glow-field, .service-map-toolbar__type-card, .invite-glo",
+      "prop": "color",
+      "surface": true,
+      "cats": [
+        "theme-override"
+      ]
+    },
+    {
+      "file": "app/styles/theme/hc.css",
+      "line": 1478,
+      "selector": "html[data-contrast=\"hc\"] body :is( .ui-glow-field, .materials-comment-glow-field, .service-map-toolbar__glow-field, .service-map-toolbar__type-card, .invite-glo",
+      "prop": "border-color",
+      "surface": true,
+      "cats": [
+        "theme-override"
+      ]
+    },
+    {
+      "file": "app/styles/theme/hc.css",
+      "line": 1479,
+      "selector": "html[data-contrast=\"hc\"] body :is( .ui-glow-field, .materials-comment-glow-field, .service-map-toolbar__glow-field, .service-map-toolbar__type-card, .invite-glo",
+      "prop": "box-shadow",
+      "surface": true,
+      "cats": [
+        "theme-override"
       ]
     },
     {
       "file": "app/styles/theme/hc.css",
       "line": 1493,
-      "selector": "html[data-contrast=\"hc\"] .framework-page-shell .ui-glow-button-frame:is(:hover, :focus-visible, :active)",
-      "prop": "background",
-      "surface": true,
-      "cats": [
-        "theme-override",
-        "state"
-      ]
-    },
-    {
-      "file": "app/styles/theme/hc.css",
-      "line": 1506,
-      "selector": "html[data-contrast=\"hc\"] body :is( .ui-glow-field, .materials-comment-glow-field, .service-map-toolbar__glow-field, .service-map-toolbar__type-card, .invite-glo",
-      "prop": "background",
-      "surface": true,
-      "cats": [
-        "theme-override"
-      ]
-    },
-    {
-      "file": "app/styles/theme/hc.css",
-      "line": 1507,
-      "selector": "html[data-contrast=\"hc\"] body :is( .ui-glow-field, .materials-comment-glow-field, .service-map-toolbar__glow-field, .service-map-toolbar__type-card, .invite-glo",
-      "prop": "color",
-      "surface": true,
-      "cats": [
-        "theme-override"
-      ]
-    },
-    {
-      "file": "app/styles/theme/hc.css",
-      "line": 1508,
-      "selector": "html[data-contrast=\"hc\"] body :is( .ui-glow-field, .materials-comment-glow-field, .service-map-toolbar__glow-field, .service-map-toolbar__type-card, .invite-glo",
-      "prop": "border-color",
-      "surface": true,
-      "cats": [
-        "theme-override"
-      ]
-    },
-    {
-      "file": "app/styles/theme/hc.css",
-      "line": 1509,
-      "selector": "html[data-contrast=\"hc\"] body :is( .ui-glow-field, .materials-comment-glow-field, .service-map-toolbar__glow-field, .service-map-toolbar__type-card, .invite-glo",
-      "prop": "box-shadow",
-      "surface": true,
-      "cats": [
-        "theme-override"
-      ]
-    },
-    {
-      "file": "app/styles/theme/hc.css",
-      "line": 1523,
       "selector": "html[data-contrast=\"hc\"] body :is( button, [role=\"button\"], label ):is( [class*=\"BorderGlow-module\"], .ui-glow-button-frame, .ui-glow-option-card-frame, .materi",
       "prop": "background",
       "surface": true,
@@ -34421,7 +34329,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1524,
+      "line": 1494,
       "selector": "html[data-contrast=\"hc\"] body :is( button, [role=\"button\"], label ):is( [class*=\"BorderGlow-module\"], .ui-glow-button-frame, .ui-glow-option-card-frame, .materi",
       "prop": "color",
       "surface": true,
@@ -34432,7 +34340,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1525,
+      "line": 1495,
       "selector": "html[data-contrast=\"hc\"] body :is( button, [role=\"button\"], label ):is( [class*=\"BorderGlow-module\"], .ui-glow-button-frame, .ui-glow-option-card-frame, .materi",
       "prop": "border-color",
       "surface": true,
@@ -34443,7 +34351,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1526,
+      "line": 1496,
       "selector": "html[data-contrast=\"hc\"] body :is( button, [role=\"button\"], label ):is( [class*=\"BorderGlow-module\"], .ui-glow-button-frame, .ui-glow-option-card-frame, .materi",
       "prop": "box-shadow",
       "surface": true,
@@ -34454,7 +34362,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1535,
+      "line": 1505,
       "selector": "html[data-contrast=\"hc\"] body :is( .register-content, .invite-modal-content, .person-invite-modal-content, .a11y-modal-shell ) [data-control-type][data-checked=",
       "prop": "--hc-control-bg",
       "surface": false,
@@ -34464,7 +34372,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1536,
+      "line": 1506,
       "selector": "html[data-contrast=\"hc\"] body :is( .register-content, .invite-modal-content, .person-invite-modal-content, .a11y-modal-shell ) [data-control-type][data-checked=",
       "prop": "--hc-control-bg-hover",
       "surface": false,
@@ -34474,7 +34382,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1537,
+      "line": 1507,
       "selector": "html[data-contrast=\"hc\"] body :is( .register-content, .invite-modal-content, .person-invite-modal-content, .a11y-modal-shell ) [data-control-type][data-checked=",
       "prop": "--hc-control-bg-active",
       "surface": false,
@@ -34484,7 +34392,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1538,
+      "line": 1508,
       "selector": "html[data-contrast=\"hc\"] body :is( .register-content, .invite-modal-content, .person-invite-modal-content, .a11y-modal-shell ) [data-control-type][data-checked=",
       "prop": "--btn-primary-bg",
       "surface": false,
@@ -34494,7 +34402,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1539,
+      "line": 1509,
       "selector": "html[data-contrast=\"hc\"] body :is( .register-content, .invite-modal-content, .person-invite-modal-content, .a11y-modal-shell ) [data-control-type][data-checked=",
       "prop": "--btn-primary-bg-hover",
       "surface": false,
@@ -34504,7 +34412,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1540,
+      "line": 1510,
       "selector": "html[data-contrast=\"hc\"] body :is( .register-content, .invite-modal-content, .person-invite-modal-content, .a11y-modal-shell ) [data-control-type][data-checked=",
       "prop": "--btn-primary-bg-active",
       "surface": false,
@@ -34514,7 +34422,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1541,
+      "line": 1511,
       "selector": "html[data-contrast=\"hc\"] body :is( .register-content, .invite-modal-content, .person-invite-modal-content, .a11y-modal-shell ) [data-control-type][data-checked=",
       "prop": "background",
       "surface": true,
@@ -34524,7 +34432,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1542,
+      "line": 1512,
       "selector": "html[data-contrast=\"hc\"] body :is( .register-content, .invite-modal-content, .person-invite-modal-content, .a11y-modal-shell ) [data-control-type][data-checked=",
       "prop": "background-color",
       "surface": true,
@@ -34534,7 +34442,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1543,
+      "line": 1513,
       "selector": "html[data-contrast=\"hc\"] body :is( .register-content, .invite-modal-content, .person-invite-modal-content, .a11y-modal-shell ) [data-control-type][data-checked=",
       "prop": "border-color",
       "surface": true,
@@ -34544,7 +34452,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1544,
+      "line": 1514,
       "selector": "html[data-contrast=\"hc\"] body :is( .register-content, .invite-modal-content, .person-invite-modal-content, .a11y-modal-shell ) [data-control-type][data-checked=",
       "prop": "box-shadow",
       "surface": true,
@@ -34554,7 +34462,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1553,
+      "line": 1523,
       "selector": "html[data-contrast=\"hc\"] body :is( .register-content, .invite-modal-content, .person-invite-modal-content, .a11y-modal-shell ) [data-control-type][data-checked=",
       "prop": "opacity",
       "surface": true,
@@ -34565,7 +34473,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1554,
+      "line": 1524,
       "selector": "html[data-contrast=\"hc\"] body :is( .register-content, .invite-modal-content, .person-invite-modal-content, .a11y-modal-shell ) [data-control-type][data-checked=",
       "prop": "background",
       "surface": true,
@@ -34576,7 +34484,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1559,
+      "line": 1529,
       "selector": "html[data-contrast=\"hc\"] body :is(button, [role=\"button\"], label).ui-glow-option-card-frame[data-checked=\"true\"]:not(.profile-orbit-menu__item):not(.profile-orb",
       "prop": "--hc-control-bg",
       "surface": false,
@@ -34587,7 +34495,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1560,
+      "line": 1530,
       "selector": "html[data-contrast=\"hc\"] body :is(button, [role=\"button\"], label).ui-glow-option-card-frame[data-checked=\"true\"]:not(.profile-orbit-menu__item):not(.profile-orb",
       "prop": "--hc-control-bg-hover",
       "surface": false,
@@ -34598,7 +34506,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1561,
+      "line": 1531,
       "selector": "html[data-contrast=\"hc\"] body :is(button, [role=\"button\"], label).ui-glow-option-card-frame[data-checked=\"true\"]:not(.profile-orbit-menu__item):not(.profile-orb",
       "prop": "--hc-control-bg-active",
       "surface": false,
@@ -34609,7 +34517,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1562,
+      "line": 1532,
       "selector": "html[data-contrast=\"hc\"] body :is(button, [role=\"button\"], label).ui-glow-option-card-frame[data-checked=\"true\"]:not(.profile-orbit-menu__item):not(.profile-orb",
       "prop": "--btn-primary-bg",
       "surface": false,
@@ -34620,7 +34528,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1563,
+      "line": 1533,
       "selector": "html[data-contrast=\"hc\"] body :is(button, [role=\"button\"], label).ui-glow-option-card-frame[data-checked=\"true\"]:not(.profile-orbit-menu__item):not(.profile-orb",
       "prop": "--btn-primary-bg-hover",
       "surface": false,
@@ -34631,7 +34539,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1564,
+      "line": 1534,
       "selector": "html[data-contrast=\"hc\"] body :is(button, [role=\"button\"], label).ui-glow-option-card-frame[data-checked=\"true\"]:not(.profile-orbit-menu__item):not(.profile-orb",
       "prop": "--btn-primary-bg-active",
       "surface": false,
@@ -34642,7 +34550,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1565,
+      "line": 1535,
       "selector": "html[data-contrast=\"hc\"] body :is(button, [role=\"button\"], label).ui-glow-option-card-frame[data-checked=\"true\"]:not(.profile-orbit-menu__item):not(.profile-orb",
       "prop": "background",
       "surface": true,
@@ -34653,7 +34561,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1566,
+      "line": 1536,
       "selector": "html[data-contrast=\"hc\"] body :is(button, [role=\"button\"], label).ui-glow-option-card-frame[data-checked=\"true\"]:not(.profile-orbit-menu__item):not(.profile-orb",
       "prop": "background-color",
       "surface": true,
@@ -34664,7 +34572,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1567,
+      "line": 1537,
       "selector": "html[data-contrast=\"hc\"] body :is(button, [role=\"button\"], label).ui-glow-option-card-frame[data-checked=\"true\"]:not(.profile-orbit-menu__item):not(.profile-orb",
       "prop": "border-color",
       "surface": true,
@@ -34675,7 +34583,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1568,
+      "line": 1538,
       "selector": "html[data-contrast=\"hc\"] body :is(button, [role=\"button\"], label).ui-glow-option-card-frame[data-checked=\"true\"]:not(.profile-orbit-menu__item):not(.profile-orb",
       "prop": "box-shadow",
       "surface": true,
@@ -34686,7 +34594,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1573,
+      "line": 1543,
       "selector": "html[data-contrast=\"hc\"] body .workspace-dashboard-card, html[data-contrast=\"hc\"] body .workspace-dashboard-card:is(:hover, :focus-visible, :active)",
       "prop": "background",
       "surface": true,
@@ -34697,7 +34605,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1574,
+      "line": 1544,
       "selector": "html[data-contrast=\"hc\"] body .workspace-dashboard-card, html[data-contrast=\"hc\"] body .workspace-dashboard-card:is(:hover, :focus-visible, :active)",
       "prop": "border",
       "surface": true,
@@ -34708,7 +34616,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1575,
+      "line": 1545,
       "selector": "html[data-contrast=\"hc\"] body .workspace-dashboard-card, html[data-contrast=\"hc\"] body .workspace-dashboard-card:is(:hover, :focus-visible, :active)",
       "prop": "color",
       "surface": true,
@@ -34719,7 +34627,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1576,
+      "line": 1546,
       "selector": "html[data-contrast=\"hc\"] body .workspace-dashboard-card, html[data-contrast=\"hc\"] body .workspace-dashboard-card:is(:hover, :focus-visible, :active)",
       "prop": "box-shadow",
       "surface": true,
@@ -34730,7 +34638,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1580,
+      "line": 1550,
       "selector": "html[data-contrast=\"hc\"] body .workspace-dashboard-card:focus-visible",
       "prop": "border-color",
       "surface": true,
@@ -34741,7 +34649,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1584,
+      "line": 1554,
       "selector": "html[data-contrast=\"hc\"] body .workspace-dashboard-card::after",
       "prop": "display",
       "surface": false,
@@ -34752,7 +34660,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1588,
+      "line": 1558,
       "selector": "html[data-contrast=\"hc\"] body .invite-list-panel",
       "prop": "background",
       "surface": true,
@@ -34762,7 +34670,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1589,
+      "line": 1559,
       "selector": "html[data-contrast=\"hc\"] body .invite-list-panel",
       "prop": "border",
       "surface": true,
@@ -34772,7 +34680,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1590,
+      "line": 1560,
       "selector": "html[data-contrast=\"hc\"] body .invite-list-panel",
       "prop": "border-color",
       "surface": true,
@@ -34782,7 +34690,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1591,
+      "line": 1561,
       "selector": "html[data-contrast=\"hc\"] body .invite-list-panel",
       "prop": "box-shadow",
       "surface": true,
@@ -34792,7 +34700,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1595,
+      "line": 1565,
       "selector": "html[data-contrast=\"hc\"] body .invite-list-panel:is(:hover, :focus-within, :focus-visible, :active)",
       "prop": "background",
       "surface": true,
@@ -34803,7 +34711,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1596,
+      "line": 1566,
       "selector": "html[data-contrast=\"hc\"] body .invite-list-panel:is(:hover, :focus-within, :focus-visible, :active)",
       "prop": "border-color",
       "surface": true,
@@ -34814,7 +34722,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1597,
+      "line": 1567,
       "selector": "html[data-contrast=\"hc\"] body .invite-list-panel:is(:hover, :focus-within, :focus-visible, :active)",
       "prop": "box-shadow",
       "surface": true,
@@ -34825,7 +34733,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1603,
+      "line": 1573,
       "selector": "html[data-contrast=\"hc\"] body .invite-list-panel::before, html[data-contrast=\"hc\"] body .invite-list-panel::after, html[data-contrast=\"hc\"] body .invite-list-pa",
       "prop": "display",
       "surface": false,
@@ -34836,7 +34744,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1604,
+      "line": 1574,
       "selector": "html[data-contrast=\"hc\"] body .invite-list-panel::before, html[data-contrast=\"hc\"] body .invite-list-panel::after, html[data-contrast=\"hc\"] body .invite-list-pa",
       "prop": "opacity",
       "surface": true,
@@ -34847,7 +34755,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1605,
+      "line": 1575,
       "selector": "html[data-contrast=\"hc\"] body .invite-list-panel::before, html[data-contrast=\"hc\"] body .invite-list-panel::after, html[data-contrast=\"hc\"] body .invite-list-pa",
       "prop": "background",
       "surface": true,
@@ -34858,7 +34766,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1606,
+      "line": 1576,
       "selector": "html[data-contrast=\"hc\"] body .invite-list-panel::before, html[data-contrast=\"hc\"] body .invite-list-panel::after, html[data-contrast=\"hc\"] body .invite-list-pa",
       "prop": "box-shadow",
       "surface": true,
@@ -34869,7 +34777,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1613,
+      "line": 1583,
       "selector": "html[data-contrast=\"hc\"] body :is( .invite-modal-content, .person-invite-modal-content ) .invite-list-panel.invite-glow-panel",
       "prop": "background",
       "surface": true,
@@ -34879,7 +34787,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1614,
+      "line": 1584,
       "selector": "html[data-contrast=\"hc\"] body :is( .invite-modal-content, .person-invite-modal-content ) .invite-list-panel.invite-glow-panel",
       "prop": "border",
       "surface": true,
@@ -34889,7 +34797,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1615,
+      "line": 1585,
       "selector": "html[data-contrast=\"hc\"] body :is( .invite-modal-content, .person-invite-modal-content ) .invite-list-panel.invite-glow-panel",
       "prop": "border-color",
       "surface": true,
@@ -34899,7 +34807,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1616,
+      "line": 1586,
       "selector": "html[data-contrast=\"hc\"] body :is( .invite-modal-content, .person-invite-modal-content ) .invite-list-panel.invite-glow-panel",
       "prop": "box-shadow",
       "surface": true,
@@ -34909,7 +34817,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1623,
+      "line": 1593,
       "selector": "html[data-contrast=\"hc\"] body :is( .invite-modal-content, .person-invite-modal-content ) .invite-list-panel.invite-glow-panel:is(:hover, :focus-within)",
       "prop": "border-color",
       "surface": true,
@@ -34920,7 +34828,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1624,
+      "line": 1594,
       "selector": "html[data-contrast=\"hc\"] body :is( .invite-modal-content, .person-invite-modal-content ) .invite-list-panel.invite-glow-panel:is(:hover, :focus-within)",
       "prop": "background",
       "surface": true,
@@ -34931,7 +34839,7 @@
     },
     {
       "file": "app/styles/theme/hc.css",
-      "line": 1625,
+      "line": 1595,
       "selector": "html[data-contrast=\"hc\"] body :is( .invite-modal-content, .person-invite-modal-content ) .invite-list-panel.invite-glow-panel:is(:hover, :focus-within)",
       "prop": "box-shadow",
       "surface": true,

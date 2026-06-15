@@ -29,6 +29,7 @@
 **Viil 2.4 VALMIS [`f06fd321`]:** `app/error.jsx` retry nupp migreeritud `<Button>` komponendile. 3-reaLine Tailwind duplikaat (baseStyles+primaryStyles koopia) eemaldatud.
 **Viil 2.5 VALMIS [`055d1d15`]:** `glassPrimaryButtonToneClassName` border-nulli kitsendatud `.theme-light:not(.theme-mid)` kontekstile. HC teema saab nüüd 2px kollase piiri klaas-lehtedel läbi token kaskaadi (enam ei nullita üle).
 **Viil 2.6 VALMIS:** `theme/hc.css` chat-analysis border-rida eemaldatud (token katab pärast viil 2.5). `features/chat/shell.css` 4-reegel (color+bg+border+shadow+::before+hover+active) → 1 reegel (ainult backdrop-filter). !important: 3676 → 3662 (−14). 967/13.
+**Viil 2.7 VALMIS:** `theme/hc.css` vana HC mega-ahel (30 rida, `hc-control-bg !important` + `border-color !important`) KUSTUTATUD. Token-põhine ahel (259-306) katab samad elemendid ilma `!important`-ta; kontekstispetsiifilised reeglid kaitsevad erandeid. NB: Edit tööriist tekitas CRLF – parandatud `sed -i` ENNE commiti. !important: 3662 → 3654 (−8). 967/13.
 
 **Eelmiste viilide lühikokkuvõte (1.5–1.9):**
 - viil 1.5: `.invite-primary-btn` eemaldus mono/hc `:is()`-loendist + JSX

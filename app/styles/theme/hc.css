@@ -1267,36 +1267,6 @@ html[data-contrast="hc"] body :is(
   color: var(--hc-accent);
 }
 
-html[data-contrast="hc"] body :is(
-  button,
-  [role="button"],
-  .button,
-  .btn,
-  input[type="button"],
-  input[type="submit"],
-  input[type="reset"]
-):not(.back-button):not(.chat-back-button):not(.glass-policy-back):not(.profile-logout-button):not(.home-card-a11y-button):not(.profile-orbit-stack-item):not(.profile-orbit-menu__item):not(.profile-orbit-menu__center):not(.profile-orbit-mobile-action):not(.profile-orbit-stack-bubble):not([data-chat-mobile-topnav-button="1"]):not(.chat-rail-icon-btn):not(.chat-send-btn):not(.chat-listen-btn):not(.chat-assistant-action-btn):not(.chat-dictate-btn):not(.chat-side-control-btn):not(.chat-tools-btn):not(.chat-document-attach-btn) {
-  color: var(--hc-accent) !important;
-  background: var(--hc-control-bg) !important;
-  border-color: rgba(255, 234, 0, 0.66) !important;
-  box-shadow: none !important;
-}
-
-html[data-contrast="hc"] body :is(
-  button,
-  [role="button"],
-  .button,
-  .btn,
-  input[type="button"],
-  input[type="submit"],
-  input[type="reset"]
-):not(.back-button):not(.chat-back-button):not(.glass-policy-back):not(.profile-logout-button):not(.home-card-a11y-button):not(.profile-orbit-stack-item):not(.profile-orbit-menu__item):not(.profile-orbit-menu__center):not(.profile-orbit-mobile-action):not(.profile-orbit-stack-bubble):not([data-chat-mobile-topnav-button="1"]):not(.chat-rail-icon-btn):not(.chat-send-btn):not(.chat-listen-btn):not(.chat-assistant-action-btn):not(.chat-dictate-btn):not(.chat-side-control-btn):not(.chat-tools-btn):not(.chat-document-attach-btn):is(:hover, :focus-visible, :active) {
-  color: var(--hc-accent) !important;
-  background: var(--hc-control-bg-hover) !important;
-  border-color: rgba(255, 234, 0, 0.9) !important;
-  box-shadow: none !important;
-}
-
 html[data-contrast="hc"] :is(
   .ui-glow-field,
   .materials-comment-glow-field,
