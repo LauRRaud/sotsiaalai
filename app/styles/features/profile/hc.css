@@ -5,20 +5,20 @@ html[data-contrast="hc"] .profile-orbit-item-label,
 html[data-contrast="hc"] .profile-orbit-item-icon,
 html[data-contrast="hc"] .profile-orbit-mobile-action__label,
 html[data-contrast="hc"] .profile-orbit-stack-label {
-  color: var(--hc-accent) !important;
+  color: var(--hc-accent);
 }
 
 html[data-contrast="hc"]
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   :is(.profile-orbit-mobile-action .dock-icon, .profile-orbit-stack-bubble .dock-icon) {
-  color: var(--hc-accent) !important;
+  color: var(--hc-accent);
 }
 
 html[data-contrast="hc"]
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   :is(.profile-orbit-item-icon, .profile-orbit-mobile-action .dock-icon, .profile-orbit-stack-bubble .dock-icon)
   svg {
-  stroke: currentColor !important;
+  stroke: currentColor;
 }
 
 html[data-contrast="hc"]
@@ -26,7 +26,7 @@ html[data-contrast="hc"]
   :is(.profile-orbit-item-icon, .profile-orbit-mobile-action .dock-icon, .profile-orbit-stack-bubble .dock-icon)
   svg
   [fill]:not([fill="none"]) {
-  fill: currentColor !important;
+  fill: currentColor;
 }
 
 html[data-contrast="hc"]
@@ -225,10 +225,10 @@ html[data-contrast="hc"]
   body
   .profile-orbit-stack-item {
   -webkit-tap-highlight-color: transparent;
-  background: transparent !important;
+  background: transparent;
   border: 0 !important;
   box-shadow: none !important;
-  outline: none !important;
+  outline: none;
 }
 
 html[data-contrast="hc"]
@@ -238,10 +238,10 @@ html[data-contrast="hc"]
     :focus-visible,
     :active
   ) {
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  outline: none !important;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  outline: none;
 }
 
 html[data-contrast="hc"]
@@ -264,8 +264,8 @@ html[data-contrast="hc"]
   .profile-orbit-mobile-panel
   .profile-orbit-mobile-visual {
   opacity: 1 !important;
-  filter: var(--orbit-mobile-visual-filter, none) !important;
-  transform: scale(1) !important;
+  filter: var(--orbit-mobile-visual-filter, none);
+  transform: scale(1);
 }
 
 @media (min-width: 48.001em) {

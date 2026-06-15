@@ -34,6 +34,7 @@ Legend: ✅ tehtud · 🔄 pooleli · ⬜ tegemata · 🔒 alles-jäetud (load-b
 | `features/chat/hc.css` | 207 | **112** | 0 | 🔒 95 (88 force-keep: 6 alati-nähtavat load-bearing + KÕIK drawer-sisesed, mida gate ei ava; 7 kontrakt) | **95** | ✅ | 53ff7cf3 |
 | `features/chat/mono.css` | 131 | **42** | 0 | 🔒 89 (84 force-keep: .chat-composer-glow-shell load-bearing + KÕIK drawer-sisesed; drawer-keskne fail) | **89** | ✅ | (käes) |
 | `features/chat` (muu) | 456 | 0 | 0 | shell 191, mobile 169, themes 93 — ootel | 456 | ⬜ | — |
+| `features/profile/hc.css` | 40 | **12** | 0 | 🔒 28 (25 force-keep: .dock-item + .profile-orbit-menu__center load-bearing + kontrakt; orbit-menu ülejäänu = teema-dropout müra, mitte vaba) | **28** | ✅ | (käes) |
 | `features/service-map` | 357 | 0 | 0 | — | 357 | ⬜ | — |
 | `mobile/` | 806 | 0 | 0 | — | 806 | ⬜ | — |
 | `shared/` | 384 | 0 | 0 | — | 384 | ⬜ | — |
