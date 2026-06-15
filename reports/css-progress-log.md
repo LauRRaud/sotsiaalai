@@ -12,16 +12,23 @@
 
 ---
 
-## PRAEGUNE SEIS (14.06.2026)
+## PRAEGUNE SEIS (15.06.2026)
 - **Struktuurne restruktuur:** valmis (etapid 0–7 + 6a/b/c).
 - **Rail-dedup + orbiit + surnud mask:** valmis (vt allpool).
 - **PROD-CRASH PARANDATUD** — `OrbitStaticGlow` ise-rekursioon (`9e3b1cd9`) → /profiil OOM produktsioonis; fix `d3a92302`, deployitud `8cc8063b`. Vt allpool + `[[css-restructure-progress]]` HOIATUS.
-- **Verifikatsiooni-infra:** snapshot + diff + matched-rules + **`css-effective-audit.mjs` (VALMIS & robustne)** — per-leht × 6 teemat × 4vp efektiivne kate, FP-fix + android + known-FP välistus + 2b mount-states + state-tested fix + 4 plain komponendi-CSS katvus. Vt allpool "Effective-audit tööriist".
-- **AUTORITEETNE ARTEFAKT:** `reports/css-effective-audit/2026-06-13-authoritative.json` (37 route'i × 6 teemat × 4vp, üks jooks) — **1232 dead / 64 state-no-op / 36 kept-dynamic / 0 high-confidence**. 0 high-confidence = ristvalideeritud lihtsad võidud AMMENDATUD. Universe 3530 selektorit / 69 faili.
-- **Faas 1 (surnud kood):** lihtsad võidud tehtud (skip-link + varasem). Jääk = JS-oleku-taga + teema-variant kandidaadid (case-by-case snapshot). **Faas 2 (konsolideerimine) on nüüd Sonneti põhitöö** — vt JÄRGMINE SAMM.
-- **Faas 2 — dropdown viil:** VALMIS (`ff8390cd`). `:root.theme-X` tokenid + eemaldatud `!important` + HC globaalsed reeglid. Järgmine: **button (~99 hajutus)**.
+- **Verifikatsiooni-infra:** snapshot + diff + matched-rules + **`css-effective-audit.mjs` (VALMIS & robustne)**. Vt allpool "Effective-audit tööriist".
+- **AUTORITEETNE ARTEFAKT:** `reports/css-effective-audit/2026-06-13-authoritative.json` (37 route'i × 6 teemat × 4vp).
+- **Faas 2 — dropdown viil:** VALMIS (`ff8390cd`). Järgmine: **button (~99 hajutus)**.
+- **Faas 2 — button viilud 1.5–1.9:** VALMIS (15.06.2026). ghost/secondary = 0, mono mega-ahelad kustutatud. !important: 3769 → 3746 (−23). Järgmine: HC ahelad.
 
-## ⏳ POOLELI — viil 1.5 (mono/hc nupu-hiigel-ahelad) [Opus, alustatud 14.06.2026]
+## ⏳ POOLELI — hc.css nupu-ahelad (15.06.2026)
+
+**Eelmiste viilide lühikokkuvõte (1.5–1.9):**
+- viil 1.5: `.invite-primary-btn` eemaldus mono/hc `:is()`-loendist + JSX
+- viil 1.6: ikoon-close token + segmented VALMIS (`91185f3e`, `dcdbbec8`)
+- viil 1.7 [`281adad9`]: MaterialsAdminSubmissionsPanel secondary→primary
+- viil 1.8 [`c40af872`]: AgentModePage audio-toggle ghost→linkBrand
+- viil 1.9 [`61c895eb`]: mono.css 4 button mega-ahelat KUSTUTATUD (Button.jsx+tokens katab ise)
 
 **Otsus (kasutaja kinnitas 14.06):** migreeri allesjäänud `secondary`/`ghost` Button-kasutused → `primary` (või `linkBrand` ekspordile), SIIS kustuta teema-ahelad. Põhjus: mono ahel `:is(.button,.btn,[data-variant="primary"])` tabab `.button`-haru kaudu KÕIKI nuppe (ka ghost/secondary) ja sunnib neile `!important`-iga primary-välimuse — st mono's näevad praegu kõik nupud välja nagu primary klaaspill. See on **sihilik kaitse**: paljas ghost (`bg-rgba(255,255,255,0.04)`) on mono tumehallil peaaegu nähtamatu. Seega ahela lihtne kustutus EI ole identne — esmalt tuleb ghost/secondary platvormilt kaotada.
 
@@ -31,17 +38,15 @@
 3. `app/admin/wellbeing/AdminWellbeingClient.jsx:237,254` (+332 submit) — `secondary` refresh/load nupud primary CSV kõrval → **lihtne →primary** (plaani siht).
 4. `app/tooheaolu/piloot/WellbeingPilotClient.jsx:243,251,255` — refresh + print/xlsx (`as="a"`) secondary, primary CSV kõrval → **lihtne →primary** (CSV on juba primary, ühtlustamiseks kõik primary).
 
-**Ahelate asukohad (kustutamiseks PÄRAST ülaltoodud migratsiooni):**
-- `app/styles/theme/mono.css` read **110, 254, 266, 272** — 4 ahelat (baas + ::before + hover + hover::before). Tokenid juba olemas `tokens/theme-mono.css:184–185` (`--btn-primary-text: var(--forest-icon)`, `--btn-primary-text-hover: var(--forest-title-soft)`); komponent `Button.jsx` `primaryStyles` toodab sama ::before-crossfade ise → ahel redundantne kui ghost/secondary kadunud.
-- `app/styles/theme/hc.css` read **538, 543, 549, 553, 558, 562, 813, 827, 840** (+ chat-analysis 903+). HC = a11y-kriitiline, kontrasti-kontroll kohustuslik.
+**Ahelate asukohad:**
+- `app/styles/theme/mono.css` — 4 ahelat **KUSTUTATUD** viil 1.9 [`61c895eb`]. Button.jsx primaryStyles + tokens/theme-mono.css katavad. desktop.css service-map-toolbar__result-button on ise-stiilitud (own !important token vars).
+- `app/styles/theme/hc.css` read **538, 543, 549, 553, 558, 562, 813, 827, 840** (+ chat-analysis 903+). HC = a11y-kriitiline, kontrasti-kontroll kohustuslik. OLULINE ERO: HC ahelad lisavad `border-color: rgba(255, 234, 0, 0.66)` kollast äärt — token `--btn-primary-border: 0 solid transparent` ei kata seda. Lahendus: kas (a) lisa HC tokenisse `--btn-primary-border: rgba(255,234,0,0.66)` kõikidele kontekstidele, või (b) migreeri scoped-kontekstid HC `--btn-primary-border` override'iga. Kontrastikontroll ENNE kustutust.
 
 **NB nimekonventsioon (kasutaja selgitas 14.06):** `--forest-*` tokenid on **legacy roheka teema nimed** — mono on endine "forest"-teema, väärtused ümber kirjutatud hallskaalaks (`--forest-icon: rgba(230,230,230,0.96)` = hall). Nime EI pea muutma.
 
 **Järgmised sammud uue sessiooni jaoks:**
-1. Migreeri wellbeing (3+4) secondary→primary (lihtne, snapshot identical neil route'idel pole mono-ahela-sõltuvust väljaspool).
-2. Otsusta AgentModePage toggle (1) + Materials (2) — vajab brauseri-verifikatsiooni + võib vajada kasutaja disainisisendit.
-3. Alles kui ghost/secondary = 0 → kustuta mono + hc ahelad, lai snapshot (kõik 6 teemat × nupu-route'd), HC kontrasti-kontroll. Üks commit per teemafail.
-4. Värav: `css-snapshot` ✓ identical (v.a teadlikult muudetud secondary→primary route'd), `npm test` 967/13, `css-important-audit` arv langeb.
+1. HC ahelad (538, 543, 549, 553, 558, 562, 813, 827, 840) — a11y-kriitiline. Vaja: (a) otsusta kas lisada `--btn-primary-border: rgba(255,234,0,0.66)` HC tokenisse globaalselt (kõik nupud saavad kollase ääre HC's) VÕI (b) jäta scoped ahelad, eemalda ainult `.button`/`.btn` ja jäta `[data-variant="primary"]`. Brauseris kontrastikontroll.
+2. Värav: `npm test` 967/13, `css-important-audit` arv langeb.
 
 ---
 
