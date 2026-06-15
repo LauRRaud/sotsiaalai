@@ -15,6 +15,18 @@
 ---
 
 ## PRAEGUNE SEIS (15.06.2026)
+
+> **⚡ PARALLEELNE RADA — OTSENE `!important`-STRIP (oraakel + render-gate), 15.–16.06.2026.**
+> Eraldi, komplementaarne töövoog selle struktuurse raja kõrval. Vt
+> **[`reports/css-cleanup/important-ledger.md`](css-cleanup/important-ledger.md)** (REGISTER) +
+> **[`reports/css-cleanup/HANDOFF.md`](css-cleanup/HANDOFF.md)**. Tööriist `scripts/css-cleanup/
+> theme-strip-oracle.mjs`: kasutab testide regexe oraaklina + render-gate'i, strippib teema-
+> ja teema-laadsete feature-failide render-redundantse `!important`-i (teemad võidavad
+> spetsifikatsusega ilma markerita). **Platvorm: 3642 → 2990** (hc/mid/mono teema-failid
+> puhtad; chat/hc+mono + profile/hc feature-failid stripitud). EI konflikti token-
+> migratsiooniga (see rada eemaldab VABA fraktsiooni; token-migratsioon teeb ülejäänu
+> struktuurselt). Mõlemad kasutavad sama gate-infra (`css-snapshot.mjs` + `npm test`).
+
 - **Struktuurne restruktuur:** valmis (etapid 0–7 + 6a/b/c).
 - **Rail-dedup + orbiit + surnud mask:** valmis (vt allpool).
 - **PROD-CRASH PARANDATUD** — `OrbitStaticGlow` ise-rekursioon (`9e3b1cd9`) → /profiil OOM produktsioonis; fix `d3a92302`, deployitud `8cc8063b`. Vt allpool + `[[css-restructure-progress]]` HOIATUS.

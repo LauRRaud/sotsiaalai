@@ -28,41 +28,41 @@
 
 @media (min-width: 768px) {
   .chat-page-shell {
-    overflow: visible !important;
+    overflow: visible;
   }
 }
 
 @media (min-width: 768px) and (max-width: 1440px) {
   .chat-page-shell
     .chat-container.chat-container--round.chat-container--input-focus {
-    --chat-diameter: var(--ring-diameter, var(--ring-diameter-default)) !important;
+    --chat-diameter: var(--ring-diameter, var(--ring-diameter-default));
   }
 }
 
 .chat-msg-user,
 .chat-msg-user-bubble,
 .chat-msg-user-bubble > * {
-  min-width: 0 !important;
-  max-width: 100% !important;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .chat-msg-ai {
-  width: 100% !important;
-  max-width: 100% !important;
+  width: 100%;
+  max-width: 100%;
 }
 
 .chat-msg-user-bubble,
 .chat-msg-user-bubble > * {
-  overflow-wrap: break-word !important;
-  word-break: normal !important;
-  hyphens: auto !important;
+  overflow-wrap: break-word;
+  word-break: normal;
+  hyphens: auto;
 }
 
 .chat-msg-ai,
 .chat-msg-ai :is(p, li, div) {
-  overflow-wrap: break-word !important;
-  word-break: normal !important;
-  hyphens: none !important;
+  overflow-wrap: break-word;
+  word-break: normal;
+  hyphens: none;
 }
 
 .chat-container--workspace-open .chat-window__scroll {
@@ -114,7 +114,7 @@
     rgba(0, 0, 0, 0.025) calc(100% - (var(--chat-window-fade-bottom-active) * 0.2)),
     rgba(0, 0, 0, 0) calc(100% - (var(--chat-window-fade-bottom-active) * 0.08)),
     transparent 100%
-  ) !important;
+  );
   -webkit-mask-image: linear-gradient(
     to bottom,
     transparent 0%,
@@ -137,7 +137,7 @@
     rgba(0, 0, 0, 0.025) calc(100% - (var(--chat-window-fade-bottom-active) * 0.2)),
     rgba(0, 0, 0, 0) calc(100% - (var(--chat-window-fade-bottom-active) * 0.08)),
     transparent 100%
-  ) !important;
+  );
 }
 
 .drawer-chat-sidebar__list {
@@ -272,8 +272,8 @@
     height: var(--chat-diameter);
     max-height: var(--chat-diameter);
     block-size: var(--chat-diameter);
-    border-top-left-radius: clamp(1.6rem, 3.5vw, 2.4rem) !important;
-    border-top-right-radius: clamp(1.6rem, 3.5vw, 2.4rem) !important;
+    border-top-left-radius: clamp(1.6rem, 3.5vw, 2.4rem);
+    border-top-right-radius: clamp(1.6rem, 3.5vw, 2.4rem);
     border-bottom-left-radius: clamp(1.6rem, 3.5vw, 2.4rem);
     border-bottom-right-radius: clamp(1.6rem, 3.5vw, 2.4rem);
     transform: none;
@@ -308,16 +308,16 @@
 
 @media (min-width: 768px) and (max-width: 1440px) and (max-height: 840px) {
   .chat-page-shell .chat-container.chat-container--round {
-    --chat-window-top-offset: clamp(0.35rem, 0.9vh, 0.7rem) !important;
-    --chat-window-bottom-gap: -2.55rem !important;
-    --chat-window-fade-bottom: clamp(2.76rem, 6.75vh, 4.55rem) !important;
-    --chat-window-shift-y: clamp(1.9rem, 3.95vh, 2.88rem) !important;
-    --chat-scroll-down-offset: -0.9rem !important;
-    --chat-window-pad-top: 1.02rem !important;
-    --chat-window-top-safe: 4.2rem !important;
-    --chat-content-top-offset: 2.9rem !important;
-    --chat-window-fade-top: clamp(0.98rem, 2.38vh, 1.66rem) !important;
-    --chat-window-fade-top-focus: clamp(0.78rem, 1.75vh, 1.18rem) !important;
+    --chat-window-top-offset: clamp(0.35rem, 0.9vh, 0.7rem);
+    --chat-window-bottom-gap: -2.55rem;
+    --chat-window-fade-bottom: clamp(2.76rem, 6.75vh, 4.55rem);
+    --chat-window-shift-y: clamp(1.9rem, 3.95vh, 2.88rem);
+    --chat-scroll-down-offset: -0.9rem;
+    --chat-window-pad-top: 1.02rem;
+    --chat-window-top-safe: 4.2rem;
+    --chat-content-top-offset: 2.9rem;
+    --chat-window-fade-top: clamp(0.98rem, 2.38vh, 1.66rem);
+    --chat-window-fade-top-focus: clamp(0.78rem, 1.75vh, 1.18rem);
   }
 
   .chat-page-shell .chat-container.chat-container--round.chat-container--input-focus,
@@ -325,37 +325,37 @@
   .chat-page-shell .chat-container.chat-container--round.chat-layout-desktop:has(.chat-inputbar:focus-within) {
     --chat-focus-inline-extra: clamp(0.06rem, 0.22vw, 0.18rem);
     --chat-focus-content-inline-extra: clamp(0.22rem, 0.65vw, 0.58rem);
-    --chat-window-top-offset: clamp(1.2rem, 2.6vh, 2rem) !important;
-    --chat-window-shift-y: clamp(-1.65rem, -3.1vh, -0.85rem) !important;
-    --chat-window-pad-top: 0.95rem !important;
-    --chat-window-top-safe: 2.25rem !important;
-    --chat-content-top-offset: 1rem !important;
-    --chat-content-spacer: clamp(1.75rem, 4.2vh, 2.9rem) !important;
-    --chat-window-fade-top: clamp(0.82rem, 1.84vh, 1.3rem) !important;
-    --chat-window-fade-top-focus: clamp(0.82rem, 1.84vh, 1.3rem) !important;
-    --chat-window-scroll-top-fade-start-focus: 0.38rem !important;
-    --chat-window-scroll-top-fade-mid-focus: 0.76rem !important;
-    --chat-window-scroll-top-fade-end-focus: 1.34rem !important;
-    --chat-window-bottom-gap: 1.05rem !important;
-    --chat-window-main-bottom-overlap: clamp(-1.65rem, -3.5vh, -1.05rem) !important;
-    --chat-scroll-down-offset: 0.25rem !important;
-    --chat-window-fade-bottom-focus: clamp(2.5rem, 6.05vh, 3.95rem) !important;
+    --chat-window-top-offset: clamp(1.2rem, 2.6vh, 2rem);
+    --chat-window-shift-y: clamp(-1.65rem, -3.1vh, -0.85rem);
+    --chat-window-pad-top: 0.95rem;
+    --chat-window-top-safe: 2.25rem;
+    --chat-content-top-offset: 1rem;
+    --chat-content-spacer: clamp(1.75rem, 4.2vh, 2.9rem);
+    --chat-window-fade-top: clamp(0.82rem, 1.84vh, 1.3rem);
+    --chat-window-fade-top-focus: clamp(0.82rem, 1.84vh, 1.3rem);
+    --chat-window-scroll-top-fade-start-focus: 0.38rem;
+    --chat-window-scroll-top-fade-mid-focus: 0.76rem;
+    --chat-window-scroll-top-fade-end-focus: 1.34rem;
+    --chat-window-bottom-gap: 1.05rem;
+    --chat-window-main-bottom-overlap: clamp(-1.65rem, -3.5vh, -1.05rem);
+    --chat-scroll-down-offset: 0.25rem;
+    --chat-window-fade-bottom-focus: clamp(2.5rem, 6.05vh, 3.95rem);
   }
 
   .chat-page-shell .chat-container.chat-container--round.chat-container--input-focus .chat-window,
   .chat-page-shell .chat-container.chat-container--round.chat-layout-desktop:has(.chat-inputbar:focus-within) .chat-window {
-    --chat-window-fade-top-focus: clamp(0.86rem, 1.94vh, 1.36rem) !important;
-    --chat-window-scroll-top-fade-start-focus: 0.4rem !important;
-    --chat-window-scroll-top-fade-mid-focus: 0.8rem !important;
-    --chat-window-scroll-top-fade-end-focus: 1.4rem !important;
-    --chat-window-fade-bottom-focus: clamp(2.58rem, 6.22vh, 4.05rem) !important;
+    --chat-window-fade-top-focus: clamp(0.86rem, 1.94vh, 1.36rem);
+    --chat-window-scroll-top-fade-start-focus: 0.4rem;
+    --chat-window-scroll-top-fade-mid-focus: 0.8rem;
+    --chat-window-scroll-top-fade-end-focus: 1.4rem;
+    --chat-window-fade-bottom-focus: clamp(2.58rem, 6.22vh, 4.05rem);
   }
 }
 
 html[data-reduce-motion="1"] .chat-page-shell .chat-container.chat-container--round,
 html[data-reduce-motion="1"] .chat-page-shell .chat-container.chat-container--round.chat-container--input-focus,
 html[data-reduce-motion="1"] .chat-page-shell .chat-container.chat-container--round.chat-container--workspace-open {
-  transition: none !important;
+  transition: none;
 }
 
 .chat-page-shell
@@ -366,19 +366,19 @@ html[data-reduce-motion="1"] .chat-page-shell .chat-container.chat-container--ro
 .chat-analysis-overlay .chat-analysis-overlay-card {
   position: relative;
   overflow: hidden;
-  isolation: auto !important;
+  isolation: auto;
   border: 0 !important;
-  color: var(--glass-surface-text, #f2f2f2) !important;
+  color: var(--glass-surface-text, #f2f2f2);
   background: var(
     --chat-analysis-panel-bg,
     var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25)))
-  ) !important;
+  );
   -webkit-backdrop-filter: blur(
     var(--chat-analysis-panel-blur, var(--glass-blur-radius, 1rem))
-  ) !important;
+  );
   backdrop-filter: blur(
     var(--chat-analysis-panel-blur, var(--glass-blur-radius, 1rem))
-  ) !important;
+  );
   box-shadow: var(--glass-shell-shadow, none) !important;
 }
 
@@ -762,17 +762,17 @@ html[data-contrast="hc"] body .chat-inputbar .chat-dictate-btn:is(:hover, :focus
 html[data-contrast="hc"] body .chat-inputbar .chat-send-btn,
 html[data-contrast="hc"] body .chat-inputbar .chat-send-btn:is(:hover, :focus-visible, :active) {
   background: transparent !important;
-  box-shadow: none !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
 }
 
 html[data-contrast="hc"] body .chat-inputbar .chat-listen-btn:hover,
 html[data-contrast="hc"] body .chat-inputbar .chat-listen-btn:focus-visible,
 html[data-contrast="hc"] body .chat-inputbar .chat-listen-btn:active {
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
 }
 
 html[data-contrast="hc"] body .chat-inputbar .chat-send-btn.invite-primary-btn {
@@ -843,10 +843,10 @@ html[data-contrast="hc"] body .chat-inputbar .chat-send-btn.invite-primary-btn {
     0 0 0 3px rgba(255, 234, 0, 0.42);
   --btn-primary-focus-ring-color: rgba(255, 234, 0, 0.42);
   --btn-primary-text: var(--hc-accent, #ffea00);
-  background: transparent !important;
-  box-shadow: none !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
+  background: transparent;
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
 }
 
 html[data-contrast="hc"] body .chat-inputbar .chat-send-btn.invite-primary-btn:hover,
@@ -863,6 +863,6 @@ html[data-contrast="hc"] body .chat-inputbar .chat-send-btn.invite-primary-btn:a
 }
 
 html[data-contrast="hc"] body .chat-analysis-panel-card .chat-analysis-action-btn {
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
 }
