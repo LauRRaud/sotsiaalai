@@ -1,8 +1,8 @@
 # !important audit — 2026-06-15
 
-**Total `!important` declarations:** 3654
+**Total `!important` declarations:** 3649
 
-- on **surface props** (Root B theme-war: background/box-shadow/color/border/backdrop/opacity): **1588**
+- on **surface props** (Root B theme-war: background/box-shadow/color/border/backdrop/opacity): **1584**
 - under **theme-override selectors** (`:not(.theme-)`/`:root.theme-`/`[data-contrast]`): **1531**
 
 > Strategy (css-tailwind-cleanup-plan §1): these are a SYMPTOM. Surface-prop +
@@ -14,7 +14,7 @@
 | file | !important |
 |---|---|
 | `app/styles/theme/hc.css` | 328 |
-| `app/styles/features/service-map/desktop.css` | 281 |
+| `app/styles/features/service-map/desktop.css` | 276 |
 | `app/styles/features/chat/hc.css` | 207 |
 | `app/styles/features/chat/shell.css` | 191 |
 | `app/styles/features/chat/mobile.css` | 169 |
@@ -43,11 +43,11 @@
 
 | property | count | surface? |
 |---|---|---|
-| `background` | 372 | ✓ |
-| `box-shadow` | 368 | ✓ |
+| `background` | 370 | ✓ |
+| `box-shadow` | 367 | ✓ |
 | `color` | 239 | ✓ |
 | `border` | 149 | ✓ |
-| `border-color` | 133 | ✓ |
+| `border-color` | 132 | ✓ |
 | `-webkit-backdrop-filter` | 95 | ✓ |
 | `backdrop-filter` | 95 | ✓ |
 | `width` | 94 |  |
@@ -55,7 +55,7 @@
 | `transform` | 72 |  |
 | `display` | 68 |  |
 | `height` | 68 |  |
-| `min-height` | 59 |  |
+| `min-height` | 58 |  |
 | `max-width` | 54 |  |
 | `margin-top` | 54 |  |
 | `padding-bottom` | 51 |  |
@@ -73,9 +73,9 @@
 
 | category | count |
 |---|---|
-| plain | 1857 |
+| plain | 1853 |
 | theme-override | 1531 |
-| state | 590 |
+| state | 589 |
 | not-chain | 272 |
 | pseudo-el | 152 |
 

@@ -417,17 +417,6 @@ html[data-contrast="hc"] .service-profile-glow-dropdown-menu .documents-dropdown
   color: inherit !important;
 }
 
-.service-profile-form :is(button.button, a.button)[data-variant="secondary"] {
-  min-height: 2.55rem !important;
-  border-color: var(--workspace-feature-border-strong) !important;
-  background: var(--workspace-feature-field-bg) !important;
-  box-shadow: var(--workspace-feature-field-shadow) !important;
-}
-
-.service-profile-form :is(button.button, a.button)[data-variant="secondary"]:is(:hover, :focus-visible) {
-  background: var(--workspace-feature-field-bg-hover) !important;
-}
-
 .service-profile-field-stack {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
