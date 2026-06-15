@@ -3,12 +3,6 @@
  * globals.css laadib selle PARAST theme/hc.css-i — samad plokid siin
  * asendavad (mitte ei topelda) theme-faili plokid. */
 
-/* Keep dark/night/HC primary buttons edge-free (no visible outline stripe). */
-:root:not(.theme-light):not(.theme-mid) {
-  --btn-primary-border: 0 solid transparent;
-  --btn-primary-border-hover: 0 solid transparent;
-  --btn-primary-border-active: 0 solid transparent;
-}
 
 html[data-contrast="hc"] {
   --home-panel-bg: rgba(9, 18, 30, 0.86);

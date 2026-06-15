@@ -396,22 +396,7 @@ html[data-contrast="hc"] :is(
 ) {
   background: var(--chat-card-surface-night-standard-flat-bg, rgba(10, 16, 27, 0.88)) !important;
 }
-html[data-contrast="hc"] body .chat-analysis-overlay .chat-analysis-overlay-card :is(.button, .btn) {
-  color: var(--hc-accent) !important;
-  border-color: rgba(255, 234, 0, 0.68) !important;
-  background: var(--btn-primary-bg) !important;
-  box-shadow: var(--btn-primary-shadow) !important;
-}
-html[data-contrast="hc"] body .chat-analysis-overlay .chat-analysis-overlay-card :is(.button, .btn):is(:hover, :focus-visible) {
-  border-color: rgba(255, 234, 0, 0.92) !important;
-  background: var(--btn-primary-bg-hover) !important;
-  box-shadow: var(--btn-primary-shadow-hover) !important;
-}
-html[data-contrast="hc"] body .chat-analysis-overlay .chat-analysis-overlay-card :is(.button, .btn):active {
-  border-color: rgba(255, 234, 0, 0.95) !important;
-  background: var(--btn-primary-bg-active) !important;
-  box-shadow: var(--btn-primary-shadow-active) !important;
-}
+
 html[data-contrast="hc"]
   body
   :is(.three-d-card, .glass-card, .card-face):focus-visible {
@@ -429,22 +414,7 @@ html[data-contrast="hc"] #nav-meist:focus-visible {
   color: var(--hc-accent-soft);
 }
 
-html[data-contrast="hc"] .drawer-panel--chat-glass .drawer-chat-sidebar :is(.button, .btn) {
-  color: var(--hc-accent) !important;
-  border: 2px solid rgba(255, 234, 0, 0.66) !important;
-  background: var(--btn-primary-bg) !important;
-  box-shadow: var(--btn-primary-shadow) !important;
-}
-html[data-contrast="hc"] .drawer-panel--chat-glass .drawer-chat-sidebar :is(.button, .btn):is(:hover, :focus-visible) {
-  border: 2px solid rgba(255, 234, 0, 0.9) !important;
-  background: var(--btn-primary-bg-hover) !important;
-  box-shadow: var(--btn-primary-shadow-hover) !important;
-}
-html[data-contrast="hc"] .drawer-panel--chat-glass .drawer-chat-sidebar :is(.button, .btn):active {
-  border: 2px solid rgba(255, 234, 0, 0.95) !important;
-  background: var(--btn-primary-bg-active) !important;
-  box-shadow: var(--btn-primary-shadow-active) !important;
-}
+
 html[data-contrast="hc"] .homepage-root .home-about-title {
   color: var(--hc-accent) !important;
 }
@@ -535,35 +505,7 @@ html[data-contrast="hc"] .subscription-content :is(
   ) {
   color: var(--hc-accent) !important;
 }
-html[data-contrast="hc"] .subscription-content :is(button, .button, .btn):not(.back-button):not(.chat-back-button):not(.profile-logout-button) {
-  color: var(--hc-accent) !important;
-  border-color: rgba(255, 234, 0, 0.66) !important;
-  box-shadow: var(--btn-primary-shadow) !important;
-}
-html[data-contrast="hc"] .materials-page-content :is(button, .button, .btn)[data-variant="primary"]:not(.back-button):not(.chat-back-button):not(.profile-logout-button) {
-  color: var(--hc-accent) !important;
-  border: 2px solid rgba(255, 234, 0, 0.66) !important;
-  background: var(--btn-primary-bg) !important;
-  box-shadow: var(--btn-primary-shadow) !important;
-}
-html[data-contrast="hc"] .subscription-content :is(button, .button, .btn):not(.back-button):not(.chat-back-button):not(.glass-policy-back):not(.profile-logout-button):is(:hover, :focus-visible) {
-  border-color: rgba(255, 234, 0, 0.9) !important;
-  box-shadow: var(--btn-primary-shadow-hover) !important;
-}
-html[data-contrast="hc"] .materials-page-content :is(button, .button, .btn)[data-variant="primary"]:not(.back-button):not(.chat-back-button):not(.glass-policy-back):not(.profile-logout-button):is(:hover, :focus-visible) {
-  border: 2px solid rgba(255, 234, 0, 0.9) !important;
-  background: var(--btn-primary-bg-hover) !important;
-  box-shadow: var(--btn-primary-shadow-hover) !important;
-}
-html[data-contrast="hc"] .subscription-content :is(button, .button, .btn):not(.back-button):not(.chat-back-button):not(.glass-policy-back):not(.profile-logout-button):active {
-  border-color: rgba(255, 234, 0, 0.95) !important;
-  box-shadow: var(--btn-primary-shadow-active) !important;
-}
-html[data-contrast="hc"] .materials-page-content :is(button, .button, .btn)[data-variant="primary"]:not(.back-button):not(.chat-back-button):not(.glass-policy-back):not(.profile-logout-button):active {
-  border: 2px solid rgba(255, 234, 0, 0.95) !important;
-  background: var(--btn-primary-bg-active) !important;
-  box-shadow: var(--btn-primary-shadow-active) !important;
-}
+
 html[data-contrast="hc"] :is(.subscription-modal-content, .invite-modal-content, .account-settings-modal-content) :is(.back-button, .account-settings-back-button, .chat-back-button, .glass-policy-back),
 html[data-contrast="hc"] :is(.subscription-modal-content, .invite-modal-content, .account-settings-modal-content) :is(.back-button, .account-settings-back-button, .chat-back-button, .glass-policy-back):is(:hover, :focus-visible, :active) {
   background: transparent !important;
@@ -801,46 +743,7 @@ html[data-contrast="hc"] :is(
   :is(input, textarea, select, .register-input)::placeholder {
   color: rgba(255, 234, 0, 0.92) !important;
 }
-html[data-contrast="hc"] :is(
-    .register-content,
-    .invite-modal-content,
-    .person-invite-modal-content,
-    .update-pin-content,
-    .update-email-content,
-    .reset-password-content,
-    .chat-analysis-overlay .chat-analysis-overlay-card
-  )
-  :is(button, .button, .btn):not(.back-button):not(.chat-back-button):not(.glass-policy-back):not(.profile-logout-button):not(.chat-rail-icon-btn):not(.chat-send-btn):not(.chat-listen-btn):not(.chat-assistant-action-btn):not(.chat-dictate-btn):not(.chat-side-control-btn):not(.chat-tools-btn):not(.chat-document-attach-btn) {
-  color: var(--hc-accent) !important;
-  border-color: rgba(255, 234, 0, 0.66) !important;
-  box-shadow: var(--btn-primary-shadow) !important;
-}
-html[data-contrast="hc"] :is(
-    .register-content,
-    .invite-modal-content,
-    .person-invite-modal-content,
-    .update-pin-content,
-    .update-email-content,
-    .reset-password-content,
-    .chat-analysis-overlay .chat-analysis-overlay-card
-  )
-  :is(button, .button, .btn):not(.back-button):not(.chat-back-button):not(.glass-policy-back):not(.profile-logout-button):not(.chat-rail-icon-btn):not(.chat-send-btn):not(.chat-listen-btn):not(.chat-assistant-action-btn):not(.chat-dictate-btn):not(.chat-side-control-btn):not(.chat-tools-btn):not(.chat-document-attach-btn):is(:hover, :focus-visible) {
-  border-color: rgba(255, 234, 0, 0.9) !important;
-  box-shadow: var(--btn-primary-shadow-hover) !important;
-}
-html[data-contrast="hc"] :is(
-    .register-content,
-    .invite-modal-content,
-    .person-invite-modal-content,
-    .update-pin-content,
-    .update-email-content,
-    .reset-password-content,
-    .chat-analysis-overlay .chat-analysis-overlay-card
-  )
-  :is(button, .button, .btn):not(.back-button):not(.chat-back-button):not(.glass-policy-back):not(.profile-logout-button):not(.chat-rail-icon-btn):not(.chat-send-btn):not(.chat-listen-btn):not(.chat-assistant-action-btn):not(.chat-dictate-btn):not(.chat-side-control-btn):not(.chat-tools-btn):not(.chat-document-attach-btn):active {
-  border-color: rgba(255, 234, 0, 0.95) !important;
-  box-shadow: var(--btn-primary-shadow-active) !important;
-}
+
 html[data-contrast="hc"] :is(
     .register-content,
     .invite-modal-content,
