@@ -25,6 +25,7 @@
 
 **Viil 2.1 VALMIS [`f4f0a20b`]:** a11y-modal 3 redundantset HC ahelat kustutatud.
 **Viil 2.2 VALMIS [`bf9b1e83`]:** login-modal ahel kitsendatud `.no-click-pulse`-le + `#login-modal` token blokk. OTP `<Button>` saab BG tokenist, PIN-klahvistik saab serva !important-reeglist.
+**Viil 2.3 VALMIS [`76acf708`]:** chat-analysis HC ahel kärpitud minimumini — `border: 2px solid ...` + `backdrop-filter: none` (ainulaadne, glassPrimaryButtonToneClassName nullib border tokeni). Kustutatud 18 rida redundantset !important.
 
 **Eelmiste viilide lühikokkuvõte (1.5–1.9):**
 - viil 1.5: `.invite-primary-btn` eemaldus mono/hc `:is()`-loendist + JSX
@@ -108,6 +109,9 @@ Faas 2 ja faas 4 tehakse **koos, ühe viiluna per primitiiv** (mitte eraldi glob
 ---
 
 ## Tehtud (krooniline)
+
+### Rada 1 viil 2.3 — chat-analysis HC ahel minimumiks  [`76acf708`]  (15.06.2026)
+`hc.css` read 806-828: 4 reeglit → 1 reegel. `glassPrimaryButtonToneClassName` nullib `--btn-primary-border` tokeni (override klassis endas), seega `border: 2px solid rgba(255,234,0,0.66) !important` on vältimatu. `backdrop-filter: none !important` ainulaadne (Button.jsx-s on backdrop-blur-[10px]). Kõik muu (color/bg/shadow/::before/hover/active) kaetud mega-ahelaga (read 1289-1317). −18 rida, −16 !important. Testid: 967/13.
 
 ### Rada 1 viil 2.2 — login-modal HC ahel .no-click-pulse-le + token blokk  [`bf9b1e83`]  (15.06.2026)
 `hc.css`: `:is(.button,.btn,button[type="submit"],.no-click-pulse)` ahel asendatud kahega: (1) `html[data-contrast="hc"] #login-modal` token blokk (`--btn-primary-bg: rgba(9,14,24,0.74)`, hover/active/focus-shadow) — OTP `<Button>` saab BG tokenist; (2) `.no-click-pulse` eksplitsiitsed reeglid border-width/style/color + color. `@media (hover:none)` duplikaat eemaldatud. −3 selektorit, −6 !important deklaratsiooni. Testid: 967/13.
