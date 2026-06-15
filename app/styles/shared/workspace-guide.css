@@ -187,8 +187,8 @@
   }
 
   .workspace-guide-panel.glass-subpage-surface .glass-subpage-title {
-    --glass-subpage-title-margin-top: var(--workspace-subpage-title-margin-top, clamp(2.15rem, 5.4vh, 3.25rem)) !important;
-    --glass-subpage-title-margin-bottom: var(--workspace-subpage-title-margin-bottom, clamp(0.35rem, 1.4vh, 0.8rem)) !important;
+    --glass-subpage-title-margin-top: var(--workspace-subpage-title-margin-top, clamp(2.15rem, 5.4vh, 3.25rem));
+    --glass-subpage-title-margin-bottom: var(--workspace-subpage-title-margin-bottom, clamp(0.35rem, 1.4vh, 0.8rem));
   }
 
   .help-listings-modal-content--workspace .help-listings-workspace-title-wrap,
@@ -206,9 +206,9 @@
       var(--workspace-guide-panel-overscan-top, 0px) +
         var(--workspace-subpage-back-top, 0.55rem)
     ) !important;
-    bottom: auto !important;
-    margin-left: 0 !important;
-    transform: none !important;
+    bottom: auto;
+    margin-left: 0;
+    transform: none;
   }
 
   .workspace-guide-panel-scroll {
@@ -251,8 +251,8 @@
   }
 
   .materials-page-body.workspace-guide-panel-scroll {
-    mask-image: none !important;
-    -webkit-mask-image: none !important;
+    mask-image: none;
+    -webkit-mask-image: none;
   }
 
   :is(

@@ -29,7 +29,9 @@ Legend: ✅ tehtud · 🔄 pooleli · ⬜ tegemata · 🔒 alles-jäetud (load-b
 | `features/policy` geomeetria | ~133 | 0 | 0 | 🔒 render-kandev (strip-all diff: height/margin/padding liiguvad) JA kontrakt-lukus (policyScrollHeader + scrollSurfaceHeader, ~29 assert'i) | ~133 | 🔒 | strip-all reverditud |
 | `utilities/glass-ring-stable` | 1 | 0 | 0 | 🔒 Reegel A — kontrakt-test valvab | 1 | 🔒 | 56ba160c (KEEP) |
 | `shared/register.css` | 79 | **72** | 0 | 🔒 7 (1 invite-sponsor katmata-flow load-bearing keep + 6 kontrakt). Full-strip /registreerimine ✓ identical → register-pinnad render-redundantsed | **7** | ✅ | a31fcd8d |
-| `shared/glass-subpage.css` | 66 | **14** | 0 | 🔒 52 (KONSERVATIIVNE: 18 katmata selektorit dashboard/invite/materials/workspace-feature hoitud — /kasutusjuhend katab ainult 11; + 2 box-shadow sõja-altis säilis). Vaba fraktsioon suurem kui −14, aga vajab mitme-route gate'i | **52** | 🔄 | (käes) |
+| `shared/glass-subpage.css` | 66 | **14** | 0 | 🔒 52 (KONSERVATIIVNE: 18 katmata selektorit dashboard/invite/materials/workspace-feature hoitud — /kasutusjuhend katab ainult 11; + 2 box-shadow sõja-altis säilis). Vaba fraktsioon suurem kui −14, aga vajab mitme-route gate'i | **52** | 🔄 | 96942d2d |
+| `shared/workspace-guide.css` | 92 | **7** | 0 | 🔒 85 (KONSERVATIIVNE: 70 force-keep — 17 interaktsiooni-gated selektorit help-listings/invite/workspace-feature, mida 6-route gate ei avanud (vajavad klikk-flow'd) + 3 box-shadow). Verifitseeritud-ohutu ainult 7 | **85** | 🔄 | (käes) |
+| `shared/ui-glow.css` | 118 | 0 | 0 | 🔒 KAITSTUD (canonical-button-look: ära keela glow) — EI puudu | 118 | 🔒 | — |
 | `theme/hc.css` | 328 | **312** | 0 | 🔒 16 (kontrakt-asserteritud) | **16** | ✅ | (käes) |
 | `theme/mono.css` | 148 | **122** | 0 | 🔒 26 (kontrakt-asserteritud, sh hcSurfaceContracts + monoThemeContracts) | **26** | ✅ | (käes) |
 | `theme/mid.css` | 65 | **52** | 0 | 🔒 13 (4 kontrakt + 9 box-shadow render-kandev: glass-ring sõda) | **13** | ✅ | (käes) |

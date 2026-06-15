@@ -16,11 +16,14 @@ ja **jälg** (register) et poleks segadust mis tehtud. Kõik `main`-il (kasutaja
 otse-push). Väikesed gate'itud commitid.
 
 ## 2. Seis praegu
-- **Platvorm: 3642 → 3156 `!important` (−486 kampaania jooksul).** Algus-jaotus: ledger.
-- **theme/ failid KÕIK PUHTAD: hc 16, mid 13, dark 14, light 15, night 7, mono 26.**
-  Teema-kiht on sisuliselt valmis (alles on ainult kontrakt-asserteritud markerid).
-- Töölaud: `app/styles/theme/dark.css` + `features/documents/mono.css` näitavad `M`,
-  aga see on **ainult CRLF-müra** (`git diff --numstat` tühi) — EI ole päris muudatus, ignoreeri.
+- **Platvorm: 3642 → 2669 `!important` (−973 kampaania jooksul).** Algus-jaotus: ledger.
+- **theme/ failid KÕIK PUHTAD:** hc 16, mid 13, dark 14, light 15, night 7, mono 26.
+- **feature/shared teema-laadsed STRIPITUD:** chat/hc 95, chat/mono 89, chat/shell 127,
+  chat/mobile 67, profile/hc 28, documents/ui 58, documents/agent 47, documents/library 5,
+  shared/register 7. (chat/themes 93 = kontrakt-lukus.)
+- **🔄 KONSERVATIIVSELT osaliselt** (vajavad mitme-route/flow gate'i täisvõiduks):
+  glass-subpage 52, workspace-guide 85.
+- **ODAV PUHAS KORJE LÕPETATUD.** Allesjäänu (§6) on raskem klass.
 
 ## 3. PÕHITÕDE (tõestatud sel sessioonil)
 **Teema-failide `!important` on valdavalt RENDER-REDUNDANTNE.** `:root.theme-X .sel`
@@ -65,22 +68,31 @@ on vastastikku välistavad (ei konkureeri runtime'is). hc.css 328 markerit maha 
   `--targets <fail>`, `--out`. Diff exit 0 = identne.
 - `important-autostrip.mjs`, `theme-strip-keepasserted.mjs` — varasemad katsed (oracle on parem).
 
-## 6. JÄRGMINE SAMM: teema-kiht VALMIS → features + token-migratsioon
-**mono.css TEHTUD** (148 → 26, commit `1d3fc317`, grupp-restore parandus). Teema-failid
-on nüüd kõik puhtad → oraakel-tööriist on selle kihi lõpetanud.
+## 6. JÄRGMINE SAMM: odav korje LÕPETATUD → raske klass (3 tüüpi)
+Teema-failid + teema-laadsed feature/shared failid on harvitud (oraakel + render-gate,
+§5). Platvorm 3642 → 2669. **Allesjäänud ~2669 jaguneb 3 raskemaks klassiks:**
 
-Allesjäänud raskuskese (ledger §"Lähteseis"): **mobile/ 806, features/chat 794,
-features/ muu 619, shared/ 384, service-map 357.** Need EI ole teema-override'id —
-oraakel-tööriist (mis võidab teema-spetsiifikatsusega) siia ei kandu. Siin on kaks
-mustrit, mõlemad raskemad:
-1. **Geomeetria-kontrakt-süsteem** (documents/workspace/service-map kerimis-ringid) —
-   render-kandev JA source-kontrakt-testidega lukus (vt policy 133/140 õppetund, §3).
-   Strip-all → render-gate näitab kohe, mis on load-bearing.
-2. **Token-migratsioon** override-mustritele — struktuurne, ei ole lihtne strip.
+1. **INTERAKTSIOONI-GATED pinnad** (suurim) — modal/paneel/drawer/help-listings/invite
+   selektorid renderduvad ALLES klikiga. Üks-route ega mitme-route gate ei kata neid
+   (tõestatud: workspace-guide 17/29 absent isegi 6 route'iga). **Vaja FLOW-gate'i:**
+   css-snapshot `steps:[{click:...}]` et paneel avada, SIIS strip+gate. Failid:
+   glass-subpage (ülejäänud), workspace-guide (ülejäänud), mobile/ modal-failid.
+2. **JS-STATE/RUNTIME-gated** — `features/service-map/desktop.css` 276 (~196 service-
+   profile JS-oleku-taga + 33 Leaflet runtime, vt css-progress-log). Vajab oleku-
+   trigerdust või on dünaamiline (ei strippitav lihtsalt).
+3. **TOKEN-MIGRATSIOON** (struktuurne) — pinna-`!important` → `var(--token)` +
+   `:root.theme-X{--token}`. Vt `css-important-reduction-method.md` + `css-progress-log.md`
+   (paralleelne struktuurne rada). mobile/ 806 + ülejäänud feature-baas.
 
-**Soovitus:** vali üks feature (nt `features/chat` = suurim üksik, 794), tee strip-all
-+ 2-gate eksperiment (§4) → klassifitseeri VABA vs load-bearing fraktsioon. ≪1000 =
-mitme-sessiooni projekt; iga feature on oma gate'itud partii.
+**KATVUSE-REEGEL (õpitud sel sessioonil):** ENNE feature-faili strippi kontrolli, kui
+mitu selektorit gate-route'il tegelikult renderdub (skript: loe before.json, loe non-null
+selektorid). Katmata selektorid = hoia konservatiivselt (`--keep-selectors`) VÕI lisa
+nende route/flow gate'i. Üks-route ✓ identical tõestab AINULT covered-selektorid.
+
+**MÜRA-REEGEL:** /vestlus + homepage gate'idel on müra-põrand (teema-batch dropout
+~18 diffi, transient opacity). Päris signaal = sama selektor+väärtus JÄRJEPIDEVALT
+mitmel capture'il; DISAPPEARED/APPEARED + ühe-korra-diff = müra. Tõesta keep-versioon:
+capture 2× → CHANGED-lõige tühi.
 
 ## 7. INFRA (mida gate'id vajavad)
 - **Dev server** port 3000 (peab jooksma). Kontroll: `curl -s -o /dev/null -w "%{http_code}" http://localhost:3000` → 200.
@@ -93,6 +105,13 @@ mitme-sessiooni projekt; iga feature on oma gate'itud partii.
 
 ## 8. SESSIOONI COMMITID (main, 18c8cf36 järel)
 ```
+# autonoomne sessioon 2 (16.06): feature/shared korje + tooriista-taiendused
+96942d2d glass-subpage 66->52 (konserv)            a31fcd8d register 79->7
+043ec076 documents agent/library -10               a635603e documents/ui 110->58
+1c4f6ce7 chat/mobile 169->67                        d85881af chat/shell 191->127 +doc-reconcile
+076686ce profile/hc 40->28                          6af45bca chat/mono 131->89
+53ff7cf3 chat/hc 207->95 + --keep-selectors         (+ workspace-guide 92->85, kaes)
+# autonoomne sessioon 1 (15.-16.06): teema-kiht
 1d3fc317 mono.css 148->26 (-122) + grupp-restore   663893bb HANDOFF doc
 2190dd07 mono STRIP 0 = repair-loop piirang        828bb330 guide-rich-text -3 !important
 fefe80b8 mid.css 65->13 (-52)                       56ba160c õppetund: render-surnud≠eemaldatav (glass-ring KEEP)
