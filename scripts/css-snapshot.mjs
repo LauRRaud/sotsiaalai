@@ -176,6 +176,20 @@ async function runSteps(page, steps) {
     else if (step.focus) await page.focus(step.focus);
     else if (step.fill) await page.fill(step.fill.selector, step.fill.value);
     else if (step.move) await page.mouse.move(step.move.x, step.move.y);
+    // `eval`: run a string in page context. For React surfaces opened via a
+    // custom event rather than a clickable trigger (e.g. ConversationDrawer
+    // listens for "sotsiaalai:toggle-conversations"), dispatching the event is
+    // the only deterministic way to mount the drawer for a flow-gate capture.
+    else if (step.eval) {
+      try {
+        await page.evaluate((code) => {
+          // eslint-disable-next-line no-new-func
+          return new Function(code)();
+        }, step.eval);
+      } catch (e) {
+        console.warn(`  ⚠ eval skipped: ${e.message.split('\n')[0]}`);
+      }
+    }
   }
 }
 

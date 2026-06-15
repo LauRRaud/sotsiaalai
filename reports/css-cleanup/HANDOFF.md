@@ -77,13 +77,21 @@ Teema-failid + teema-laadsed feature/shared failid on harvitud (oraakel + render
    (tõestatud: workspace-guide 17/29 absent isegi 6 route'iga). **Vaja FLOW-gate'i:**
    css-snapshot `steps:[{click:...}]` et paneel avada, SIIS strip+gate. Failid:
    glass-subpage (ülejäänud), workspace-guide (ülejäänud), mobile/ modal-failid.
-   **⭐ KONKREETSE VÕIDU OOTEL — chat-drawer:** chat/{hc,mono,shell,mobile}.css puhul
-   hoiti KÕIK `.drawer-*`/`.cs-*` markerid KONSERVATIIVSELT (gate ei avanud drawerit).
-   Drawer = `ConversationDrawer.jsx` (React `open` prop → `body.conversation-drawer-open`;
-   klassi käsitsi seadmine EI ava, vaja React-toggle klikki — leia toggle ChatSidebar/
-   rail JSX-ist). Flow-gate `steps:[{click:<drawer-toggle>}]` /vestlus-il → re-examine
-   drawer-sisesed keepid 4 failis → tõenäoliselt 40-60 markerit taastatav. NB: drawer
-   vajab vestlus-andmeid (e2e-konto) + animatsiooni-külmutust (snapshot teeb seda).
+   **FLOW-GATE INFRA VALMIS:** `css-snapshot.mjs` `steps` toetab nüüd `{eval:"<js>"}`
+   (jooksutab koodi lehe-kontekstis). Drawer avaneb event'iga — flow-gate töötab:
+   ```
+   steps:[{waitFor:".chat-inputbar"},
+          {eval:"window.dispatchEvent(new CustomEvent('sotsiaalai:toggle-conversations',{detail:{open:true}}))"},
+          {waitFor:".drawer-panel--chat-glass"}]
+   ```
+   **chat-drawer UURITUD (16.06) — ROI MADAL, EI TASU:** flow-gate kinnitas, et drawer on
+   VALDAVALT load-bearing — `.cs-delete/.cs-open` (hc-kollane border+box-shadow), `.drawer-
+   close-btn--chat`, `.chat-sidebar-search-input` (border `var(--input-border)`), `.drawer-
+   chat-sidebar` (defineerib `--input-border`) on KÕIK render-kandvad. Taastatav redundantne
+   fraktsioon ~15/fail JA **entangled** grupeeritud/cross-file reeglitega (kitsam keep tõi
+   `.chat-mic-glyph` mono regressiooni — grupeeritud `:is(.cs-X,.chat-mic-glyph)` reegel).
+   **Konservatiivne drawer-keep OLI ÕIGUSTATUD.** Reverditud. Flow-gate `eval` jääb infra
+   teiste pindade jaoks (help-listings/invite modal = avatav samuti event/click'iga).
 2. **JS-STATE/RUNTIME-gated** — `features/service-map/desktop.css` 276 (~196 service-
    profile JS-oleku-taga + 33 Leaflet runtime, vt css-progress-log). Vajab oleku-
    trigerdust või on dünaamiline (ei strippitav lihtsalt).
