@@ -103,8 +103,40 @@ Tööriist leidis mid-i all 3 konkureerivat `box-shadow: ... !important`:
 - **Surnud** (`utilities/glass-ring-stable.shared.css:5`): `0 24px 48px rgba(12,7,6,0.34) !important` — kõrgem-skoobiline `:is()` võitja sööb ära; computed-väärtus seda EI näita → eemaldamis-kandidaat
 - `mobile/foundations.css` `none !important` võidab mobiilis (@media)
 
-Verdikt mid = `IMPORTANT-WAR`; `glass-ring-stable.shared.css:5` on surnud kaotaja
-(eemalda + gate). mono = `WINS-BY-SPECIFICITY` (`!important` üleliigne, eemaldatav).
+Verdikt mid = `IMPORTANT-WAR`; mono = `WINS-BY-SPECIFICITY`. Tööriist märkis
+`glass-ring-stable.shared.css` Reegel A render-surnuks (eemaldamis-kandidaat).
+**KORRIGEERITUD 2026-06-15:** loop jooksis lõpuni → gate-1 0-diff (render-surnud
+KINNITATUD), AGA gate-2 🔴 — kontrakt-test valvab. **Lõppverdikt: KEEP** (vt ÕPPETUND
+allpool). See on näide, miks render-verdikt üksi EI piisa.
+
+## ÕPPETUND: render-surnud ≠ eemaldatav, kui KONTRAKT-test valvab (2026-06-15, verifitseeritud)
+
+Tööriista verdikt (`DEAD`/`WINS-BY-SPECIFICITY`) on **render-verdikt** (computed-style).
+**Gate-2 (testid) püüab KONTRAKT-mõõtme, mida render-analüüs EI näe.** Glass-ring
+Reegel A oli täpne juhtum:
+
+- **Gate-1 (visuaalne): 0 box-shadow muutust** → renderis surnud. Põhjus: glass-ring
+  elemendi `--glass-shell-shadow` var on `.glass-ring`-skoobis seatud SAMALE väärtusele
+  (`glass-ring-stable.shared.css:2`), ja tarbija-reeglid teevad `box-shadow:
+  var(--glass-shell-shadow)`. Var-tee annab sama väärtuse, mille Reegel A `!important`-iga
+  peale surub → Reegel A renderis üleliigne.
+- **Gate-2 (testid): 🔴 lõhkus 1 testi.** `tests/ui/mobileGlassPanelShadow.test.js`
+  valvab Reegel A-d kui NIMETATUD "desktop shell shadow" allikat (rida 17), **paaris**
+  mobile-stripiga `box-shadow: none !important` (read 22, 27). Test "mobile glass panels
+  do not inherit desktop shell shadows" = tahtlik paaris-kontrakt (desktop-pool + mobile-
+  strip). Reegel A eemaldus oleks teinud desktop-poole implitsiitseks (var-kaskaad) ja
+  mobile-poole eksplitsiitseks → asümmeetriline, halvem loetavus.
+
+**Otsus: KEEP.** Eemaldus = 0 render-võitu + lõhutud kontrakt-paar. See `!important`
+on **dokumentatsioonina/kontraktina kandev**, isegi kui render-üleliigne.
+
+**Reeglid C-partiile (WINS-BY-SPECIFICITY massieemaldus):**
+1. **PRE-FILTREERI kontrakt-valvatud sihid VÄLJA** enne eemaldamist: `grep` selektori
+   literaal `tests/` kataloogist. Match → sihti EI eemalda (kontrakt-kandev).
+2. **Gate-2 (`npm test`) on KOHUSTUSLIK**, mitte ainult gate-1 (visuaalne). Gate-1 0-diff
+   EI tõesta ohutust — render-surnud kandidaat võib olla kontrakt-elus.
+3. Raudreegel kehtib: **ÄRA committi punase gate-2-ga.** Testi muutmine eemalduse
+   läbisurumiseks nõuab eraldi inimese-otsust (kontrakt ≠ autonoomselt muudetav).
 
 ## MÕÕTMINE: `!important` on valdavalt KANDEV (mitte surnud)
 
@@ -114,7 +146,9 @@ nupu/pinna-selektorit). Järeldus: ei saa lihtsalt kustutada → vaja token-migr
 laia-reegli migreerimine = suur `!important`-langus korraga.
 
 ## JÄRGMINE
-1. Lõpeta glass-ring loop-tõestus (eemalda surnud `glass-ring-stable.shared.css:5`, gate).
-2. Jooksuta tööriist teema-failide võtmeselektoritel → koonda eemaldamis-/migreerimis-partii.
+1. ✅ VALMIS: glass-ring loop-tõestus jooksis lõpuni → verdikt **KEEP** (render-surnud
+   aga kontrakt-kandev; gate-1 0-diff, gate-2 🔴). Loop töötas, õpetus salvestatud (vt ÕPPETUND).
+2. C-partii: WINS-BY-SPECIFICITY massieemaldus võtmeselektoritel. **Pre-filtreeri
+   kontrakt-valvatud sihid välja** (grep selektor `tests/`-st), **gate-2 kohustuslik**.
 3. Token-migratsioon failihaaval (pinna-`!important` → `var(--token)`), gate-verifitseeritud.
-4. Faas 2: gate-guarded auto-eemaldaja.
+4. Faas 2: gate-guarded auto-eemaldaja (gate-1 + **gate-2** mõlemad enne commiti).
