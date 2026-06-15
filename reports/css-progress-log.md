@@ -21,7 +21,9 @@
 - **Faas 2 — dropdown viil:** VALMIS (`ff8390cd`). Järgmine: **button (~99 hajutus)**.
 - **Faas 2 — button viilud 1.5–1.9:** VALMIS (15.06.2026). ghost/secondary = 0, mono mega-ahelad kustutatud. !important: 3769 → 3746 (−23). Järgmine: HC ahelad.
 
-## ⏳ POOLELI — hc.css login-modal + a11y-modal ahelad (15.06.2026)
+## ⏳ POOLELI — hc.css login-modal ahel (15.06.2026)
+
+**Viil 2.1 VALMIS [`f4f0a20b`]:** a11y-modal 3 redundantset HC ahelat kustutatud. `.a11y-csp-scroll` token blokk (read 1063-1090) katab kõik `--btn-primary-*` tokenid, seega `!important`-ahelad olid üleliigsed. npm test 967/13.
 
 **Eelmiste viilide lühikokkuvõte (1.5–1.9):**
 - viil 1.5: `.invite-primary-btn` eemaldus mono/hc `:is()`-loendist + JSX
@@ -47,8 +49,7 @@
 **Tehtud (15.06):** token kaskaad parandatud + 15 ahela-reeglit kustutatud (viil 2.0). Brauseris verifitseeritud.
 
 **Järele jäänud:**
-- `hc.css` rida **~1044** — `#login-modal :is(.button, .btn, button[type="submit"], .no-click-pulse)` — PIN-klahvistiku raw nupud (`no-click-pulse`), ei kasuta `<Button>` komponenti. Vajab eraldi lähenemist (kas lisada `.no-click-pulse` HC tokeniga või hoida ahel).
-- `hc.css` rida **~1246** — `.a11y-modal-shell .a11y-csp-scroll :is(.button, .btn, button[type="submit"], input[type="submit"])` — a11y modal raw nupud + `input[type="submit"]`.
+- `hc.css` rida **~947** — `#login-modal :is(.button, .btn, button[type="submit"], .no-click-pulse)` — PIN-klahvistiku raw nupud (`no-click-pulse`) kasutavad `border-0` ja ei saa tokenit. Ahel seab neile `border-width: 2px !important` + `border-color: rgba(255,234,0,0.66) !important`. `.button`/`button[type="submit"]` osa on token-kaetud, aga ka loobib eraldi login-modali `background: rgba(9,14,24,0.74)` — disainiotsus. Lahendus: kitsenda selektor ainult `.no-click-pulse`-le + lisa login-modal tokeniblokk `--btn-primary-bg` override'iga.
 - Värav: `npm test` 967/13, `css-important-audit` arv langeb.
 
 ---
@@ -105,6 +106,9 @@ Faas 2 ja faas 4 tehakse **koos, ühe viiluna per primitiiv** (mitte eraldi glob
 ---
 
 ## Tehtud (krooniline)
+
+### Rada 1 viil 2.1 — a11y-modal redundantsed HC ahelad kustutatud  [`f4f0a20b`]  (15.06.2026)
+`hc.css` read 1149-1163: kustutatud 3 `!important`-ahelat (base + hover + focus-visible) `.a11y-csp-scroll :is(.button, .btn, button[type="submit"], input[type="submit"])` kontekstis. `AccessibilityModal.jsx`-l on üks `<Button>`, mis saab kõik HC väärtused `--btn-primary-*` tokenite kaudu (token blokk read 1063-1090 hc.css-is). Testid: 967/13.
 
 ### Rada 1 viil 2.0 — HC token kaskaad fix + 4 ahela grupp kustutus  [`523426f8`]  (15.06.2026)
 `tokens/theme-hc.css`: eemaldatud `:root:not(.theme-light):not(.theme-mid)` blokk — selle spetsiifilisus (0,3,0) blokeeri `html[data-contrast="hc"]` plokki (0,1,1), mistõttu `--btn-primary-border: 2px solid rgba(255,234,0,0.66)` ei jõudnud kunagi brauserini. Fix laseb HC plokil võita → kõik `<Button variant="primary">` saavad HC's kollase serva automaatselt. `hc.css`: kustutatud 15 ahela-reeglit 4 kontekstis (chat-analysis-overlay-card, drawer-chat-sidebar, subscription/materials-content, register/invite/update-pin/email/reset). Brauseris verifitseeritud (dev-server). −44 !important. npm test 967/13.
