@@ -107,21 +107,6 @@
   -webkit-text-fill-color: var(--forest-title) !important;
 }
 
-:root.theme-mono:not([data-contrast="hc"]) :is(.button, .btn, [data-variant="primary"]):not(.back-button):not(.chat-back-button):not(.profile-logout-button):not(.chat-rail-icon-btn):not(.chat-send-btn):not(.chat-listen-btn):not(.chat-assistant-action-btn):not(.chat-dictate-btn):not(.chat-side-control-btn):not(.chat-tools-btn):not(.chat-document-attach-btn) {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  color: var(--forest-icon) !important;
-  background: var(--btn-primary-bg) !important;
-  border: var(--btn-primary-border) !important;
-  box-shadow: var(--btn-primary-shadow) !important;
-  transition:
-    border-color 560ms cubic-bezier(0.22, 0.61, 0.36, 1),
-    box-shadow 560ms cubic-bezier(0.22, 0.61, 0.36, 1),
-    color 560ms cubic-bezier(0.22, 0.61, 0.36, 1),
-    opacity 560ms cubic-bezier(0.22, 0.61, 0.36, 1) !important;
-}
-
 
 :root.theme-mono:not([data-contrast="hc"]) .materials-page-shell {
   --subpage-card-bg: var(--forest-input-surface) !important;
@@ -251,27 +236,6 @@
   color: var(--forest-title-soft) !important;
 }
 
-:root.theme-mono:not([data-contrast="hc"]) :is(.button, .btn, [data-variant="primary"]):not(.back-button):not(.chat-back-button):not(.glass-policy-back):not(.profile-logout-button):not(.chat-rail-icon-btn):not(.chat-send-btn):not(.chat-listen-btn):not(.chat-assistant-action-btn):not(.chat-dictate-btn):not(.chat-side-control-btn):not(.chat-tools-btn):not(.chat-document-attach-btn)::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  border-radius: inherit;
-  background: var(--forest-floating-surface-hover, var(--btn-primary-bg-hover)) !important;
-  opacity: 0;
-  transition: opacity 560ms cubic-bezier(0.22, 0.61, 0.36, 1) !important;
-}
-
-:root.theme-mono:not([data-contrast="hc"]) :is(.button, .btn, [data-variant="primary"]):not(.back-button):not(.chat-back-button):not(.glass-policy-back):not(.profile-logout-button):not(.chat-rail-icon-btn):not(.chat-send-btn):not(.chat-listen-btn):not(.chat-assistant-action-btn):not(.chat-dictate-btn):not(.chat-side-control-btn):not(.chat-tools-btn):not(.chat-document-attach-btn):is(:hover, :focus-visible) {
-  color: var(--btn-primary-text-hover, var(--forest-title-soft)) !important;
-  background: var(--btn-primary-bg) !important;
-  box-shadow: var(--btn-primary-shadow-hover) !important;
-}
-
-:root.theme-mono:not([data-contrast="hc"]) :is(.button, .btn, [data-variant="primary"]):not(.back-button):not(.chat-back-button):not(.glass-policy-back):not(.profile-logout-button):not(.chat-rail-icon-btn):not(.chat-send-btn):not(.chat-listen-btn):not(.chat-assistant-action-btn):not(.chat-dictate-btn):not(.chat-side-control-btn):not(.chat-tools-btn):not(.chat-document-attach-btn):is(:hover, :focus-visible)::before {
-  opacity: 1 !important;
-}
 
 :root.theme-mono:not([data-contrast="hc"]) :is(.glass-ring.glass-ring--desktop-stable, .policy-mobile-lower.glass-ring.glass-ring--desktop-stable, .guide-policy-ring.glass-ring.glass-ring--desktop-stable) {
   box-shadow: var(--glass-shell-shadow) !important;

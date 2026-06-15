@@ -126,8 +126,6 @@ test("mono theme renders black and gray glass, icons, controls and home/about to
   assert.match(mono, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) body \.chat-inputbar \.chat-send-btn[\s\S]*?--btn-primary-bg:\s*var\(--forest-orbit-surface\) !important/);
   assert.match(mono, /--home-title-color:\s*var\(--forest-title\)/);
   assert.match(mono, /--home-scroll-cue-color:\s*var\(--forest-title\)/);
-  assert.match(mono, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) :is\(\.button, \.btn, \[data-variant="primary"\][\s\S]*?background:\s*var\(--btn-primary-bg\) !important/);
-  assert.match(mono, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) :is\(\.button, \.btn, \[data-variant="primary"\][\s\S]*?:is\(:hover, :focus-visible\) \{[\s\S]*?color:\s*var\(--btn-primary-text-hover,\s*var\(--forest-title-soft\)\) !important/);
   assert.match(darkTheme, /:root:not\(\.theme-light\):not\(\.theme-mid\):not\(\.theme-night\):not\(\.theme-mono\):not\(\[data-contrast="hc"\]\)[\s\S]*?\.materials-surface-button/);
   assert.match(darkTheme, /:root:not\(\.theme-light\):not\(\.theme-mid\):not\(\.theme-night\):not\(\.theme-mono\) \.materials-page-shell/);
   assert.match(documentsMode, /:root:not\(\.theme-light\):not\(\.theme-mid\):not\(\.theme-night\):not\(\.theme-mono\):not\(\[data-contrast="hc"\]\) \.documents-workspace-page--library/);
