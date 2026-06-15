@@ -158,11 +158,11 @@ test("HC invite modal list panel keeps a yellow border over glow panel defaults"
 
   assert.match(
     hc,
-    /html\[data-contrast="hc"\] body \.invite-list-panel \{[\s\S]*?border:\s*2px solid rgba\(255,\s*234,\s*0,\s*0\.72\)\s*!important/
+    /html\[data-contrast="hc"\] body \.invite-list-panel \{[\s\S]*?border:\s*2px solid rgba\(var\(--hc-accent-rgb\),\s*0\.72\)\s*!important/
   );
   assert.match(
     hc,
-    /\.invite-list-panel:is\(:hover,\s*:focus-within,\s*:focus-visible,\s*:active\) \{[\s\S]*?border-color:\s*rgba\(255,\s*234,\s*0,\s*0\.72\)\s*!important/
+    /\.invite-list-panel:is\(:hover,\s*:focus-within,\s*:focus-visible,\s*:active\) \{[\s\S]*?border-color:\s*rgba\(var\(--hc-accent-rgb\),\s*0\.72\)\s*!important/
   );
   assert.match(
     hc,
@@ -170,7 +170,7 @@ test("HC invite modal list panel keeps a yellow border over glow panel defaults"
   );
   assert.match(
     hc,
-    /html\[data-contrast="hc"\] body :is\([\s\S]*?\.invite-modal-content,[\s\S]*?\.person-invite-modal-content[\s\S]*?\) \.invite-list-panel\.invite-glow-panel \{[\s\S]*?border:\s*2px solid rgba\(255,\s*234,\s*0,\s*0\.72\)\s*!important/
+    /html\[data-contrast="hc"\] body :is\([\s\S]*?\.invite-modal-content,[\s\S]*?\.person-invite-modal-content[\s\S]*?\) \.invite-list-panel\.invite-glow-panel \{[\s\S]*?border:\s*2px solid rgba\(var\(--hc-accent-rgb\),\s*0\.72\)\s*!important/
   );
   assert.match(
     borderGlow,
@@ -201,7 +201,7 @@ test("HC invite selected payment cards and workspace action buttons have clear o
   const serviceMap = readServiceMapCssBundle();
   const workspace = read("components/workspace/WorkspaceFeaturePage.jsx");
 
-  assert.match(hc, /\.invite-modal-content \[data-control-type\]\[data-checked="true"\][\s\S]*?background:\s*rgba\(255,\s*234,\s*0,\s*0\.1\)\s*!important/);
+  assert.match(hc, /\.invite-modal-content \[data-control-type\]\[data-checked="true"\][\s\S]*?background:\s*rgba\(var\(--hc-accent-rgb\),\s*0\.1\)\s*!important/);
   assert.match(serviceMap, /\.workspace-feature-panel \[data-variant="primary"\][\s\S]*?background:\s*transparent\s*!important[\s\S]*?border:\s*2px solid rgba\(255,\s*234,\s*0/);
   assert.doesNotMatch(workspace, /workspace-feature-action-btn/);
 });
@@ -261,7 +261,7 @@ test("HC framework page action buttons keep visible yellow borders", () => {
 
   assert.match(
     hc,
-    /html\[data-contrast="hc"\] \.framework-page-shell \.ui-glow-button-frame,[\s\S]*?border:\s*2px solid rgba\(255,\s*234,\s*0,\s*0\.72\)\s*!important/
+    /html\[data-contrast="hc"\] \.framework-page-shell \.ui-glow-button-frame,[\s\S]*?border:\s*2px solid rgba\(var\(--hc-accent-rgb\),\s*0\.72\)\s*!important/
   );
 });
 
@@ -300,7 +300,7 @@ test("HC chat plus menu items use yellow hover fill", () => {
 
   assert.match(
     hc,
-    /\.chat-tools-menu \.chat-tools-item:hover,[\s\S]*?background:\s*rgba\(255,\s*234,\s*0,\s*0\.14\)\s*!important/
+    /\.chat-tools-menu \.chat-tools-item:hover,[\s\S]*?background:\s*rgba\(var\(--hc-accent-rgb\),\s*0\.14\)\s*!important/
   );
 });
 
