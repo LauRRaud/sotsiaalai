@@ -128,36 +128,36 @@
 }
 
 :root.theme-mono:not([data-contrast="hc"]) :is(.chat-rail-icon-btn, .chat-side-control-btn, .chat-tools-btn, .chat-document-attach-btn, .chat-listen-btn, .chat-send-btn, .chat-assistant-action-btn, .chat-dictate-btn) {
-  color: var(--forest-title) !important;
+  color: var(--forest-title);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) :is(.chat-rail-icon-btn, .chat-side-control-btn, .chat-tools-btn, .chat-document-attach-btn, .chat-listen-btn, .chat-send-btn, .chat-assistant-action-btn, .chat-dictate-btn) :is(svg, path, circle, rect, line, polyline, polygon) {
-  color: var(--forest-title) !important;
-  stroke: var(--forest-title) !important;
+  color: var(--forest-title);
+  stroke: var(--forest-title);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) :is(.chat-rail-icon-btn, .chat-side-control-btn, .chat-tools-btn, .chat-document-attach-btn, .chat-listen-btn, .chat-send-btn, .chat-assistant-action-btn, .chat-dictate-btn) :is(path, circle, rect, polygon)[fill]:not([fill="none"]) {
-  fill: var(--forest-title) !important;
+  fill: var(--forest-title);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .chat-rail-icon-btn .back-icon-dot {
   fill: var(--forest-title) !important;
-  stroke: var(--forest-title) !important;
+  stroke: var(--forest-title);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) :is(.chat-rail-icon-btn, .chat-side-control-btn, .chat-tools-btn, .chat-document-attach-btn, .chat-listen-btn, .chat-send-btn, .chat-assistant-action-btn, .chat-dictate-btn) :is(circle.back-icon-dot)[fill] {
-  fill: var(--forest-title) !important;
-  stroke: var(--forest-title) !important;
+  fill: var(--forest-title);
+  stroke: var(--forest-title);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .chat-rail-icon-btn .back-icon-dot.back-icon-dot--outline,
 :root.theme-mono:not([data-contrast="hc"]) :is(.chat-rail-icon-btn, .chat-side-control-btn, .chat-tools-btn, .chat-document-attach-btn, .chat-listen-btn, .chat-send-btn, .chat-assistant-action-btn, .chat-dictate-btn) :is(circle.back-icon-dot.back-icon-dot--outline)[fill] {
-  fill: none !important;
+  fill: none;
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .chat-rail-icon-btn:is(:hover, :focus-visible) .back-icon-dot.back-icon-dot--outline,
 :root.theme-mono:not([data-contrast="hc"]) :is(.chat-rail-icon-btn, .chat-side-control-btn, .chat-tools-btn, .chat-document-attach-btn, .chat-listen-btn, .chat-send-btn, .chat-assistant-action-btn, .chat-dictate-btn):is(:hover, :focus-visible) :is(circle.back-icon-dot.back-icon-dot--outline)[fill] {
-  fill: var(--forest-title) !important;
+  fill: var(--forest-title);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) :is(.chat-left-actions, .chat-right-actions) :is(
@@ -184,39 +184,39 @@
   [class*="Rail_item"],
   [class*="Rail_iconBtn"]
 )::after {
-  background: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
+  background: transparent;
+  background-color: transparent;
+  background-image: none;
   border: 0 !important;
-  box-shadow: none !important;
-  filter: none !important;
-  outline: none !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
+  box-shadow: none;
+  filter: none;
+  outline: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
 }
 
 :root.theme-mono:not([data-contrast="hc"]) :is([class*="LeftRail_tooltip"], [class*="RightRail_tooltip"]) {
-  color: var(--forest-highlight) !important;
-  -webkit-text-fill-color: var(--forest-highlight) !important;
-  background: var(--forest-tooltip-surface) !important;
-  border: 0 !important;
-  box-shadow: 0 10px 22px rgba(7, 7, 7, 0.3) !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
+  color: var(--forest-highlight);
+  -webkit-text-fill-color: var(--forest-highlight);
+  background: var(--forest-tooltip-surface);
+  border: 0;
+  box-shadow: 0 10px 22px rgba(7, 7, 7, 0.3);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .chat-page-shell [role="tooltip"] {
-  color: var(--forest-highlight) !important;
-  -webkit-text-fill-color: var(--forest-highlight) !important;
-  background: var(--forest-tooltip-surface) !important;
-  border: 0 !important;
-  box-shadow: 0 10px 22px rgba(7, 7, 7, 0.3) !important;
+  color: var(--forest-highlight);
+  -webkit-text-fill-color: var(--forest-highlight);
+  background: var(--forest-tooltip-surface);
+  border: 0;
+  box-shadow: 0 10px 22px rgba(7, 7, 7, 0.3);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) body .chat-input-row .chat-side-control-btn,
 :root.theme-mono:not([data-contrast="hc"]) body .chat-inputbar .chat-listen-btn,
 :root.theme-mono:not([data-contrast="hc"]) body .chat-inputbar .chat-send-btn {
-  border-color: transparent !important;
+  border-color: transparent;
 }
 
 :root.theme-mono:not([data-contrast="hc"]):not(.theme-light):not(.theme-mid):not([data-contrast="hc"]) .chat-page-shell .chat-composer-glow-shell,
@@ -257,17 +257,17 @@
 :root.theme-mono:not([data-contrast="hc"]) body .chat-inputbar .chat-send-btn:hover,
 :root.theme-mono:not([data-contrast="hc"]) body .chat-inputbar .chat-send-btn:focus-visible {
   --btn-primary-bg: var(--forest-orbit-surface) !important;
-  --btn-primary-bg-hover: var(--forest-orbit-surface-hover) !important;
-  color: var(--forest-icon) !important;
-  background: var(--btn-primary-bg) !important;
-  box-shadow: var(--btn-primary-shadow) !important;
+  --btn-primary-bg-hover: var(--forest-orbit-surface-hover);
+  color: var(--forest-icon);
+  background: var(--btn-primary-bg);
+  box-shadow: var(--btn-primary-shadow);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .chat-tools-menu {
-  background: var(--forest-tooltip-surface) !important;
-  color: var(--rail-tooltip-text, var(--subpage-card-text)) !important;
-  border: 0 !important;
-  box-shadow: 0 10px 22px rgba(7, 7, 7, 0.3) !important;
+  background: var(--forest-tooltip-surface);
+  color: var(--rail-tooltip-text, var(--subpage-card-text));
+  border: 0;
+  box-shadow: 0 10px 22px rgba(7, 7, 7, 0.3);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .chat-tools-menu .chat-tools-item {
@@ -275,19 +275,19 @@
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .chat-tools-menu .chat-tools-item :is(svg, path, circle, rect, line, polyline, polygon) {
-  color: var(--forest-title) !important;
+  color: var(--forest-title);
   stroke: var(--forest-title) !important;
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .chat-tools-menu .chat-tools-item :is(path, circle, rect, polygon)[fill]:not([fill="none"]) {
-  fill: var(--forest-title) !important;
+  fill: var(--forest-title);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .chat-tools-menu .chat-tools-item:is(:hover, :focus-visible) {
-  background: var(--chat-tools-item-hover-bg, var(--forest-floating-surface-hover)) !important;
+  background: var(--chat-tools-item-hover-bg, var(--forest-floating-surface-hover));
   box-shadow:
     inset 0 0 0 1px rgba(var(--mono-light-rgb), 0.1),
-    0 6px 14px rgba(7, 7, 7, 0.22) !important;
+    0 6px 14px rgba(7, 7, 7, 0.22);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .drawer-panel--chat-glass .chat-sidebar-search-glow.ui-glow-field {

@@ -31,8 +31,9 @@ Legend: ✅ tehtud · 🔄 pooleli · ⬜ tegemata · 🔒 alles-jäetud (load-b
 | `theme/hc.css` | 328 | **312** | 0 | 🔒 16 (kontrakt-asserteritud) | **16** | ✅ | (käes) |
 | `theme/mono.css` | 148 | **122** | 0 | 🔒 26 (kontrakt-asserteritud, sh hcSurfaceContracts + monoThemeContracts) | **26** | ✅ | (käes) |
 | `theme/mid.css` | 65 | **52** | 0 | 🔒 13 (4 kontrakt + 9 box-shadow render-kandev: glass-ring sõda) | **13** | ✅ | (käes) |
-| `features/chat/hc.css` | 207 | **112** | 0 | 🔒 95 (88 force-keep: 6 alati-nähtavat load-bearing + KÕIK drawer-sisesed, mida gate ei ava; 7 kontrakt) | **95** | ✅ | (käes) |
-| `features/chat` (muu) | 587 | 0 | 0 | shell 191, mobile 169, mono 131, themes 93 — ootel | 587 | ⬜ | — |
+| `features/chat/hc.css` | 207 | **112** | 0 | 🔒 95 (88 force-keep: 6 alati-nähtavat load-bearing + KÕIK drawer-sisesed, mida gate ei ava; 7 kontrakt) | **95** | ✅ | 53ff7cf3 |
+| `features/chat/mono.css` | 131 | **42** | 0 | 🔒 89 (84 force-keep: .chat-composer-glow-shell load-bearing + KÕIK drawer-sisesed; drawer-keskne fail) | **89** | ✅ | (käes) |
+| `features/chat` (muu) | 456 | 0 | 0 | shell 191, mobile 169, themes 93 — ootel | 456 | ⬜ | — |
 | `features/service-map` | 357 | 0 | 0 | — | 357 | ⬜ | — |
 | `mobile/` | 806 | 0 | 0 | — | 806 | ⬜ | — |
 | `shared/` | 384 | 0 | 0 | — | 384 | ⬜ | — |
@@ -103,6 +104,15 @@ aga EI ole render-redundantsed nagu `theme/`. Kaks erinevust:
   chat-sidebar)`). Siis ✓ identical on usaldusväärne.
 - 2-gate nagu ikka. NB: keep-by-classname on **leaky** grupeeritud/muutuja-kaskaadi
   reeglitele → konservatiivne drawer-keep katab selle.
+
+**MÜRA-PÕRAND (kriitiline /vestlus gate'il):** sama muutmata fail kaks korda
+captuuritud → kuni ~18 diffi (terve teema-batch nt `night/desktop` kaob ühel
+runil = ajastus/laadimis-müra; + transientsed `.button` opacity disabled-seis,
+`.chat-assistant-action-btn` sisu-sõltuv). **Reegel: DISAPPEARED + ühe-korra-
+diffid = müra; PÄRIS signaal = sama selektor+väärtus JÄRJEPIDEVALT mitmel
+capture'il** (chat/mono full-strip: `.chat-composer-glow-shell` 20 diffi püsivalt
+= päris). Tõesta keep-versioon roheliseks: capture 2× → diffide LÕIKE tühi =
+render-ohutu. Ära usalda ühe-capture "✖ 1 diff" — võrdle müra-põrandaga.
 
 ## Tööriistad
 
