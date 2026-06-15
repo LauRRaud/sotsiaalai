@@ -1,10 +1,18 @@
+/* Mono accent channel triples — rgba(var(--mono-light-rgb), a) replaces
+   hardcoded rgba(230, 230, 230, a); rgba(var(--mono-mid-rgb), a) replaces
+   rgba(214, 214, 214, a). Defined on the mono root so all descendants inherit. */
+:root.theme-mono {
+  --mono-light-rgb: 230, 230, 230;
+  --mono-mid-rgb: 214, 214, 214;
+}
+
 :root.theme-mono:not([data-contrast="hc"]) .space-backdrop[data-mode="dark"] {
   --space-backdrop-glow: radial-gradient(
     ellipse at 50% -12%,
-    rgba(230, 230, 230, 0.12) 0%,
-    rgba(230, 230, 230, 0.055) 34%,
-    rgba(230, 230, 230, 0.014) 56%,
-    rgba(230, 230, 230, 0) 74%
+    rgba(var(--mono-light-rgb), 0.12) 0%,
+    rgba(var(--mono-light-rgb), 0.055) 34%,
+    rgba(var(--mono-light-rgb), 0.014) 56%,
+    rgba(var(--mono-light-rgb), 0) 74%
   );
   background: linear-gradient(
     180deg,
@@ -111,25 +119,25 @@
 :root.theme-mono:not([data-contrast="hc"]) .materials-page-shell {
   --subpage-card-bg: var(--forest-input-surface) !important;
   --subpage-card-bg-hover: var(--forest-input-surface-hover) !important;
-  --subpage-card-border: rgba(214, 214, 214, 0.16) !important;
-  --subpage-card-border-hover: rgba(230, 230, 230, 0.2) !important;
+  --subpage-card-border: rgba(var(--mono-mid-rgb), 0.16) !important;
+  --subpage-card-border-hover: rgba(var(--mono-light-rgb), 0.2) !important;
   --subpage-card-shadow: var(--input-shadow) !important;
   --subpage-card-shadow-hover: var(--input-shadow-hover) !important;
   --panel-secondary-bg: var(--forest-input-surface) !important;
   --panel-secondary-bg-hover: var(--forest-input-surface-hover) !important;
-  --panel-secondary-border: rgba(214, 214, 214, 0.12) !important;
+  --panel-secondary-border: rgba(var(--mono-mid-rgb), 0.12) !important;
   --panel-secondary-shadow: var(--input-shadow) !important;
   --input-bg: var(--forest-input-surface) !important;
   --input-bg-hover: var(--forest-input-surface-hover) !important;
   --input-bg-focus: var(--forest-input-surface-hover) !important;
-  --input-border: 1px solid rgba(214, 214, 214, 0.16) !important;
+  --input-border: 1px solid rgba(var(--mono-mid-rgb), 0.16) !important;
   --input-shadow: var(--mono-field-hole-shadow) !important;
   --input-shadow-hover: var(--mono-field-hole-shadow-hover) !important;
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .materials-page-shell :is(.materials-comment-box, .materials-comment-glow-field .ui-glow-control) {
   background: var(--forest-input-surface) !important;
-  border-color: rgba(214, 214, 214, 0.16) !important;
+  border-color: rgba(var(--mono-mid-rgb), 0.16) !important;
   box-shadow: var(--mono-field-hole-shadow) !important;
   color: var(--forest-highlight) !important;
 }
@@ -137,13 +145,13 @@
 :root.theme-mono:not([data-contrast="hc"]) .workspace-dashboard-panel .materials-page-body {
   --subpage-card-bg: var(--forest-input-surface) !important;
   --subpage-card-bg-hover: var(--forest-input-surface-hover) !important;
-  --subpage-card-border: rgba(214, 214, 214, 0.16) !important;
+  --subpage-card-border: rgba(var(--mono-mid-rgb), 0.16) !important;
   --subpage-card-shadow: var(--mono-field-hole-shadow) !important;
   --subpage-card-shadow-hover: var(--mono-field-hole-shadow-hover) !important;
   --input-bg: var(--forest-input-surface) !important;
   --input-bg-hover: var(--forest-input-surface-hover) !important;
   --input-bg-focus: var(--forest-input-surface-hover) !important;
-  --input-border: 1px solid rgba(214, 214, 214, 0.16) !important;
+  --input-border: 1px solid rgba(var(--mono-mid-rgb), 0.16) !important;
   --input-shadow: var(--mono-field-hole-shadow) !important;
   --input-shadow-hover: var(--mono-field-hole-shadow-hover) !important;
 }
@@ -156,7 +164,7 @@
   --card-bg: var(--forest-input-surface) !important;
   background: var(--forest-input-surface) !important;
   background-image: var(--forest-input-surface) !important;
-  border-color: rgba(214, 214, 214, 0.16) !important;
+  border-color: rgba(var(--mono-mid-rgb), 0.16) !important;
   box-shadow: var(--mono-field-hole-shadow) !important;
   color: var(--forest-highlight) !important;
 }
@@ -180,10 +188,10 @@
   --btn-primary-text: var(--forest-icon) !important;
   --btn-primary-text-hover: var(--forest-title-soft) !important;
   --btn-primary-shadow:
-    inset 0 1px 0 rgba(214, 214, 214, 0.08),
+    inset 0 1px 0 rgba(var(--mono-mid-rgb), 0.08),
     0 5px 12px rgba(7, 7, 7, 0.24) !important;
   --btn-primary-shadow-hover:
-    inset 0 1px 0 rgba(214, 214, 214, 0.1),
+    inset 0 1px 0 rgba(var(--mono-mid-rgb), 0.1),
     0 7px 14px rgba(7, 7, 7, 0.28) !important;
   color: var(--forest-icon) !important;
   background: var(--btn-primary-bg) !important;
@@ -192,32 +200,32 @@
 
 :root.theme-mono:not([data-contrast="hc"]) .workspace-feature-panel {
   --workspace-feature-text: var(--forest-highlight);
-  --workspace-feature-muted: rgba(230, 230, 230, 0.72);
-  --workspace-feature-soft: rgba(214, 214, 214, 0.12);
+  --workspace-feature-muted: rgba(var(--mono-light-rgb), 0.72);
+  --workspace-feature-soft: rgba(var(--mono-mid-rgb), 0.12);
   --workspace-feature-surface: var(--forest-input-surface);
   --workspace-feature-surface-hover: var(--forest-input-surface-hover);
   --workspace-feature-surface-strong: var(--forest-tooltip-surface);
   --workspace-feature-field-bg: var(--forest-input-surface);
   --workspace-feature-field-bg-hover: var(--forest-input-surface-hover);
   --workspace-feature-field-text: var(--forest-highlight);
-  --workspace-feature-field-placeholder: rgba(230, 230, 230, 0.72);
-  --workspace-feature-field-border: 1px solid rgba(214, 214, 214, 0.16);
+  --workspace-feature-field-placeholder: rgba(var(--mono-light-rgb), 0.72);
+  --workspace-feature-field-border: 1px solid rgba(var(--mono-mid-rgb), 0.16);
   --workspace-feature-field-shadow: var(--mono-field-hole-shadow);
   --workspace-feature-option-bg: rgb(28, 28, 28);
   --workspace-feature-option-text: var(--forest-highlight);
   --workspace-feature-accent: var(--forest-title);
-  --workspace-feature-border: rgba(230, 230, 230, 0.12);
-  --workspace-feature-border-strong: rgba(230, 230, 230, 0.2);
+  --workspace-feature-border: rgba(var(--mono-light-rgb), 0.12);
+  --workspace-feature-border-strong: rgba(var(--mono-light-rgb), 0.2);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .workspace-feature-dropdown:not(.pre-inquiry-dropdown) .documents-dropdown-menu {
   z-index: 240;
-  border: 1px solid rgba(214, 214, 214, 0.14) !important;
+  border: 1px solid rgba(var(--mono-mid-rgb), 0.14) !important;
   background: var(--forest-tooltip-surface) !important;
   background-color: rgb(28, 28, 28) !important;
   box-shadow:
     0 16px 32px rgba(0, 0, 0, 0.38),
-    inset 0 0 0 1px rgba(214, 214, 214, 0.08) !important;
+    inset 0 0 0 1px rgba(var(--mono-mid-rgb), 0.08) !important;
   color: var(--forest-highlight) !important;
   opacity: 1 !important;
 }
@@ -242,13 +250,13 @@
 }
 
 :root.theme-mono:not([data-contrast="hc"]) :is(.ui-glow-field, .ui-glow-button-frame, .ui-glow-option-card-frame, .invite-glow-field, .profile-orbit-edge-glow) {
-  --glow-color: rgba(230, 230, 230, 0.46) !important;
-  --glow-color-60: rgba(230, 230, 230, 0.3) !important;
-  --glow-color-50: rgba(230, 230, 230, 0.24) !important;
-  --glow-color-40: rgba(230, 230, 230, 0.19) !important;
-  --glow-color-30: rgba(230, 230, 230, 0.14) !important;
-  --glow-color-20: rgba(230, 230, 230, 0.09) !important;
-  --glow-color-10: rgba(230, 230, 230, 0.055) !important;
+  --glow-color: rgba(var(--mono-light-rgb), 0.46) !important;
+  --glow-color-60: rgba(var(--mono-light-rgb), 0.3) !important;
+  --glow-color-50: rgba(var(--mono-light-rgb), 0.24) !important;
+  --glow-color-40: rgba(var(--mono-light-rgb), 0.19) !important;
+  --glow-color-30: rgba(var(--mono-light-rgb), 0.14) !important;
+  --glow-color-20: rgba(var(--mono-light-rgb), 0.09) !important;
+  --glow-color-10: rgba(var(--mono-light-rgb), 0.055) !important;
 }
 
 :root.theme-mono:not([data-contrast="hc"]) :is(.ui-glow-field, .invite-glow-field) {
@@ -270,7 +278,7 @@
   background: var(--input-bg-hover) !important;
   box-shadow:
     var(--login-email-shell-shadow-hover, var(--input-shadow-hover)),
-    inset 0 0 0 1px rgba(230, 230, 230, 0.08) !important;
+    inset 0 0 0 1px rgba(var(--mono-light-rgb), 0.08) !important;
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .ui-glow-button-frame:hover:not(.ui-glow-button-frame--disabled),
@@ -282,11 +290,11 @@
 :root.theme-mono:not([data-contrast="hc"]) .ui-glow-option-card-frame:hover:not(.ui-glow-option-card-frame--disabled) {
   box-shadow:
     var(--btn-primary-shadow-hover),
-    inset 0 0 4px rgba(230, 230, 230, 0.1),
-    inset 0 0 10px rgba(230, 230, 230, 0.045),
-    0 0 3px rgba(230, 230, 230, 0.12),
-    0 0 10px rgba(230, 230, 230, 0.075),
-    0 0 20px rgba(230, 230, 230, 0.04) !important;
+    inset 0 0 4px rgba(var(--mono-light-rgb), 0.1),
+    inset 0 0 10px rgba(var(--mono-light-rgb), 0.045),
+    0 0 3px rgba(var(--mono-light-rgb), 0.12),
+    0 0 10px rgba(var(--mono-light-rgb), 0.075),
+    0 0 20px rgba(var(--mono-light-rgb), 0.04) !important;
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .ui-glow-option-card-frame {
@@ -324,13 +332,13 @@
 :root.theme-mono:not([data-contrast="hc"]) :is(.ui-glow-field, .invite-glow-field, .ui-glow-button-frame, .ui-glow-option-card-frame) > [class*="edgeLight"]::before,
 :root.theme-mono:not([data-contrast="hc"]) .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-edge-glow > [class*="edgeLight"]::before {
   box-shadow:
-    inset 0 0 0 1px rgba(230, 230, 230, 0.3),
-    inset 0 0 4px 0 rgba(230, 230, 230, 0.16),
-    inset 0 0 10px 0 rgba(230, 230, 230, 0.1),
-    0 0 2px 0 rgba(230, 230, 230, 0.22),
-    0 0 7px 0 rgba(230, 230, 230, 0.22),
-    0 0 16px 1px rgba(230, 230, 230, 0.13),
-    0 0 30px 2px rgba(230, 230, 230, 0.075) !important;
+    inset 0 0 0 1px rgba(var(--mono-light-rgb), 0.3),
+    inset 0 0 4px 0 rgba(var(--mono-light-rgb), 0.16),
+    inset 0 0 10px 0 rgba(var(--mono-light-rgb), 0.1),
+    0 0 2px 0 rgba(var(--mono-light-rgb), 0.22),
+    0 0 7px 0 rgba(var(--mono-light-rgb), 0.22),
+    0 0 16px 1px rgba(var(--mono-light-rgb), 0.13),
+    0 0 30px 2px rgba(var(--mono-light-rgb), 0.075) !important;
 }
 
 :root.theme-mono:not([data-contrast="hc"]) :is(
@@ -412,8 +420,8 @@
 
 :root.theme-mono:not([data-contrast="hc"]) .workspace-feature-panel {
   --workspace-feature-accent: var(--forest-title);
-  --workspace-feature-border: rgba(230, 230, 230, 0.12);
-  --workspace-feature-border-strong: rgba(230, 230, 230, 0.2);
+  --workspace-feature-border: rgba(var(--mono-light-rgb), 0.12);
+  --workspace-feature-border-strong: rgba(var(--mono-light-rgb), 0.2);
 }
 
 :root.theme-mono:not([data-contrast="hc"]):not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"]) {
@@ -422,7 +430,7 @@
   --glass-modal-bg: var(--glass-ring-surface-bg);
   --home-panel-bg: var(--glass-ring-surface-bg);
   --workspace-elevated-card-bg:
-    linear-gradient(145deg, rgba(214, 214, 214, 0.07), rgba(214, 214, 214, 0.028)),
+    linear-gradient(145deg, rgba(var(--mono-mid-rgb), 0.07), rgba(var(--mono-mid-rgb), 0.028)),
     color-mix(in srgb, var(--glass-ring-surface-bg) 84%, transparent);
   --workspace-elevated-card-bg-hover: var(--workspace-elevated-card-bg);
   --workspace-elevated-card-bg-strong: var(--workspace-elevated-card-bg-hover);
@@ -466,15 +474,15 @@
 }
 
 :root.theme-mono:not([data-contrast="hc"]) :is(.workspace-feature-glow-card, .workspace-feature-card, .workspace-feature-list-card, .workspace-feature-chip, .workspace-feature-toggle-row, .workspace-feature-admin-role) {
-  border-color: rgba(230, 230, 230, 0.12) !important;
+  border-color: rgba(var(--mono-light-rgb), 0.12) !important;
 }
 
 :root.theme-mono:not([data-contrast="hc"]) :is(.workspace-feature-glow-card, .workspace-feature-card, .workspace-feature-list-card, .workspace-feature-chip, .workspace-feature-toggle-row, .workspace-feature-admin-role) > [class*="edgeLight"]::before {
   box-shadow:
-    inset 0 0 0 1px rgba(230, 230, 230, 0.28),
-    0 0 2px rgba(230, 230, 230, 0.2),
-    0 0 8px rgba(230, 230, 230, 0.14),
-    0 0 18px rgba(230, 230, 230, 0.08) !important;
+    inset 0 0 0 1px rgba(var(--mono-light-rgb), 0.28),
+    0 0 2px rgba(var(--mono-light-rgb), 0.2),
+    0 0 8px rgba(var(--mono-light-rgb), 0.14),
+    0 0 18px rgba(var(--mono-light-rgb), 0.08) !important;
 }
 
 @media (min-width: 48.001em) {
