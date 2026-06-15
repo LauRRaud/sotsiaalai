@@ -55,7 +55,7 @@ const DEFAULT_VIEWPORTS = [
 ];
 
 function parseArgs(argv) {
-  const out = { targets: "scripts/css-snapshot.targets.json", out: null, token: null, baseUrl: "http://localhost:3000", headed: false, keepOpen: false };
+  const out = { targets: "scripts/css-snapshot.targets.json", out: null, token: null, baseUrl: "http://localhost:3000", headed: false, keepOpen: false, all: false };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === "--targets") out.targets = argv[++i];
@@ -63,6 +63,7 @@ function parseArgs(argv) {
     else if (a === "--token") out.token = argv[++i];
     else if (a === "--base-url") out.baseUrl = argv[++i];
     else if (a === "--headed") out.headed = true;
+    else if (a === "--all") out.all = true;
     else if (a === "--keep-open") { out.keepOpen = true; out.headed = true; }
     else throw new Error(`Unknown argument: ${a}`);
   }
@@ -154,7 +155,8 @@ async function freezeMotion(page) {
 // opened modal, a focused input.
 async function runSteps(page, steps) {
   for (const step of steps ?? []) {
-    if (step.hover) {
+    if (step.waitFor) await page.waitForSelector(step.waitFor);
+    else if (step.hover) {
       try {
         await page.hover(step.hover, step.force ? { force: true } : {});
       } catch (e) {
@@ -169,7 +171,7 @@ async function runSteps(page, steps) {
 
 const flush = (page) => page.evaluate(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))));
 
-async function captureTarget(page, target) {
+async function captureTarget(page, target, all = false) {
   const result = {};
   const viewports = target.viewports ?? DEFAULT_VIEWPORTS;
   for (const vp of viewports) {
@@ -188,22 +190,29 @@ async function captureTarget(page, target) {
       await runSteps(page, target.steps);
       await flush(page);
       const captured = await page.evaluate(
-        ({ selectors, properties }) => {
+        ({ selectors, properties, all }) => {
           const out = {};
           for (const sel of selectors) {
-            const el = document.querySelector(sel);
-            if (!el) {
+            // --all captures EVERY instance (keyed sel##0, sel##1, …) so a
+            // change on a non-first instance can't slip past; default keeps the
+            // legacy single-element behaviour (key = sel).
+            const els = all
+              ? Array.from(document.querySelectorAll(sel))
+              : [document.querySelector(sel)].filter(Boolean);
+            if (els.length === 0) {
               out[sel] = null;
               continue;
             }
-            const cs = getComputedStyle(el);
-            const props = {};
-            for (const p of properties) props[p] = cs.getPropertyValue(p);
-            out[sel] = props;
+            els.forEach((el, i) => {
+              const cs = getComputedStyle(el);
+              const props = {};
+              for (const p of properties) props[p] = cs.getPropertyValue(p);
+              out[all ? `${sel}##${i}` : sel] = props;
+            });
           }
           return out;
         },
-        { selectors: target.selectors, properties: target.properties }
+        { selectors: target.selectors, properties: target.properties, all }
       );
       for (const [sel, props] of Object.entries(captured)) {
         result[sel] ??= {};
@@ -243,7 +252,7 @@ async function main() {
   const snapshot = { capturedAt: new Date().toISOString(), baseUrl: args.baseUrl, targets: {} };
   for (const target of targets) {
     process.stderr.write(`capturing ${target.name} (${target.route})...\n`);
-    snapshot.targets[target.name] = await captureTarget(page, target);
+    snapshot.targets[target.name] = await captureTarget(page, target, args.all);
   }
 
   mkdirSync(path.dirname(args.out), { recursive: true });

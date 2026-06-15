@@ -90,3 +90,6 @@ app/styles/*.zip
 # Local-only e2e/test helper scripts (create local test accounts; never commit)
 scripts/tmp-*.mjs
 reports/css-snapshots/
+
+# CSS safe-loop: per-file before/after snapshot blobs (regenerable, can be large)
+reports/css-cleanup/state/

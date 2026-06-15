@@ -21,6 +21,7 @@
 - **Faas 2 — dropdown viil:** VALMIS (`ff8390cd`). Järgmine: **button (~99 hajutus)**.
 - **Faas 2 — button viilud 1.5–1.9:** VALMIS (15.06.2026). ghost/secondary = 0, mono mega-ahelad kustutatud. !important: 3769 → 3746 (−23). Järgmine: HC ahelad.
 - **HC ahelad viilud 2.1–2.8 VALMIS (15.06.2026).** !important: 3769 → 3649 (−120 sessiooniga). Testid: 967/13.
+- **CSS SAFE-LOOP süsteem ehitatud (15.06.2026).** `scripts/css-cleanup/` — ise-verifitseeruv ahel olemasoleva snapshot/page-report infra peal. **Loe esmalt: `scripts/css-cleanup/README.md`.** Komponendid: `targets-gen.mjs` (täielik katvus page-reportist → `css-snapshot.targets.generated.json`, 48 targetit), `worklist-gen.mjs` (võla-nimekiri failide kaupa, top = `theme/hc.css` 328), `run.mjs` (orkestraator: `before --file X` → muuda → `verify --file X [--auto-revert]`; gate1 snapshot-diff + gate2 npm test). `css-snapshot.mjs` täiendatud: `--all` (kõik instantsid) + `waitFor`-samm. **Kaks turvaluku:** (1) täielik katvus — vana 7-selektori target oli illusioon; (2) **ALATI headed** — headless ei renderda token/glass/canvas komponente õigesti, mõõdaks vale asja (before/after mõlemad valed → diff valeroheline). **TEGEMATA:** live-PoC + 2 ise-testi (tühi-jooks=roheline, tahtlik regressioon=punane) — vajab server `:3000` + auth (`SNAPSHOT_SESSION` või `--token`).
 
 ## ⏳ POOLELI — järgmine: viil 2.9+ (15.06.2026)
 
