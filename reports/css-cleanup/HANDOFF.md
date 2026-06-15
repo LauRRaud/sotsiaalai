@@ -77,6 +77,13 @@ Teema-failid + teema-laadsed feature/shared failid on harvitud (oraakel + render
    (tõestatud: workspace-guide 17/29 absent isegi 6 route'iga). **Vaja FLOW-gate'i:**
    css-snapshot `steps:[{click:...}]` et paneel avada, SIIS strip+gate. Failid:
    glass-subpage (ülejäänud), workspace-guide (ülejäänud), mobile/ modal-failid.
+   **⭐ KONKREETSE VÕIDU OOTEL — chat-drawer:** chat/{hc,mono,shell,mobile}.css puhul
+   hoiti KÕIK `.drawer-*`/`.cs-*` markerid KONSERVATIIVSELT (gate ei avanud drawerit).
+   Drawer = `ConversationDrawer.jsx` (React `open` prop → `body.conversation-drawer-open`;
+   klassi käsitsi seadmine EI ava, vaja React-toggle klikki — leia toggle ChatSidebar/
+   rail JSX-ist). Flow-gate `steps:[{click:<drawer-toggle>}]` /vestlus-il → re-examine
+   drawer-sisesed keepid 4 failis → tõenäoliselt 40-60 markerit taastatav. NB: drawer
+   vajab vestlus-andmeid (e2e-konto) + animatsiooni-külmutust (snapshot teeb seda).
 2. **JS-STATE/RUNTIME-gated** — `features/service-map/desktop.css` 276 (~196 service-
    profile JS-oleku-taga + 33 Leaflet runtime, vt css-progress-log). Vajab oleku-
    trigerdust või on dünaamiline (ei strippitav lihtsalt).
