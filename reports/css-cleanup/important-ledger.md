@@ -44,9 +44,23 @@ Legend: ✅ tehtud · 🔄 pooleli · ⬜ tegemata · 🔒 alles-jäetud (load-b
 | `features/documents/ui.css` | 110 | **52** | 0 | 🔒 58 (57 force-keep: ~14 base-pinda load-bearing — form-input/panel/surface/notice/field/workspace-shell/guide-panel + interaktsiooni-gated). Suurem load-bearing kui chat (base teeb päris tööd) | **58** | ✅ | a635603e |
 | `features/documents/agent.css` | 51 | **4** | 0 | 🔒 47 (suuresti load-bearing: chat-inputbar + conversation-window + glow-composer/window background kõik teemad) | **47** | ✅ | (käes) |
 | `features/documents/library.css` | 11 | **6** | 0 | 🔒 5 (kontrakt) — full-strip render-ohutu | **5** | ✅ | (käes) |
-| `features/service-map` | 357 | 0 | 0 | — | 357 | ⬜ | — |
-| `mobile/` | 806 | 0 | 0 | — | 806 | ⬜ | — |
-| `shared/` | 384 | 0 | 0 | — | 384 | ⬜ | — |
+| `features/service-map/desktop.css` | 276 | 0 | 0 | ⬜ JS-state/Leaflet-gated (~196 service-profile JS-oleku-taga + 33 Leaflet runtime) — vajab oleku-flow gate'i | 276 | ⬜ | — |
+| `mobile/` | 806 | 0 | 0 | ⬜ laiad override'id — vajab multi-route VÕI flow gate'i (katvus) | 806 | ⬜ | — |
+| `shared/` (muu) | 207 | 0 | 0 | ⬜ ui-glow 118 KAITSTUD; ülejäänu interaktsiooni-gated | 207 | ⬜ | — |
+
+## PROOVITUD aga JÄETUD (ära korda ilma flow/multi-route gate'ita) — 2026-06-16
+- **`home/desktop.css`** (52): oraakel KEEP 49 / STRIP 3 (raskelt **kontrakt-lukus**);
+  need 3 = render-load-bearing (.three-d-card/.left/.right järjepidev CHANGED). 0 vaba.
+- **`home/themes.css`** (15): STRIP 5, aga light/mobile .home-link/.home-about load-
+  bearing + homepage capture-flaky. Madal ROI.
+- **`features/profile/mono.css`** (8): STRIP 4 — väike, orbit-entangled.
+- **`features/profile/mobile.css`** (74): orbit-menu **entangled** — .profile-orbit-menu__
+  center-pulse muutub järjepidevalt ka kui .profile-orbit keep'is (muutuja-kaskaad muus
+  reeglis). STRIP ainult 7 + lahendamata CHANGED. Jäetud.
+- **`features/documents/mono.css`** (6): oraakel STRIP 0 (kontrakt-lukus).
+- **ÜLDINE:** odav oraakel+üks-route korje on AMMENDUNUD. Iga ülejäänud fail = kontrakt-
+  lukus VÕI interaktsiooni-gated VÕI orbit/var-entangled VÕI load-bearing. Edasi = flow-
+  gate (ava modal/paneel `steps:[{click}]`) VÕI token-migratsioon (struktuurne). Vt HANDOFF §6.
 
 ## Strateegiline leid (2026-06-15, policy strip-all eksperimendist)
 
