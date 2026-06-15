@@ -108,7 +108,17 @@ async function applyTheme(page, theme) {
     }
     prefs.theme = theme;
     prefs.contrast = contrast;
-    window.localStorage.setItem("a11y_prefs", JSON.stringify(prefs));
+    const prefsJson = JSON.stringify(prefs);
+    window.localStorage.setItem("a11y_prefs", prefsJson);
+    // CRITICAL: the app's theme TRUTH is the a11y_prefs COOKIE, read both
+    // server-side (layout.js parseA11yPrefs → React context + BackgroundLayer)
+    // and client-side (AccessibilityProvider.readPrefsFromCookie). Setting only
+    // localStorage flips the CSS root classes (boot script) but leaves every
+    // React/JS-painted surface (background, glow, theme-prop icons) on the
+    // cookie's theme → unfaithful capture (e.g. "mid" rendered with mono bg).
+    // Encoding must match the app's setCookie: encodeURIComponent(JSON).
+    document.cookie =
+      "a11y_prefs=" + encodeURIComponent(prefsJson) + "; path=/; max-age=31536000; SameSite=Lax";
   }, theme);
 
   await page.reload({ waitUntil: "domcontentloaded" });
@@ -177,7 +187,10 @@ async function captureTarget(page, target, all = false) {
   for (const vp of viewports) {
     await page.setViewportSize({ width: vp.width, height: vp.height });
     await page.goto(`${page.context()._baseUrl}${target.route}`, { waitUntil: "domcontentloaded" });
-    for (const theme of THEMES) {
+    // Honor a target's theme subset (e.g. an hc.css refactor only needs hc+light);
+    // default to all themes. Previously target.themes was silently ignored.
+    const themes = target.themes ? THEMES.filter((t) => target.themes.includes(t.id)) : THEMES;
+    for (const theme of themes) {
       await applyTheme(page, theme);
       await freezeMotion(page); // re-inject: the reload in applyTheme dropped it
       // Deterministic render flush instead of a guessed settle or a timeout:0
