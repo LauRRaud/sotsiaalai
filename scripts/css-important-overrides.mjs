@@ -211,7 +211,12 @@ async function captureNode(page, cdp, sheets, selector, forcedPseudo, props) {
   if (!nodeId) return { found: false };
   if (forcedPseudo && forcedPseudo !== "normal") await cdp.send("CSS.forcePseudoState", { nodeId, forcedPseudoClasses: [forcedPseudo] });
   const matched = await cdp.send("CSS.getMatchedStylesForNode", { nodeId });
-  const computedArr = (await cdp.send("CSS.getComputedStyleForNode", { nodeId })).computedStyle || [];
+  let computedArr = [];
+  try {
+    computedArr = (await cdp.send("CSS.getComputedStyleForNode", { nodeId })).computedStyle || [];
+  } catch {
+    computedArr = []; // node went stale between calls (live re-render) → order-based fallback
+  }
   if (forcedPseudo && forcedPseudo !== "normal") await cdp.send("CSS.forcePseudoState", { nodeId, forcedPseudoClasses: [] });
 
   const computed = {};
@@ -361,7 +366,14 @@ async function main() {
       await page.goto(`${args.baseUrl}${route}`, { waitUntil: "domcontentloaded" });
       await applyTheme(page, theme);
       for (const pseudo of args.pseudo) {
-        const cap = await captureNode(page, cdp, sheets, target.selector, pseudo, args.props);
+        let cap;
+        try {
+          cap = await captureNode(page, cdp, sheets, target.selector, pseudo, args.props);
+        } catch (e) {
+          process.stderr.write(`  ! ${theme.id}/${pseudo} capture failed: ${e.message}\n`);
+          byState[`${theme.id}/${pseudo}`] = null;
+          continue;
+        }
         if (!cap.found) { byState[`${theme.id}/${pseudo}`] = null; continue; }
         const propList = args.props.length ? args.props : [...new Set(cap.rules.flatMap((r) => Object.keys(r.decls)))];
         const perProp = {};
