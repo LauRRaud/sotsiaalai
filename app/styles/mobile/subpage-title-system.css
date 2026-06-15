@@ -138,16 +138,16 @@
       var(--mobile-header-control-top) +
         var(--mobile-header-browser-y-offset, 0rem) +
         var(--mobile-header-pwa-y-offset, 0rem)
-    ) !important;
-    right: auto !important;
-    bottom: auto !important;
-    margin-left: 0 !important;
-    transform: none !important;
+    );
+    right: auto;
+    bottom: auto;
+    margin-left: 0;
+    transform: none;
   }
 
   .rag-admin-shell-card .rag-admin-shell-title {
-    margin-top: 0 !important;
-    margin-bottom: 0 !important;
+    margin-top: 0;
+    margin-bottom: 0;
   }
 
   .admin-framework-acceptances-page {
@@ -175,7 +175,7 @@
       .policy-scroll-page-scroller
     )
     .glass-subpage-header {
-    margin-top: var(--mobile-header-wrap-correction) !important;
+    margin-top: var(--mobile-header-wrap-correction);
   }
 
   :is(
@@ -199,24 +199,24 @@
       .policy-scroll-page-scroller
     )
     :is(.glass-subpage-title-wrap, .policy-mobile-title-wrap) {
-    box-sizing: border-box !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    margin-right: 0 !important;
-    margin-left: 0 !important;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    margin-right: 0;
+    margin-left: 0;
     padding-top: calc(
       var(--mobile-header-title-top) +
         var(--mobile-header-browser-y-offset, 0rem) +
         var(--mobile-header-pwa-y-offset, 0rem)
-    ) !important;
-    padding-right: var(--mobile-header-title-inline-reserve) !important;
-    padding-bottom: var(--mobile-header-title-bottom) !important;
-    padding-left: var(--mobile-header-title-inline-reserve) !important;
+    );
+    padding-right: var(--mobile-header-title-inline-reserve);
+    padding-bottom: var(--mobile-header-title-bottom);
+    padding-left: var(--mobile-header-title-inline-reserve);
   }
 
   :is(.glass-ring, .subscription-modal-content, .account-settings-modal-content)
     > :is(.glass-subpage-title-wrap, .policy-mobile-title-wrap) {
-    margin-top: 0.18rem !important;
+    margin-top: 0.18rem;
   }
 
   :is(
@@ -247,17 +247,17 @@
       .service-map-workspace__back,
       .scroll-reactive-back
     ) {
-    position: absolute !important;
+    position: absolute;
     left: var(--mobile-header-back-left) !important;
     top: calc(
       var(--mobile-header-control-top) +
         var(--mobile-header-browser-y-offset, 0rem) +
         var(--mobile-header-pwa-y-offset, 0rem)
-    ) !important;
-    right: auto !important;
-    bottom: auto !important;
-    margin-left: 0 !important;
-    transform: none !important;
+    );
+    right: auto;
+    bottom: auto;
+    margin-left: 0;
+    transform: none;
   }
 
   :is(
@@ -276,53 +276,53 @@
       .invite-modal-content
     )
     :is(.dashboard-info-trigger-corner, .service-map-workspace__info) {
-    position: absolute !important;
-    right: var(--mobile-header-info-right) !important;
+    position: absolute;
+    right: var(--mobile-header-info-right);
     top: calc(
       var(--mobile-header-control-info-top) +
         var(--mobile-header-browser-y-offset, 0rem) +
         var(--mobile-header-pwa-y-offset, 0rem)
-    ) !important;
-    z-index: 35 !important;
+    );
+    z-index: 35;
   }
 
   .glass-title-register {
-    font-size: clamp(1.8rem, 7.2vw, 2.34rem) !important;
+    font-size: clamp(1.8rem, 7.2vw, 2.34rem);
   }
 
   .glass-title-register-ru {
-    font-size: clamp(1.58rem, 6.6vw, 2.12rem) !important;
+    font-size: clamp(1.58rem, 6.6vw, 2.12rem);
   }
 
   .subpage-mobile-title[data-fit-ready="0"],
   .policy-mobile-title[data-fit-ready="0"] {
-    font-size: var(--fit-title-preload-px, var(--mobile-header-title-font)) !important;
-    transform: none !important;
+    font-size: var(--fit-title-preload-px, var(--mobile-header-title-font));
+    transform: none;
   }
 
   :is(.subpage-mobile-title, .policy-mobile-title) {
-    --fit-title-buffer-px: 6 !important;
-    --fit-title-max-px: 35 !important;
-    --fit-title-min-scale-x: 0.94 !important;
-    box-sizing: border-box !important;
+    --fit-title-buffer-px: 6;
+    --fit-title-max-px: 35;
+    --fit-title-min-scale-x: 0.94;
+    box-sizing: border-box;
     display: block !important;
-    position: relative !important;
-    z-index: 2 !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: 0 !important;
-    min-height: auto !important;
-    margin: 0 !important;
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    min-height: auto;
+    margin: 0;
     padding: 0 !important;
-    text-align: center !important;
-    white-space: normal !important;
-    text-wrap: balance !important;
-    overflow-wrap: normal !important;
-    word-break: normal !important;
-    hyphens: manual !important;
+    text-align: center;
+    white-space: normal;
+    text-wrap: balance;
+    overflow-wrap: normal;
+    word-break: normal;
+    hyphens: manual;
     overflow: visible !important;
-    transition: none !important;
-    will-change: auto !important;
+    transition: none;
+    will-change: auto;
   }
 
   :is(
@@ -355,8 +355,8 @@
       .rooms-page-title
     ) {
     font-size: var(--mobile-header-title-font) !important;
-    line-height: var(--mobile-header-title-line-height) !important;
-    letter-spacing: var(--mobile-header-title-tracking) !important;
+    line-height: var(--mobile-header-title-line-height);
+    letter-spacing: var(--mobile-header-title-tracking);
     text-shadow: var(--mobile-header-title-shadow) !important;
   }
 
@@ -374,7 +374,7 @@
   }
 
   .account-settings-modal-content .account-modal-title-wrap {
-    flex: 0 0 auto !important;
+    flex: 0 0 auto;
   }
 
   .account-settings-modal-content .invite-modal-scroll {
@@ -382,20 +382,20 @@
     height: auto !important;
     max-height: none !important;
     min-height: 0 !important;
-    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 1.25rem) !important;
-    scroll-padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 1.25rem) !important;
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 1.25rem);
+    scroll-padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 1.25rem);
   }
 
   .chat-mobile-topnav .mobile-shared-topnav-title {
-    color: var(--title-color, var(--brand-primary, #c57171)) !important;
+    color: var(--title-color, var(--brand-primary, #c57171));
     font-family:
       var(--font-aino),
       Arial,
       sans-serif !important;
     font-size: clamp(1.36rem, 5.5vw, 1.54rem) !important;
-    font-weight: 450 !important;
-    line-height: var(--mobile-header-title-line-height) !important;
-    letter-spacing: var(--mobile-header-title-tracking) !important;
+    font-weight: 450;
+    line-height: var(--mobile-header-title-line-height);
+    letter-spacing: var(--mobile-header-title-tracking);
     text-shadow: none !important;
   }
 }
