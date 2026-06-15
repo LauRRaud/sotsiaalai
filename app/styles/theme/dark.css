@@ -1,3 +1,10 @@
+/* Dark theme channel triples: rgba(var(--dark-white-rgb),a) replaces
+   rgba(255,255,255,a); rgba(var(--dark-black-rgb),a) replaces rgba(0,0,0,a). */
+:root.theme-dark, :root:not(.theme-light):not(.theme-mid):not(.theme-night):not(.theme-mono):not([data-contrast="hc"]) {
+  --dark-white-rgb: 255, 255, 255;
+  --dark-black-rgb: 0, 0, 0;
+}
+
 :root:not(.theme-light):not(.theme-mid):not(.theme-night):not(.theme-mono):not([data-contrast="hc"]) {
   --home-panel-bg: rgba(16, 19, 24, 0.84);
   --chat-card-surface-standard-bg: radial-gradient(
@@ -11,8 +18,8 @@
     rgba(21, 25, 31, 0.84) 100%
   );
   --workspace-elevated-card-bg:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.035)),
-    color-mix(in srgb, var(--glass-ring-surface-bg, rgba(0, 0, 0, 0.25)) 64%, transparent);
+    linear-gradient(145deg, rgba(var(--dark-white-rgb), 0.08), rgba(var(--dark-white-rgb), 0.035)),
+    color-mix(in srgb, var(--glass-ring-surface-bg, rgba(var(--dark-black-rgb), 0.25)) 64%, transparent);
   --workspace-elevated-card-bg-hover: var(--workspace-elevated-card-bg);
   --workspace-elevated-card-bg-strong: var(--workspace-elevated-card-bg-hover);
   --chat-card-surface-strong-bg: radial-gradient(
@@ -33,19 +40,19 @@
   --input-bg-focus: var(--form-surface-active);
   --input-border: 0 solid transparent;
   --input-shadow:
-    0 5px 14px rgba(0, 0, 0, 0.2),
+    0 5px 14px rgba(var(--dark-black-rgb), 0.2),
     0 10px 18px -12px rgba(238, 242, 248, 0.2),
     0 18px 28px -24px rgba(238, 242, 248, 0.08);
   --input-shadow-hover:
-    0 5.5px 15px rgba(0, 0, 0, 0.2),
+    0 5.5px 15px rgba(var(--dark-black-rgb), 0.2),
     0 10px 18px -11px rgba(242, 246, 250, 0.24),
     0 18px 28px -23px rgba(242, 246, 250, 0.1);
   --seg-card-bg-hover: var(--form-surface-hover);
   --seg-card-shadow-hover: var(--input-shadow-hover);
   --seg-card-text-hover: var(--pt-100);
-  --input-surface-overlay: inset 0 0 0 999px rgba(255, 255, 255, 0);
-  --input-surface-overlay-hover: inset 0 0 0 999px rgba(255, 255, 255, 0.02);
-  --input-surface-overlay-focus: inset 0 0 0 999px rgba(255, 255, 255, 0.04);
+  --input-surface-overlay: inset 0 0 0 999px rgba(var(--dark-white-rgb), 0);
+  --input-surface-overlay-hover: inset 0 0 0 999px rgba(var(--dark-white-rgb), 0.02);
+  --input-surface-overlay-focus: inset 0 0 0 999px rgba(var(--dark-white-rgb), 0.04);
   --input-flat-bg: var(--workspace-elevated-card-bg);
   --input-flat-bg-hover: var(--workspace-elevated-card-bg);
   --subpage-card-bg: var(--input-flat-bg);
@@ -53,26 +60,26 @@
   --subpage-card-border: rgba(248, 253, 255, 0.08);
   --subpage-card-border-hover: rgba(248, 253, 255, 0.14);
   --subpage-card-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.04),
-    0 8px 18px rgba(0, 0, 0, 0.14),
+    inset 0 1px 0 rgba(var(--dark-white-rgb), 0.04),
+    0 8px 18px rgba(var(--dark-black-rgb), 0.14),
     0 0 18px -14px rgba(248, 253, 255, 0.22);
   --subpage-card-shadow-hover:
-    inset 0 1px 0 rgba(255, 255, 255, 0.06),
-    0 10px 22px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(var(--dark-white-rgb), 0.06),
+    0 10px 22px rgba(var(--dark-black-rgb), 0.2),
     0 0 24px -14px rgba(248, 253, 255, 0.28);
   --subpage-card-text: var(--pt-120);
   --opaque-panel-bg: var(--workspace-elevated-card-bg);
   --opaque-panel-bg-hover: var(--workspace-elevated-card-bg);
   --opaque-panel-border: rgba(248, 253, 255, 0.12);
-  --opaque-panel-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+  --opaque-panel-shadow: 0 10px 24px rgba(var(--dark-black-rgb), 0.2);
   --opaque-panel-text: var(--pt-120);
   --btn-primary-hover-brightness: 1.04;
   --btn-primary-bg: radial-gradient(
       82% 66% at 50% -14%,
-      rgba(255, 255, 255, 0.118) 0%,
-      rgba(255, 255, 255, 0.048) 42%,
-      rgba(255, 255, 255, 0.015) 58%,
-      rgba(255, 255, 255, 0) 74%
+      rgba(var(--dark-white-rgb), 0.118) 0%,
+      rgba(var(--dark-white-rgb), 0.048) 42%,
+      rgba(var(--dark-white-rgb), 0.015) 58%,
+      rgba(var(--dark-white-rgb), 0) 74%
     ),
     linear-gradient(
       180deg,
@@ -81,10 +88,10 @@
     );
   --btn-primary-bg-hover: radial-gradient(
       82% 66% at 50% -14%,
-      rgba(255, 255, 255, 0.14) 0%,
-      rgba(255, 255, 255, 0.058) 42%,
-      rgba(255, 255, 255, 0.018) 58%,
-      rgba(255, 255, 255, 0) 74%
+      rgba(var(--dark-white-rgb), 0.14) 0%,
+      rgba(var(--dark-white-rgb), 0.058) 42%,
+      rgba(var(--dark-white-rgb), 0.018) 58%,
+      rgba(var(--dark-white-rgb), 0) 74%
     ),
     linear-gradient(
       180deg,
@@ -93,10 +100,10 @@
     );
   --btn-primary-bg-active: radial-gradient(
       82% 66% at 50% -14%,
-      rgba(255, 255, 255, 0.09) 0%,
-      rgba(255, 255, 255, 0.038) 42%,
-      rgba(255, 255, 255, 0.012) 58%,
-      rgba(255, 255, 255, 0) 74%
+      rgba(var(--dark-white-rgb), 0.09) 0%,
+      rgba(var(--dark-white-rgb), 0.038) 42%,
+      rgba(var(--dark-white-rgb), 0.012) 58%,
+      rgba(var(--dark-white-rgb), 0) 74%
     ),
     linear-gradient(
       180deg,
@@ -107,17 +114,17 @@
   --btn-primary-border-hover: 0 solid transparent;
   --btn-primary-border-active: 0 solid transparent;
   --btn-primary-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.06),
-    0 5px 12px rgba(0, 0, 0, 0.2);
+    inset 0 1px 0 rgba(var(--dark-white-rgb), 0.06),
+    0 5px 12px rgba(var(--dark-black-rgb), 0.2);
   --btn-primary-shadow-hover:
-    inset 0 1px 0 rgba(255, 255, 255, 0.08),
-    0 7px 14px rgba(0, 0, 0, 0.24);
+    inset 0 1px 0 rgba(var(--dark-white-rgb), 0.08),
+    0 7px 14px rgba(var(--dark-black-rgb), 0.24);
   --btn-primary-shadow-active:
-    inset 0 1px 0 rgba(255, 255, 255, 0.05),
-    0 4px 10px rgba(0, 0, 0, 0.18);
+    inset 0 1px 0 rgba(var(--dark-white-rgb), 0.05),
+    0 4px 10px rgba(var(--dark-black-rgb), 0.18);
   --btn-primary-shadow-focus:
-    inset 0 1px 0 rgba(255, 255, 255, 0.12),
-    0 8px 18px rgba(0, 0, 0, 0.26),
+    inset 0 1px 0 rgba(var(--dark-white-rgb), 0.12),
+    0 8px 18px rgba(var(--dark-black-rgb), 0.26),
     0 0 0 3px var(--btn-primary-focus-ring-color);
 }
 
@@ -146,12 +153,12 @@
   .help-listings-modal-content
   .help-listings-panel {
   background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.035)),
-    color-mix(in srgb, var(--glass-ring-surface-bg, rgba(0, 0, 0, 0.25)) 64%, transparent) !important;
+    linear-gradient(145deg, rgba(var(--dark-white-rgb), 0.08), rgba(var(--dark-white-rgb), 0.035)),
+    color-mix(in srgb, var(--glass-ring-surface-bg, rgba(var(--dark-black-rgb), 0.25)) 64%, transparent) !important;
   border-color: transparent !important;
   box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
-    0 10px 24px rgba(0, 0, 0, 0.08) !important;
+    inset 0 0 0 1px rgba(var(--dark-white-rgb), 0.08),
+    0 10px 24px rgba(var(--dark-black-rgb), 0.08) !important;
   -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;
 }
@@ -210,10 +217,10 @@
   :is(.materials-upload-choose-button, .materials-upload-submit-button) {
   --btn-primary-bg: radial-gradient(
       82% 66% at 50% -14%,
-      rgba(255, 255, 255, 0.11) 0%,
-      rgba(255, 255, 255, 0.045) 42%,
-      rgba(255, 255, 255, 0.014) 58%,
-      rgba(255, 255, 255, 0) 74%
+      rgba(var(--dark-white-rgb), 0.11) 0%,
+      rgba(var(--dark-white-rgb), 0.045) 42%,
+      rgba(var(--dark-white-rgb), 0.014) 58%,
+      rgba(var(--dark-white-rgb), 0) 74%
     ),
     linear-gradient(
       180deg,
@@ -222,10 +229,10 @@
     );
   --btn-primary-bg-hover: radial-gradient(
       82% 66% at 50% -14%,
-      rgba(255, 255, 255, 0.14) 0%,
-      rgba(255, 255, 255, 0.058) 42%,
-      rgba(255, 255, 255, 0.018) 58%,
-      rgba(255, 255, 255, 0) 74%
+      rgba(var(--dark-white-rgb), 0.14) 0%,
+      rgba(var(--dark-white-rgb), 0.058) 42%,
+      rgba(var(--dark-white-rgb), 0.018) 58%,
+      rgba(var(--dark-white-rgb), 0) 74%
     ),
     linear-gradient(
       180deg,
@@ -234,10 +241,10 @@
     );
   --btn-primary-bg-active: radial-gradient(
       82% 66% at 50% -14%,
-      rgba(255, 255, 255, 0.09) 0%,
-      rgba(255, 255, 255, 0.038) 42%,
-      rgba(255, 255, 255, 0.012) 58%,
-      rgba(255, 255, 255, 0) 74%
+      rgba(var(--dark-white-rgb), 0.09) 0%,
+      rgba(var(--dark-white-rgb), 0.038) 42%,
+      rgba(var(--dark-white-rgb), 0.012) 58%,
+      rgba(var(--dark-white-rgb), 0) 74%
     ),
     linear-gradient(
       180deg,
@@ -248,17 +255,17 @@
   --btn-primary-border-hover: 0 solid transparent;
   --btn-primary-border-active: 0 solid transparent;
   --btn-primary-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.06),
-    0 5px 12px rgba(0, 0, 0, 0.22);
+    inset 0 1px 0 rgba(var(--dark-white-rgb), 0.06),
+    0 5px 12px rgba(var(--dark-black-rgb), 0.22);
   --btn-primary-shadow-hover:
-    inset 0 1px 0 rgba(255, 255, 255, 0.08),
-    0 7px 14px rgba(0, 0, 0, 0.24);
+    inset 0 1px 0 rgba(var(--dark-white-rgb), 0.08),
+    0 7px 14px rgba(var(--dark-black-rgb), 0.24);
   --btn-primary-shadow-active:
-    inset 0 1px 0 rgba(255, 255, 255, 0.05),
-    0 4px 10px rgba(0, 0, 0, 0.2);
+    inset 0 1px 0 rgba(var(--dark-white-rgb), 0.05),
+    0 4px 10px rgba(var(--dark-black-rgb), 0.2);
   --btn-primary-shadow-focus:
-    inset 0 1px 0 rgba(255, 255, 255, 0.12),
-    0 8px 18px rgba(0, 0, 0, 0.26),
+    inset 0 1px 0 rgba(var(--dark-white-rgb), 0.12),
+    0 8px 18px rgba(var(--dark-black-rgb), 0.26),
     0 0 0 3px var(--btn-primary-focus-ring-color);
 }
 
@@ -289,7 +296,7 @@
 :root:not(.theme-light):not(.theme-mid)
   .login-modal-box.login-modal--otp
   .login-modal-shell {
-  background: var(--glass-modal-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))) !important;
+  background: var(--glass-modal-bg, var(--glass-surface-bg, rgba(var(--dark-black-rgb), 0.25))) !important;
   color: var(--glass-modal-text, var(--glass-surface-text, #f2f2f2)) !important;
   border: var(--glass-modal-border, none) !important;
   box-shadow: var(--glass-modal-shadow, none) !important;
