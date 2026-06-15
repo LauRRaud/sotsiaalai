@@ -310,7 +310,7 @@ export default function MaterialsAdminSubmissionsPanel({
                     {t("materials_page.admin.download")}
                   </Button>
                   <Button
-                    variant={isRagAdmin ? "primary" : "secondary"}
+                    variant="primary"
                     size={actionButtonSize}
                     disabled={reviewingId === item.id || item.status === "reviewed"}
                     onClick={() => void handleReview(item.id, "mark_reviewed")}
@@ -319,7 +319,7 @@ export default function MaterialsAdminSubmissionsPanel({
                     {t("materials_page.admin.mark_reviewed", "Margi ule vaadatuks")}
                   </Button>
                   <Button
-                    variant={isRagAdmin ? "primary" : "secondary"}
+                    variant="primary"
                     size={actionButtonSize}
                     disabled={reviewingId === item.id || item.status === "imported"}
                     onClick={() => void handleReview(item.id, "mark_imported")}
