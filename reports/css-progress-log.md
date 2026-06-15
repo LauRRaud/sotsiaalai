@@ -21,7 +21,7 @@
 - **Faas 2 — dropdown viil:** VALMIS (`ff8390cd`). Järgmine: **button (~99 hajutus)**.
 - **Faas 2 — button viilud 1.5–1.9:** VALMIS (15.06.2026). ghost/secondary = 0, mono mega-ahelad kustutatud. !important: 3769 → 3746 (−23). Järgmine: HC ahelad.
 
-## ⏳ POOLELI — hc.css nupu-ahelad (15.06.2026)
+## ⏳ POOLELI — hc.css login-modal + a11y-modal ahelad (15.06.2026)
 
 **Eelmiste viilide lühikokkuvõte (1.5–1.9):**
 - viil 1.5: `.invite-primary-btn` eemaldus mono/hc `:is()`-loendist + JSX
@@ -44,9 +44,12 @@
 
 **NB nimekonventsioon (kasutaja selgitas 14.06):** `--forest-*` tokenid on **legacy roheka teema nimed** — mono on endine "forest"-teema, väärtused ümber kirjutatud hallskaalaks (`--forest-icon: rgba(230,230,230,0.96)` = hall). Nime EI pea muutma.
 
-**Järgmised sammud uue sessiooni jaoks:**
-1. HC ahelad (538, 543, 549, 553, 558, 562, 813, 827, 840) — a11y-kriitiline. Vaja: (a) otsusta kas lisada `--btn-primary-border: rgba(255,234,0,0.66)` HC tokenisse globaalselt (kõik nupud saavad kollase ääre HC's) VÕI (b) jäta scoped ahelad, eemalda ainult `.button`/`.btn` ja jäta `[data-variant="primary"]`. Brauseris kontrastikontroll.
-2. Värav: `npm test` 967/13, `css-important-audit` arv langeb.
+**Tehtud (15.06):** token kaskaad parandatud + 15 ahela-reeglit kustutatud (viil 2.0). Brauseris verifitseeritud.
+
+**Järele jäänud:**
+- `hc.css` rida **~1044** — `#login-modal :is(.button, .btn, button[type="submit"], .no-click-pulse)` — PIN-klahvistiku raw nupud (`no-click-pulse`), ei kasuta `<Button>` komponenti. Vajab eraldi lähenemist (kas lisada `.no-click-pulse` HC tokeniga või hoida ahel).
+- `hc.css` rida **~1246** — `.a11y-modal-shell .a11y-csp-scroll :is(.button, .btn, button[type="submit"], input[type="submit"])` — a11y modal raw nupud + `input[type="submit"]`.
+- Värav: `npm test` 967/13, `css-important-audit` arv langeb.
 
 ---
 
@@ -102,6 +105,18 @@ Faas 2 ja faas 4 tehakse **koos, ühe viiluna per primitiiv** (mitte eraldi glob
 ---
 
 ## Tehtud (krooniline)
+
+### Rada 1 viil 2.0 — HC token kaskaad fix + 4 ahela grupp kustutus  [`523426f8`]  (15.06.2026)
+`tokens/theme-hc.css`: eemaldatud `:root:not(.theme-light):not(.theme-mid)` blokk — selle spetsiifilisus (0,3,0) blokeeri `html[data-contrast="hc"]` plokki (0,1,1), mistõttu `--btn-primary-border: 2px solid rgba(255,234,0,0.66)` ei jõudnud kunagi brauserini. Fix laseb HC plokil võita → kõik `<Button variant="primary">` saavad HC's kollase serva automaatselt. `hc.css`: kustutatud 15 ahela-reeglit 4 kontekstis (chat-analysis-overlay-card, drawer-chat-sidebar, subscription/materials-content, register/invite/update-pin/email/reset). Brauseris verifitseeritud (dev-server). −44 !important. npm test 967/13.
+
+### Rada 1 viil 1.9 — mono.css 4 button mega-ahelat kustutatud  [`61c895eb`]  (15.06.2026)
+`:is(.button, .btn, [data-variant="primary"]):not(...)` ahelad (baas + ::before + hover + hover::before) on redundantsed: `Button.jsx primaryStyles` + `tokens/theme-mono.css` katavad samad väärtused tokenite kaudu. `desktop.css service-map-toolbar__result-button` blokk on ise-stiilitud (own `!important` token vars). `monoThemeContracts.test.js` 2 assertiooni eemaldatud (kontrollisid ahela olemasolu). −23 !important. npm test 967/13.
+
+### Rada 1 viil 1.8 — AgentModePage audio-toggle ghost→linkBrand  [`c40af872`]  (15.06.2026)
+`AgentModePage.jsx:1890`: `variant={isSelected ? "primary" : "ghost"}` → `variant={isSelected ? "primary" : "linkBrand"}`. Valimata audio-allikas oli ghost (peaaegu nähtamatu heledal paneelil); linkBrand on nähtav aga mahajääv. npm test 967/13.
+
+### Rada 1 viil 1.7 — MaterialsAdminSubmissionsPanel secondary→primary  [`281adad9`]  (15.06.2026)
+"Margi üle vaadatuks" ja "Margi impordituks" kasutasid `variant="secondary"` (ghost) — selged CTA-d, muudetud `primary`. `.materials-surface-button` hook-klass jääb alles (suurus/vahede overrides + mono.css:191 token-blokk). npm test 967/13.
 
 ### Rada B viil 2.5 — hc teema token-blokid  [`bdf7f3dd`]  (14.06.2026)
 `:root:not(.theme-light):not(.theme-mid) { ... }` (3 rida) ja `html[data-contrast="hc"] { ... }` (224 rida) — kokku 0 `!important` — liigutatud `theme/hc.css`-ist `tokens/theme-hc.css`-i. `hc.css`: 1992 → 1760 rida. Testilaadir uuendatud: `tokens/theme-hc.css` lisatud `hc.css` bundle'i. npm test 967/13.
