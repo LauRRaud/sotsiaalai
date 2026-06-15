@@ -54,6 +54,22 @@ See on edaspidine loop (mitte per-selektor audit).
 feature-reeglid), MITTE ainult märksõna-eemaldus. Strip-all-masin on hea VABA fraktsiooni
 kiireks korjeks + load-bearing kaardistuseks per feature.
 
+## LÄBIMURRE: teema-failide `!important` on suuresti RENDER-REDUNDANTNE (2026-06-15)
+
+**hc.css strip-all test:** kõik **328** `!important` maha → **0 computed-muutust** 80 hc-
+selektoril /kasutusjuhend-il (gate-1 roheline). Põhjus: `:root.theme-hc .x` / `[data-
+contrast="hc"]` on baasist kõrgema spetsiifikatsusega → **võidab ilma `!important`-ita**,
+ja teemad on vastastikku välistavad (ei konkureeri runtime'is). `!important` = cargo-cult.
+
+**Nüanss:** gate-2 → **7 kontrakt-testi** valvavad mõne hc `!important` olemasolu source-
+tekstis (glass-ring muster, render-surnud märksõna). Need tuleb kas **restoreerida**
+(jätta marker) VÕI **test uuendada** (väidab render-surnud detaili).
+
+**Mõju eesmärgile:** theme/ 577 (hc 328 + mono 148 + mid 65) on tõenäoliselt valdavalt
+render-redundantne → **strippitav**. See + feature vabad fraktsioonid = peamine tee ≪1000.
+Per-fail kiire: 1 strip-all-tsükkel. Ainus töö: contract-asserted markerite restore.
+**ENNE commiti:** laienda render-katet (hc kõrge nähtavus — rohkem route'e kui 1).
+
 ## Tööriistad
 
 - **Audit (valija):** `scripts/css-important-overrides.mjs` — verdikt per (selektor, prop),
