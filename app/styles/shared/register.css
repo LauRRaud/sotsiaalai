@@ -17,41 +17,41 @@
 .register-checkbox-card .register-policy-link:hover,
 .register-checkbox-card .register-policy-link:active,
 .register-checkbox-card .register-policy-link:focus-visible {
-  color: var(--brand-primary) !important;
-  font: inherit !important;
-  letter-spacing: inherit !important;
-  text-transform: none !important;
-  display: inline !important;
+  color: var(--brand-primary);
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: none;
+  display: inline;
   padding: 0 !important;
   padding-left: 0;
   padding-right: 0;
-  border: 0 !important;
+  border: 0;
   box-shadow: none !important;
-  border-radius: 0 !important;
-  background: transparent !important;
-  text-decoration: none !important;
-  cursor: pointer !important;
-  font-size: 1em !important;
-  font-weight: inherit !important;
-  line-height: inherit !important;
+  border-radius: 0;
+  background: transparent;
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: inherit;
+  line-height: inherit;
   white-space: normal;
   word-break: normal;
   overflow-wrap: normal;
   hyphens: none;
-  transform: none !important;
-  filter: none !important;
-  text-shadow: none !important;
-  transition: none !important;
-  outline: none !important;
-  vertical-align: baseline !important;
-  position: static !important;
+  transform: none;
+  filter: none;
+  text-shadow: none;
+  transition: none;
+  outline: none;
+  vertical-align: baseline;
+  position: static;
 }
 
 :root.theme-light .register-checkbox-card .register-policy-link,
 :root.theme-light .register-checkbox-card .register-policy-link:hover,
 :root.theme-light .register-checkbox-card .register-policy-link:active,
 :root.theme-light .register-checkbox-card .register-policy-link:focus-visible {
-  color: var(--link-color, #7a3a38) !important;
+  color: var(--link-color, #7a3a38);
 }
 
 .register-checkbox-card,
@@ -60,7 +60,7 @@
 .register-checkbox-card[data-checked="true"],
 .register-checkbox-card[data-checked="true"]:hover,
 .register-checkbox-card[data-checked="true"]:focus-within {
-  color: var(--pt-50) !important;
+  color: var(--pt-50);
 }
 
 :root.theme-light .register-checkbox-card,
@@ -69,7 +69,7 @@
 :root.theme-light .register-checkbox-card[data-checked="true"],
 :root.theme-light .register-checkbox-card[data-checked="true"]:hover,
 :root.theme-light .register-checkbox-card[data-checked="true"]:focus-within {
-  color: var(--input-text) !important;
+  color: var(--input-text);
 }
 
 .register-option-card,
@@ -78,7 +78,7 @@
     background 560ms cubic-bezier(0.22, 0.61, 0.36, 1),
     border-color 560ms cubic-bezier(0.22, 0.61, 0.36, 1),
     box-shadow 560ms cubic-bezier(0.22, 0.61, 0.36, 1),
-    color 560ms cubic-bezier(0.22, 0.61, 0.36, 1) !important;
+    color 560ms cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 :root:not(.theme-light):not(.theme-mid) .register-option-card,
@@ -128,17 +128,17 @@
 
 .register-option-card[data-checked="true"],
 .register-checkbox-card[data-checked="true"] {
-  background: var(--seg-card-bg-selected, var(--btn-primary-bg-hover)) !important;
-  border-color: var(--seg-card-border-selected, transparent) !important;
+  background: var(--seg-card-bg-selected, var(--btn-primary-bg-hover));
+  border-color: var(--seg-card-border-selected, transparent);
   box-shadow: var(
     --seg-card-shadow-selected,
     var(--btn-primary-shadow-hover)
-  ) !important;
+  );
 }
 
 .register-option-card[data-checked="true"],
 .register-option-card[data-checked="true"] > span:last-child {
-  color: var(--title-color, var(--brand-primary)) !important;
+  color: var(--title-color, var(--brand-primary));
 }
 
 .register-role-options .register-role-button {
@@ -165,7 +165,7 @@
     background 560ms cubic-bezier(0.22, 0.61, 0.36, 1),
     border-color 560ms cubic-bezier(0.22, 0.61, 0.36, 1),
     box-shadow 560ms cubic-bezier(0.22, 0.61, 0.36, 1),
-    color 560ms cubic-bezier(0.22, 0.61, 0.36, 1) !important;
+    color 560ms cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 .register-role-options .register-role-button::before {
@@ -177,25 +177,25 @@
   border-radius: inherit;
   background: var(--seg-card-bg-hover, var(--seg-card-bg));
   opacity: 0;
-  transition: opacity 560ms cubic-bezier(0.22, 0.61, 0.36, 1) !important;
+  transition: opacity 560ms cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 .register-role-options .register-role-button.register-option-card[data-checked="true"] {
-  background: var(--seg-card-bg-selected, var(--seg-card-bg)) !important;
+  background: var(--seg-card-bg-selected, var(--seg-card-bg));
 }
 
 .register-role-options .register-role-button:hover::before,
 .register-role-options .register-role-button:focus-visible::before,
 .register-role-options .register-role-button[data-checked="true"]::before {
-  opacity: 1 !important;
+  opacity: 1;
 }
 
 .register-role-options .register-role-button:hover,
 .register-role-options .register-role-button:focus-visible,
 .register-role-options .register-role-button[data-checked="true"] {
-  border-color: var(--seg-card-border-hover, var(--seg-card-border)) !important;
-  box-shadow: var(--seg-card-shadow-hover, var(--seg-card-shadow)) !important;
-  color: var(--seg-card-text-hover, var(--seg-card-text)) !important;
+  border-color: var(--seg-card-border-hover, var(--seg-card-border));
+  box-shadow: var(--seg-card-shadow-hover, var(--seg-card-shadow));
+  color: var(--seg-card-text-hover, var(--seg-card-text));
 }
 
 .register-role-options .register-role-button:focus-visible {
@@ -206,76 +206,76 @@
   background: var(
     --seg-card-bg-active,
     var(--seg-card-bg-selected, var(--seg-card-bg-hover, var(--seg-card-bg)))
-  ) !important;
+  );
   border-color: var(
     --seg-card-border-active,
     var(--seg-card-border-selected, var(--seg-card-border-hover, var(--seg-card-border)))
-  ) !important;
+  );
   box-shadow: var(
     --seg-card-shadow-active,
     var(--seg-card-shadow-selected, var(--seg-card-shadow-hover, var(--seg-card-shadow)))
-  ) !important;
-  color: var(--seg-card-text-selected, var(--seg-card-text-hover, var(--seg-card-text))) !important;
+  );
+  color: var(--seg-card-text-selected, var(--seg-card-text-hover, var(--seg-card-text)));
 }
 
 .register-role-options .register-role-button > span {
   justify-content: center;
   text-align: center;
-  color: inherit !important;
-  transition: color 560ms cubic-bezier(0.22, 0.61, 0.36, 1) !important;
+  color: inherit;
+  transition: color 560ms cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 .register-role-options .register-role-button.register-option-card {
   min-height: 3.55rem;
-  padding-top: 0.76rem !important;
-  padding-bottom: 0.76rem !important;
+  padding-top: 0.76rem;
+  padding-bottom: 0.76rem;
 }
 
 html[data-contrast="hc"] .register-role-options .register-role-button.register-option-card[data-checked="true"],
 html[data-contrast="hc"] .register-role-options .register-role-button.register-option-card[data-checked="true"]:hover {
-  --seg-card-bg: rgba(255, 234, 0, 0.1) !important;
-  --seg-card-bg-hover: rgba(255, 234, 0, 0.12) !important;
-  --seg-card-bg-selected: rgba(255, 234, 0, 0.1) !important;
-  --card-bg: rgba(255, 234, 0, 0.1) !important;
-  --hc-control-bg: rgba(255, 234, 0, 0.1) !important;
-  --hc-control-bg-hover: rgba(255, 234, 0, 0.12) !important;
-  --hc-control-bg-active: rgba(255, 234, 0, 0.14) !important;
-  --btn-primary-bg: rgba(255, 234, 0, 0.1) !important;
-  --btn-primary-bg-hover: rgba(255, 234, 0, 0.12) !important;
-  --btn-primary-bg-active: rgba(255, 234, 0, 0.14) !important;
+  --seg-card-bg: rgba(255, 234, 0, 0.1);
+  --seg-card-bg-hover: rgba(255, 234, 0, 0.12);
+  --seg-card-bg-selected: rgba(255, 234, 0, 0.1);
+  --card-bg: rgba(255, 234, 0, 0.1);
+  --hc-control-bg: rgba(255, 234, 0, 0.1);
+  --hc-control-bg-hover: rgba(255, 234, 0, 0.12);
+  --hc-control-bg-active: rgba(255, 234, 0, 0.14);
+  --btn-primary-bg: rgba(255, 234, 0, 0.1);
+  --btn-primary-bg-hover: rgba(255, 234, 0, 0.12);
+  --btn-primary-bg-active: rgba(255, 234, 0, 0.14);
   background: rgba(255, 234, 0, 0.1) !important;
-  background-color: rgba(255, 234, 0, 0.1) !important;
-  border-color: rgba(255, 234, 0, 0.94) !important;
-  box-shadow: inset 0 0 0 1px rgba(255, 234, 0, 0.64) !important;
+  background-color: rgba(255, 234, 0, 0.1);
+  border-color: rgba(255, 234, 0, 0.94);
+  box-shadow: inset 0 0 0 1px rgba(255, 234, 0, 0.64);
 }
 
 html[data-contrast="hc"] .register-role-options .register-role-button.register-option-card[data-checked="true"]::before,
 html[data-contrast="hc"] .register-role-options .register-role-button.register-option-card[data-checked="true"]:hover::before {
-  opacity: 1 !important;
-  background: rgba(255, 234, 0, 0.06) !important;
+  opacity: 1;
+  background: rgba(255, 234, 0, 0.06);
 }
 
 .register-agree-card.register-checkbox-card,
 .register-guide-card.register-checkbox-card {
   min-height: 3.72rem;
-  padding-top: 0.48rem !important;
-  padding-bottom: 0.48rem !important;
+  padding-top: 0.48rem;
+  padding-bottom: 0.48rem;
 }
 
 html[data-contrast="hc"] .register-input .ui-glow-control,
 html[data-contrast="hc"] .register-input .ui-glow-control:is(:hover, :focus, :focus-visible, :active) {
   border: 0 !important;
   outline: 0 !important;
-  box-shadow: none !important;
+  box-shadow: none;
   background: transparent !important;
 }
 
 .register-checkbox-card .register-policy-link:hover,
 .register-checkbox-card .register-policy-link:focus-visible {
-  text-decoration: none !important;
+  text-decoration: none;
   text-underline-offset: 0;
-  border-color: transparent !important;
-  box-shadow: none !important;
+  border-color: transparent;
+  box-shadow: none;
 }
 
 .register-agree-card > span:last-child,
@@ -311,10 +311,10 @@ section[lang="ru"] .register-agree-card > span:last-child {
 }
 
 section[lang="ru"] .register-guide-card .register-policy-link {
-  white-space: normal !important;
-  word-break: normal !important;
-  overflow-wrap: normal !important;
-  hyphens: manual !important;
+  white-space: normal;
+  word-break: normal;
+  overflow-wrap: normal;
+  hyphens: manual;
 }
 
 section[lang="en"] .register-checkbox-card {
@@ -334,13 +334,13 @@ section[lang="en"] .register-guide-card {
 
 @media (min-width: 769px) {
   section[lang="ru"] .register-guide-card {
-    width: calc(100% - clamp(1.7rem, calc(var(--ring-diameter, 52rem) / 26), 2.2rem)) !important;
-    max-width: calc(100% - clamp(1.7rem, calc(var(--ring-diameter, 52rem) / 26), 2.2rem)) !important;
+    width: calc(100% - clamp(1.7rem, calc(var(--ring-diameter, 52rem) / 26), 2.2rem));
+    max-width: calc(100% - clamp(1.7rem, calc(var(--ring-diameter, 52rem) / 26), 2.2rem));
   }
 
   section[lang="en"] .register-guide-card {
-    width: calc(100% - clamp(3.4rem, 5.8vw, 5rem)) !important;
-    max-width: calc(100% - clamp(3.4rem, 5.8vw, 5rem)) !important;
+    width: calc(100% - clamp(3.4rem, 5.8vw, 5rem));
+    max-width: calc(100% - clamp(3.4rem, 5.8vw, 5rem));
   }
 
   section[lang="en"] .register-guide-card > span:last-child {

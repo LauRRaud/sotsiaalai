@@ -28,6 +28,7 @@ Legend: ✅ tehtud · 🔄 pooleli · ⬜ tegemata · 🔒 alles-jäetud (load-b
 | `features/policy` tekstiklaster | — | 7 | 1 reegel | — | — | ✅ | 828bb330, 29685773 |
 | `features/policy` geomeetria | ~133 | 0 | 0 | 🔒 render-kandev (strip-all diff: height/margin/padding liiguvad) JA kontrakt-lukus (policyScrollHeader + scrollSurfaceHeader, ~29 assert'i) | ~133 | 🔒 | strip-all reverditud |
 | `utilities/glass-ring-stable` | 1 | 0 | 0 | 🔒 Reegel A — kontrakt-test valvab | 1 | 🔒 | 56ba160c (KEEP) |
+| `shared/register.css` | 79 | **72** | 0 | 🔒 7 (1 invite-sponsor katmata-flow load-bearing keep + 6 kontrakt). Full-strip /registreerimine ✓ identical → register-pinnad render-redundantsed | **7** | ✅ | (käes) |
 | `theme/hc.css` | 328 | **312** | 0 | 🔒 16 (kontrakt-asserteritud) | **16** | ✅ | (käes) |
 | `theme/mono.css` | 148 | **122** | 0 | 🔒 26 (kontrakt-asserteritud, sh hcSurfaceContracts + monoThemeContracts) | **26** | ✅ | (käes) |
 | `theme/mid.css` | 65 | **52** | 0 | 🔒 13 (4 kontrakt + 9 box-shadow render-kandev: glass-ring sõda) | **13** | ✅ | (käes) |
