@@ -240,7 +240,7 @@ export default function WellbeingPilotClient({ allowedRoleGroups = [], pilotScop
           </label>
         </div>
         <div className="flex flex-wrap gap-2">
-          <Button type="button" variant="secondary" onClick={loadAggregate} disabled={status === "loading"}>
+          <Button type="button" variant="primary" onClick={loadAggregate} disabled={status === "loading"}>
             <RefreshCw size={16} aria-hidden="true" />
             {copy.refresh}
           </Button>
@@ -248,11 +248,11 @@ export default function WellbeingPilotClient({ allowedRoleGroups = [], pilotScop
             <Download size={16} aria-hidden="true" />
             {copy.csv}
           </Button>
-          <Button as="a" href={printUrl} target="_blank" rel="noreferrer" variant="secondary">
+          <Button as="a" href={printUrl} target="_blank" rel="noreferrer" variant="primary">
             <FileText size={16} aria-hidden="true" />
             {copy.print}
           </Button>
-          <Button as="a" href={xlsxUrl} variant="secondary">
+          <Button as="a" href={xlsxUrl} variant="primary">
             <Download size={16} aria-hidden="true" />
             {copy.xlsx}
           </Button>

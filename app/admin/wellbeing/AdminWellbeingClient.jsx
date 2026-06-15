@@ -234,7 +234,7 @@ export default function AdminWellbeingClient() {
           </label>
         </div>
         <div className="flex flex-wrap gap-2">
-          <Button type="button" variant="secondary" onClick={loadAggregate} disabled={status === "loading"}>
+          <Button type="button" variant="primary" onClick={loadAggregate} disabled={status === "loading"}>
             <RefreshCw size={16} aria-hidden="true" />
             Värskenda
           </Button>
@@ -251,7 +251,7 @@ export default function AdminWellbeingClient() {
             <Settings size={18} aria-hidden="true" className="text-[color:var(--title-color,var(--brand-primary))]" />
             <h2 className="m-0 text-[1.05rem] font-[720]">Piloodi skoobid</h2>
           </div>
-          <Button type="button" variant="secondary" onClick={loadPilotScopes} disabled={pilotStatus === "loading"}>
+          <Button type="button" variant="primary" onClick={loadPilotScopes} disabled={pilotStatus === "loading"}>
             <RefreshCw size={16} aria-hidden="true" />
             Laadi
           </Button>
@@ -329,7 +329,7 @@ export default function AdminWellbeingClient() {
             Vaataja e-post
             <input className={inputClassName} type="email" value={viewerEmail} onChange={(event) => setViewerEmail(event.target.value)} placeholder="kov@example.test" />
           </label>
-          <Button type="submit" variant="secondary" disabled={!selectedPilotScopeId || !viewerEmail.trim() || pilotStatus === "saving"}>
+          <Button type="submit" variant="primary" disabled={!selectedPilotScopeId || !viewerEmail.trim() || pilotStatus === "saving"}>
             <UserPlus size={16} aria-hidden="true" />
             Lisa vaataja
           </Button>
