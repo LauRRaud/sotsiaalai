@@ -2,7 +2,8 @@
 
 **Miks see fail:** sessiooni-mälu on konto-lokaalne ega kandu kontovahetust üle.
 See dokument elab repos → iga konto/mudel jätkab siit. Loe see + seotud dokud
-ENNE tööd. Kirjutatud 2026-06-15, uuendatud pärast mono. **HEAD: `1d3fc317` (main).**
+ENNE tööd. Kirjutatud 2026-06-15, **uuendatud 2026-06-16 (kontovahetus). HEAD: `2225c9dc` (main).**
+Tööpuu puhas (ainult `dark.css` + `documents/mono.css` CRLF-müra, `git diff --numstat` tühi — ignoreeri).
 
 ## 0. Lugemisjärjekord (3 faili)
 1. **SEE FAIL** — seis, meetod, infra, järgmine samm.
@@ -57,11 +58,19 @@ on vastastikku välistavad (ei konkureeri runtime'is). hc.css 328 markerit maha 
   interakteeruvad. **Tegi hc+mid+mono võidu (kõik teema-failid).** Pass 2 = **grupp-
   restore** (taastab katkise oraakli match-regiooni KÕIK markerid korraga) → lahendab
   mitme-markeri-oraaklid, mis greedy üksik-restore'iga jäid kinni (mono oli see juhtum).
+  **`--keep-selectors <substring-list>`** (uus): force-keep marker, kui ta reegli selektor
+  sisaldab substringi — hoia render-gate-flagitud load-bearing + katmata selektorid (tegi
+  feature-failid võimalikuks). NB: keep-by-classname on **leaky** grupeeritud/cross-file
+  reeglitele (vt `.chat-mic-glyph` õppetund §6).
   ```bash
   TESTS=$(find tests -name "*.test.js" -o -name "*.test.mjs" | tr '\n' ',' | sed 's/,$//')
   node scripts/css-cleanup/theme-strip-oracle.mjs --file app/styles/theme/mono.css --tests "$TESTS"          # dry-run
-  node scripts/css-cleanup/theme-strip-oracle.mjs --apply --file app/styles/theme/mono.css --tests "$TESTS"  # rakenda
+  node scripts/css-cleanup/theme-strip-oracle.mjs --apply --file <fail> --tests "$TESTS" --keep-selectors ".x,.y"  # rakenda
   ```
+  **RETSEPT feature-failile (tõestatud chat/documents/shared):** (1) ehita deterministlik
+  gate (klassi-tokenid failist, jäta interaktsiooni-gated välja); (2) full-strip → render-
+  diff näitab JÄRJEPIDEVAD CHANGED = load-bearing; (3) `--keep-selectors` = load-bearing +
+  katmata + box-shadow; (4) re-strip → 2-capture gate (CHANGED-lõige tühi) → GATE-2 → commit.
 - **`scripts/css-important-overrides.mjs`** — kaskaadi-audit (verdikt per selektor×prop).
   Nüüd viewport-korrektne (390+1920, `--viewports`). Aeglane (brauser). Vt päist.
 - **`scripts/css-snapshot.mjs` + `css-snapshot-diff.mjs`** — render-gate (golden-master).
@@ -70,7 +79,9 @@ on vastastikku välistavad (ei konkureeri runtime'is). hc.css 328 markerit maha 
 
 ## 6. JÄRGMINE SAMM: odav korje LÕPETATUD → raske klass (3 tüüpi)
 Teema-failid + teema-laadsed feature/shared failid on harvitud (oraakel + render-gate,
-§5). Platvorm 3642 → 2669. **Allesjäänud ~2669 jaguneb 3 raskemaks klassiks:**
+§5). Platvorm 3642 → 2669. **📊 Täpne allesjäänud-failide kaart (STRIP-potentsiaal +
+vajalik gate-tüüp per fail) = [important-ledger.md](important-ledger.md) §"ALLESJÄÄNUD
+FAILIDE KAART".** Alusta sealt. **Allesjäänu jaguneb 3 raskemaks klassiks:**
 
 1. **INTERAKTSIOONI-GATED pinnad** (suurim) — modal/paneel/drawer/help-listings/invite
    selektorid renderduvad ALLES klikiga. Üks-route ega mitme-route gate ei kata neid
@@ -121,11 +132,13 @@ capture 2× → CHANGED-lõige tühi.
 ## 8. SESSIOONI COMMITID (main, 18c8cf36 järel)
 ```
 # autonoomne sessioon 2 (16.06): feature/shared korje + tooriista-taiendused
+2225c9dc ledger: allesjaanud failide kaart         7bc3861b css-snapshot {eval} + drawer-uuring
+7a94a42d workspace-guide 92->85 + HANDOFF konsolid  f79b077a ledger: proovitud-aga-jaetud
 96942d2d glass-subpage 66->52 (konserv)            a31fcd8d register 79->7
 043ec076 documents agent/library -10               a635603e documents/ui 110->58
 1c4f6ce7 chat/mobile 169->67                        d85881af chat/shell 191->127 +doc-reconcile
 076686ce profile/hc 40->28                          6af45bca chat/mono 131->89
-53ff7cf3 chat/hc 207->95 + --keep-selectors         (+ workspace-guide 92->85, kaes)
+53ff7cf3 chat/hc 207->95 + --keep-selectors
 # autonoomne sessioon 1 (15.-16.06): teema-kiht
 1d3fc317 mono.css 148->26 (-122) + grupp-restore   663893bb HANDOFF doc
 2190dd07 mono STRIP 0 = repair-loop piirang        828bb330 guide-rich-text -3 !important
