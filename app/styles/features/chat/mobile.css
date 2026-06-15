@@ -3,18 +3,18 @@
 @media (max-width: 768px) {
   body.conversation-drawer-open .chat-page-shell {
     opacity: 0 !important;
-    visibility: hidden !important;
-    pointer-events: none !important;
+    visibility: hidden;
+    pointer-events: none;
   }
 
   body.conversation-drawer-open .chat-right-actions {
-    opacity: 0 !important;
-    pointer-events: none !important;
+    opacity: 0;
+    pointer-events: none;
   }
 
   body.conversation-drawer-open .chat-mobile-topnav {
-    opacity: 0 !important;
-    pointer-events: none !important;
+    opacity: 0;
+    pointer-events: none;
   }
 
   .chat-page-shell .chat-container.chat-container--round {
@@ -152,20 +152,20 @@
 
   .chat-right-actions,
   .chat-left-actions {
-    --chat-mobile-rail-size: clamp(2rem, 6.2vw, 2.22rem) !important;
-    --chat-mobile-action-gap: clamp(0.14rem, 0.8vw, 0.24rem) !important;
-    --chat-mobile-cluster-gap: clamp(0.02rem, 0.3vw, 0.08rem) !important;
+    --chat-mobile-rail-size: clamp(2rem, 6.2vw, 2.22rem);
+    --chat-mobile-action-gap: clamp(0.14rem, 0.8vw, 0.24rem);
+    --chat-mobile-cluster-gap: clamp(0.02rem, 0.3vw, 0.08rem);
     --chat-mobile-action-cluster-width: calc(
       (var(--chat-mobile-rail-size) * 3) + (var(--chat-mobile-action-gap) * 2)
-    ) !important;
-    position: absolute !important;
-    top: calc(env(safe-area-inset-top, 0px) + 0.48rem) !important;
-    left: auto !important;
-    right: calc(env(safe-area-inset-right, 0px) + 0.42rem) !important;
-    width: auto !important;
-    height: auto !important;
-    z-index: 94 !important;
-    pointer-events: none !important;
+    );
+    position: absolute;
+    top: calc(env(safe-area-inset-top, 0px) + 0.48rem);
+    left: auto;
+    right: calc(env(safe-area-inset-right, 0px) + 0.42rem);
+    width: auto;
+    height: auto;
+    z-index: 94;
+    pointer-events: none;
   }
 
   .chat-left-actions {
@@ -173,57 +173,57 @@
       env(safe-area-inset-right, 0px) + 0.42rem +
         var(--chat-mobile-action-cluster-width) +
         var(--chat-mobile-cluster-gap)
-    ) !important;
+    );
   }
 
   .chat-window__scroll {
     position: relative;
-    padding-left: calc(var(--chat-window-pad-x, 0.7rem) - 0.04rem) !important;
-    padding-right: calc(var(--chat-window-pad-x, 0.7rem) - 0.06rem) !important;
+    padding-left: calc(var(--chat-window-pad-x, 0.7rem) - 0.04rem);
+    padding-right: calc(var(--chat-window-pad-x, 0.7rem) - 0.06rem);
   }
 
   .chat-page-shell--analysis-scroll .chat-analysis-preview-wrap {
-    padding-right: clamp(0.72rem, 3.4vw, 1rem) !important;
+    padding-right: clamp(0.72rem, 3.4vw, 1rem);
   }
 
   .chat-page-shell--analysis-scroll .chat-analysis-preview {
     padding-right: calc(
       var(--analysis-preview-pad-right, 0.35rem) + clamp(0.3rem, 1.4vw, 0.5rem)
-    ) !important;
+    );
   }
 
   .chat-page-shell--analysis-scroll .chat-analysis-scroll-track {
-    right: clamp(0.08rem, 0.9vw, 0.24rem) !important;
+    right: clamp(0.08rem, 0.9vw, 0.24rem);
   }
 
   .chat-page-shell--analysis-scroll {
-    overflow-y: auto !important;
-    overflow-x: hidden !important;
-    overscroll-behavior-y: auto !important;
-    overscroll-behavior-x: none !important;
-    -webkit-overflow-scrolling: touch !important;
-    touch-action: pan-y !important;
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior-y: auto;
+    overscroll-behavior-x: none;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
   }
 
   .chat-msg-user {
-    margin-right: -0.04rem !important;
+    margin-right: -0.04rem;
   }
 
   .chat-right-actions > nav,
   .chat-left-actions > nav {
-    width: auto !important;
-    display: flex !important;
-    flex-direction: row !important;
-    justify-content: flex-end !important;
-    align-items: center !important;
-    gap: var(--chat-mobile-action-gap) !important;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
+    width: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    gap: var(--chat-mobile-action-gap);
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
     overflow: visible !important;
-    transform: none !important;
-    pointer-events: auto !important;
+    transform: none;
+    pointer-events: auto;
   }
 
   .chat-left-actions > nav {
@@ -232,11 +232,11 @@
 
   .chat-right-actions > nav button,
   .chat-left-actions > nav button {
-    margin: 0 !important;
+    margin: 0;
     opacity: 1 !important;
-    transform: none !important;
-    width: var(--chat-mobile-rail-size) !important;
-    min-width: var(--chat-mobile-rail-size) !important;
+    transform: none;
+    width: var(--chat-mobile-rail-size);
+    min-width: var(--chat-mobile-rail-size);
   }
 
   .chat-page-shell .chat-container[data-chat-layout="mobile"] {
@@ -244,40 +244,40 @@
   }
 
   .chat-input-row:not(.chat-input-row--embedded) {
-    position: absolute !important;
-    left: 0 !important;
-    right: 0 !important;
-    --chat-input-max-w: min(100%, calc(100vw - 6.45rem)) !important;
-    bottom: calc(env(safe-area-inset-bottom, 0px) + var(--chat-composer-mobile-bottom-base) + var(--chat-vk-offset, 0px)) !important;
-    margin-top: 0 !important;
-    transform: none !important;
-    align-items: flex-end !important;
-    justify-content: center !important;
-    gap: clamp(0.34rem, 1.9vw, 0.58rem) !important;
-    padding-left: clamp(0.36rem, 1.8vw, 0.62rem) !important;
-    padding-right: clamp(0.7rem, 3vw, 1rem) !important;
+    position: absolute;
+    left: 0;
+    right: 0;
+    --chat-input-max-w: min(100%, calc(100vw - 6.45rem));
+    bottom: calc(env(safe-area-inset-bottom, 0px) + var(--chat-composer-mobile-bottom-base) + var(--chat-vk-offset, 0px));
+    margin-top: 0;
+    transform: none;
+    align-items: flex-end;
+    justify-content: center;
+    gap: clamp(0.34rem, 1.9vw, 0.58rem);
+    padding-left: clamp(0.36rem, 1.8vw, 0.62rem);
+    padding-right: clamp(0.7rem, 3vw, 1rem);
   }
 
   .chat-input-row:not(.chat-input-row--embedded) .chat-side-controls {
-    align-self: flex-end !important;
+    align-self: flex-end;
   }
 
   .chat-input-row:not(.chat-input-row--embedded) .chat-side-control-btn {
-    flex: 0 0 auto !important;
-    transform: none !important;
-    margin-left: 0 !important;
-    margin-right: clamp(0.18rem, 0.9vw, 0.3rem) !important;
+    flex: 0 0 auto;
+    transform: none;
+    margin-left: 0;
+    margin-right: clamp(0.18rem, 0.9vw, 0.3rem);
   }
 
   .chat-input-row:not(.chat-input-row--embedded) .chat-tools-btn {
-    transform: none !important;
+    transform: none;
   }
 
   .chat-input-row:not(.chat-input-row--embedded) .chat-inputbar {
-    width: auto !important;
-    max-width: min(100%, var(--chat-input-max-w)) !important;
-    flex: 1 1 auto !important;
-    transform: none !important;
+    width: auto;
+    max-width: min(100%, var(--chat-input-max-w));
+    flex: 1 1 auto;
+    transform: none;
   }
 
   .chat-page-shell .chat-container[data-chat-layout="mobile"] .chat-window__scroll {
@@ -295,11 +295,11 @@
   body[data-platform="android"] .chat-input-row:not(.chat-input-row--embedded) {
     --chat-input-available-inline: calc(
       100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px)
-    ) !important;
-    --chat-input-row-edge-pad: clamp(0.72rem, 3.2vw, 1rem) !important;
+    );
+    --chat-input-row-edge-pad: clamp(0.72rem, 3.2vw, 1rem);
     --chat-input-side-controls-inline: calc(
       var(--chat-composer-side-control-size) + clamp(0.24rem, 1vw, 0.4rem)
-    ) !important;
+    );
     --chat-input-max-w: min(
       100%,
       calc(
@@ -308,61 +308,61 @@
           (var(--chat-input-row-edge-pad) * 2) -
           0.6rem
       )
-    ) !important;
-    gap: clamp(0.22rem, 1vw, 0.36rem) !important;
-    padding-left: var(--chat-input-row-edge-pad) !important;
+    );
+    gap: clamp(0.22rem, 1vw, 0.36rem);
+    padding-left: var(--chat-input-row-edge-pad);
     padding-right: calc(
       var(--chat-input-row-edge-pad) + clamp(0.12rem, 0.55vw, 0.22rem)
-    ) !important;
+    );
   }
 
   html[data-platform="android"] .chat-input-row:not(.chat-input-row--embedded) .chat-side-control-btn,
   body[data-platform="android"] .chat-input-row:not(.chat-input-row--embedded) .chat-side-control-btn {
-    margin-left: 0 !important;
-    margin-right: clamp(0.08rem, 0.4vw, 0.16rem) !important;
+    margin-left: 0;
+    margin-right: clamp(0.08rem, 0.4vw, 0.16rem);
   }
 
   html[data-platform="android"] .chat-input-row:not(.chat-input-row--embedded) .chat-inputbar,
   body[data-platform="android"] .chat-input-row:not(.chat-input-row--embedded) .chat-inputbar {
-    width: min(100%, var(--chat-input-max-w)) !important;
-    max-width: min(100%, var(--chat-input-max-w)) !important;
+    width: min(100%, var(--chat-input-max-w));
+    max-width: min(100%, var(--chat-input-max-w));
   }
 
   html[data-platform="android"] body .chat-inputbar .chat-listen-btn,
   html[data-platform="android"] body .chat-inputbar .chat-send-btn,
   body[data-platform="android"] .chat-inputbar .chat-listen-btn,
   body[data-platform="android"] .chat-inputbar .chat-send-btn {
-    width: var(--inputbar-h, var(--chat-action-size, var(--chat-composer-main-control-size))) !important;
-    height: var(--inputbar-h, var(--chat-action-size, var(--chat-composer-main-control-size))) !important;
-    min-width: var(--inputbar-h, var(--chat-action-size, var(--chat-composer-main-control-size))) !important;
-    min-height: var(--inputbar-h, var(--chat-action-size, var(--chat-composer-main-control-size))) !important;
-    flex: 0 0 var(--inputbar-h, var(--chat-action-size, var(--chat-composer-main-control-size))) !important;
+    width: var(--inputbar-h, var(--chat-action-size, var(--chat-composer-main-control-size)));
+    height: var(--inputbar-h, var(--chat-action-size, var(--chat-composer-main-control-size)));
+    min-width: var(--inputbar-h, var(--chat-action-size, var(--chat-composer-main-control-size)));
+    min-height: var(--inputbar-h, var(--chat-action-size, var(--chat-composer-main-control-size)));
+    flex: 0 0 var(--inputbar-h, var(--chat-action-size, var(--chat-composer-main-control-size)));
   }
 
   html[data-platform="android"] body .chat-inputbar .chat-send-btn,
   body[data-platform="android"] .chat-inputbar .chat-send-btn {
-    width: var(--inputbar-h, var(--chat-composer-send-control-size, var(--chat-action-size))) !important;
-    height: var(--inputbar-h, var(--chat-composer-send-control-size, var(--chat-action-size))) !important;
-    min-width: var(--inputbar-h, var(--chat-composer-send-control-size, var(--chat-action-size))) !important;
-    min-height: var(--inputbar-h, var(--chat-composer-send-control-size, var(--chat-action-size))) !important;
-    flex: 0 0 var(--inputbar-h, var(--chat-composer-send-control-size, var(--chat-action-size))) !important;
+    width: var(--inputbar-h, var(--chat-composer-send-control-size, var(--chat-action-size)));
+    height: var(--inputbar-h, var(--chat-composer-send-control-size, var(--chat-action-size)));
+    min-width: var(--inputbar-h, var(--chat-composer-send-control-size, var(--chat-action-size)));
+    min-height: var(--inputbar-h, var(--chat-composer-send-control-size, var(--chat-action-size)));
+    flex: 0 0 var(--inputbar-h, var(--chat-composer-send-control-size, var(--chat-action-size)));
   }
 
   .chat-input-row--embedded {
-    position: relative !important;
-    left: auto !important;
-    right: auto !important;
-    bottom: auto !important;
-    margin-top: 0 !important;
-    transform: none !important;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
+    position: relative;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    margin-top: 0;
+    transform: none;
+    padding-left: 0;
+    padding-right: 0;
   }
 
   .chat-input-row--embedded .chat-inputbar {
-    width: 100% !important;
-    max-width: 100% !important;
-    flex: 1 1 auto !important;
-    transform: none !important;
+    width: 100%;
+    max-width: 100%;
+    flex: 1 1 auto;
+    transform: none;
   }
 }

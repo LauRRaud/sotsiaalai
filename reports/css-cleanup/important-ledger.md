@@ -34,7 +34,8 @@ Legend: ✅ tehtud · 🔄 pooleli · ⬜ tegemata · 🔒 alles-jäetud (load-b
 | `features/chat/hc.css` | 207 | **112** | 0 | 🔒 95 (88 force-keep: 6 alati-nähtavat load-bearing + KÕIK drawer-sisesed, mida gate ei ava; 7 kontrakt) | **95** | ✅ | 53ff7cf3 |
 | `features/chat/mono.css` | 131 | **42** | 0 | 🔒 89 (84 force-keep: .chat-composer-glow-shell load-bearing + KÕIK drawer-sisesed; drawer-keskne fail) | **89** | ✅ | (käes) |
 | `features/chat/shell.css` | 191 | **64** | 0 | 🔒 127 (5 force-keep: .ui-glow-button-frame glow-kaitstud + drawer; ülejäänu kontrakt). BASE-fail (mitte teema-scoped) aga suur vaba fraktsioon = cargo-cult | **127** | ✅ | (käes) |
-| `features/chat` (muu) | 262 | 0 | 0 | mobile 169, themes 93 — ootel | 262 | ⬜ | — |
+| `features/chat/mobile.css` | 169 | **102** | 0 | 🔒 67 (63 force-keep: .chat-container(+--round) load-bearing + drawer; ülejäänu kontrakt). @media mobiil, gate püüab 390px | **67** | ✅ | (käes) |
+| `features/chat/themes.css` | 93 | 0 | 0 | 🔒 92 (kontrakt-lukus, oraakel STRIP 1) | 93 | 🔒 | — |
 | `features/profile/hc.css` | 40 | **12** | 0 | 🔒 28 (25 force-keep: .dock-item + .profile-orbit-menu__center load-bearing + kontrakt; orbit-menu ülejäänu = teema-dropout müra, mitte vaba) | **28** | ✅ | (käes) |
 | `features/service-map` | 357 | 0 | 0 | — | 357 | ⬜ | — |
 | `mobile/` | 806 | 0 | 0 | — | 806 | ⬜ | — |
