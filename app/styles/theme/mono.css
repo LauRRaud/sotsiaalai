@@ -46,7 +46,7 @@
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .homepage-root .centered-back-left h2 {
-  color: var(--home-card-back-title-left) !important;
+  color: var(--home-card-back-title-left);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .homepage-root .centered-back-right h2 {
@@ -55,105 +55,105 @@
 
 :root.theme-mono:not([data-contrast="hc"]) :is(.back-button, .chat-back-button, .workspace-scroll-back-button, .documents-scroll-back-button, .glass-subpage-back-button, .account-settings-back-button, .register-back-button),
 :root.theme-mono:not([data-contrast="hc"]) button:has(.back-icon-arrow) {
-  --back-arrow-color: var(--forest-title) !important;
-  --back-dot-color: var(--forest-title) !important;
-  color: var(--forest-title) !important;
+  --back-arrow-color: var(--forest-title);
+  --back-dot-color: var(--forest-title);
+  color: var(--forest-title);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) :is(.back-button, .chat-back-button, .workspace-scroll-back-button, .documents-scroll-back-button, .glass-subpage-back-button, .account-settings-back-button, .register-back-button) svg,
 :root.theme-mono:not([data-contrast="hc"]) button:has(.back-icon-arrow) svg {
-  --back-arrow-color: var(--forest-title) !important;
-  --back-dot-color: var(--forest-title) !important;
+  --back-arrow-color: var(--forest-title);
+  --back-dot-color: var(--forest-title);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) :is(.back-button, .chat-back-button, .workspace-scroll-back-button, .documents-scroll-back-button, .glass-subpage-back-button, .account-settings-back-button, .register-back-button) :is(svg, path, circle, line, polyline),
 :root.theme-mono:not([data-contrast="hc"]) button:has(.back-icon-arrow) :is(svg, path, circle, line, polyline) {
-  color: var(--forest-title) !important;
+  color: var(--forest-title);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .back-icon-arrow {
-  stroke: var(--forest-title) !important;
+  stroke: var(--forest-title);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .back-icon-dot {
-  fill: var(--forest-title) !important;
-  stroke: var(--forest-title) !important;
+  fill: var(--forest-title);
+  stroke: var(--forest-title);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .back-icon-dot.back-icon-dot--outline {
-  fill: none !important;
+  fill: none;
 }
 
 :root.theme-mono:not([data-contrast="hc"]) button:is(:hover, :focus-visible) .back-icon-dot.back-icon-dot--outline {
-  fill: var(--forest-title) !important;
+  fill: var(--forest-title);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .modal-close-btn {
-  color: var(--forest-title) !important;
-  -webkit-text-fill-color: var(--forest-title) !important;
+  color: var(--forest-title);
+  -webkit-text-fill-color: var(--forest-title);
 }
 :root.theme-mono:not([data-contrast="hc"]) .chat-tools-surface-popover {
   background: var(--forest-tooltip-surface) !important;
-  color: var(--rail-tooltip-text, var(--subpage-card-text)) !important;
+  color: var(--rail-tooltip-text, var(--subpage-card-text));
   border: 0 !important;
-  box-shadow: 0 10px 22px rgba(7, 7, 7, 0.3) !important;
+  box-shadow: 0 10px 22px rgba(7, 7, 7, 0.3);
   -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
+  backdrop-filter: none;
 }
 
 :root.theme-mono:not([data-contrast="hc"]) #login-modal .login-help-popover {
   background: var(--forest-tooltip-surface) !important;
   color: var(--forest-highlight) !important;
-  border: 0 !important;
-  box-shadow: 0 10px 22px rgba(7, 7, 7, 0.3) !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
+  border: 0;
+  box-shadow: 0 10px 22px rgba(7, 7, 7, 0.3);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
 }
 
 :root.theme-mono:not([data-contrast="hc"]) #login-modal .login-help-popover .login-help-close-btn {
-  color: var(--forest-title) !important;
-  -webkit-text-fill-color: var(--forest-title) !important;
+  color: var(--forest-title);
+  -webkit-text-fill-color: var(--forest-title);
 }
 
 
 :root.theme-mono:not([data-contrast="hc"]) .materials-page-shell {
-  --subpage-card-bg: var(--forest-input-surface) !important;
-  --subpage-card-bg-hover: var(--forest-input-surface-hover) !important;
-  --subpage-card-border: rgba(var(--mono-mid-rgb), 0.16) !important;
-  --subpage-card-border-hover: rgba(var(--mono-light-rgb), 0.2) !important;
-  --subpage-card-shadow: var(--input-shadow) !important;
-  --subpage-card-shadow-hover: var(--input-shadow-hover) !important;
-  --panel-secondary-bg: var(--forest-input-surface) !important;
-  --panel-secondary-bg-hover: var(--forest-input-surface-hover) !important;
-  --panel-secondary-border: rgba(var(--mono-mid-rgb), 0.12) !important;
-  --panel-secondary-shadow: var(--input-shadow) !important;
-  --input-bg: var(--forest-input-surface) !important;
-  --input-bg-hover: var(--forest-input-surface-hover) !important;
-  --input-bg-focus: var(--forest-input-surface-hover) !important;
-  --input-border: 1px solid rgba(var(--mono-mid-rgb), 0.16) !important;
-  --input-shadow: var(--mono-field-hole-shadow) !important;
-  --input-shadow-hover: var(--mono-field-hole-shadow-hover) !important;
+  --subpage-card-bg: var(--forest-input-surface);
+  --subpage-card-bg-hover: var(--forest-input-surface-hover);
+  --subpage-card-border: rgba(var(--mono-mid-rgb), 0.16);
+  --subpage-card-border-hover: rgba(var(--mono-light-rgb), 0.2);
+  --subpage-card-shadow: var(--input-shadow);
+  --subpage-card-shadow-hover: var(--input-shadow-hover);
+  --panel-secondary-bg: var(--forest-input-surface);
+  --panel-secondary-bg-hover: var(--forest-input-surface-hover);
+  --panel-secondary-border: rgba(var(--mono-mid-rgb), 0.12);
+  --panel-secondary-shadow: var(--input-shadow);
+  --input-bg: var(--forest-input-surface);
+  --input-bg-hover: var(--forest-input-surface-hover);
+  --input-bg-focus: var(--forest-input-surface-hover);
+  --input-border: 1px solid rgba(var(--mono-mid-rgb), 0.16);
+  --input-shadow: var(--mono-field-hole-shadow);
+  --input-shadow-hover: var(--mono-field-hole-shadow-hover);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .materials-page-shell :is(.materials-comment-box, .materials-comment-glow-field .ui-glow-control) {
-  background: var(--forest-input-surface) !important;
-  border-color: rgba(var(--mono-mid-rgb), 0.16) !important;
-  box-shadow: var(--mono-field-hole-shadow) !important;
-  color: var(--forest-highlight) !important;
+  background: var(--forest-input-surface);
+  border-color: rgba(var(--mono-mid-rgb), 0.16);
+  box-shadow: var(--mono-field-hole-shadow);
+  color: var(--forest-highlight);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .workspace-dashboard-panel .materials-page-body {
   --subpage-card-bg: var(--forest-input-surface) !important;
-  --subpage-card-bg-hover: var(--forest-input-surface-hover) !important;
-  --subpage-card-border: rgba(var(--mono-mid-rgb), 0.16) !important;
-  --subpage-card-shadow: var(--mono-field-hole-shadow) !important;
-  --subpage-card-shadow-hover: var(--mono-field-hole-shadow-hover) !important;
+  --subpage-card-bg-hover: var(--forest-input-surface-hover);
+  --subpage-card-border: rgba(var(--mono-mid-rgb), 0.16);
+  --subpage-card-shadow: var(--mono-field-hole-shadow);
+  --subpage-card-shadow-hover: var(--mono-field-hole-shadow-hover);
   --input-bg: var(--forest-input-surface) !important;
-  --input-bg-hover: var(--forest-input-surface-hover) !important;
-  --input-bg-focus: var(--forest-input-surface-hover) !important;
-  --input-border: 1px solid rgba(var(--mono-mid-rgb), 0.16) !important;
-  --input-shadow: var(--mono-field-hole-shadow) !important;
-  --input-shadow-hover: var(--mono-field-hole-shadow-hover) !important;
+  --input-bg-hover: var(--forest-input-surface-hover);
+  --input-bg-focus: var(--forest-input-surface-hover);
+  --input-border: 1px solid rgba(var(--mono-mid-rgb), 0.16);
+  --input-shadow: var(--mono-field-hole-shadow);
+  --input-shadow-hover: var(--mono-field-hole-shadow-hover);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .workspace-dashboard-panel .materials-page-body :is(
@@ -161,12 +161,12 @@
   .materials-comment-box,
   .materials-comment-glow-field .ui-glow-control
 ) {
-  --card-bg: var(--forest-input-surface) !important;
+  --card-bg: var(--forest-input-surface);
   background: var(--forest-input-surface) !important;
   background-image: var(--forest-input-surface) !important;
-  border-color: rgba(var(--mono-mid-rgb), 0.16) !important;
-  box-shadow: var(--mono-field-hole-shadow) !important;
-  color: var(--forest-highlight) !important;
+  border-color: rgba(var(--mono-mid-rgb), 0.16);
+  box-shadow: var(--mono-field-hole-shadow);
+  color: var(--forest-highlight);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .workspace-dashboard-panel .materials-page-body :is(
@@ -175,27 +175,27 @@
   .materials-comment-box:is(:hover, :focus-visible, :focus-within),
   .materials-comment-glow-field .ui-glow-control:is(:hover, :focus-visible, :focus-within)
 ) {
-  --card-bg: var(--forest-input-surface-hover) !important;
-  background: var(--forest-input-surface-hover) !important;
-  background-image: var(--forest-input-surface-hover) !important;
-  box-shadow: var(--mono-field-hole-shadow-hover) !important;
+  --card-bg: var(--forest-input-surface-hover);
+  background: var(--forest-input-surface-hover);
+  background-image: var(--forest-input-surface-hover);
+  box-shadow: var(--mono-field-hole-shadow-hover);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .materials-page-shell :is(.materials-upload-choose-button, .materials-upload-submit-button, .materials-surface-button) {
-  --btn-primary-bg: var(--forest-orbit-surface) !important;
-  --btn-primary-bg-hover: var(--forest-orbit-surface-hover) !important;
-  --btn-primary-bg-active: var(--forest-orbit-surface) !important;
-  --btn-primary-text: var(--forest-icon) !important;
-  --btn-primary-text-hover: var(--forest-title-soft) !important;
+  --btn-primary-bg: var(--forest-orbit-surface);
+  --btn-primary-bg-hover: var(--forest-orbit-surface-hover);
+  --btn-primary-bg-active: var(--forest-orbit-surface);
+  --btn-primary-text: var(--forest-icon);
+  --btn-primary-text-hover: var(--forest-title-soft);
   --btn-primary-shadow:
     inset 0 1px 0 rgba(var(--mono-mid-rgb), 0.08),
-    0 5px 12px rgba(7, 7, 7, 0.24) !important;
+    0 5px 12px rgba(7, 7, 7, 0.24);
   --btn-primary-shadow-hover:
     inset 0 1px 0 rgba(var(--mono-mid-rgb), 0.1),
-    0 7px 14px rgba(7, 7, 7, 0.28) !important;
-  color: var(--forest-icon) !important;
-  background: var(--btn-primary-bg) !important;
-  box-shadow: var(--btn-primary-shadow) !important;
+    0 7px 14px rgba(7, 7, 7, 0.28);
+  color: var(--forest-icon);
+  background: var(--btn-primary-bg);
+  box-shadow: var(--btn-primary-shadow);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .workspace-feature-panel {
@@ -220,13 +220,13 @@
 
 :root.theme-mono:not([data-contrast="hc"]) .workspace-feature-dropdown:not(.pre-inquiry-dropdown) .documents-dropdown-menu {
   z-index: 240;
-  border: 1px solid rgba(var(--mono-mid-rgb), 0.14) !important;
-  background: var(--forest-tooltip-surface) !important;
+  border: 1px solid rgba(var(--mono-mid-rgb), 0.14);
+  background: var(--forest-tooltip-surface);
   background-color: rgb(28, 28, 28) !important;
   box-shadow:
     0 16px 32px rgba(0, 0, 0, 0.38),
-    inset 0 0 0 1px rgba(var(--mono-mid-rgb), 0.08) !important;
-  color: var(--forest-highlight) !important;
+    inset 0 0 0 1px rgba(var(--mono-mid-rgb), 0.08);
+  color: var(--forest-highlight);
   opacity: 1 !important;
 }
 
@@ -236,54 +236,54 @@
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .workspace-feature-dropdown:not(.pre-inquiry-dropdown) .documents-dropdown-item:is(:hover, :focus-visible) {
-  background: rgb(46, 46, 46) !important;
+  background: rgb(46, 46, 46);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .workspace-feature-dropdown:not(.pre-inquiry-dropdown) .documents-dropdown-item.is-active {
-  background: rgb(36, 36, 36) !important;
-  color: var(--forest-title-soft) !important;
+  background: rgb(36, 36, 36);
+  color: var(--forest-title-soft);
 }
 
 
 :root.theme-mono:not([data-contrast="hc"]) :is(.glass-ring.glass-ring--desktop-stable, .policy-mobile-lower.glass-ring.glass-ring--desktop-stable, .guide-policy-ring.glass-ring.glass-ring--desktop-stable) {
-  box-shadow: var(--glass-shell-shadow) !important;
+  box-shadow: var(--glass-shell-shadow);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) :is(.ui-glow-field, .ui-glow-button-frame, .ui-glow-option-card-frame, .invite-glow-field, .profile-orbit-edge-glow) {
-  --glow-color: rgba(var(--mono-light-rgb), 0.46) !important;
-  --glow-color-60: rgba(var(--mono-light-rgb), 0.3) !important;
-  --glow-color-50: rgba(var(--mono-light-rgb), 0.24) !important;
-  --glow-color-40: rgba(var(--mono-light-rgb), 0.19) !important;
-  --glow-color-30: rgba(var(--mono-light-rgb), 0.14) !important;
-  --glow-color-20: rgba(var(--mono-light-rgb), 0.09) !important;
-  --glow-color-10: rgba(var(--mono-light-rgb), 0.055) !important;
+  --glow-color: rgba(var(--mono-light-rgb), 0.46);
+  --glow-color-60: rgba(var(--mono-light-rgb), 0.3);
+  --glow-color-50: rgba(var(--mono-light-rgb), 0.24);
+  --glow-color-40: rgba(var(--mono-light-rgb), 0.19);
+  --glow-color-30: rgba(var(--mono-light-rgb), 0.14);
+  --glow-color-20: rgba(var(--mono-light-rgb), 0.09);
+  --glow-color-10: rgba(var(--mono-light-rgb), 0.055);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) :is(.ui-glow-field, .invite-glow-field) {
-  --card-bg: var(--input-bg) !important;
-  background: var(--input-bg) !important;
-  border: var(--input-border) !important;
-  box-shadow: var(--login-email-shell-shadow, var(--input-shadow)) !important;
+  --card-bg: var(--input-bg);
+  background: var(--input-bg);
+  border: var(--input-border);
+  box-shadow: var(--login-email-shell-shadow, var(--input-shadow));
   transition:
     background 560ms cubic-bezier(0.22, 0.61, 0.36, 1),
     box-shadow 560ms cubic-bezier(0.22, 0.61, 0.36, 1),
-    filter 560ms cubic-bezier(0.22, 0.61, 0.36, 1) !important;
+    filter 560ms cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .ui-glow-field:hover,
 :root.theme-mono:not([data-contrast="hc"]) .ui-glow-field:focus-within,
 :root.theme-mono:not([data-contrast="hc"]) .invite-glow-field:hover,
 :root.theme-mono:not([data-contrast="hc"]) .invite-glow-field:focus-within {
-  --card-bg: var(--input-bg-hover, var(--input-bg)) !important;
-  background: var(--input-bg-hover) !important;
+  --card-bg: var(--input-bg-hover, var(--input-bg));
+  background: var(--input-bg-hover);
   box-shadow:
     var(--login-email-shell-shadow-hover, var(--input-shadow-hover)),
-    inset 0 0 0 1px rgba(var(--mono-light-rgb), 0.08) !important;
+    inset 0 0 0 1px rgba(var(--mono-light-rgb), 0.08);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .ui-glow-button-frame:hover:not(.ui-glow-button-frame--disabled),
 :root.theme-mono:not([data-contrast="hc"]) .ui-glow-button-frame:focus-visible {
-  background: var(--forest-floating-surface-hover, var(--btn-primary-bg-hover)) !important;
+  background: var(--forest-floating-surface-hover, var(--btn-primary-bg-hover));
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .ui-glow-button-frame:hover:not(.ui-glow-button-frame--disabled),
@@ -294,19 +294,19 @@
     inset 0 0 10px rgba(var(--mono-light-rgb), 0.045),
     0 0 3px rgba(var(--mono-light-rgb), 0.12),
     0 0 10px rgba(var(--mono-light-rgb), 0.075),
-    0 0 20px rgba(var(--mono-light-rgb), 0.04) !important;
+    0 0 20px rgba(var(--mono-light-rgb), 0.04);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .ui-glow-option-card-frame {
   --seg-card-bg-hover: var(--seg-card-bg) !important;
-  --seg-card-bg-selected: var(--seg-card-bg) !important;
-  --seg-card-bg-active: var(--seg-card-bg) !important;
-  --seg-card-border-hover: var(--seg-card-border) !important;
-  --seg-card-border-selected: var(--seg-card-border) !important;
-  --seg-card-border-active: var(--seg-card-border) !important;
+  --seg-card-bg-selected: var(--seg-card-bg);
+  --seg-card-bg-active: var(--seg-card-bg);
+  --seg-card-border-hover: var(--seg-card-border);
+  --seg-card-border-selected: var(--seg-card-border);
+  --seg-card-border-active: var(--seg-card-border);
   --seg-card-shadow-hover: var(--seg-card-shadow) !important;
-  --seg-card-shadow-selected: var(--seg-card-shadow) !important;
-  --seg-card-shadow-active: var(--seg-card-shadow) !important;
+  --seg-card-shadow-selected: var(--seg-card-shadow);
+  --seg-card-shadow-active: var(--seg-card-shadow);
   --edge-only-hot-end: 1.2%;
   --edge-only-bright-end: 2.6%;
   --edge-only-soft-end: 5.2%;
@@ -321,7 +321,7 @@
 
 :root.theme-mono:not([data-contrast="hc"]) .ui-glow-option-card-frame:is(:hover, :focus-visible, :focus-within, :active):not(.ui-glow-option-card-frame--disabled) {
   background: var(--seg-card-bg) !important;
-  border-color: var(--seg-card-border) !important;
+  border-color: var(--seg-card-border);
   box-shadow: var(--seg-card-shadow) !important;
 }
 
@@ -338,26 +338,26 @@
     0 0 2px 0 rgba(var(--mono-light-rgb), 0.22),
     0 0 7px 0 rgba(var(--mono-light-rgb), 0.22),
     0 0 16px 1px rgba(var(--mono-light-rgb), 0.13),
-    0 0 30px 2px rgba(var(--mono-light-rgb), 0.075) !important;
+    0 0 30px 2px rgba(var(--mono-light-rgb), 0.075);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) :is(
   .update-pin-content .ui-glow-field,
   .update-email-content .ui-glow-field
 ) {
-  --card-bg: var(--mono-field-hole-bg) !important;
-  background: var(--mono-field-hole-bg) !important;
-  border: var(--mono-field-hole-border) !important;
-  box-shadow: var(--mono-field-hole-shadow) !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
+  --card-bg: var(--mono-field-hole-bg);
+  background: var(--mono-field-hole-bg);
+  border: var(--mono-field-hole-border);
+  box-shadow: var(--mono-field-hole-shadow);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .glass-field-hole-surface {
   isolation: isolate;
-  background: transparent !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
+  background: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .glass-field-hole-surface > .glass-hole-mask-layer {
@@ -388,19 +388,19 @@
   .update-pin-content .ui-glow-field,
   .update-email-content .ui-glow-field
 ):is(:hover, :focus-within) {
-  --card-bg: var(--mono-field-hole-bg) !important;
-  background: var(--mono-field-hole-bg) !important;
-  box-shadow: var(--mono-field-hole-shadow-hover) !important;
+  --card-bg: var(--mono-field-hole-bg);
+  background: var(--mono-field-hole-bg);
+  box-shadow: var(--mono-field-hole-shadow-hover);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) :is(
   .update-pin-content .ui-glow-field,
   .update-email-content .ui-glow-field
 ) :is(input, textarea, select, .ui-glow-control) {
-  background: transparent !important;
+  background: transparent;
   box-shadow: none !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
 }
 
 :root.theme-mono:not([data-contrast="hc"]) :is(
@@ -474,7 +474,7 @@
 }
 
 :root.theme-mono:not([data-contrast="hc"]) :is(.workspace-feature-glow-card, .workspace-feature-card, .workspace-feature-list-card, .workspace-feature-chip, .workspace-feature-toggle-row, .workspace-feature-admin-role) {
-  border-color: rgba(var(--mono-light-rgb), 0.12) !important;
+  border-color: rgba(var(--mono-light-rgb), 0.12);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) :is(.workspace-feature-glow-card, .workspace-feature-card, .workspace-feature-list-card, .workspace-feature-chip, .workspace-feature-toggle-row, .workspace-feature-admin-role) > [class*="edgeLight"]::before {
@@ -482,13 +482,13 @@
     inset 0 0 0 1px rgba(var(--mono-light-rgb), 0.28),
     0 0 2px rgba(var(--mono-light-rgb), 0.2),
     0 0 8px rgba(var(--mono-light-rgb), 0.14),
-    0 0 18px rgba(var(--mono-light-rgb), 0.08) !important;
+    0 0 18px rgba(var(--mono-light-rgb), 0.08);
 }
 
 @media (min-width: 48.001em) {
   :root.theme-mono:not([data-contrast="hc"]):not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"]) .homepage-root .home-about-panel,
   :root.theme-mono:not([data-contrast="hc"]) .homepage-root .home-about-panel {
-    box-shadow: var(--home-about-panel-shadow) !important;
+    box-shadow: var(--home-about-panel-shadow);
   }
 }
 

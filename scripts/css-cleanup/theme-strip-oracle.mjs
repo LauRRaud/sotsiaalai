@@ -92,33 +92,37 @@ function main() {
     if (oracles.some((rx) => !matches(rx, removed))) keep[i] = true;
   }
 
-  // Pass 2 — repair interacting oracles: an oracle spanning several markers may
-  // still match when any single one is removed (re-aligns), yet break when many
-  // go. Greedily restore the marker that fixes the most still-broken oracles,
-  // until none remain. Converges (restoring all => original, all match).
-  let out = build();
+  // Pass 2 — repair interacting oracles by GROUP-restore. An oracle may require
+  // several markers simultaneously (e.g. a regex matching `{2,}` occurrences):
+  // removing any single one still matches (re-aligns), so greedy single-restore
+  // sees zero progress and bails. Instead, for each still-broken oracle, locate
+  // its match region in the ORIGINAL css (where it is guaranteed to match) and
+  // restore EVERY marker inside that region at once — making that byte-region
+  // identical to the original, so the oracle matches again. Converges: each pass
+  // restores ≥1 marker or we are done; worst case restores all (== original).
   for (;;) {
+    let out = build();
     const broken = oracles.filter((rx) => !matches(rx, out));
     if (broken.length === 0) break;
-    let bestI = -1, bestFix = 0;
-    for (let i = 0; i < occ.length; i++) {
-      if (keep[i]) continue;
-      keep[i] = true;
-      const cand = build();
-      const fix = broken.reduce((n, rx) => n + (matches(rx, cand) ? 1 : 0), 0);
-      keep[i] = false;
-      if (fix > bestFix) { bestFix = fix; bestI = i; }
+    let changed = false;
+    for (const rx of broken) {
+      rx.lastIndex = 0;
+      const m = rx.exec(css); // oracle matched the original by construction
+      if (!m) continue;
+      const s = m.index, e = m.index + m[0].length;
+      for (let i = 0; i < occ.length; i++) {
+        if (!keep[i] && occ[i].start >= s && occ[i].end <= e) { keep[i] = true; changed = true; }
+      }
     }
-    if (bestI < 0) { for (let i = 0; i < occ.length; i++) keep[i] = true; break; } // safety
-    keep[bestI] = true;
-    out = build();
+    if (!changed) { for (let i = 0; i < occ.length; i++) keep[i] = true; break; } // truly stuck
   }
 
+  const finalText = build();
   const keepCount = keep.filter(Boolean).length;
   let brokenOracles = 0;
-  for (const rx of oracles) if (!matches(rx, out)) brokenOracles++;
+  for (const rx of oracles) if (!matches(rx, finalText)) brokenOracles++;
 
-  if (args.apply && brokenOracles === 0) writeFileSync(args.file, out);
+  if (args.apply && brokenOracles === 0) writeFileSync(args.file, finalText);
 
   process.stderr.write(
     `${args.apply ? (brokenOracles === 0 ? "APPLIED" : "ABORTED (broken oracles!)") : "DRY-RUN"} ${args.file}\n` +
