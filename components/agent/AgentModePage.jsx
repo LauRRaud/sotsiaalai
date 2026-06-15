@@ -1887,7 +1887,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
                                           <Button
                                             type="button"
                                             size="sm"
-                                            variant={isSelected ? "primary" : "ghost"}
+                                            variant={isSelected ? "primary" : "linkBrand"}
                                             className={isSelected ? agentPrimaryButtonCompactClassName : undefined}
                                             onClick={() => void handleSelectAudioSource(source.id)}
                                           >
