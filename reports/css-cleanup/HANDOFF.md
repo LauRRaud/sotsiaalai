@@ -2,7 +2,7 @@
 
 **Miks see fail:** sessiooni-mälu on konto-lokaalne ega kandu kontovahetust üle.
 See dokument elab repos → iga konto/mudel jätkab siit. Loe see + seotud dokud
-ENNE tööd. Kirjutatud 2026-06-15. **HEAD selle kirjutamise hetkel: `2190dd07` (main).**
+ENNE tööd. Kirjutatud 2026-06-15, uuendatud pärast mono. **HEAD: `1d3fc317` (main).**
 
 ## 0. Lugemisjärjekord (3 faili)
 1. **SEE FAIL** — seis, meetod, infra, järgmine samm.
@@ -16,9 +16,10 @@ ja **jälg** (register) et poleks segadust mis tehtud. Kõik `main`-il (kasutaja
 otse-push). Väikesed gate'itud commitid.
 
 ## 2. Seis praegu
-- **Platvorm: 3642 → 3278 `!important` (−364 sel sessioonil).** Algus-jaotus: ledger.
-- theme/ failid PUHTAD: hc 16, mid 13, dark 14, light 15, night 7. **mono.css 148 = ainus väljapaistev (järgmine samm, §6).**
-- Töölaud: `app/styles/theme/{dark,mono}.css` + `features/documents/mono.css` näitavad `M`,
+- **Platvorm: 3642 → 3156 `!important` (−486 kampaania jooksul).** Algus-jaotus: ledger.
+- **theme/ failid KÕIK PUHTAD: hc 16, mid 13, dark 14, light 15, night 7, mono 26.**
+  Teema-kiht on sisuliselt valmis (alles on ainult kontrakt-asserteritud markerid).
+- Töölaud: `app/styles/theme/dark.css` + `features/documents/mono.css` näitavad `M`,
   aga see on **ainult CRLF-müra** (`git diff --numstat` tühi) — EI ole päris muudatus, ignoreeri.
 
 ## 3. PÕHITÕDE (tõestatud sel sessioonil)
@@ -50,7 +51,9 @@ on vastastikku välistavad (ei konkureeri runtime'is). hc.css 328 markerit maha 
 - **`scripts/css-cleanup/theme-strip-oracle.mjs`** ⭐ — teema-faili strippija. Kasutab
   TESTIDE regex-literaale oraaklina (in-process, ilma brauserita): strip marker kui
   selle eemaldus ei lõhu ühtegi faili-matchivat testi-regexi; repair-loop taastab
-  interakteeruvad. **See tegi hc+mid võidu.**
+  interakteeruvad. **Tegi hc+mid+mono võidu (kõik teema-failid).** Pass 2 = **grupp-
+  restore** (taastab katkise oraakli match-regiooni KÕIK markerid korraga) → lahendab
+  mitme-markeri-oraaklid, mis greedy üksik-restore'iga jäid kinni (mono oli see juhtum).
   ```bash
   TESTS=$(find tests -name "*.test.js" -o -name "*.test.mjs" | tr '\n' ',' | sed 's/,$//')
   node scripts/css-cleanup/theme-strip-oracle.mjs --file app/styles/theme/mono.css --tests "$TESTS"          # dry-run
@@ -62,17 +65,22 @@ on vastastikku välistavad (ei konkureeri runtime'is). hc.css 328 markerit maha 
   `--targets <fail>`, `--out`. Diff exit 0 = identne.
 - `important-autostrip.mjs`, `theme-strip-keepasserted.mjs` — varasemad katsed (oracle on parem).
 
-## 6. JÄRGMINE SAMM (hästi-piiritletud): mono.css 148
-`theme-strip-oracle.mjs` andis mono peal **STRIP 0** — see EI ole päris-lukk, vaid
-**repair-loop'i piirang**: greedy üksik-restore ei vähenda katkiste oraaklite arvu, kui
-oraakel vajab MITME markeri samaaegset taastamist → safety-haru taastab kõik → STRIP 0.
-**Parandus:** muuda repair-loop batch-restore'iks (taasta korraga markerite GRUPP, nt
-oraakli match-regiooni kõik markerid, või binaarne taaste). Siis mono avab ~100+.
-Mono testid: `tests/ui/monoThemeContracts.test.js` + `tests/ui/hcSurfaceContracts.test.js`.
-**Pärast parandust: jooksuta sama 2-gate protokoll (§4) — box-shadow conservatiivselt keep.**
+## 6. JÄRGMINE SAMM: teema-kiht VALMIS → features + token-migratsioon
+**mono.css TEHTUD** (148 → 26, commit `1d3fc317`, grupp-restore parandus). Teema-failid
+on nüüd kõik puhtad → oraakel-tööriist on selle kihi lõpetanud.
 
-Edasi pärast mono: features (geomeetria-kontraktiga lukus, vt policy õppetund) +
-token-migratsioon ülejäänud override-mustritele. ≪1000 = mitme-sessiooni projekt.
+Allesjäänud raskuskese (ledger §"Lähteseis"): **mobile/ 806, features/chat 794,
+features/ muu 619, shared/ 384, service-map 357.** Need EI ole teema-override'id —
+oraakel-tööriist (mis võidab teema-spetsiifikatsusega) siia ei kandu. Siin on kaks
+mustrit, mõlemad raskemad:
+1. **Geomeetria-kontrakt-süsteem** (documents/workspace/service-map kerimis-ringid) —
+   render-kandev JA source-kontrakt-testidega lukus (vt policy 133/140 õppetund, §3).
+   Strip-all → render-gate näitab kohe, mis on load-bearing.
+2. **Token-migratsioon** override-mustritele — struktuurne, ei ole lihtne strip.
+
+**Soovitus:** vali üks feature (nt `features/chat` = suurim üksik, 794), tee strip-all
++ 2-gate eksperiment (§4) → klassifitseeri VABA vs load-bearing fraktsioon. ≪1000 =
+mitme-sessiooni projekt; iga feature on oma gate'itud partii.
 
 ## 7. INFRA (mida gate'id vajavad)
 - **Dev server** port 3000 (peab jooksma). Kontroll: `curl -s -o /dev/null -w "%{http_code}" http://localhost:3000` → 200.
@@ -85,6 +93,7 @@ token-migratsioon ülejäänud override-mustritele. ≪1000 = mitme-sessiooni pr
 
 ## 8. SESSIOONI COMMITID (main, 18c8cf36 järel)
 ```
+1d3fc317 mono.css 148->26 (-122) + grupp-restore   663893bb HANDOFF doc
 2190dd07 mono STRIP 0 = repair-loop piirang        828bb330 guide-rich-text -3 !important
 fefe80b8 mid.css 65->13 (-52)                       56ba160c õppetund: render-surnud≠eemaldatav (glass-ring KEEP)
 f10a6200 hc.css 328->16 (-312) + oraakel-tööriist   29685773 policy quickstart surnud @media-dup
