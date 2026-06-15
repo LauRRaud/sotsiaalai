@@ -58,7 +58,29 @@ Token-vorm failis on tühikuta: `rgba(var(--hc-accent-rgb),0.1)`. Kasuta `\s*` p
 
 **Pärast parandust:** oodatav tulemus = baseline 12 + 1 pre-existing mobile = 13 kukkujat (2 HC parandatud). Verifitseeri `npm test`.
 
-## JÄRGMINE (kui jätkatakse)
-1. (Pooleli) Paranda 4 HC teksti-kontrakti → commit.
-2. Otsusta kas chat/hc.css + profile/hc.css vajavad tokeniseerimist (HC-passi ülejäänud feature-failid; previous session tegi ainult theme/hc.css).
-3. Kampaania 2 (struktuur) VÕI !important-vähendus (eraldi, kõrge risk, gate kohustuslik).
+## HC-PASS LÕPETATUD (feature-failid) — `48b09987`
+Eelmine sessioon tegi ainult theme/hc.css. Lõpetasin HC-passi ülejäänud feature-failid:
+- `chat/hc.css`: 57× kollast → token. `profile/hc.css`: 27× → token.
+- Token `--hc-accent-rgb` defineeritud theme/hc.css html-juurel, pärib.
+- Gate 1: ✓ identical mõlemal. Gate 2: tokeniseerimine lõhkus 4 HC teksti-kontrakti
+  (loader bundle'ib theme+tokens+chat+profile hc.css; assertid grep'isid literaali
+  chat/hc.css-st). Uuendasin 6 hc-bundle asserti token-vormile (`commit` sees).
+  Tagasi 13 kukkujat (baseline 12 + 1 pre-existing mobile).
+
+**Õpitud:** HC bundle = theme+tokens+chat+profile hc.css. `assert.match(hc, /literaal/)`
+läbib kui literaal on ükskõik millises bundle-osas → tokeniseerimisel uuenda KÕIK
+hc-bundle assertid, aga jäta literaaliks need mis loevad tokeniseerimata faile
+(borderGlow, serviceMap, glass-shared, documents).
+
+## KAMPAANIA 1 TEEMA-KIHT = VALMIS
+Kõik 6 teemafaili + mono features (chat/documents/profile) + HC features (chat/profile)
+tokeniseeritud, gate 1 + gate 2 verifitseeritud. Pushitud `48b09987`.
+
+## JÄRGMINE (kui jätkatakse) — vajab kasutaja suunda
+1. (Valikuline, väike) `tokens/theme-hc.css` 35× kollast + `--hc-accent: #ffea00`
+   → täielik HC single-source. Pole algses HC-passis; teeks kõik hc-bundle assertid
+   uniformselt token-vormi. Madal risk (gate katab).
+2. Multi-teema failid (chat/themes.css, home/themes.css) — OTSUSTATUD JÄTTA (geneeriline
+   valge/must, madal väärtus).
+3. Kampaania 2 (struktuur: service-map/desktop, chat/shell, mobile/*) VÕI !important-vähendus
+   — eraldi, kõrge risk, gate kohustuslik, vajab kasutaja suunda (vt css-debt-roadmap).
