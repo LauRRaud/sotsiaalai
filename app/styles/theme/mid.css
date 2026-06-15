@@ -38,15 +38,15 @@
   background: var(
     --glass-modal-bg,
     var(--glass-surface-bg, rgba(252, 248, 247, 0.58))
-  ) !important;
-  color: var(--glass-modal-text, var(--glass-surface-text, #2c3340)) !important;
-  border: var(--glass-modal-border, none) !important;
+  );
+  color: var(--glass-modal-text, var(--glass-surface-text, #2c3340));
+  border: var(--glass-modal-border, none);
   box-shadow: var(--glass-modal-shadow, none) !important;
 }
 
 /* OTP explanatory copy must stay dark in mid mode (desktop + mobile). */
 :root.theme-mid .login-modal-box.login-modal--otp .login-modal-shell p {
-  color: #2c3340 !important;
+  color: #2c3340;
 }
 
 :root.theme-mid .login-modal-box.login-modal--otp .fancy-checkbox--otp {
@@ -74,64 +74,64 @@
 /* Mid theme primary buttons should not brighten more than the option-card hover tone. */
 :root.theme-mid .button[data-variant="primary"] {
   -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
-  background: var(--btn-primary-bg) !important;
-  border: var(--btn-primary-border) !important;
+  backdrop-filter: none;
+  background: var(--btn-primary-bg);
+  border: var(--btn-primary-border);
   box-shadow: var(--btn-primary-shadow) !important;
   transition:
     filter 560ms cubic-bezier(0.22, 0.61, 0.36, 1),
     border-color 560ms cubic-bezier(0.22, 0.61, 0.36, 1),
     box-shadow 560ms cubic-bezier(0.22, 0.61, 0.36, 1),
-    opacity 560ms cubic-bezier(0.22, 0.61, 0.36, 1) !important;
+    opacity 560ms cubic-bezier(0.22, 0.61, 0.36, 1);
   --btn-primary-border-hover: var(--mid-pill-surface-border-hover);
   --btn-primary-shadow-hover: var(--mid-unified-surface-shadow-hover);
 }
 
 :root.theme-mid .button[data-variant="primary"]:hover,
 :root.theme-mid .button[data-variant="primary"]:focus-visible {
-  border: var(--btn-primary-border-hover, var(--btn-primary-border)) !important;
+  border: var(--btn-primary-border-hover, var(--btn-primary-border));
   box-shadow: var(--btn-primary-shadow-hover, var(--btn-primary-shadow)) !important;
 }
 
 :root.theme-mid .button[data-variant="primary"]::before {
-  background: var(--btn-primary-bg-hover) !important;
-  transition: opacity 560ms cubic-bezier(0.22, 0.61, 0.36, 1) !important;
+  background: var(--btn-primary-bg-hover);
+  transition: opacity 560ms cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 :root.theme-mid .button[data-variant="primary"]:active {
-  background: var(--btn-primary-bg) !important;
-  border: var(--btn-primary-border-hover, var(--btn-primary-border)) !important;
+  background: var(--btn-primary-bg);
+  border: var(--btn-primary-border-hover, var(--btn-primary-border));
   box-shadow: var(--btn-primary-shadow-active, var(--btn-primary-shadow-hover)) !important;
 }
 
 :root.theme-mid .button[data-variant="primary"]:active::before {
-  background: var(--btn-primary-bg-active) !important;
+  background: var(--btn-primary-bg-active);
   opacity: 1 !important;
 }
 
 :root.theme-mid [data-control-type]:active::before {
-  opacity: 1 !important;
+  opacity: 1;
 }
 
 :root.theme-mid body .ui-glow-button-frame:hover:not(.ui-glow-button-frame--disabled),
 :root.theme-mid body .ui-glow-button-frame:focus-visible,
 :root.theme-mid body .button[data-variant="primary"]:hover,
 :root.theme-mid body .button[data-variant="primary"]:focus-visible {
-  background: var(--btn-primary-bg) !important;
+  background: var(--btn-primary-bg);
 }
 
 :root.theme-mid body .ui-glow-button-frame:hover:not(.ui-glow-button-frame--disabled)::before,
 :root.theme-mid body .ui-glow-button-frame:focus-visible::before,
 :root.theme-mid body .button[data-variant="primary"]:hover::before,
 :root.theme-mid body .button[data-variant="primary"]:focus-visible::before {
-  opacity: 1 !important;
+  opacity: 1;
 }
 
 :root.theme-mid body .ui-glow-field:hover,
 :root.theme-mid body .ui-glow-field:focus-within,
 :root.theme-mid body .invite-glow-field:hover,
 :root.theme-mid body .invite-glow-field:focus-within {
-  background: var(--chat-inputbar-bg, var(--mid-pill-surface-bg, var(--input-bg))) !important;
+  background: var(--chat-inputbar-bg, var(--mid-pill-surface-bg, var(--input-bg)));
 }
 
 :root.theme-mid .invite-sponsor-toggle-card {
@@ -203,7 +203,7 @@
       rgba(252, 247, 245, 0.42) 0%,
       rgba(246, 236, 233, 0.31) 56%,
       rgba(241, 229, 226, 0.23) 100%
-    ) !important;
+    );
   border: 0 !important;
   --pin-gloss-bg:
     linear-gradient(
@@ -241,14 +241,14 @@
     .profile-orbit-stack-bubble,
     .profile-orbit-mobile-action
   ).dock-item::before {
-  content: none !important;
+  content: none;
 }
 
 @media (max-width: 768px) {
   :root.theme-mid
     .profile-email-dock-wrapper.profile-orbit-menu-wrapper
     .profile-orbit-mobile-action.dock-item::after {
-    content: none !important;
+    content: none;
   }
 }
 
@@ -258,65 +258,65 @@
 
 /* Rooms page cards and controls in mid: same glass tone, less white. */
 :root.theme-light.theme-mid .rooms-card {
-  border-color: var(--mid-pill-surface-border) !important;
-  background: var(--mid-pill-surface-bg) !important;
-  color: #2f3a4a !important;
+  border-color: var(--mid-pill-surface-border);
+  background: var(--mid-pill-surface-bg);
+  color: #2f3a4a;
   box-shadow: var(--mid-pill-surface-shadow) !important;
 }
 
 :root.theme-light.theme-mid .rooms-action-btn {
-  border-color: var(--mid-pill-surface-border) !important;
-  background: var(--mid-pill-surface-bg) !important;
-  color: #2f3a4a !important;
+  border-color: var(--mid-pill-surface-border);
+  background: var(--mid-pill-surface-bg);
+  color: #2f3a4a;
 }
 
 :root.theme-light.theme-mid .rooms-action-btn:hover,
 :root.theme-light.theme-mid .rooms-action-btn:focus-visible {
-  border-color: var(--mid-pill-surface-border-hover) !important;
-  background: var(--mid-pill-surface-bg-hover) !important;
-  color: #2f3a4a !important;
+  border-color: var(--mid-pill-surface-border-hover);
+  background: var(--mid-pill-surface-bg-hover);
+  color: #2f3a4a;
 }
 
 :root.theme-light.theme-mid .rooms-delete-btn {
-  border-color: rgba(192, 72, 72, 0.48) !important;
-  background: rgba(255, 240, 240, 0.54) !important;
-  color: #7a2323 !important;
+  border-color: rgba(192, 72, 72, 0.48);
+  background: rgba(255, 240, 240, 0.54);
+  color: #7a2323;
 }
 
 :root.theme-light.theme-mid .rooms-unread-badge {
-  border-color: rgba(198, 74, 90, 0.52) !important;
-  background: rgba(255, 228, 233, 0.74) !important;
-  color: #7f1d2d !important;
+  border-color: rgba(198, 74, 90, 0.52);
+  background: rgba(255, 228, 233, 0.74);
+  color: #7f1d2d;
 }
 
 /* Confirm dialog in mid: avoid plain white card, keep same glass language. */
 :root.theme-mid .modal-confirm-overlay {
-  background: rgba(42, 24, 22, 0.62) !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
+  background: rgba(42, 24, 22, 0.62);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
 }
 
 :root.theme-mid .modal-confirm-content {
-  border: 1px solid var(--rail-tooltip-border, rgba(var(--mid-white-rgb), 0.16)) !important;
-  background: var(--chat-tools-panel-bg, var(--chat-rail-tooltip-bg, var(--rail-tooltip-bg, rgb(252, 246, 244)))) !important;
-  color: var(--opaque-panel-text, var(--rail-tooltip-text, #2f3a4a)) !important;
+  border: 1px solid var(--rail-tooltip-border, rgba(var(--mid-white-rgb), 0.16));
+  background: var(--chat-tools-panel-bg, var(--chat-rail-tooltip-bg, var(--rail-tooltip-bg, rgb(252, 246, 244))));
+  color: var(--opaque-panel-text, var(--rail-tooltip-text, #2f3a4a));
   box-shadow: var(--opaque-panel-shadow, var(--rail-tooltip-shadow, 0 12px 28px rgba(46, 24, 21, 0.18))) !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
 }
 
 :root.theme-mid .modal-confirm-content p {
-  color: var(--opaque-panel-text, var(--rail-tooltip-text, #2f3a4a)) !important;
+  color: var(--opaque-panel-text, var(--rail-tooltip-text, #2f3a4a));
 }
 
 :root.theme-mid .modal-confirm-content .button[data-variant="danger"] {
-  color: var(--btn-danger-text-light, #fff6f6) !important;
+  color: var(--btn-danger-text-light, #fff6f6);
 }
 
 :root.theme-mid .modal-confirm-content .button[data-variant="danger"]:hover,
 :root.theme-mid .modal-confirm-content .button[data-variant="danger"]:focus-visible,
 :root.theme-mid .modal-confirm-content .button[data-variant="danger"]:active {
-  color: var(--btn-danger-text-light, #fff6f6) !important;
+  color: var(--btn-danger-text-light, #fff6f6);
 }
 
 :root.theme-mid .modal-confirm-content .button:not([data-variant="danger"]) {
@@ -326,9 +326,9 @@
       rgba(252, 247, 246, 0.5) 0%,
       rgba(246, 237, 235, 0.36) 100%
     ),
-    rgba(247, 238, 236, 0.32) !important;
-  border: 1px solid rgba(var(--mid-white-rgb), 0.46) !important;
-  color: #2f3a4a !important;
+    rgba(247, 238, 236, 0.32);
+  border: 1px solid rgba(var(--mid-white-rgb), 0.46);
+  color: #2f3a4a;
   box-shadow: 0 6px 14px rgba(20, 12, 10, 0.15) !important;
 }
 
@@ -340,8 +340,8 @@
       rgba(253, 250, 249, 0.58) 0%,
       rgba(247, 239, 237, 0.42) 100%
     ),
-    rgba(249, 241, 239, 0.36) !important;
-  border: 1px solid rgba(var(--mid-white-rgb), 0.56) !important;
+    rgba(249, 241, 239, 0.36);
+  border: 1px solid rgba(var(--mid-white-rgb), 0.56);
 }
 
 /* Materials page primary buttons in mid: avoid bright bottom stripe artifact. */

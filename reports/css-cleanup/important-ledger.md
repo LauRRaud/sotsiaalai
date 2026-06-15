@@ -29,8 +29,8 @@ Legend: ✅ tehtud · 🔄 pooleli · ⬜ tegemata · 🔒 alles-jäetud (load-b
 | `features/policy` geomeetria | ~133 | 0 | 0 | 🔒 render-kandev (strip-all diff: height/margin/padding liiguvad) JA kontrakt-lukus (policyScrollHeader + scrollSurfaceHeader, ~29 assert'i) | ~133 | 🔒 | strip-all reverditud |
 | `utilities/glass-ring-stable` | 1 | 0 | 0 | 🔒 Reegel A — kontrakt-test valvab | 1 | 🔒 | 56ba160c (KEEP) |
 | `theme/hc.css` | 328 | **312** | 0 | 🔒 16 (kontrakt-asserteritud) | **16** | ✅ | (käes) |
-| `theme/mono.css` | 148 | 0 | 0 | — | 148 | ⬜ | — |
-| `theme/mid.css` | 65 | 0 | 0 | — | 65 | ⬜ | — |
+| `theme/mono.css` | 148 | 0 | 0 | oraakel STRIP 0 (täis-kontrakt-lukus v patoloogiline) — uurimata | 148 | ⬜ | — |
+| `theme/mid.css` | 65 | **52** | 0 | 🔒 13 (4 kontrakt + 9 box-shadow render-kandev: glass-ring sõda) | **13** | ✅ | (käes) |
 | `features/chat` | 794 | 0 | 0 | — | 794 | ⬜ | — |
 | `features/service-map` | 357 | 0 | 0 | — | 357 | ⬜ | — |
 | `mobile/` | 806 | 0 | 0 | — | 806 | ⬜ | — |
