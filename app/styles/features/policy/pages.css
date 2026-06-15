@@ -280,15 +280,15 @@
 
 .guide-rich-text ol,
 .guide-rich-text ul {
-  margin-left: 0 !important;
+  margin-left: 0;
 }
 
 .guide-rich-text ol {
-  padding-left: clamp(1.25rem, 2.2vw, 1.55rem) !important;
+  padding-left: clamp(1.25rem, 2.2vw, 1.55rem);
 }
 
 .guide-rich-text ul {
-  padding-left: clamp(1.15rem, 2vw, 1.45rem) !important;
+  padding-left: clamp(1.15rem, 2vw, 1.45rem);
 }
 
 .guide-rich-text li {
