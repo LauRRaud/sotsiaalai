@@ -6,6 +6,46 @@
 
 import { readFileSync } from "node:fs";
 
+// --- normalization: ignore visually-meaningless noise ---------------------
+// This app's glass/glow primitives (BorderGlow) emit a box-shadow with many
+// FULLY TRANSPARENT layers (rgba(...,0)) whose blur/spread geometry jitters
+// between otherwise-identical renders. Those layers paint nothing, so comparing
+// them produces false positives. We drop transparent layers before diffing; a
+// layer that becomes visible (alpha>0) is still caught because the kept-layer
+// set then differs.
+function splitTopLevel(s) {
+  const out = [];
+  let depth = 0, cur = "";
+  for (const ch of s) {
+    if (ch === "(") depth++;
+    else if (ch === ")") depth--;
+    if (ch === "," && depth === 0) { out.push(cur); cur = ""; }
+    else cur += ch;
+  }
+  if (cur.trim()) out.push(cur);
+  return out.map((x) => x.trim()).filter(Boolean);
+}
+function isTransparentLayer(layer) {
+  if (/\btransparent\b/i.test(layer)) return true;
+  const m = layer.match(/rgba?\(([^)]*)\)/i);
+  if (m) {
+    const parts = m[1].split(/[,/\s]+/).filter(Boolean);
+    if (parts.length >= 4) {
+      const a = parseFloat(parts[3]);
+      if (!Number.isNaN(a) && a === 0) return true;
+    }
+  }
+  return false;
+}
+function normalize(prop, val) {
+  if (prop === "box-shadow" && val && val !== "none") {
+    const kept = splitTopLevel(val).filter((l) => !isTransparentLayer(l));
+    return kept.length ? kept.join(", ") : "none";
+  }
+  return val;
+}
+// --------------------------------------------------------------------------
+
 const [beforePath, afterPath] = process.argv.slice(2);
 if (!beforePath || !afterPath) {
   console.error("Usage: node scripts/css-snapshot-diff.mjs <before.json> <after.json>");
@@ -35,7 +75,7 @@ for (const [target, sels] of Object.entries(before)) {
         continue;
       }
       for (const [p, v] of Object.entries(props)) {
-        if (a[p] !== v) {
+        if (normalize(p, a[p]) !== normalize(p, v)) {
           console.log(`CHANGED   ${target} | ${sel} | ${cell} | ${p}:\n    - ${v}\n    + ${a[p]}`);
           diffs++;
         }
