@@ -804,27 +804,9 @@ html[data-contrast="hc"] .person-invite-modal-content [data-control-type][data-c
   background: rgba(255, 234, 0, 0.12) !important;
 }
 html[data-contrast="hc"] body .chat-analysis-panel-card .chat-analysis-action-btn.button[data-variant="primary"] {
-  color: var(--hc-accent) !important;
-  background: var(--btn-primary-bg) !important;
   border: 2px solid rgba(255, 234, 0, 0.66) !important;
-  box-shadow: var(--btn-primary-shadow) !important;
   -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;
-}
-html[data-contrast="hc"] body .chat-analysis-panel-card .chat-analysis-action-btn.button[data-variant="primary"]::before {
-  background: var(--btn-primary-bg-hover) !important;
-}
-html[data-contrast="hc"] body .chat-analysis-panel-card .chat-analysis-action-btn.button[data-variant="primary"]:is(:hover, :focus-visible) {
-  color: var(--hc-accent) !important;
-  background: var(--btn-primary-bg-hover) !important;
-  border: 2px solid rgba(255, 234, 0, 0.9) !important;
-  box-shadow: var(--btn-primary-shadow-hover) !important;
-}
-html[data-contrast="hc"] body .chat-analysis-panel-card .chat-analysis-action-btn.button[data-variant="primary"]:active {
-  color: var(--hc-accent) !important;
-  background: var(--btn-primary-bg-active) !important;
-  border: 2px solid rgba(255, 234, 0, 0.95) !important;
-  box-shadow: var(--btn-primary-shadow-active) !important;
 }
 html[data-contrast="hc"] .invite-modal-content .invite-list-panel {
   color: var(--hc-accent) !important;
