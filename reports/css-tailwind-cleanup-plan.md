@@ -7,6 +7,7 @@ Kuupäev: 13.06.2026. See on **koondav sisenemispunkt** kogu allesjäänud CSS/T
 Detailid mujal:
 - `reports/css-struktuuriplaan-2026-06-11.md` §9 — võla juured + mõõdetud andmed.
 - `reports/css-cleanup-runbook.md` — samm-sammuline snapshot-väravaga töövoog (ka odavale mudelile).
+- **`reports/css-important-reduction-method.md` (2026-06-15) — `!important` vähendamise meetod + KASKAADI-KIHI REEGEL (Tailwindi `!` kihis võidab käsitsi-`!important`-i; CSS-`!important` = teema-sõda, mitte Tailwind; teemad saab `!important`-vabalt token-mustriga) + tööriist `scripts/css-important-overrides.mjs`.**
 - Mälu: `css-debt-roadmap.md`, `css-restructure-progress.md`.
 
 Struktuurne restruktuur (vertikaalid, shared/, feature-failid, rail-dedup, orbiit) on **valmis**. See plaan katab allesjäänud **kvaliteedivõla**.
