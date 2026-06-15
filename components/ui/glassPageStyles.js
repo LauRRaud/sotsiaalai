@@ -23,9 +23,9 @@ export const glassSubpageTitleClassName =
   "w-full min-[769px]:!mt-[var(--glass-subpage-title-margin-top)] min-[769px]:!mb-[var(--glass-subpage-title-margin-bottom)]";
 
 export const glassPrimaryButtonToneClassName =
-  "[--btn-primary-border:0_solid_transparent] " +
-  "[--btn-primary-border-hover:0_solid_transparent] " +
-  "[--btn-primary-border-active:0_solid_transparent] " +
+  "[.theme-light:not(.theme-mid)_&]:[--btn-primary-border:0_solid_transparent] " +
+  "[.theme-light:not(.theme-mid)_&]:[--btn-primary-border-hover:0_solid_transparent] " +
+  "[.theme-light:not(.theme-mid)_&]:[--btn-primary-border-active:0_solid_transparent] " +
   "[--btn-primary-shadow:0_4px_10px_rgba(0,0,0,0.13)] " +
   "[--btn-primary-shadow-hover:0_6px_13px_rgba(0,0,0,0.11)] " +
   "[--btn-primary-shadow-active:0_1px_4px_rgba(0,0,0,0.12)] " +
