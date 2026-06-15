@@ -128,7 +128,7 @@ html[data-contrast="hc"]:not(.theme-light) .homepage-root {
 }
 
 html[data-contrast="hc"] .homepage-root .home-about-panel {
-  box-shadow: var(--home-panel-shadow-idle) !important;
+  box-shadow: var(--home-panel-shadow-idle);
 }
 
 html[data-contrast="hc"] :is(.register-success-shell, .error-page-shell) {
@@ -139,36 +139,36 @@ html[data-contrast="hc"] :is(.register-success-shell, .error-page-shell) {
 }
 
 html[data-contrast="hc"] .register-success-shell .register-success-panel {
-  box-shadow: var(--home-panel-shadow-idle, var(--glass-shell-shadow, none)) !important;
+  box-shadow: var(--home-panel-shadow-idle, var(--glass-shell-shadow, none));
 }
 
 html[data-contrast="hc"] .register-success-shell .register-success-panel,
 html[data-contrast="hc"] .register-success-shell .register-success-panel * {
-  color: var(--hc-accent) !important;
+  color: var(--hc-accent);
 }
 
 html[data-contrast="hc"] .homepage-root :is(.home-about-scrollbox, .home-about-scrollbox *) {
-  color: var(--hc-accent) !important;
+  color: var(--hc-accent);
 }
 
 html[data-contrast="hc"] .homepage-root .home-before-contact-copy,
 html[data-contrast="hc"] .homepage-root .home-before-contact-copy * {
-  color: var(--hc-accent) !important;
+  color: var(--hc-accent);
 }
 
 html[data-contrast="hc"] .homepage-root .home-before-contact-button,
 html[data-contrast="hc"] .homepage-root .home-before-contact-button:is(:hover, :focus-visible, :active) {
-  background: transparent !important;
-  color: var(--hc-accent) !important;
+  background: transparent;
+  color: var(--hc-accent);
   box-shadow: none !important;
 }
 
 html[data-contrast="hc"] .homepage-root .home-before-contact-button {
-  border: 2px solid transparent !important;
+  border: 2px solid transparent;
 }
 
 html[data-contrast="hc"] .homepage-root .home-before-contact-button:is(:hover, :focus-visible, :active) {
-  border-color: var(--hc-accent) !important;
+  border-color: var(--hc-accent);
 }
 
 html[data-contrast="hc"] :is(
@@ -182,32 +182,32 @@ html[data-contrast="hc"] :is(
     .drawer-title,
     .documents-section-title
   ) {
-  color: var(--hc-accent) !important;
+  color: var(--hc-accent);
 }
 
 html[data-contrast="hc"] .back-icon-arrow {
-  stroke: var(--hc-accent) !important;
+  stroke: var(--hc-accent);
 }
 
 html[data-contrast="hc"] .back-icon-dot {
-  fill: var(--hc-accent) !important;
+  fill: var(--hc-accent);
 }
 
 html[data-contrast="hc"] .back-icon-dot.back-icon-dot--outline {
-  fill: none !important;
-  stroke: var(--hc-accent) !important;
+  fill: none;
+  stroke: var(--hc-accent);
 }
 
 html[data-contrast="hc"] button:is(:hover, :focus-visible) .back-icon-dot.back-icon-dot--outline {
-  fill: var(--hc-accent) !important;
+  fill: var(--hc-accent);
 }
 
 html[data-contrast="hc"] .error-page-shell .error-page-description {
-  color: var(--hc-accent) !important;
+  color: var(--hc-accent);
 }
 
 html[data-contrast="hc"] .profile-logout-icon path {
-  stroke: var(--hc-accent) !important;
+  stroke: var(--hc-accent);
 }
 
 html[data-contrast="hc"] :is(
@@ -218,18 +218,18 @@ html[data-contrast="hc"] :is(
     .guide-rich-text,
     .guide-quickstart-rich-text
   ) {
-  color: var(--hc-accent) !important;
+  color: var(--hc-accent);
 }
 
 html[data-contrast="hc"]
   :is(.policy-section-body, .policy-page-scroll, .guide-policy-scroll)
   :is(p, li, ul, ol, div, span, strong, em, b, i, small) {
-  color: var(--hc-accent) !important;
+  color: var(--hc-accent);
 }
 
 html[data-contrast="hc"] :is(.policy-page-scroll a, .guide-policy-scroll a) {
-  color: var(--hc-accent) !important;
-  border-color: var(--hc-accent) !important;
+  color: var(--hc-accent);
+  border-color: var(--hc-accent);
 }
 
 /* HC rules moved from base/a11y.css so all high-contrast styling lives in one file. */
@@ -313,17 +313,17 @@ html[data-contrast="hc"]
 }
 html[data-contrast="hc"] body .home-card-a11y-button,
 html[data-contrast="hc"] body .home-card-a11y-button:is(:hover, :focus, :active) {
-  forced-color-adjust: none !important;
-  background: transparent !important;
+  forced-color-adjust: none;
+  background: transparent;
   border: 0 !important;
-  border-color: transparent !important;
-  color: inherit !important;
-  box-shadow: none !important;
-  outline: none !important;
+  border-color: transparent;
+  color: inherit;
+  box-shadow: none;
+  outline: none;
 }
 html[data-contrast="hc"] body .home-card-a11y-button:focus-visible {
-  outline: 2px solid var(--hc-focus-ring, rgba(188, 220, 255, 0.5)) !important;
-  outline-offset: 2px !important;
+  outline: 2px solid var(--hc-focus-ring, rgba(188, 220, 255, 0.5));
+  outline-offset: 2px;
 }
 html[data-contrast="hc"] body :is(
     button:has(.back-icon-arrow),
@@ -331,10 +331,10 @@ html[data-contrast="hc"] body :is(
     .chat-back-button,
     .profile-logout-button
   ) {
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  outline: none !important;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  outline: none;
 }
 html[data-contrast="hc"] body :is(
     button:has(.back-icon-arrow),
@@ -342,20 +342,20 @@ html[data-contrast="hc"] body :is(
     .chat-back-button,
     .profile-logout-button
   ):is(:hover, :focus-visible, :active) {
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  outline: none !important;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  outline: none;
 }
 html[data-contrast="hc"] .invite-modal-overlay.person-invite-modal-overlay {
-  background: transparent !important;
+  background: transparent;
   -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
+  backdrop-filter: none;
 }
 html[data-contrast="hc"] body.invite-modal-open .chat-page-shell {
   opacity: 0 !important;
-  visibility: hidden !important;
-  pointer-events: none !important;
+  visibility: hidden;
+  pointer-events: none;
 }
 html[data-contrast="hc"]
   body
@@ -367,7 +367,7 @@ html[data-contrast="hc"]
   background: var(--form-surface, var(--hc-surface));
   color: var(--hc-text);
   border: 2px solid var(--hc-border-soft, rgba(var(--hc-accent-rgb),0.9));
-  box-shadow: none !important;
+  box-shadow: none;
   outline: none;
 }
 html[data-contrast="hc"]
@@ -377,7 +377,7 @@ html[data-contrast="hc"]
     textarea:not(.chat-input-field),
     select
   ):is(:hover, :focus, :focus-visible, :active) {
-  box-shadow: none !important;
+  box-shadow: none;
 }
 
 /* Chat page only: make the message input outline slightly thicker in HC. */
@@ -388,20 +388,20 @@ html[data-contrast="hc"] :is(
   .materials-admin-row,
   .materials-comment-box
 ) {
-  background: var(--chat-card-surface-night-standard-bg, rgba(14, 20, 32, 0.9)) !important;
+  background: var(--chat-card-surface-night-standard-bg, rgba(14, 20, 32, 0.9));
 }
 html[data-contrast="hc"] .materials-page-shell :is(
   .materials-upload-panel,
   .materials-admin-panel
 ) {
-  border: 2px solid rgba(var(--hc-accent-rgb),0.68) !important;
-  box-shadow: none !important;
+  border: 2px solid rgba(var(--hc-accent-rgb),0.68);
+  box-shadow: none;
 }
 html[data-contrast="hc"] :is(
   .invite-list-row,
   .help-listings-item-card
 ) {
-  background: var(--chat-card-surface-night-standard-flat-bg, rgba(10, 16, 27, 0.88)) !important;
+  background: var(--chat-card-surface-night-standard-flat-bg, rgba(10, 16, 27, 0.88));
 }
 
 html[data-contrast="hc"]
@@ -423,7 +423,7 @@ html[data-contrast="hc"] #nav-meist:focus-visible {
 
 
 html[data-contrast="hc"] .homepage-root .home-about-title {
-  color: var(--hc-accent) !important;
+  color: var(--hc-accent);
 }
 html[data-contrast="hc"] .subscription-content {
   --hc-focus-ring: rgba(var(--hc-accent-rgb),0.58);
@@ -510,29 +510,29 @@ html[data-contrast="hc"] .subscription-content :is(
     strong,
     em
   ) {
-  color: var(--hc-accent) !important;
+  color: var(--hc-accent);
 }
 
 html[data-contrast="hc"] :is(.subscription-modal-content, .invite-modal-content, .account-settings-modal-content) :is(.back-button, .account-settings-back-button, .chat-back-button, .glass-policy-back),
 html[data-contrast="hc"] :is(.subscription-modal-content, .invite-modal-content, .account-settings-modal-content) :is(.back-button, .account-settings-back-button, .chat-back-button, .glass-policy-back):is(:hover, :focus-visible, :active) {
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  outline: none !important;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  outline: none;
 }
 html[data-contrast="hc"] .subscription-content :is(.fancy-checkbox--otp .box, .fancy-checkbox--otp .tick) {
-  background: transparent !important;
-  border-color: rgba(var(--hc-accent-rgb),0.7) !important;
-  stroke: var(--hc-accent) !important;
-  box-shadow: none !important;
+  background: transparent;
+  border-color: rgba(var(--hc-accent-rgb),0.7);
+  stroke: var(--hc-accent);
+  box-shadow: none;
 }
 html[data-contrast="hc"] .subscription-content .fancy-checkbox--otp .text {
-  color: var(--hc-accent) !important;
+  color: var(--hc-accent);
 }
 html[data-contrast="hc"] .subscription-content .subscription-active-panel {
-  border-color: rgba(var(--hc-accent-rgb),0.58) !important;
-  background: rgba(14, 20, 32, 0.38) !important;
-  box-shadow: none !important;
+  border-color: rgba(var(--hc-accent-rgb),0.58);
+  background: rgba(14, 20, 32, 0.38);
+  box-shadow: none;
 }
 html[data-contrast="hc"] .subscription-content :is(
     .subscription-copy-text,
@@ -541,10 +541,10 @@ html[data-contrast="hc"] .subscription-content :is(
     .subscription-active-summary,
     .subscription-active-note
   ) {
-  color: var(--hc-accent) !important;
+  color: var(--hc-accent);
 }
 html[data-contrast="hc"] .subscription-page-title {
-  color: var(--hc-accent) !important;
+  color: var(--hc-accent);
 }
 html[data-contrast="hc"] .materials-page-shell :is(
     h1,
@@ -561,23 +561,23 @@ html[data-contrast="hc"] .materials-page-shell :is(
     strong,
     em
   ) {
-  color: var(--hc-accent) !important;
+  color: var(--hc-accent);
 }
 html[data-contrast="hc"] .materials-page-shell .back-button,
 html[data-contrast="hc"] .materials-page-shell .back-button:is(:hover, :focus-visible, :active) {
-  color: inherit !important;
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  outline: none !important;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  outline: none;
 }
 html[data-contrast="hc"] .materials-page-shell :is(textarea, input:not([type="hidden"])) {
-  color: var(--hc-accent) !important;
-  caret-color: var(--hc-accent) !important;
-  border-color: rgba(var(--hc-accent-rgb),0.68) !important;
+  color: var(--hc-accent);
+  caret-color: var(--hc-accent);
+  border-color: rgba(var(--hc-accent-rgb),0.68);
 }
 html[data-contrast="hc"] .materials-page-shell :is(textarea, input:not([type="hidden"]))::placeholder {
-  color: rgba(var(--hc-accent-rgb),0.92) !important;
+  color: rgba(var(--hc-accent-rgb),0.92);
 }
 html[data-contrast="hc"] .rooms-scroll :is(
     h1,
@@ -594,21 +594,21 @@ html[data-contrast="hc"] .rooms-scroll :is(
     strong,
     em
   ) {
-  color: var(--hc-accent) !important;
+  color: var(--hc-accent);
 }
 html[data-contrast="hc"] .rooms-delete-btn {
-  border-color: rgba(var(--hc-accent-rgb),0.66) !important;
-  background: rgba(14, 20, 32, 0.34) !important;
-  color: var(--hc-accent) !important;
-  box-shadow: none !important;
+  border-color: rgba(var(--hc-accent-rgb),0.66);
+  background: rgba(14, 20, 32, 0.34);
+  color: var(--hc-accent);
+  box-shadow: none;
 }
 html[data-contrast="hc"] .rooms-delete-btn:is(:hover, :focus-visible, :active) {
-  border-color: rgba(var(--hc-accent-rgb),0.92) !important;
-  background: rgba(var(--hc-accent-rgb),0.14) !important;
-  color: var(--hc-accent) !important;
+  border-color: rgba(var(--hc-accent-rgb),0.92);
+  background: rgba(var(--hc-accent-rgb),0.14);
+  color: var(--hc-accent);
 }
 html[data-contrast="hc"] .rooms-delete-btn svg :is(path, polyline, line) {
-  stroke: currentColor !important;
+  stroke: currentColor;
 }
 html[data-contrast="hc"] :is(
     .register-content,
@@ -724,7 +724,7 @@ html[data-contrast="hc"] :is(
     .reset-password-content
   )
   :is(h1, h2, h3, h4, p, span, label, legend, li, a, button, strong, em) {
-  color: var(--hc-accent) !important;
+  color: var(--hc-accent);
 }
 html[data-contrast="hc"] :is(
     .register-content,
@@ -735,9 +735,9 @@ html[data-contrast="hc"] :is(
     .reset-password-content
   )
   :is(input, textarea, select, .register-input) {
-  color: var(--hc-accent) !important;
-  caret-color: var(--hc-accent) !important;
-  border-color: rgba(var(--hc-accent-rgb),0.68) !important;
+  color: var(--hc-accent);
+  caret-color: var(--hc-accent);
+  border-color: rgba(var(--hc-accent-rgb),0.68);
 }
 html[data-contrast="hc"] :is(
     .register-content,
@@ -748,7 +748,7 @@ html[data-contrast="hc"] :is(
     .reset-password-content
   )
   :is(input, textarea, select, .register-input)::placeholder {
-  color: rgba(var(--hc-accent-rgb),0.92) !important;
+  color: rgba(var(--hc-accent-rgb),0.92);
 }
 
 html[data-contrast="hc"] :is(
@@ -773,10 +773,10 @@ html[data-contrast="hc"] :is(
     .chat-analysis-overlay .chat-analysis-overlay-card
   )
   [data-control-type][data-checked="true"] {
-  color: var(--hc-accent) !important;
-  background: rgba(var(--hc-accent-rgb),0.1) !important;
-  border-color: rgba(var(--hc-accent-rgb),0.94) !important;
-  box-shadow: 0 0 0 1px rgba(var(--hc-accent-rgb),0.64) !important;
+  color: var(--hc-accent);
+  background: rgba(var(--hc-accent-rgb),0.1);
+  border-color: rgba(var(--hc-accent-rgb),0.94);
+  box-shadow: 0 0 0 1px rgba(var(--hc-accent-rgb),0.64);
 }
 html[data-contrast="hc"] :is(
     .register-content,
@@ -788,58 +788,58 @@ html[data-contrast="hc"] :is(
     .chat-analysis-overlay .chat-analysis-overlay-card
   )
   [data-control-type][data-checked="false"] {
-  border-color: rgba(var(--hc-accent-rgb),0.62) !important;
+  border-color: rgba(var(--hc-accent-rgb),0.62);
 }
 
 html[data-contrast="hc"] .invite-modal-content [data-control-type][data-checked="true"],
 html[data-contrast="hc"] .person-invite-modal-content [data-control-type][data-checked="true"] {
-  --hc-control-bg: rgba(var(--hc-accent-rgb),0.1) !important;
-  --hc-control-bg-hover: rgba(var(--hc-accent-rgb),0.12) !important;
-  --hc-control-bg-active: rgba(var(--hc-accent-rgb),0.14) !important;
-  --btn-primary-bg: rgba(var(--hc-accent-rgb),0.1) !important;
-  --btn-primary-bg-hover: rgba(var(--hc-accent-rgb),0.12) !important;
-  --btn-primary-bg-active: rgba(var(--hc-accent-rgb),0.14) !important;
-  background: rgba(var(--hc-accent-rgb),0.1) !important;
-  background-color: rgba(var(--hc-accent-rgb),0.1) !important;
-  border-color: rgba(var(--hc-accent-rgb),0.94) !important;
-  box-shadow: inset 0 0 0 1px rgba(var(--hc-accent-rgb),0.64) !important;
+  --hc-control-bg: rgba(var(--hc-accent-rgb),0.1);
+  --hc-control-bg-hover: rgba(var(--hc-accent-rgb),0.12);
+  --hc-control-bg-active: rgba(var(--hc-accent-rgb),0.14);
+  --btn-primary-bg: rgba(var(--hc-accent-rgb),0.1);
+  --btn-primary-bg-hover: rgba(var(--hc-accent-rgb),0.12);
+  --btn-primary-bg-active: rgba(var(--hc-accent-rgb),0.14);
+  background: rgba(var(--hc-accent-rgb),0.1);
+  background-color: rgba(var(--hc-accent-rgb),0.1);
+  border-color: rgba(var(--hc-accent-rgb),0.94);
+  box-shadow: inset 0 0 0 1px rgba(var(--hc-accent-rgb),0.64);
 }
 
 html[data-contrast="hc"] .invite-modal-content [data-control-type][data-checked="true"]::before,
 html[data-contrast="hc"] .person-invite-modal-content [data-control-type][data-checked="true"]::before {
   opacity: 1 !important;
-  background: rgba(var(--hc-accent-rgb),0.12) !important;
+  background: rgba(var(--hc-accent-rgb),0.12);
 }
 html[data-contrast="hc"] body .chat-analysis-panel-card .chat-analysis-action-btn.button[data-variant="primary"] {
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
 }
 html[data-contrast="hc"] .invite-modal-content .invite-list-panel {
-  color: var(--hc-accent) !important;
-  border: 2px solid rgba(var(--hc-accent-rgb),0.66) !important;
+  color: var(--hc-accent);
+  border: 2px solid rgba(var(--hc-accent-rgb),0.66);
 }
 html[data-contrast="hc"] .invite-modal-content .invite-list-row {
-  border-color: rgba(var(--hc-accent-rgb),0.4) !important;
-  background: var(--chat-card-surface-night-flat-bg, var(--form-surface)) !important;
+  border-color: rgba(var(--hc-accent-rgb),0.4);
+  background: var(--chat-card-surface-night-flat-bg, var(--form-surface));
 }
 html[data-contrast="hc"] .help-listings-modal-content .help-listings-panel {
-  color: var(--hc-accent) !important;
-  background: transparent !important;
-  border-color: transparent !important;
-  box-shadow: inset 0 0 0 1.5px var(--hc-accent, #ffea00) !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
+  color: var(--hc-accent);
+  background: transparent;
+  border-color: transparent;
+  box-shadow: inset 0 0 0 1.5px var(--hc-accent, #ffea00);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
 }
 html[data-contrast="hc"] .help-listings-modal-content .help-listings-item-card {
-  color: var(--hc-accent) !important;
-  border-color: rgba(var(--hc-accent-rgb),0.4) !important;
-  background: var(--chat-card-surface-night-flat-bg, rgba(9, 14, 24, 0.84)) !important;
-  box-shadow: none !important;
+  color: var(--hc-accent);
+  border-color: rgba(var(--hc-accent-rgb),0.4);
+  background: var(--chat-card-surface-night-flat-bg, rgba(9, 14, 24, 0.84));
+  box-shadow: none;
 }
 html[data-contrast="hc"] .help-listings-modal-content .help-listings-item-card:is(:hover, :focus-visible, :focus-within) {
-  border-color: rgba(var(--hc-accent-rgb),0.72) !important;
-  background: var(--chat-card-surface-night-flat-bg, rgba(10, 16, 27, 0.92)) !important;
-  box-shadow: none !important;
+  border-color: rgba(var(--hc-accent-rgb),0.72);
+  background: var(--chat-card-surface-night-flat-bg, rgba(10, 16, 27, 0.92));
+  box-shadow: none;
 }
 html[data-contrast="hc"] #login-modal {
   --hc-border: rgba(var(--hc-accent-rgb),0.64);
@@ -901,31 +901,31 @@ html[data-contrast="hc"] #login-modal {
     inset 0 -1px 0 rgba(2, 6, 16, 0.19);
 }
 html[data-contrast="hc"] #login-modal .login-modal-shell {
-  color: var(--hc-accent) !important;
-  border-color: rgba(var(--hc-accent-rgb),0.56) !important;
+  color: var(--hc-accent);
+  border-color: rgba(var(--hc-accent-rgb),0.56);
 }
 html[data-contrast="hc"] #login-modal.login-modal--otp .login-modal-shell {
-  background: rgba(9, 14, 24, 0.74) !important;
-  box-shadow: none !important;
+  background: rgba(9, 14, 24, 0.74);
+  box-shadow: none;
 }
 html[data-contrast="hc"] #login-modal .login-modal-title {
-  color: var(--hc-accent) !important;
+  color: var(--hc-accent);
 }
 html[data-contrast="hc"] #login-modal :is(h1, h2, h3, h4, p, span, label, legend, li, a, button, strong, em) {
-  color: var(--hc-accent) !important;
+  color: var(--hc-accent);
 }
 html[data-contrast="hc"] #login-modal :is(input:not([type="hidden"]):not([aria-hidden="true"]), textarea, select) {
-  color: var(--hc-accent) !important;
-  caret-color: var(--hc-accent) !important;
-  border-color: rgba(var(--hc-accent-rgb),0.68) !important;
-  background: rgba(9, 14, 24, 0.78) !important;
-  box-shadow: none !important;
+  color: var(--hc-accent);
+  caret-color: var(--hc-accent);
+  border-color: rgba(var(--hc-accent-rgb),0.68);
+  background: rgba(9, 14, 24, 0.78);
+  box-shadow: none;
 }
 html[data-contrast="hc"] #login-modal :is(input:not([type="hidden"]):not([aria-hidden="true"]), textarea, select)::placeholder {
-  color: rgba(var(--hc-accent-rgb),0.92) !important;
+  color: rgba(var(--hc-accent-rgb),0.92);
 }
 html[data-contrast="hc"] #login-modal.login-modal--otp .login-otp-content :is(p, span, label, strong, em, a, button) {
-  color: var(--hc-accent) !important;
+  color: var(--hc-accent);
 }
 html[data-contrast="hc"] #login-modal.login-modal--otp .login-otp-remember {
   --otp-check-shape: var(--hc-accent);
@@ -939,111 +939,111 @@ html[data-contrast="hc"] #login-modal {
   --btn-primary-shadow-focus: 0 0 0 2px rgba(var(--hc-accent-rgb),0.52);
 }
 html[data-contrast="hc"] #login-modal .no-click-pulse {
-  color: var(--hc-accent) !important;
-  border-color: rgba(var(--hc-accent-rgb),0.66) !important;
-  background: rgba(9, 14, 24, 0.74) !important;
-  border-width: 2px !important;
-  border-style: solid !important;
-  box-shadow: none !important;
+  color: var(--hc-accent);
+  border-color: rgba(var(--hc-accent-rgb),0.66);
+  background: rgba(9, 14, 24, 0.74);
+  border-width: 2px;
+  border-style: solid;
+  box-shadow: none;
 }
 @media (hover: hover) {
   html[data-contrast="hc"] #login-modal .no-click-pulse:hover {
-    border-color: rgba(var(--hc-accent-rgb),0.92) !important;
-    background: rgba(var(--hc-accent-rgb),0.14) !important;
-    box-shadow: none !important;
+    border-color: rgba(var(--hc-accent-rgb),0.92);
+    background: rgba(var(--hc-accent-rgb),0.14);
+    box-shadow: none;
   }
 }
 html[data-contrast="hc"] #login-modal .no-click-pulse:focus-visible {
-  border-color: rgba(var(--hc-accent-rgb),0.66) !important;
-  background: rgba(14, 20, 32, 0.34) !important;
-  box-shadow: none !important;
-  outline: 2px solid rgba(var(--hc-accent-rgb),0.82) !important;
-  outline-offset: 3px !important;
+  border-color: rgba(var(--hc-accent-rgb),0.66);
+  background: rgba(14, 20, 32, 0.34);
+  box-shadow: none;
+  outline: 2px solid rgba(var(--hc-accent-rgb),0.82);
+  outline-offset: 3px;
 }
 html[data-contrast="hc"] #login-modal .no-click-pulse:active {
-  border-color: rgba(var(--hc-accent-rgb),0.92) !important;
-  background: rgba(var(--hc-accent-rgb),0.14) !important;
-  box-shadow: none !important;
+  border-color: rgba(var(--hc-accent-rgb),0.92);
+  background: rgba(var(--hc-accent-rgb),0.14);
+  box-shadow: none;
 }
 html[data-contrast="hc"] #login-modal .login-keypad-btn {
-  box-shadow: var(--login-pin-key-shadow) !important;
+  box-shadow: var(--login-pin-key-shadow);
 }
 html[data-contrast="hc"] #login-modal .login-keypad-btn:is(:hover, :focus-visible, :active) {
-  box-shadow: var(--login-pin-key-shadow-strong) !important;
+  box-shadow: var(--login-pin-key-shadow-strong);
 }
 html[data-contrast="hc"] #login-modal :is(a, .home-link, .pin-layout-toggle),
 html[data-contrast="hc"] #login-modal :is(a, .home-link, .pin-layout-toggle):is(:hover, :focus-visible, :active) {
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  border-radius: 0 !important;
-  outline: none !important;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  border-radius: 0;
+  outline: none;
 }
 html[data-contrast="hc"] #login-modal .pin-layout-toggle,
 html[data-contrast="hc"] #login-modal .pin-layout-toggle:is(:hover, :focus-visible, :active) {
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  border-radius: 0 !important;
-  outline: none !important;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  border-radius: 0;
+  outline: none;
 }
 @media (hover: none) {
   html[data-contrast="hc"] #login-modal .no-click-pulse:hover {
-    border-color: rgba(var(--hc-accent-rgb),0.66) !important;
-    background: rgba(14, 20, 32, 0.34) !important;
-    box-shadow: none !important;
+    border-color: rgba(var(--hc-accent-rgb),0.66);
+    background: rgba(14, 20, 32, 0.34);
+    box-shadow: none;
   }
 }
 html[data-contrast="hc"] #login-modal :is(.login-modal-close.modal-close-btn, .login-help-close-btn, .login-email-icon-btn) {
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  outline: none !important;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  outline: none;
 }
 html[data-contrast="hc"] #login-modal :is(.login-modal-close.modal-close-btn, .login-help-close-btn, .login-email-icon-btn):is(:hover, :focus-visible, :active) {
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  outline: none !important;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  outline: none;
 }
 html[data-contrast="hc"] #login-modal .login-modal-close.modal-close-btn::before {
-  color: var(--hc-accent) !important;
+  color: var(--hc-accent);
 }
 html[data-contrast="hc"] #login-modal .login-email-icon :is(path, circle, line, rect, ellipse, polyline, polygon) {
-  stroke: var(--hc-accent) !important;
+  stroke: var(--hc-accent);
 }
 html[data-contrast="hc"] #login-modal .login-email-icon [fill]:not([fill="none"]),
 html[data-contrast="hc"] #login-modal .login-submit-icon [fill]:not([fill="none"]) {
-  fill: var(--hc-accent) !important;
+  fill: var(--hc-accent);
 }
 html[data-contrast="hc"] #login-modal .login-submit-icon :is(path, circle, line, rect, ellipse, polyline, polygon) {
-  stroke: var(--hc-accent) !important;
+  stroke: var(--hc-accent);
 }
 html[data-contrast="hc"] #login-modal .login-submit-dots > span {
-  background-color: var(--hc-accent) !important;
-  box-shadow: 0 0 0.32rem rgba(var(--hc-accent-rgb),0.34) !important;
+  background-color: var(--hc-accent);
+  box-shadow: 0 0 0.32rem rgba(var(--hc-accent-rgb),0.34);
 }
 html[data-contrast="hc"] #login-modal .login-help-popover {
-  color: var(--hc-accent) !important;
-  border-color: rgba(var(--hc-accent-rgb),0.62) !important;
-  box-shadow: none !important;
+  color: var(--hc-accent);
+  border-color: rgba(var(--hc-accent-rgb),0.62);
+  box-shadow: none;
 }
 html[data-contrast="hc"] #login-modal :is(.fancy-checkbox--otp .box, .fancy-checkbox--otp .tick) {
-  background: transparent !important;
-  border-color: rgba(var(--hc-accent-rgb),0.7) !important;
-  stroke: var(--hc-accent) !important;
+  background: transparent;
+  border-color: rgba(var(--hc-accent-rgb),0.7);
+  stroke: var(--hc-accent);
 }
 html[data-contrast="hc"] #login-modal :is(.fancy-checkbox--otp .text, #otp-deadline) {
-  color: var(--hc-accent) !important;
+  color: var(--hc-accent);
 }
 html[data-contrast="hc"] .a11y-modal-shell {
   --csp-surface: var(--glass-surface-bg, rgba(0, 0, 0, 0.25));
 }
 html[data-contrast="hc"] .a11y-modal-shell .csp-chevron-icon {
-  color: var(--hc-accent) !important;
+  color: var(--hc-accent);
 }
 html[data-contrast="hc"] .register-mobile-ring .csp-chevron-icon {
-  color: var(--hc-accent) !important;
+  color: var(--hc-accent);
 }
 html[data-contrast="hc"] .a11y-modal-shell .a11y-csp-scroll {
   --hc-focus-ring: rgba(var(--hc-accent-rgb),0.58);
@@ -1129,31 +1129,31 @@ html[data-contrast="hc"] .a11y-modal-shell .a11y-csp-scroll {
 }
 html[data-contrast="hc"] .a11y-modal-shell :is(.a11y-csp-scroll, .csp-overlayTitle)
   :is(h1, h2, h3, h4, p, span, label, legend, li, a, button, strong, em) {
-  color: var(--hc-accent) !important;
+  color: var(--hc-accent);
 }
 
 html[data-contrast="hc"] .a11y-modal-shell .a11y-csp-scroll [data-control-type][data-checked="true"] {
-  color: var(--hc-accent) !important;
-  background: var(--btn-primary-bg-hover) !important;
-  border-width: 2px !important;
-  border-style: solid !important;
-  border-color: rgba(var(--hc-accent-rgb),0.94) !important;
+  color: var(--hc-accent);
+  background: var(--btn-primary-bg-hover);
+  border-width: 2px;
+  border-style: solid;
+  border-color: rgba(var(--hc-accent-rgb),0.94);
   box-shadow:
     var(--btn-primary-shadow-hover),
-    0 0 0 1px rgba(var(--hc-accent-rgb),0.72) !important;
+    0 0 0 1px rgba(var(--hc-accent-rgb),0.72);
 }
 html[data-contrast="hc"] .a11y-modal-shell .a11y-csp-scroll [data-control-type][data-checked="false"] {
-  border-color: rgba(var(--hc-accent-rgb),0.62) !important;
+  border-color: rgba(var(--hc-accent-rgb),0.62);
 }
 html[data-contrast="hc"]
   body
   .profile-container.glass-ring {
-  --profile-role-text-color: var(--hc-accent) !important;
+  --profile-role-text-color: var(--hc-accent);
 }
 html[data-contrast="hc"]
   body
   .profile-role-row {
-  color: var(--hc-accent) !important;
+  color: var(--hc-accent);
 }
 
 html[data-contrast="hc"]
@@ -1179,10 +1179,10 @@ html[data-contrast="hc"]
     0 6px 8px -6px rgba(var(--hc-accent-rgb),0.32),
     inset 0 0 0 var(--pin-border-w) rgba(30, 40, 58, 0.52),
     inset 0 1px 0 rgba(255, 255, 255, 0.04),
-    inset 0 -1px 0 rgba(2, 6, 16, 0.19) !important;
+    inset 0 -1px 0 rgba(2, 6, 16, 0.19);
 }
 html[data-contrast="hc"] .desc-ring-left .circular-text-line {
-  color: #222 !important;
+  color: #222;
   fill: currentColor;
   stroke: rgba(0, 0, 0, 0.35);
   stroke-width: 1px;
@@ -1190,7 +1190,7 @@ html[data-contrast="hc"] .desc-ring-left .circular-text-line {
   text-shadow: none;
 }
 html[data-contrast="hc"] .desc-ring-right .circular-text-line {
-  color: var(--hc-accent) !important;
+  color: var(--hc-accent);
   fill: currentColor;
   stroke: rgba(0, 0, 0, 0.4);
   stroke-width: 1px;
@@ -1285,11 +1285,11 @@ html[data-contrast="hc"] :is(
   .workspace-feature-panel .workspace-feature-field,
   .documents-workspace :is(.documents-field, .documents-dropdown-trigger, .documents-form-input, .documents-agent-textarea)
 ) {
-  background: var(--hc-field-bg) !important;
-  color: var(--hc-accent) !important;
-  border: 2px solid rgba(var(--hc-accent-rgb),0.72) !important;
-  box-shadow: none !important;
-  caret-color: var(--hc-accent) !important;
+  background: var(--hc-field-bg);
+  color: var(--hc-accent);
+  border: 2px solid rgba(var(--hc-accent-rgb),0.72);
+  box-shadow: none;
+  caret-color: var(--hc-accent);
 }
 
 html[data-contrast="hc"] :is(
@@ -1304,9 +1304,9 @@ html[data-contrast="hc"] :is(
   .documents-workspace :is(.documents-field, .documents-dropdown-trigger, .documents-form-input, .documents-agent-textarea)
 ):is(:hover, :focus, :focus-within, :focus-visible, :active) {
   background: var(--hc-field-bg-focus) !important;
-  color: var(--hc-accent) !important;
-  border-color: rgba(var(--hc-accent-rgb),0.94) !important;
-  box-shadow: none !important;
+  color: var(--hc-accent);
+  border-color: rgba(var(--hc-accent-rgb),0.94);
+  box-shadow: none;
 }
 
 html[data-contrast="hc"] :is(
@@ -1318,10 +1318,10 @@ html[data-contrast="hc"] :is(
   .workspace-feature-panel .workspace-feature-field,
   .documents-workspace :is(.documents-field, .documents-dropdown-trigger, .documents-form-input, .documents-agent-textarea)
 ) > :is(.edgeLight, [class*="edgeLight"]) {
-  display: none !important;
-  opacity: 0 !important;
-  background: transparent !important;
-  box-shadow: none !important;
+  display: none;
+  opacity: 0;
+  background: transparent;
+  box-shadow: none;
 }
 
 html[data-contrast="hc"] :is(
@@ -1335,14 +1335,14 @@ html[data-contrast="hc"] :is(
   .workspace-feature-panel .workspace-feature-field,
   .documents-workspace :is(.documents-field, .documents-dropdown-trigger, .documents-form-input, .documents-agent-textarea)
 )::placeholder {
-  color: rgba(var(--hc-accent-rgb),0.92) !important;
-  opacity: 1 !important;
+  color: rgba(var(--hc-accent-rgb),0.92);
+  opacity: 1;
 }
 
 html[data-contrast="hc"] .service-map-workspace .service-map-toolbar__input::placeholder,
 html[data-contrast="hc"] .service-map-page-panel .service-map-toolbar__input::placeholder {
   color: rgba(var(--hc-accent-rgb),0.92) !important;
-  opacity: 1 !important;
+  opacity: 1;
 }
 
 html[data-contrast="hc"] :is(
@@ -1366,19 +1366,19 @@ html[data-contrast="hc"] :is(
   .selected-listing-panel--inline
 ) {
   background: var(--hc-panel-bg) !important;
-  color: var(--hc-accent) !important;
-  border: 2px solid rgba(var(--hc-accent-rgb),0.66) !important;
-  box-shadow: none !important;
+  color: var(--hc-accent);
+  border: 2px solid rgba(var(--hc-accent-rgb),0.66);
+  box-shadow: none;
 }
 
 html[data-contrast="hc"] :is(
   .workspace-role-cycle-button,
   .documents-admin-role-menu .workspace-role-cycle-button
 ) {
-  color: var(--hc-accent) !important;
-  background: var(--hc-control-bg) !important;
-  border-color: rgba(var(--hc-accent-rgb),0.72) !important;
-  box-shadow: none !important;
+  color: var(--hc-accent);
+  background: var(--hc-control-bg);
+  border-color: rgba(var(--hc-accent-rgb),0.72);
+  box-shadow: none;
 }
 
 html[data-contrast="hc"] body :is(
@@ -1389,49 +1389,49 @@ html[data-contrast="hc"] body :is(
   .service-map-workspace__toggle,
   button:has(.back-icon-arrow)
 ) {
-  color: var(--hc-accent) !important;
-  border-color: var(--hc-accent) !important;
-  box-shadow: none !important;
+  color: var(--hc-accent);
+  border-color: var(--hc-accent);
+  box-shadow: none;
 }
 
 html[data-contrast="hc"] body .chat-inputbar,
 html[data-contrast="hc"] .documents-workspace .documents-agent-composer-slot .chat-inputbar {
-  background: transparent !important;
-  border: 2px solid rgba(var(--hc-accent-rgb),0.72) !important;
-  box-shadow: none !important;
+  background: transparent;
+  border: 2px solid rgba(var(--hc-accent-rgb),0.72);
+  box-shadow: none;
 }
 
 html[data-contrast="hc"] .chat-composer-glow-shell,
 html[data-contrast="hc"] .documents-agent-glow-composer,
 html[data-contrast="hc"] .documents-agent-glow-window {
-  --glow-color: rgba(var(--hc-accent-rgb),0.64) !important;
-  --glow-color-60: rgba(var(--hc-accent-rgb),0.4) !important;
-  --glow-color-50: rgba(var(--hc-accent-rgb),0.34) !important;
-  --glow-color-40: rgba(var(--hc-accent-rgb),0.27) !important;
-  --glow-color-30: rgba(var(--hc-accent-rgb),0.2) !important;
-  --glow-color-20: rgba(var(--hc-accent-rgb),0.13) !important;
-  --glow-color-10: rgba(var(--hc-accent-rgb),0.08) !important;
+  --glow-color: rgba(var(--hc-accent-rgb),0.64);
+  --glow-color-60: rgba(var(--hc-accent-rgb),0.4);
+  --glow-color-50: rgba(var(--hc-accent-rgb),0.34);
+  --glow-color-40: rgba(var(--hc-accent-rgb),0.27);
+  --glow-color-30: rgba(var(--hc-accent-rgb),0.2);
+  --glow-color-20: rgba(var(--hc-accent-rgb),0.13);
+  --glow-color-10: rgba(var(--hc-accent-rgb),0.08);
 }
 
 html[data-contrast="hc"] body .chat-inputbar .chat-send-btn.invite-primary-btn {
-  --btn-primary-text: var(--hc-accent) !important;
-  --btn-primary-bg: transparent !important;
-  --btn-primary-bg-hover: transparent !important;
-  --btn-primary-bg-active: transparent !important;
-  --btn-primary-border: 2px solid rgba(var(--hc-accent-rgb),0.66) !important;
-  --btn-primary-border-hover: 2px solid rgba(var(--hc-accent-rgb),0.9) !important;
-  --btn-primary-border-active: 2px solid rgba(var(--hc-accent-rgb),0.95) !important;
-  color: var(--hc-accent) !important;
+  --btn-primary-text: var(--hc-accent);
+  --btn-primary-bg: transparent;
+  --btn-primary-bg-hover: transparent;
+  --btn-primary-bg-active: transparent;
+  --btn-primary-border: 2px solid rgba(var(--hc-accent-rgb),0.66);
+  --btn-primary-border-hover: 2px solid rgba(var(--hc-accent-rgb),0.9);
+  --btn-primary-border-active: 2px solid rgba(var(--hc-accent-rgb),0.95);
+  color: var(--hc-accent);
   background: transparent !important;
-  border-color: rgba(var(--hc-accent-rgb),0.66) !important;
-  box-shadow: none !important;
+  border-color: rgba(var(--hc-accent-rgb),0.66);
+  box-shadow: none;
 }
 
 html[data-contrast="hc"] body .chat-inputbar .chat-send-btn.invite-primary-btn:is(:hover, :focus-visible, :active) {
-  color: var(--hc-accent) !important;
-  background: transparent !important;
-  border-color: rgba(var(--hc-accent-rgb),0.94) !important;
-  box-shadow: none !important;
+  color: var(--hc-accent);
+  background: transparent;
+  border-color: rgba(var(--hc-accent-rgb),0.94);
+  box-shadow: none;
 }
 
 html[data-contrast="hc"] :is(
@@ -1441,7 +1441,7 @@ html[data-contrast="hc"] :is(
   .workspace-feature-panel svg,
   .documents-workspace svg
 ) :is(path, circle, line, rect, ellipse, polyline, polygon) {
-  stroke: var(--hc-accent) !important;
+  stroke: var(--hc-accent);
 }
 
 html[data-contrast="hc"] :is(
@@ -1451,23 +1451,23 @@ html[data-contrast="hc"] :is(
   .workspace-feature-panel svg,
   .documents-workspace svg
 ) [fill]:not([fill="none"]) {
-  fill: var(--hc-accent) !important;
+  fill: var(--hc-accent);
 }
 
 html[data-contrast="hc"] .framework-page-shell .ui-glow-button-frame,
 html[data-contrast="hc"] .framework-page-shell .ui-glow-button-frame:is(:hover, :focus-visible, :active) {
-  --btn-primary-border: 2px solid rgba(var(--hc-accent-rgb),0.72) !important;
-  --btn-primary-border-hover: 2px solid rgba(var(--hc-accent-rgb),0.94) !important;
-  --btn-primary-border-active: 2px solid rgba(var(--hc-accent-rgb),1) !important;
-  border: 2px solid rgba(var(--hc-accent-rgb),0.72) !important;
-  color: var(--hc-accent) !important;
-  background: var(--hc-control-bg) !important;
-  box-shadow: none !important;
+  --btn-primary-border: 2px solid rgba(var(--hc-accent-rgb),0.72);
+  --btn-primary-border-hover: 2px solid rgba(var(--hc-accent-rgb),0.94);
+  --btn-primary-border-active: 2px solid rgba(var(--hc-accent-rgb),1);
+  border: 2px solid rgba(var(--hc-accent-rgb),0.72);
+  color: var(--hc-accent);
+  background: var(--hc-control-bg);
+  box-shadow: none;
 }
 
 html[data-contrast="hc"] .framework-page-shell .ui-glow-button-frame:is(:hover, :focus-visible, :active) {
-  border-color: rgba(var(--hc-accent-rgb),0.94) !important;
-  background: rgba(var(--hc-accent-rgb),0.14) !important;
+  border-color: rgba(var(--hc-accent-rgb),0.94);
+  background: rgba(var(--hc-accent-rgb),0.14);
 }
 
 html[data-contrast="hc"] body :is(
@@ -1480,10 +1480,10 @@ html[data-contrast="hc"] body :is(
   .workspace-feature-panel .workspace-feature-field,
   .documents-workspace :is(.documents-field, .documents-dropdown-trigger, .documents-form-input, .documents-agent-textarea)
 ):is([class*="BorderGlow-module"], [class*="ui-glow"]) {
-  background: var(--hc-field-bg) !important;
-  color: var(--hc-accent) !important;
-  border-color: rgba(var(--hc-accent-rgb),0.72) !important;
-  box-shadow: none !important;
+  background: var(--hc-field-bg);
+  color: var(--hc-accent);
+  border-color: rgba(var(--hc-accent-rgb),0.72);
+  box-shadow: none;
 }
 
 html[data-contrast="hc"] body :is(
@@ -1497,10 +1497,10 @@ html[data-contrast="hc"] body :is(
   .materials-surface-button,
   .service-map-toolbar__type-card
 ):not(.profile-orbit-menu__item):not(.profile-orbit-menu__center):not(.profile-orbit-mobile-action):not(.profile-orbit-stack-bubble):not(.chat-rail-icon-btn):not(.chat-send-btn):not(.chat-listen-btn):not(.chat-assistant-action-btn):not(.chat-dictate-btn):not(.chat-side-control-btn):not(.chat-tools-btn):not(.chat-document-attach-btn) {
-  background: var(--hc-control-bg) !important;
-  color: var(--hc-accent) !important;
-  border-color: rgba(var(--hc-accent-rgb),0.72) !important;
-  box-shadow: none !important;
+  background: var(--hc-control-bg);
+  color: var(--hc-accent);
+  border-color: rgba(var(--hc-accent-rgb),0.72);
+  box-shadow: none;
 }
 
 html[data-contrast="hc"] body :is(
@@ -1509,16 +1509,16 @@ html[data-contrast="hc"] body :is(
   .person-invite-modal-content,
   .a11y-modal-shell
 ) [data-control-type][data-checked="true"] {
-  --hc-control-bg: rgba(var(--hc-accent-rgb),0.1) !important;
-  --hc-control-bg-hover: rgba(var(--hc-accent-rgb),0.12) !important;
-  --hc-control-bg-active: rgba(var(--hc-accent-rgb),0.14) !important;
-  --btn-primary-bg: rgba(var(--hc-accent-rgb),0.1) !important;
-  --btn-primary-bg-hover: rgba(var(--hc-accent-rgb),0.12) !important;
-  --btn-primary-bg-active: rgba(var(--hc-accent-rgb),0.14) !important;
-  background: rgba(var(--hc-accent-rgb),0.1) !important;
-  background-color: rgba(var(--hc-accent-rgb),0.1) !important;
-  border-color: rgba(var(--hc-accent-rgb),0.94) !important;
-  box-shadow: inset 0 0 0 1px rgba(var(--hc-accent-rgb),0.64) !important;
+  --hc-control-bg: rgba(var(--hc-accent-rgb),0.1);
+  --hc-control-bg-hover: rgba(var(--hc-accent-rgb),0.12);
+  --hc-control-bg-active: rgba(var(--hc-accent-rgb),0.14);
+  --btn-primary-bg: rgba(var(--hc-accent-rgb),0.1);
+  --btn-primary-bg-hover: rgba(var(--hc-accent-rgb),0.12);
+  --btn-primary-bg-active: rgba(var(--hc-accent-rgb),0.14);
+  background: rgba(var(--hc-accent-rgb),0.1);
+  background-color: rgba(var(--hc-accent-rgb),0.1);
+  border-color: rgba(var(--hc-accent-rgb),0.94);
+  box-shadow: inset 0 0 0 1px rgba(var(--hc-accent-rgb),0.64);
 }
 
 html[data-contrast="hc"] body :is(
@@ -1527,77 +1527,77 @@ html[data-contrast="hc"] body :is(
   .person-invite-modal-content,
   .a11y-modal-shell
 ) [data-control-type][data-checked="true"]::before {
-  opacity: 1 !important;
+  opacity: 1;
   background: rgba(var(--hc-accent-rgb),0.06) !important;
 }
 
 html[data-contrast="hc"] body :is(button, [role="button"], label).ui-glow-option-card-frame[data-checked="true"]:not(.profile-orbit-menu__item):not(.profile-orbit-menu__center):not(.profile-orbit-mobile-action):not(.profile-orbit-stack-bubble):not(.chat-rail-icon-btn):not(.chat-send-btn):not(.chat-listen-btn):not(.chat-assistant-action-btn):not(.chat-dictate-btn):not(.chat-side-control-btn):not(.chat-tools-btn):not(.chat-document-attach-btn),
 html[data-contrast="hc"] body :is(button, [role="button"], label).register-option-card[data-checked="true"]:not(.profile-orbit-menu__item):not(.profile-orbit-menu__center):not(.profile-orbit-mobile-action):not(.profile-orbit-stack-bubble):not(.chat-rail-icon-btn):not(.chat-send-btn):not(.chat-listen-btn):not(.chat-assistant-action-btn):not(.chat-dictate-btn):not(.chat-side-control-btn):not(.chat-tools-btn):not(.chat-document-attach-btn) {
-  --hc-control-bg: rgba(var(--hc-accent-rgb),0.1) !important;
-  --hc-control-bg-hover: rgba(var(--hc-accent-rgb),0.12) !important;
-  --hc-control-bg-active: rgba(var(--hc-accent-rgb),0.14) !important;
-  --btn-primary-bg: rgba(var(--hc-accent-rgb),0.1) !important;
-  --btn-primary-bg-hover: rgba(var(--hc-accent-rgb),0.12) !important;
-  --btn-primary-bg-active: rgba(var(--hc-accent-rgb),0.14) !important;
+  --hc-control-bg: rgba(var(--hc-accent-rgb),0.1);
+  --hc-control-bg-hover: rgba(var(--hc-accent-rgb),0.12);
+  --hc-control-bg-active: rgba(var(--hc-accent-rgb),0.14);
+  --btn-primary-bg: rgba(var(--hc-accent-rgb),0.1);
+  --btn-primary-bg-hover: rgba(var(--hc-accent-rgb),0.12);
+  --btn-primary-bg-active: rgba(var(--hc-accent-rgb),0.14);
   background: rgba(var(--hc-accent-rgb),0.1) !important;
-  background-color: rgba(var(--hc-accent-rgb),0.1) !important;
-  border-color: rgba(var(--hc-accent-rgb),0.94) !important;
-  box-shadow: inset 0 0 0 1px rgba(var(--hc-accent-rgb),0.64) !important;
+  background-color: rgba(var(--hc-accent-rgb),0.1);
+  border-color: rgba(var(--hc-accent-rgb),0.94);
+  box-shadow: inset 0 0 0 1px rgba(var(--hc-accent-rgb),0.64);
 }
 
 html[data-contrast="hc"] body .workspace-dashboard-card,
 html[data-contrast="hc"] body .workspace-dashboard-card:is(:hover, :focus-visible, :active) {
-  background: var(--workspace-elevated-card-bg, var(--hc-control-bg, rgba(14, 20, 32, 0.72))) !important;
-  border: 2px solid rgba(var(--hc-accent-rgb),0.72) !important;
-  color: var(--hc-accent, #ffea00) !important;
-  box-shadow: none !important;
+  background: var(--workspace-elevated-card-bg, var(--hc-control-bg, rgba(14, 20, 32, 0.72)));
+  border: 2px solid rgba(var(--hc-accent-rgb),0.72);
+  color: var(--hc-accent, #ffea00);
+  box-shadow: none;
 }
 
 html[data-contrast="hc"] body .workspace-dashboard-card:focus-visible {
-  border-color: rgba(var(--hc-accent-rgb),0.94) !important;
+  border-color: rgba(var(--hc-accent-rgb),0.94);
 }
 
 html[data-contrast="hc"] body .workspace-dashboard-card::after {
-  display: none !important;
+  display: none;
 }
 
 html[data-contrast="hc"] body .invite-list-panel {
-  background: var(--hc-panel-bg) !important;
-  border: 2px solid rgba(var(--hc-accent-rgb),0.72) !important;
-  border-color: rgba(var(--hc-accent-rgb),0.72) !important;
-  box-shadow: none !important;
+  background: var(--hc-panel-bg);
+  border: 2px solid rgba(var(--hc-accent-rgb),0.72);
+  border-color: rgba(var(--hc-accent-rgb),0.72);
+  box-shadow: none;
 }
 
 html[data-contrast="hc"] body .invite-list-panel:is(:hover, :focus-within, :focus-visible, :active) {
-  background: var(--hc-panel-bg) !important;
+  background: var(--hc-panel-bg);
   border-color: rgba(var(--hc-accent-rgb),0.72) !important;
-  box-shadow: none !important;
+  box-shadow: none;
 }
 
 html[data-contrast="hc"] body .invite-list-panel::before,
 html[data-contrast="hc"] body .invite-list-panel::after,
 html[data-contrast="hc"] body .invite-list-panel > :is(.edgeLight, [class*="edgeLight"]) {
   display: none !important;
-  opacity: 0 !important;
-  background: transparent !important;
-  box-shadow: none !important;
+  opacity: 0;
+  background: transparent;
+  box-shadow: none;
 }
 
 html[data-contrast="hc"] body :is(
   .invite-modal-content,
   .person-invite-modal-content
 ) .invite-list-panel.invite-glow-panel {
-  background: var(--hc-panel-bg) !important;
+  background: var(--hc-panel-bg);
   border: 2px solid rgba(var(--hc-accent-rgb),0.72) !important;
-  border-color: rgba(var(--hc-accent-rgb),0.72) !important;
-  box-shadow: none !important;
+  border-color: rgba(var(--hc-accent-rgb),0.72);
+  box-shadow: none;
 }
 
 html[data-contrast="hc"] body :is(
   .invite-modal-content,
   .person-invite-modal-content
 ) .invite-list-panel.invite-glow-panel:is(:hover, :focus-within) {
-  border-color: rgba(var(--hc-accent-rgb),0.72) !important;
-  background: var(--hc-panel-bg) !important;
-  box-shadow: none !important;
+  border-color: rgba(var(--hc-accent-rgb),0.72);
+  background: var(--hc-panel-bg);
+  box-shadow: none;
 }

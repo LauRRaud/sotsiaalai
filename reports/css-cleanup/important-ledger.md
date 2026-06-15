@@ -28,7 +28,9 @@ Legend: ✅ tehtud · 🔄 pooleli · ⬜ tegemata · 🔒 alles-jäetud (load-b
 | `features/policy` tekstiklaster | — | 7 | 1 reegel | — | — | ✅ | 828bb330, 29685773 |
 | `features/policy` geomeetria | ~133 | 0 | 0 | 🔒 render-kandev (strip-all diff: height/margin/padding liiguvad) JA kontrakt-lukus (policyScrollHeader + scrollSurfaceHeader, ~29 assert'i) | ~133 | 🔒 | strip-all reverditud |
 | `utilities/glass-ring-stable` | 1 | 0 | 0 | 🔒 Reegel A — kontrakt-test valvab | 1 | 🔒 | 56ba160c (KEEP) |
-| `theme/` (hc/mono/mid) | 577 | 0 | 0 | token-migratsiooni siht | 577 | ⬜ | — |
+| `theme/hc.css` | 328 | **312** | 0 | 🔒 16 (kontrakt-asserteritud) | **16** | ✅ | (käes) |
+| `theme/mono.css` | 148 | 0 | 0 | — | 148 | ⬜ | — |
+| `theme/mid.css` | 65 | 0 | 0 | — | 65 | ⬜ | — |
 | `features/chat` | 794 | 0 | 0 | — | 794 | ⬜ | — |
 | `features/service-map` | 357 | 0 | 0 | — | 357 | ⬜ | — |
 | `mobile/` | 806 | 0 | 0 | — | 806 | ⬜ | — |
