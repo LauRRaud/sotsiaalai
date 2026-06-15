@@ -23,15 +23,39 @@
 import { readFileSync, writeFileSync } from "node:fs";
 
 function parseArgs(argv) {
-  const out = { file: null, tests: [], apply: false };
+  const out = { file: null, tests: [], apply: false, keepSelectors: [] };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === "--file") out.file = argv[++i];
     else if (a === "--tests") out.tests = argv[++i].split(",").map((s) => s.trim()).filter(Boolean);
     else if (a === "--apply") out.apply = true;
+    // --keep-selectors: comma list of substrings. A marker whose ENCLOSING rule's
+    // selector contains any of these is force-kept. Use to protect render-load-
+    // bearing selectors a render-gate flagged (feature files have cross-file
+    // !important wars the specificity argument doesn't cover — see ledger).
+    else if (a === "--keep-selectors") out.keepSelectors = argv[++i].split(",").map((s) => s.trim()).filter(Boolean);
   }
   if (!out.file || !out.tests.length) throw new Error("--file and --tests required");
   return out;
+}
+
+// Selector text of the rule block immediately enclosing position `pos` in `css`.
+// The nearest unclosed `{` before pos opens that rule; its selector is the text
+// back to the previous `}` / `{` / start. For @media etc. this yields the inner
+// rule selector (what actually targets the element), which is what we want.
+function enclosingSelector(css, pos) {
+  let depth = 0, open = -1;
+  for (let i = pos - 1; i >= 0; i--) {
+    const c = css[i];
+    if (c === "}") depth++;
+    else if (c === "{") { if (depth === 0) { open = i; break; } depth--; }
+  }
+  if (open < 0) return "";
+  let start = 0;
+  for (let i = open - 1; i >= 0; i--) {
+    if (css[i] === "}" || css[i] === "{") { start = i + 1; break; }
+  }
+  return css.slice(start, open);
 }
 
 // Extract JS regex literals from source. Regex literals are single-line; this
@@ -86,8 +110,19 @@ function main() {
   };
   const matches = (rx, text) => { rx.lastIndex = 0; return rx.test(text); };
 
+  // Pass 0 — force-keep markers whose enclosing rule selector matches a
+  // --keep-selectors substring (render-gate-flagged load-bearing selectors).
+  let forcedKeep = 0;
+  if (args.keepSelectors.length) {
+    for (let i = 0; i < occ.length; i++) {
+      const sel = enclosingSelector(css, occ[i].start);
+      if (args.keepSelectors.some((s) => sel.includes(s))) { keep[i] = true; forcedKeep++; }
+    }
+  }
+
   // Pass 1 — per-marker necessity: removing marker i alone breaks an oracle.
   for (let i = 0; i < occ.length; i++) {
+    if (keep[i]) continue;
     const removed = css.slice(0, occ[i].start) + css.slice(occ[i].end);
     if (oracles.some((rx) => !matches(rx, removed))) keep[i] = true;
   }
@@ -126,7 +161,7 @@ function main() {
 
   process.stderr.write(
     `${args.apply ? (brokenOracles === 0 ? "APPLIED" : "ABORTED (broken oracles!)") : "DRY-RUN"} ${args.file}\n` +
-    `  oracles: ${oracles.length} | !important total: ${occ.length} | KEEP: ${keepCount} | STRIP: ${occ.length - keepCount} | final broken oracles: ${brokenOracles}\n`
+    `  oracles: ${oracles.length} | !important total: ${occ.length} | KEEP: ${keepCount} (forced ${forcedKeep}) | STRIP: ${occ.length - keepCount} | final broken oracles: ${brokenOracles}\n`
   );
 }
 

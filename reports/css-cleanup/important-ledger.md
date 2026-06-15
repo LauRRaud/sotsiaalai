@@ -31,7 +31,8 @@ Legend: ✅ tehtud · 🔄 pooleli · ⬜ tegemata · 🔒 alles-jäetud (load-b
 | `theme/hc.css` | 328 | **312** | 0 | 🔒 16 (kontrakt-asserteritud) | **16** | ✅ | (käes) |
 | `theme/mono.css` | 148 | **122** | 0 | 🔒 26 (kontrakt-asserteritud, sh hcSurfaceContracts + monoThemeContracts) | **26** | ✅ | (käes) |
 | `theme/mid.css` | 65 | **52** | 0 | 🔒 13 (4 kontrakt + 9 box-shadow render-kandev: glass-ring sõda) | **13** | ✅ | (käes) |
-| `features/chat` | 794 | 0 | 0 | — | 794 | ⬜ | — |
+| `features/chat/hc.css` | 207 | **112** | 0 | 🔒 95 (88 force-keep: 6 alati-nähtavat load-bearing + KÕIK drawer-sisesed, mida gate ei ava; 7 kontrakt) | **95** | ✅ | (käes) |
+| `features/chat` (muu) | 587 | 0 | 0 | shell 191, mobile 169, mono 131, themes 93 — ootel | 587 | ⬜ | — |
 | `features/service-map` | 357 | 0 | 0 | — | 357 | ⬜ | — |
 | `mobile/` | 806 | 0 | 0 | — | 806 | ⬜ | — |
 | `shared/` | 384 | 0 | 0 | — | 384 | ⬜ | — |
@@ -82,6 +83,26 @@ vaja täpsemat restoreerijat. Variandid: (a) prop-tasemel keep contract-props'il
 saak, garanteeritud roheline), (b) npm-test-oracle per-decl bisektsioon, (c) parem
 regex→deklaratsioon parser. Tööriist `scripts/css-cleanup/theme-strip-keepasserted.mjs`
 olemas (suund õige, vajab täpsust).
+
+## ÕPPETUND: feature teema-override'id ≠ puhas teema-strip (2026-06-15, chat/hc.css)
+`features/chat/{hc,mono,themes}.css` on teema-laadsed (`html[data-contrast="hc"] .chat-x`),
+aga EI ole render-redundantsed nagu `theme/`. Kaks erinevust:
+1. **Cross-file `!important`-sõjad** — sama elementi sihivad mitu faili `!important`-iga
+   (chat/mobile 169, shell 191). hc-i markeri eemaldus → teise faili `!important` võidab
+   (sest `!important` lööb spetsifikatsuse) → render muutub. Täis-strip: 101 diffi.
+2. **Drawer-sisesed selektorid flaky gate'is** — `.cs-*`, `.drawer-*`, `.chat-sidebar-
+   search-input` elavad `.drawer-panel--chat-glass` all; gate ei ava drawerit →
+   APPEARED/DISAPPEARED müra (mitte CSS-efekt).
+
+**Töötav retsept (chat/hc.css 207→95, −112, mõlemad gate'id rohelised):**
+- `theme-strip-oracle.mjs --keep-selectors <list>` (uus): force-keep marker, kui ta reegli
+  selektor sisaldab substringi. Hoia (a) alati-nähtavad load-bearing selektorid, mille
+  render-gate flag'is, (b) KÕIK drawer-sisesed konservatiivselt (ei saa deterministlikult
+  gate'ida).
+- Ehita **deterministlik gate**: jäta drawer-sisesed selektorid välja (`^\.(drawer-|cs-|
+  chat-sidebar)`). Siis ✓ identical on usaldusväärne.
+- 2-gate nagu ikka. NB: keep-by-classname on **leaky** grupeeritud/muutuja-kaskaadi
+  reeglitele → konservatiivne drawer-keep katab selle.
 
 ## Tööriistad
 

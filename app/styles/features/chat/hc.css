@@ -2,47 +2,47 @@
    Extracted 1:1 (original order preserved) from app/styles/theme/hc.css.
    Loaded via features/chat/index.css on chat routes only. */
 html[data-contrast="hc"] .chat-mobile-topnav span {
-  color: var(--hc-accent) !important;
+  color: var(--hc-accent);
 }
 
 html[data-contrast="hc"] .chat-mobile-topnav button[data-chat-mobile-topnav-button="1"],
 html[data-contrast="hc"] .chat-mobile-topnav button[data-chat-mobile-topnav-button="1"]:is(:hover, :focus, :focus-visible, :active),
 html[data-contrast="hc"] .chat-mobile-topnav button[data-chat-mobile-topnav-button="1"]::before,
 html[data-contrast="hc"] .chat-mobile-topnav button[data-chat-mobile-topnav-button="1"]::after {
-  background: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
-  border-color: transparent !important;
-  box-shadow: none !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
+  background: transparent;
+  background-color: transparent;
+  background-image: none;
+  border-color: transparent;
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
 }
 
 html[data-contrast="hc"] body .chat-scroll-down-btn,
 html[data-contrast="hc"] body .chat-scroll-down-btn:is(:hover, :focus-visible, :active) {
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  outline: none !important;
-  --tw-scale-x: 1 !important;
-  --tw-scale-y: 1 !important;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  outline: none;
+  --tw-scale-x: 1;
+  --tw-scale-y: 1;
 }
 
 html[data-contrast="hc"] body .chat-scroll-down-btn:focus-visible {
-  outline: none !important;
+  outline: none;
 }
 
 html[data-contrast="hc"] body .chat-scroll-down-icon {
-  stroke: var(--hc-accent) !important;
+  stroke: var(--hc-accent);
 }
 
 body .chat-analysis-close-btn,
 body .chat-analysis-close-btn:is(:hover, :focus-visible, :active) {
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  outline: none !important;
-  border-radius: 0 !important;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  outline: none;
+  border-radius: 0;
 }
 
 html[data-contrast="hc"]
@@ -83,7 +83,7 @@ html[data-contrast="hc"] body .chat-inputbar .chat-input-field {
 }
 
 html[data-contrast="hc"] body :is(.chat-msg-user, .chat-msg-ai) {
-  color: var(--hc-accent) !important;
+  color: var(--hc-accent);
 }
 
 html[data-contrast="hc"] body .chat-inputbar .chat-input-field::placeholder {
@@ -103,67 +103,67 @@ html[data-contrast="hc"] body .chat-inputbar .chat-send-btn .chat-mic-glyph {
 }
 
 html[data-contrast="hc"] body .chat-input-row .chat-side-control-btn svg :is(path, circle, line, rect, ellipse, polyline, polygon) {
-  stroke: var(--hc-accent) !important;
+  stroke: var(--hc-accent);
 }
 
 html[data-contrast="hc"] body .chat-input-row .chat-side-control-btn svg [fill]:not([fill="none"]) {
-  fill: var(--hc-accent) !important;
+  fill: var(--hc-accent);
 }
 
 html[data-contrast="hc"] body .chat-tools-menu .chat-tools-item {
-  color: var(--hc-accent) !important;
-  background: transparent !important;
-  border: 1.5px solid transparent !important;
-  box-shadow: none !important;
-  outline: none !important;
+  color: var(--hc-accent);
+  background: transparent;
+  border: 1.5px solid transparent;
+  box-shadow: none;
+  outline: none;
 }
 
 html[data-contrast="hc"] body :is(.chat-tools-menu, .chat-msg-user-bubble) {
   background: var(
     --chat-card-surface-night-strong-bg,
     radial-gradient(ellipse at top, rgb(27, 39, 53) 0%, rgb(9, 10, 15) 100%)
-  ) !important;
-  box-shadow: none !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
+  );
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
 }
 
 html[data-contrast="hc"] body .chat-tools-surface-popover {
   background: var(
     --chat-card-surface-night-strong-bg,
     radial-gradient(ellipse at top, rgb(27, 39, 53) 0%, rgb(9, 10, 15) 100%)
-  ) !important;
-  box-shadow: none !important;
-  border: 2px solid rgba(var(--hc-accent-rgb), 0.72) !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
+  );
+  box-shadow: none;
+  border: 2px solid rgba(var(--hc-accent-rgb), 0.72);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
 }
 
 html[data-contrast="hc"] body .chat-tools-menu .chat-tools-item:hover,
 html[data-contrast="hc"] body .chat-tools-menu .chat-tools-item:focus-visible {
-  color: var(--hc-accent) !important;
+  color: var(--hc-accent);
   background: rgba(var(--hc-accent-rgb), 0.14) !important;
-  border-color: rgba(var(--hc-accent-rgb), 0.9) !important;
-  box-shadow: none !important;
-  outline: none !important;
+  border-color: rgba(var(--hc-accent-rgb), 0.9);
+  box-shadow: none;
+  outline: none;
 }
 
 html[data-contrast="hc"] body .chat-tools-menu .chat-tools-item svg :is(path, circle, line, rect, ellipse, polyline, polygon) {
-  stroke: var(--hc-accent) !important;
+  stroke: var(--hc-accent);
 }
 
 html[data-contrast="hc"] body .chat-tools-menu .chat-tools-item svg [fill]:not([fill="none"]) {
-  fill: var(--hc-accent) !important;
+  fill: var(--hc-accent);
 }
 
 html[data-contrast="hc"] body .chat-analysis-overlay .chat-analysis-overlay-card {
-  color: var(--hc-accent) !important;
-  background: var(--opaque-panel-bg, var(--chat-card-surface-night-standard-bg, rgba(14, 20, 32, 0.9))) !important;
-  border: 2px solid rgba(var(--hc-accent-rgb), 0.72) !important;
-  box-shadow: none !important;
-  filter: none !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
+  color: var(--hc-accent);
+  background: var(--opaque-panel-bg, var(--chat-card-surface-night-standard-bg, rgba(14, 20, 32, 0.9)));
+  border: 2px solid rgba(var(--hc-accent-rgb), 0.72);
+  box-shadow: none;
+  filter: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
   --btn-primary-border: 2px solid rgba(var(--hc-accent-rgb), 0.66);
   --btn-primary-border-hover: 2px solid rgba(var(--hc-accent-rgb), 0.9);
   --btn-primary-border-active: 2px solid rgba(var(--hc-accent-rgb), 0.95);
@@ -236,38 +236,38 @@ html[data-contrast="hc"] body .chat-analysis-overlay .chat-analysis-upload-modal
   background: var(
     --chat-card-surface-night-strong-bg,
     radial-gradient(ellipse at top, rgb(27, 39, 53) 0%, rgb(9, 10, 15) 100%)
-  ) !important;
-  border-color: rgba(var(--hc-accent-rgb), 0.72) !important;
-  box-shadow: none !important;
-  filter: none !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
+  );
+  border-color: rgba(var(--hc-accent-rgb), 0.72);
+  box-shadow: none;
+  filter: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 html[data-contrast="hc"] body .chat-analysis-overlay .chat-analysis-overlay-card.chat-analysis-upload-modal-card {
   background: var(
     --chat-card-surface-night-strong-bg,
     radial-gradient(ellipse at top, rgb(27, 39, 53) 0%, rgb(9, 10, 15) 100%)
-  ) !important;
-  box-shadow: none !important;
-  filter: none !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
+  );
+  box-shadow: none;
+  filter: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 html[data-contrast="hc"] body .chat-analysis-overlay .chat-analysis-overlay-card :is(p, span, div, strong, em) {
-  color: var(--hc-accent) !important;
+  color: var(--hc-accent);
 }
 
 html[data-contrast="hc"] body .chat-analysis-overlay-hint {
-  color: var(--hc-accent) !important;
-  border: 2px solid rgba(var(--hc-accent-rgb), 0.72) !important;
-  box-shadow: none !important;
+  color: var(--hc-accent);
+  border: 2px solid rgba(var(--hc-accent-rgb), 0.72);
+  box-shadow: none;
 }
 
 html[data-contrast="hc"] body .chat-analysis-overlay .chat-analysis-close-btn,
 html[data-contrast="hc"] body .chat-analysis-overlay .chat-analysis-close-btn:is(:hover, :focus-visible, :active) {
-  color: var(--hc-accent) !important;
+  color: var(--hc-accent);
 }
 
 html[data-contrast="hc"] body :is(.chat-inputbar .chat-listen-btn, .chat-inputbar .chat-side-control-btn, .chat-input-row .chat-side-control-btn) {
@@ -291,8 +291,8 @@ html[data-contrast="hc"]
     .chat-right-actions button,
     .chat-mobile-topnav button
   ):focus-visible {
-  outline: none !important;
-  box-shadow: none !important;
+  outline: none;
+  box-shadow: none;
 }
 
 html[data-contrast="hc"] :is(.chat-left-actions, .chat-right-actions, .chat-mobile-topnav) {
@@ -300,38 +300,38 @@ html[data-contrast="hc"] :is(.chat-left-actions, .chat-right-actions, .chat-mobi
 }
 
 html[data-contrast="hc"] .chat-mobile-topnav button {
-  appearance: none !important;
-  -webkit-appearance: none !important;
-  -webkit-tap-highlight-color: transparent !important;
-  background: transparent !important;
-  border: 0 !important;
-  border-radius: 999px !important;
-  box-shadow: none !important;
-  outline: none !important;
+  appearance: none;
+  -webkit-appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  background: transparent;
+  border: 0;
+  border-radius: 999px;
+  box-shadow: none;
+  outline: none;
 }
 
 html[data-contrast="hc"] .chat-mobile-topnav button:is(:hover, :focus-visible, :active) {
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  outline: none !important;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  outline: none;
 }
 
 html[data-contrast="hc"] :is(.chat-left-actions, .chat-right-actions) button {
-  background: transparent !important;
-  border: 0 !important;
-  border-radius: 999px !important;
-  box-shadow: none !important;
-  outline: none !important;
+  background: transparent;
+  border: 0;
+  border-radius: 999px;
+  box-shadow: none;
+  outline: none;
 }
 
 html[data-contrast="hc"]
   :is(.chat-left-actions, .chat-right-actions)
   button:is(:hover, :focus-visible, :active) {
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  outline: none !important;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  outline: none;
 }
 
 html[data-contrast="hc"] .drawer-panel--chat-glass {
@@ -563,28 +563,28 @@ html[data-contrast="hc"] .drawer-panel--chat-glass .drawer-chat-sidebar .cs-dele
 }
 
 html[data-contrast="hc"] body .chat-analysis-panel-card .chat-analysis-toggle-btn[data-control-type] {
-  --seg-card-border-width: 2px !important;
-  --seg-card-bg: var(--btn-primary-bg) !important;
-  --seg-card-bg-hover: var(--btn-primary-bg-hover) !important;
-  --seg-card-bg-selected: rgba(var(--hc-accent-rgb), 0.1) !important;
-  --seg-card-bg-active: var(--btn-primary-bg-active) !important;
-  --seg-card-shadow: var(--btn-primary-shadow) !important;
-  --seg-card-shadow-hover: var(--btn-primary-shadow-hover) !important;
-  --seg-card-shadow-selected: 0 0 0 1px rgba(var(--hc-accent-rgb), 0.64) !important;
-  --seg-card-shadow-active: var(--btn-primary-shadow-active) !important;
-  --seg-card-border: rgba(var(--hc-accent-rgb), 0.62) !important;
-  --seg-card-border-hover: rgba(var(--hc-accent-rgb), 0.9) !important;
-  --seg-card-border-selected: rgba(var(--hc-accent-rgb), 0.94) !important;
-  --seg-card-border-active: rgba(var(--hc-accent-rgb), 0.95) !important;
-  --seg-card-text: var(--hc-accent) !important;
-  --seg-card-text-hover: var(--hc-accent) !important;
-  --seg-card-text-selected: var(--hc-accent) !important;
+  --seg-card-border-width: 2px;
+  --seg-card-bg: var(--btn-primary-bg);
+  --seg-card-bg-hover: var(--btn-primary-bg-hover);
+  --seg-card-bg-selected: rgba(var(--hc-accent-rgb), 0.1);
+  --seg-card-bg-active: var(--btn-primary-bg-active);
+  --seg-card-shadow: var(--btn-primary-shadow);
+  --seg-card-shadow-hover: var(--btn-primary-shadow-hover);
+  --seg-card-shadow-selected: 0 0 0 1px rgba(var(--hc-accent-rgb), 0.64);
+  --seg-card-shadow-active: var(--btn-primary-shadow-active);
+  --seg-card-border: rgba(var(--hc-accent-rgb), 0.62);
+  --seg-card-border-hover: rgba(var(--hc-accent-rgb), 0.9);
+  --seg-card-border-selected: rgba(var(--hc-accent-rgb), 0.94);
+  --seg-card-border-active: rgba(var(--hc-accent-rgb), 0.95);
+  --seg-card-text: var(--hc-accent);
+  --seg-card-text-hover: var(--hc-accent);
+  --seg-card-text-selected: var(--hc-accent);
 }
 
 html[data-contrast="hc"] body .chat-analysis-panel-card .chat-analysis-toggle-btn[data-control-type][data-checked="true"] {
   background: rgba(var(--hc-accent-rgb), 0.1) !important;
-  border-color: rgba(var(--hc-accent-rgb), 0.94) !important;
-  box-shadow: 0 0 0 1px rgba(var(--hc-accent-rgb), 0.64) !important;
+  border-color: rgba(var(--hc-accent-rgb), 0.94);
+  box-shadow: 0 0 0 1px rgba(var(--hc-accent-rgb), 0.64);
 }
 
 html[data-contrast="hc"] body .chat-inputbar:is(:hover, :focus-within) {
@@ -658,12 +658,12 @@ html[data-contrast="hc"] body .chat-msg-ai .chat-assistant-action-btn:is(:hover,
 html[data-contrast="hc"] body .chat-msg-ai .chat-assistant-action-btn::before,
 html[data-contrast="hc"] body .chat-msg-ai .chat-assistant-action-btn::after {
   background: transparent !important;
-  background-color: transparent !important;
+  background-color: transparent;
   background-image: none !important;
-  border: 0 !important;
+  border: 0;
   box-shadow: none !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
 }
 
 html[data-contrast="hc"] body .chat-msg-ai .chat-assistant-action-btn {
