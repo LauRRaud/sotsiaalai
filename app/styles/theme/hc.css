@@ -1146,21 +1146,7 @@ html[data-contrast="hc"] .a11y-modal-shell :is(.a11y-csp-scroll, .csp-overlayTit
   :is(h1, h2, h3, h4, p, span, label, legend, li, a, button, strong, em) {
   color: var(--hc-accent) !important;
 }
-html[data-contrast="hc"] .a11y-modal-shell .a11y-csp-scroll :is(.button, .btn, button[type="submit"], input[type="submit"]) {
-  color: var(--hc-accent) !important;
-  border-width: 2px !important;
-  border-style: solid !important;
-  border-color: rgba(255, 234, 0, 0.66) !important;
-  box-shadow: var(--btn-primary-shadow) !important;
-}
-html[data-contrast="hc"] .a11y-modal-shell .a11y-csp-scroll :is(.button, .btn, button[type="submit"], input[type="submit"]):hover {
-  border-color: rgba(255, 234, 0, 0.9) !important;
-  box-shadow: var(--btn-primary-shadow-hover) !important;
-}
-html[data-contrast="hc"] .a11y-modal-shell .a11y-csp-scroll :is(.button, .btn, button[type="submit"], input[type="submit"]):focus-visible {
-  border-color: rgba(255, 234, 0, 0.9) !important;
-  box-shadow: var(--btn-primary-shadow-focus) !important;
-}
+
 html[data-contrast="hc"] .a11y-modal-shell .a11y-csp-scroll [data-control-type][data-checked="true"] {
   color: var(--hc-accent) !important;
   background: var(--btn-primary-bg-hover) !important;
