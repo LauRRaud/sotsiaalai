@@ -21,9 +21,10 @@
 - **Faas 2 — dropdown viil:** VALMIS (`ff8390cd`). Järgmine: **button (~99 hajutus)**.
 - **Faas 2 — button viilud 1.5–1.9:** VALMIS (15.06.2026). ghost/secondary = 0, mono mega-ahelad kustutatud. !important: 3769 → 3746 (−23). Järgmine: HC ahelad.
 
-## ⏳ POOLELI — hc.css login-modal ahel (15.06.2026)
+## ⏳ POOLELI — järgmine: !important audit + järelejäänud hc.css ahelad (15.06.2026)
 
-**Viil 2.1 VALMIS [`f4f0a20b`]:** a11y-modal 3 redundantset HC ahelat kustutatud. `.a11y-csp-scroll` token blokk (read 1063-1090) katab kõik `--btn-primary-*` tokenid, seega `!important`-ahelad olid üleliigsed. npm test 967/13.
+**Viil 2.1 VALMIS [`f4f0a20b`]:** a11y-modal 3 redundantset HC ahelat kustutatud.
+**Viil 2.2 VALMIS [`bf9b1e83`]:** login-modal ahel kitsendatud `.no-click-pulse`-le + `#login-modal` token blokk. OTP `<Button>` saab BG tokenist, PIN-klahvistik saab serva !important-reeglist.
 
 **Eelmiste viilide lühikokkuvõte (1.5–1.9):**
 - viil 1.5: `.invite-primary-btn` eemaldus mono/hc `:is()`-loendist + JSX
@@ -48,9 +49,10 @@
 
 **Tehtud (15.06):** token kaskaad parandatud + 15 ahela-reeglit kustutatud (viil 2.0). Brauseris verifitseeritud.
 
-**Järele jäänud:**
-- `hc.css` rida **~947** — `#login-modal :is(.button, .btn, button[type="submit"], .no-click-pulse)` — PIN-klahvistiku raw nupud (`no-click-pulse`) kasutavad `border-0` ja ei saa tokenit. Ahel seab neile `border-width: 2px !important` + `border-color: rgba(255,234,0,0.66) !important`. `.button`/`button[type="submit"]` osa on token-kaetud, aga ka loobib eraldi login-modali `background: rgba(9,14,24,0.74)` — disainiotsus. Lahendus: kitsenda selektor ainult `.no-click-pulse`-le + lisa login-modal tokeniblokk `--btn-primary-bg` override'iga.
-- Värav: `npm test` 967/13, `css-important-audit` arv langeb.
+**Järele jäänud hc.css töö:**
+- `hc.css` login-modal + a11y-modal: VALMIS (viilud 2.1–2.2).
+- Järgmine: `!important` arvu täpne mõõtmine + võimalikud teised hajutatud HC ahelad.
+- Värav: `npm test` 967/13.
 
 ---
 
@@ -106,6 +108,9 @@ Faas 2 ja faas 4 tehakse **koos, ühe viiluna per primitiiv** (mitte eraldi glob
 ---
 
 ## Tehtud (krooniline)
+
+### Rada 1 viil 2.2 — login-modal HC ahel .no-click-pulse-le + token blokk  [`bf9b1e83`]  (15.06.2026)
+`hc.css`: `:is(.button,.btn,button[type="submit"],.no-click-pulse)` ahel asendatud kahega: (1) `html[data-contrast="hc"] #login-modal` token blokk (`--btn-primary-bg: rgba(9,14,24,0.74)`, hover/active/focus-shadow) — OTP `<Button>` saab BG tokenist; (2) `.no-click-pulse` eksplitsiitsed reeglid border-width/style/color + color. `@media (hover:none)` duplikaat eemaldatud. −3 selektorit, −6 !important deklaratsiooni. Testid: 967/13.
 
 ### Rada 1 viil 2.1 — a11y-modal redundantsed HC ahelad kustutatud  [`f4f0a20b`]  (15.06.2026)
 `hc.css` read 1149-1163: kustutatud 3 `!important`-ahelat (base + hover + focus-visible) `.a11y-csp-scroll :is(.button, .btn, button[type="submit"], input[type="submit"])` kontekstis. `AccessibilityModal.jsx`-l on üks `<Button>`, mis saab kõik HC väärtused `--btn-primary-*` tokenite kaudu (token blokk read 1063-1090 hc.css-is). Testid: 967/13.
