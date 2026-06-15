@@ -221,15 +221,15 @@ test("HC selected option cards keep a yellow fill after the generic glow reset",
   assert.ok(selectedOverrideIndex > genericResetIndex, "selected option card override must come after the generic reset");
   assert.match(
     hc.slice(selectedOverrideIndex),
-    /background:\s*rgba\(255,\s*234,\s*0,\s*0\.1\)\s*!important/
+    /background:\s*rgba\(var\(--hc-accent-rgb\),\s*0\.1\)\s*!important/
   );
   assert.match(
     hc.slice(selectedOverrideIndex),
-    /\[data-control-type\]\[data-checked="true"\]::before[\s\S]*?background:\s*rgba\(255,\s*234,\s*0,\s*0\.06\)\s*!important/
+    /\[data-control-type\]\[data-checked="true"\]::before[\s\S]*?background:\s*rgba\(var\(--hc-accent-rgb\),\s*0\.06\)\s*!important/
   );
   assert.match(
     hc.slice(selectedOverrideIndex),
-    /:is\(button,\s*\[role="button"\],\s*label\)\.ui-glow-option-card-frame\[data-checked="true"\][\s\S]*?background:\s*rgba\(255,\s*234,\s*0,\s*0\.1\)\s*!important/
+    /:is\(button,\s*\[role="button"\],\s*label\)\.ui-glow-option-card-frame\[data-checked="true"\][\s\S]*?background:\s*rgba\(var\(--hc-accent-rgb\),\s*0\.1\)\s*!important/
   );
   assert.match(
     glass,
@@ -309,6 +309,6 @@ test("HC service map toolbar placeholders are yellow", () => {
 
   assert.match(
     hc,
-    /\.service-map-workspace \.service-map-toolbar__input::placeholder,[\s\S]*?color:\s*rgba\(255,\s*234,\s*0,\s*0\.92\)\s*!important/
+    /\.service-map-workspace \.service-map-toolbar__input::placeholder,[\s\S]*?color:\s*rgba\(var\(--hc-accent-rgb\),\s*0\.92\)\s*!important/
   );
 });
