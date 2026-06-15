@@ -20,17 +20,32 @@
 - **AUTORITEETNE ARTEFAKT:** `reports/css-effective-audit/2026-06-13-authoritative.json` (37 route'i × 6 teemat × 4vp).
 - **Faas 2 — dropdown viil:** VALMIS (`ff8390cd`). Järgmine: **button (~99 hajutus)**.
 - **Faas 2 — button viilud 1.5–1.9:** VALMIS (15.06.2026). ghost/secondary = 0, mono mega-ahelad kustutatud. !important: 3769 → 3746 (−23). Järgmine: HC ahelad.
+- **HC ahelad viilud 2.1–2.8 VALMIS (15.06.2026).** !important: 3769 → 3649 (−120 sessiooniga). Testid: 967/13.
 
-## ⏳ POOLELI — järgmine: !important audit + järelejäänud hc.css ahelad (15.06.2026)
+## ⏳ POOLELI — järgmine: viil 2.9+ (15.06.2026)
 
 **Viil 2.1 VALMIS [`f4f0a20b`]:** a11y-modal 3 redundantset HC ahelat kustutatud.
 **Viil 2.2 VALMIS [`bf9b1e83`]:** login-modal ahel kitsendatud `.no-click-pulse`-le + `#login-modal` token blokk. OTP `<Button>` saab BG tokenist, PIN-klahvistik saab serva !important-reeglist.
 **Viil 2.3 VALMIS [`76acf708`]:** chat-analysis HC ahel kärpitud minimumini — `border: 2px solid ...` + `backdrop-filter: none` (ainulaadne, glassPrimaryButtonToneClassName nullib border tokeni). Kustutatud 18 rida redundantset !important.
 **Viil 2.4 VALMIS [`f06fd321`]:** `app/error.jsx` retry nupp migreeritud `<Button>` komponendile. 3-reaLine Tailwind duplikaat (baseStyles+primaryStyles koopia) eemaldatud.
 **Viil 2.5 VALMIS [`055d1d15`]:** `glassPrimaryButtonToneClassName` border-nulli kitsendatud `.theme-light:not(.theme-mid)` kontekstile. HC teema saab nüüd 2px kollase piiri klaas-lehtedel läbi token kaskaadi (enam ei nullita üle).
-**Viil 2.6 VALMIS:** `theme/hc.css` chat-analysis border-rida eemaldatud (token katab pärast viil 2.5). `features/chat/shell.css` 4-reegel (color+bg+border+shadow+::before+hover+active) → 1 reegel (ainult backdrop-filter). !important: 3676 → 3662 (−14). 967/13.
-**Viil 2.7 VALMIS:** `theme/hc.css` vana HC mega-ahel (30 rida, `hc-control-bg !important` + `border-color !important`) KUSTUTATUD. Token-põhine ahel (259-306) katab samad elemendid ilma `!important`-ta; kontekstispetsiifilised reeglid kaitsevad erandeid. NB: Edit tööriist tekitas CRLF – parandatud `sed -i` ENNE commiti. !important: 3662 → 3654 (−8). 967/13.
-**Viil 2.8 VALMIS:** `features/service-map/desktop.css` — kaks surnud `[data-variant="secondary"]` Button-ahelat kustutatud (JSX-is pole ühtegi `variant="secondary"` Button'it; kõik migreeritud → primary/danger viiludes 1.1-1.9). !important: 3654 → 3649 (−5). 967/13.
+**Viil 2.6 VALMIS [`8b1b017a`]:** `theme/hc.css` chat-analysis border-rida eemaldatud (token katab pärast viil 2.5). `features/chat/shell.css` 4-reegel (color+bg+border+shadow+::before+hover+active) → 1 reegel (ainult backdrop-filter). !important: 3676 → 3662 (−14). 967/13.
+**Viil 2.7 VALMIS [`cf45cadb`]:** `theme/hc.css` vana HC mega-ahel (30 rida, `hc-control-bg !important` + `border-color !important`) KUSTUTATUD. Token-põhine ahel (259-306) katab samad elemendid ilma `!important`-ta; kontekstispetsiifilised reeglid kaitsevad erandeid. NB: Edit tööriist tekitas CRLF – parandatud `sed -i` ENNE commiti. !important: 3662 → 3654 (−8). 967/13.
+**Viil 2.8 VALMIS [`29eabfe7`]:** `features/service-map/desktop.css` — kaks surnud `[data-variant="secondary"]` Button-ahelat kustutatud (JSX-is pole ühtegi `variant="secondary"` Button'it; kõik migreeritud → primary/danger viiludes 1.1-1.9). !important: 3654 → 3649 (−5). 967/13.
+
+### Viil 2.9+ — järgmise sihiotsing (sessioonilõpp)
+
+**Surnud selektor-kontrolli tulemused (15.06.2026):**
+- `ghost` ja `secondary` [data-variant] selekoreid CSS-is = **null** (kõik kustutatud).
+- `panel-surfaces.css` — VALE HINNANG logikirjes "peaaegu täielikult surnud". `ViewportLayoutSetter.jsx:33` seab `body.setAttribute("data-layout", "mobile")` → selektorid `html[data-layout="mobile"] body[data-layout="mobile"] ...` ON ELUSAD. Ära kustuta.
+- `app/styles/base/a11y.css` — 1-reaLine kommentaarfail ("Moved to ../theme/hc.css"), 0 !important, pole imporditud. Triviaalne, ei mõjuta arvu.
+- `components/chat-focus.css` ja `components/documents-mode.css` — auditeerimise "orphan" märge on ekslik. Testid loevad neid otse; `chat-focus.css` @impordib `features/chat/focus.css`; `documents-mode.css` on test-loader virtuaalbundle. Elusad.
+
+**Järgmised realistlikud sihtmärgid:**
+1. **hc.css subscription/materials/rooms ahel-grupp** (read ~475–600) — palju `color: var(--hc-accent) !important` ahelaid, kuid need on hetkel intentionaalsed (leheküljespetsiifilised HC tekstivärvid). Vaja analüüsi kas token katab.
+2. **chat/hc.css** (207 !important) — kõrge risk (a11y-kriitiline), Opus-töö.
+3. **Tokeniseerimine (Rada B viil 2.2+)**: `documents/ui.css` (110), `chat/themes.css` (93), `mid.css` (65) — suurim pikaajaline mõju, kuid vajab token-infrastruktuuri laiendust. Järjekord ja mall: `css-sonnet-execution-plan.md §viil 2.2+`.
+4. **`base/a11y.css` kustutus** — triviaalne, 0 !important, aga puhtam.
 
 **Eelmiste viilide lühikokkuvõte (1.5–1.9):**
 - viil 1.5: `.invite-primary-btn` eemaldus mono/hc `:is()`-loendist + JSX
