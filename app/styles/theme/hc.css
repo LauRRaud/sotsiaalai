@@ -55,6 +55,13 @@ body[data-a11y-scroll-lock="1"] #main {
   outline: none;
 }
 
+/* HC accent as an rgb channel triple, so rgba(var(--hc-accent-rgb), a) replaces
+   the hardcoded rgba(255, 234, 0, a) literals (tokenization). Defined on the HC
+   root so every HC-scoped descendant inherits it. */
+html[data-contrast="hc"] {
+  --hc-accent-rgb: 255, 234, 0;
+}
+
 /* Materials page in HC: keep strong contrast, remove decorative glow from large surfaces. */
 html[data-contrast="hc"] .materials-page-shell {
   --subpage-card-bg: var(--workspace-elevated-card-bg);
@@ -64,17 +71,17 @@ html[data-contrast="hc"] .materials-page-shell {
   --input-bg-focus: rgba(10, 16, 27, 0.94);
   --input-flat-bg: rgba(8, 9, 12, 0.68);
   --input-flat-bg-hover: rgba(12, 13, 16, 0.76);
-  --input-border: 2px solid rgba(255, 234, 0, 0.72);
+  --input-border: 2px solid rgba(var(--hc-accent-rgb),0.72);
   --input-shadow: none;
   --input-shadow-hover: none;
   --panel-secondary-bg: var(--workspace-elevated-card-bg, var(--input-flat-bg));
   --panel-secondary-bg-hover: var(--workspace-elevated-card-bg-hover, var(--input-flat-bg-hover));
-  --panel-secondary-border: rgba(255, 234, 0, 0.72);
+  --panel-secondary-border: rgba(var(--hc-accent-rgb),0.72);
   --panel-secondary-shadow: none;
-  --hc-focus-ring: rgba(255, 234, 0, 0.58);
-  --focus-ring: rgba(255, 234, 0, 0.5);
+  --hc-focus-ring: rgba(var(--hc-accent-rgb),0.58);
+  --focus-ring: rgba(var(--hc-accent-rgb),0.5);
   --input-text: var(--hc-accent);
-  --input-placeholder: rgba(255, 234, 0, 0.92);
+  --input-placeholder: rgba(var(--hc-accent-rgb),0.92);
   --input-caret: var(--hc-accent);
 }
 
@@ -106,16 +113,16 @@ html[data-contrast="hc"]:not(.theme-light) .homepage-root {
   --home-scroll-cue-color: var(--hc-accent);
   --home-panel-shadow-idle:
     0 0 12px rgba(255, 245, 160, 0.22),
-    0 0 24px rgba(255, 234, 0, 0.1);
+    0 0 24px rgba(var(--hc-accent-rgb),0.1);
   --home-panel-shadow-active:
     0 0 14px rgba(255, 248, 186, 0.26),
-    0 0 28px rgba(255, 234, 0, 0.12);
+    0 0 28px rgba(var(--hc-accent-rgb),0.12);
   --home-card-glow-idle:
     0 0 11px rgba(255, 245, 160, 0.22),
-    0 0 22px rgba(255, 234, 0, 0.1);
+    0 0 22px rgba(var(--hc-accent-rgb),0.1);
   --home-card-glow-active:
     0 0 13px rgba(255, 248, 186, 0.26),
-    0 0 26px rgba(255, 234, 0, 0.12);
+    0 0 26px rgba(var(--hc-accent-rgb),0.12);
   --home-card-shadow-idle: var(--home-card-glow-idle);
   --home-card-shadow-active: var(--home-card-glow-active);
 }
@@ -126,9 +133,9 @@ html[data-contrast="hc"] .homepage-root .home-about-panel {
 
 html[data-contrast="hc"] :is(.register-success-shell, .error-page-shell) {
   --btn-primary-text: var(--hc-accent);
-  --btn-primary-border: 2px solid rgba(255, 234, 0, 0.72);
-  --btn-primary-border-hover: 2px solid rgba(255, 234, 0, 0.92);
-  --btn-primary-border-active: 2px solid rgba(255, 234, 0, 0.96);
+  --btn-primary-border: 2px solid rgba(var(--hc-accent-rgb),0.72);
+  --btn-primary-border-hover: 2px solid rgba(var(--hc-accent-rgb),0.92);
+  --btn-primary-border-active: 2px solid rgba(var(--hc-accent-rgb),0.96);
 }
 
 html[data-contrast="hc"] .register-success-shell .register-success-panel {
@@ -265,7 +272,7 @@ html[data-contrast="hc"]
   ):not(.chat-tools-btn):not(.chat-document-attach-btn):not(.chat-dictate-btn):not(.chat-listen-btn):not(.chat-assistant-action-btn):not(.chat-analysis-close-btn):not(.card-face):not(.dock-item):not(.back-button):not(.chat-back-button):not(.profile-logout-button) {
   background: var(--btn-primary-bg, var(--form-surface, var(--hc-surface)));
   color: var(--btn-primary-text, var(--hc-text));
-  border: var(--btn-primary-border, 2px solid var(--hc-border, rgba(255, 234, 0, 0.66)));
+  border: var(--btn-primary-border, 2px solid var(--hc-border, rgba(var(--hc-accent-rgb),0.66)));
   box-shadow: var(--btn-primary-shadow, var(--input-shadow, none));
   text-shadow: none;
 }
@@ -300,7 +307,7 @@ html[data-contrast="hc"]
     :disabled
   ) {
   background: var(--btn-primary-bg-active, var(--btn-primary-bg-hover, var(--form-surface-hover, var(--hc-surface))));
-  border: var(--btn-primary-border-active, var(--btn-primary-border, 2px solid var(--hc-border, rgba(255, 234, 0, 0.66))));
+  border: var(--btn-primary-border-active, var(--btn-primary-border, 2px solid var(--hc-border, rgba(var(--hc-accent-rgb),0.66))));
   color: var(--btn-primary-text, var(--hc-text));
   box-shadow: var(--btn-primary-shadow-active, var(--btn-primary-shadow-hover, var(--btn-primary-shadow, var(--input-shadow, none))));
 }
@@ -359,7 +366,7 @@ html[data-contrast="hc"]
   ) {
   background: var(--form-surface, var(--hc-surface));
   color: var(--hc-text);
-  border: 2px solid var(--hc-border-soft, rgba(255, 234, 0, 0.9));
+  border: 2px solid var(--hc-border-soft, rgba(var(--hc-accent-rgb),0.9));
   box-shadow: none !important;
   outline: none;
 }
@@ -387,7 +394,7 @@ html[data-contrast="hc"] .materials-page-shell :is(
   .materials-upload-panel,
   .materials-admin-panel
 ) {
-  border: 2px solid rgba(255, 234, 0, 0.68) !important;
+  border: 2px solid rgba(var(--hc-accent-rgb),0.68) !important;
   box-shadow: none !important;
 }
 html[data-contrast="hc"] :is(
@@ -403,7 +410,7 @@ html[data-contrast="hc"]
   outline: none;
 }
 html[data-contrast="hc"] #nav-meist {
-  border: 2px solid var(--hc-border, rgba(255, 234, 0, 0.66));
+  border: 2px solid var(--hc-border, rgba(var(--hc-accent-rgb),0.66));
   border-radius: 62.4375rem;
   color: var(--hc-accent);
   background: inherit;
@@ -419,11 +426,11 @@ html[data-contrast="hc"] .homepage-root .home-about-title {
   color: var(--hc-accent) !important;
 }
 html[data-contrast="hc"] .subscription-content {
-  --hc-focus-ring: rgba(255, 234, 0, 0.58);
-  --focus-ring: rgba(255, 234, 0, 0.5);
-  --btn-primary-border: 2px solid rgba(255, 234, 0, 0.66);
-  --btn-primary-border-hover: 2px solid rgba(255, 234, 0, 0.9);
-  --btn-primary-border-active: 2px solid rgba(255, 234, 0, 0.95);
+  --hc-focus-ring: rgba(var(--hc-accent-rgb),0.58);
+  --focus-ring: rgba(var(--hc-accent-rgb),0.5);
+  --btn-primary-border: 2px solid rgba(var(--hc-accent-rgb),0.66);
+  --btn-primary-border-hover: 2px solid rgba(var(--hc-accent-rgb),0.9);
+  --btn-primary-border-active: 2px solid rgba(var(--hc-accent-rgb),0.95);
   --btn-primary-text: var(--hc-accent);
   --btn-primary-bg:
     radial-gradient(
@@ -441,8 +448,8 @@ html[data-contrast="hc"] .subscription-content {
   --btn-primary-bg-hover:
     linear-gradient(
       0deg,
-      rgba(255, 234, 0, 0.045) 0%,
-      rgba(255, 234, 0, 0.045) 100%
+      rgba(var(--hc-accent-rgb),0.045) 0%,
+      rgba(var(--hc-accent-rgb),0.045) 100%
     ),
     radial-gradient(
       82% 66% at 50% -14%,
@@ -459,8 +466,8 @@ html[data-contrast="hc"] .subscription-content {
   --btn-primary-bg-active:
     linear-gradient(
       0deg,
-      rgba(255, 234, 0, 0.07) 0%,
-      rgba(255, 234, 0, 0.07) 100%
+      rgba(var(--hc-accent-rgb),0.07) 0%,
+      rgba(var(--hc-accent-rgb),0.07) 100%
     ),
     radial-gradient(
       82% 66% at 50% -14%,
@@ -486,7 +493,7 @@ html[data-contrast="hc"] .subscription-content {
   --btn-primary-shadow-focus:
     inset 0 1px 0 rgba(220, 236, 255, 0.16),
     0 8px 18px rgba(2, 6, 16, 0.32),
-    0 0 0 2px rgba(255, 234, 0, 0.44);
+    0 0 0 2px rgba(var(--hc-accent-rgb),0.44);
 }
 html[data-contrast="hc"] .subscription-content :is(
     h1,
@@ -515,7 +522,7 @@ html[data-contrast="hc"] :is(.subscription-modal-content, .invite-modal-content,
 }
 html[data-contrast="hc"] .subscription-content :is(.fancy-checkbox--otp .box, .fancy-checkbox--otp .tick) {
   background: transparent !important;
-  border-color: rgba(255, 234, 0, 0.7) !important;
+  border-color: rgba(var(--hc-accent-rgb),0.7) !important;
   stroke: var(--hc-accent) !important;
   box-shadow: none !important;
 }
@@ -523,7 +530,7 @@ html[data-contrast="hc"] .subscription-content .fancy-checkbox--otp .text {
   color: var(--hc-accent) !important;
 }
 html[data-contrast="hc"] .subscription-content .subscription-active-panel {
-  border-color: rgba(255, 234, 0, 0.58) !important;
+  border-color: rgba(var(--hc-accent-rgb),0.58) !important;
   background: rgba(14, 20, 32, 0.38) !important;
   box-shadow: none !important;
 }
@@ -567,10 +574,10 @@ html[data-contrast="hc"] .materials-page-shell .back-button:is(:hover, :focus-vi
 html[data-contrast="hc"] .materials-page-shell :is(textarea, input:not([type="hidden"])) {
   color: var(--hc-accent) !important;
   caret-color: var(--hc-accent) !important;
-  border-color: rgba(255, 234, 0, 0.68) !important;
+  border-color: rgba(var(--hc-accent-rgb),0.68) !important;
 }
 html[data-contrast="hc"] .materials-page-shell :is(textarea, input:not([type="hidden"]))::placeholder {
-  color: rgba(255, 234, 0, 0.92) !important;
+  color: rgba(var(--hc-accent-rgb),0.92) !important;
 }
 html[data-contrast="hc"] .rooms-scroll :is(
     h1,
@@ -590,14 +597,14 @@ html[data-contrast="hc"] .rooms-scroll :is(
   color: var(--hc-accent) !important;
 }
 html[data-contrast="hc"] .rooms-delete-btn {
-  border-color: rgba(255, 234, 0, 0.66) !important;
+  border-color: rgba(var(--hc-accent-rgb),0.66) !important;
   background: rgba(14, 20, 32, 0.34) !important;
   color: var(--hc-accent) !important;
   box-shadow: none !important;
 }
 html[data-contrast="hc"] .rooms-delete-btn:is(:hover, :focus-visible, :active) {
-  border-color: rgba(255, 234, 0, 0.92) !important;
-  background: rgba(255, 234, 0, 0.14) !important;
+  border-color: rgba(var(--hc-accent-rgb),0.92) !important;
+  background: rgba(var(--hc-accent-rgb),0.14) !important;
   color: var(--hc-accent) !important;
 }
 html[data-contrast="hc"] .rooms-delete-btn svg :is(path, polyline, line) {
@@ -611,39 +618,39 @@ html[data-contrast="hc"] :is(
     .update-email-content,
     .reset-password-content
   ) {
-  --hc-focus-ring: rgba(255, 234, 0, 0.58);
-  --focus-ring: rgba(255, 234, 0, 0.5);
-  --input-border: 2px solid rgba(255, 234, 0, 0.68);
+  --hc-focus-ring: rgba(var(--hc-accent-rgb),0.58);
+  --focus-ring: rgba(var(--hc-accent-rgb),0.5);
+  --input-border: 2px solid rgba(var(--hc-accent-rgb),0.68);
   --input-text: var(--hc-accent);
-  --input-placeholder: rgba(255, 234, 0, 0.92);
+  --input-placeholder: rgba(var(--hc-accent-rgb),0.92);
   --input-caret: var(--hc-accent);
   --input-bg: var(--form-surface);
   --input-bg-hover: var(--form-surface-hover);
   --input-bg-focus: var(--form-surface-active);
-  --seg-card-border: rgba(255, 234, 0, 0.62);
+  --seg-card-border: rgba(var(--hc-accent-rgb),0.62);
   --seg-card-border-width: 2px;
   --seg-card-text: var(--hc-accent);
   --seg-card-text-hover: var(--hc-accent);
   --seg-card-text-selected: var(--hc-accent);
   --seg-card-bg: var(--form-surface);
-  --seg-card-bg-hover: rgba(255, 234, 0, 0.14);
-  --seg-card-bg-selected: rgba(255, 234, 0, 0.16);
+  --seg-card-bg-hover: rgba(var(--hc-accent-rgb),0.14);
+  --seg-card-bg-selected: rgba(var(--hc-accent-rgb),0.16);
   --seg-card-shadow: none;
-  --seg-card-shadow-hover: 0 0 0 1px rgba(255, 234, 0, 0.46);
-  --seg-card-shadow-selected: 0 0 0 1px rgba(255, 234, 0, 0.78);
+  --seg-card-shadow-hover: 0 0 0 1px rgba(var(--hc-accent-rgb),0.46);
+  --seg-card-shadow-selected: 0 0 0 1px rgba(var(--hc-accent-rgb),0.78);
   --seg-radio-bg: var(--form-surface);
-  --seg-radio-border: rgba(255, 234, 0, 0.7);
-  --seg-radio-inner-ring: inset 0 0 0 1px rgba(255, 234, 0, 0.28);
+  --seg-radio-border: rgba(var(--hc-accent-rgb),0.7);
+  --seg-radio-inner-ring: inset 0 0 0 1px rgba(var(--hc-accent-rgb),0.28);
   --seg-radio-dot-bg: var(--hc-accent);
-  --seg-radio-dot-shadow: 0 0 8px rgba(255, 234, 0, 0.34);
+  --seg-radio-dot-shadow: 0 0 8px rgba(var(--hc-accent-rgb),0.34);
   --panel-secondary-bg: var(--input-bg);
-  --panel-secondary-border: rgba(255, 234, 0, 0.52);
+  --panel-secondary-border: rgba(var(--hc-accent-rgb),0.52);
   --panel-secondary-shadow: none;
-  --chat-invite-list-border: rgba(255, 234, 0, 0.48);
+  --chat-invite-list-border: rgba(var(--hc-accent-rgb),0.48);
   --chat-invite-shadow: none;
-  --btn-primary-border: 2px solid rgba(255, 234, 0, 0.66);
-  --btn-primary-border-hover: 2px solid rgba(255, 234, 0, 0.9);
-  --btn-primary-border-active: 2px solid rgba(255, 234, 0, 0.95);
+  --btn-primary-border: 2px solid rgba(var(--hc-accent-rgb),0.66);
+  --btn-primary-border-hover: 2px solid rgba(var(--hc-accent-rgb),0.9);
+  --btn-primary-border-active: 2px solid rgba(var(--hc-accent-rgb),0.95);
   --btn-primary-text: var(--hc-accent);
   --btn-primary-bg:
     radial-gradient(
@@ -661,8 +668,8 @@ html[data-contrast="hc"] :is(
   --btn-primary-bg-hover:
     linear-gradient(
       0deg,
-      rgba(255, 234, 0, 0.045) 0%,
-      rgba(255, 234, 0, 0.045) 100%
+      rgba(var(--hc-accent-rgb),0.045) 0%,
+      rgba(var(--hc-accent-rgb),0.045) 100%
     ),
     radial-gradient(
       82% 66% at 50% -14%,
@@ -679,8 +686,8 @@ html[data-contrast="hc"] :is(
   --btn-primary-bg-active:
     linear-gradient(
       0deg,
-      rgba(255, 234, 0, 0.07) 0%,
-      rgba(255, 234, 0, 0.07) 100%
+      rgba(var(--hc-accent-rgb),0.07) 0%,
+      rgba(var(--hc-accent-rgb),0.07) 100%
     ),
     radial-gradient(
       82% 66% at 50% -14%,
@@ -706,7 +713,7 @@ html[data-contrast="hc"] :is(
   --btn-primary-shadow-focus:
     inset 0 1px 0 rgba(220, 236, 255, 0.16),
     0 8px 18px rgba(2, 6, 16, 0.32),
-    0 0 0 2px rgba(255, 234, 0, 0.5);
+    0 0 0 2px rgba(var(--hc-accent-rgb),0.5);
 }
 html[data-contrast="hc"] :is(
     .register-content,
@@ -730,7 +737,7 @@ html[data-contrast="hc"] :is(
   :is(input, textarea, select, .register-input) {
   color: var(--hc-accent) !important;
   caret-color: var(--hc-accent) !important;
-  border-color: rgba(255, 234, 0, 0.68) !important;
+  border-color: rgba(var(--hc-accent-rgb),0.68) !important;
 }
 html[data-contrast="hc"] :is(
     .register-content,
@@ -741,7 +748,7 @@ html[data-contrast="hc"] :is(
     .reset-password-content
   )
   :is(input, textarea, select, .register-input)::placeholder {
-  color: rgba(255, 234, 0, 0.92) !important;
+  color: rgba(var(--hc-accent-rgb),0.92) !important;
 }
 
 html[data-contrast="hc"] :is(
@@ -767,9 +774,9 @@ html[data-contrast="hc"] :is(
   )
   [data-control-type][data-checked="true"] {
   color: var(--hc-accent) !important;
-  background: rgba(255, 234, 0, 0.1) !important;
-  border-color: rgba(255, 234, 0, 0.94) !important;
-  box-shadow: 0 0 0 1px rgba(255, 234, 0, 0.64) !important;
+  background: rgba(var(--hc-accent-rgb),0.1) !important;
+  border-color: rgba(var(--hc-accent-rgb),0.94) !important;
+  box-shadow: 0 0 0 1px rgba(var(--hc-accent-rgb),0.64) !important;
 }
 html[data-contrast="hc"] :is(
     .register-content,
@@ -781,27 +788,27 @@ html[data-contrast="hc"] :is(
     .chat-analysis-overlay .chat-analysis-overlay-card
   )
   [data-control-type][data-checked="false"] {
-  border-color: rgba(255, 234, 0, 0.62) !important;
+  border-color: rgba(var(--hc-accent-rgb),0.62) !important;
 }
 
 html[data-contrast="hc"] .invite-modal-content [data-control-type][data-checked="true"],
 html[data-contrast="hc"] .person-invite-modal-content [data-control-type][data-checked="true"] {
-  --hc-control-bg: rgba(255, 234, 0, 0.1) !important;
-  --hc-control-bg-hover: rgba(255, 234, 0, 0.12) !important;
-  --hc-control-bg-active: rgba(255, 234, 0, 0.14) !important;
-  --btn-primary-bg: rgba(255, 234, 0, 0.1) !important;
-  --btn-primary-bg-hover: rgba(255, 234, 0, 0.12) !important;
-  --btn-primary-bg-active: rgba(255, 234, 0, 0.14) !important;
-  background: rgba(255, 234, 0, 0.1) !important;
-  background-color: rgba(255, 234, 0, 0.1) !important;
-  border-color: rgba(255, 234, 0, 0.94) !important;
-  box-shadow: inset 0 0 0 1px rgba(255, 234, 0, 0.64) !important;
+  --hc-control-bg: rgba(var(--hc-accent-rgb),0.1) !important;
+  --hc-control-bg-hover: rgba(var(--hc-accent-rgb),0.12) !important;
+  --hc-control-bg-active: rgba(var(--hc-accent-rgb),0.14) !important;
+  --btn-primary-bg: rgba(var(--hc-accent-rgb),0.1) !important;
+  --btn-primary-bg-hover: rgba(var(--hc-accent-rgb),0.12) !important;
+  --btn-primary-bg-active: rgba(var(--hc-accent-rgb),0.14) !important;
+  background: rgba(var(--hc-accent-rgb),0.1) !important;
+  background-color: rgba(var(--hc-accent-rgb),0.1) !important;
+  border-color: rgba(var(--hc-accent-rgb),0.94) !important;
+  box-shadow: inset 0 0 0 1px rgba(var(--hc-accent-rgb),0.64) !important;
 }
 
 html[data-contrast="hc"] .invite-modal-content [data-control-type][data-checked="true"]::before,
 html[data-contrast="hc"] .person-invite-modal-content [data-control-type][data-checked="true"]::before {
   opacity: 1 !important;
-  background: rgba(255, 234, 0, 0.12) !important;
+  background: rgba(var(--hc-accent-rgb),0.12) !important;
 }
 html[data-contrast="hc"] body .chat-analysis-panel-card .chat-analysis-action-btn.button[data-variant="primary"] {
   -webkit-backdrop-filter: none !important;
@@ -809,10 +816,10 @@ html[data-contrast="hc"] body .chat-analysis-panel-card .chat-analysis-action-bt
 }
 html[data-contrast="hc"] .invite-modal-content .invite-list-panel {
   color: var(--hc-accent) !important;
-  border: 2px solid rgba(255, 234, 0, 0.66) !important;
+  border: 2px solid rgba(var(--hc-accent-rgb),0.66) !important;
 }
 html[data-contrast="hc"] .invite-modal-content .invite-list-row {
-  border-color: rgba(255, 234, 0, 0.4) !important;
+  border-color: rgba(var(--hc-accent-rgb),0.4) !important;
   background: var(--chat-card-surface-night-flat-bg, var(--form-surface)) !important;
 }
 html[data-contrast="hc"] .help-listings-modal-content .help-listings-panel {
@@ -825,61 +832,61 @@ html[data-contrast="hc"] .help-listings-modal-content .help-listings-panel {
 }
 html[data-contrast="hc"] .help-listings-modal-content .help-listings-item-card {
   color: var(--hc-accent) !important;
-  border-color: rgba(255, 234, 0, 0.4) !important;
+  border-color: rgba(var(--hc-accent-rgb),0.4) !important;
   background: var(--chat-card-surface-night-flat-bg, rgba(9, 14, 24, 0.84)) !important;
   box-shadow: none !important;
 }
 html[data-contrast="hc"] .help-listings-modal-content .help-listings-item-card:is(:hover, :focus-visible, :focus-within) {
-  border-color: rgba(255, 234, 0, 0.72) !important;
+  border-color: rgba(var(--hc-accent-rgb),0.72) !important;
   background: var(--chat-card-surface-night-flat-bg, rgba(10, 16, 27, 0.92)) !important;
   box-shadow: none !important;
 }
 html[data-contrast="hc"] #login-modal {
-  --hc-border: rgba(255, 234, 0, 0.64);
-  --hc-border-soft: rgba(255, 234, 0, 0.9);
-  --hc-focus-ring: rgba(255, 234, 0, 0.58);
-  --focus-ring: rgba(255, 234, 0, 0.5);
+  --hc-border: rgba(var(--hc-accent-rgb),0.64);
+  --hc-border-soft: rgba(var(--hc-accent-rgb),0.9);
+  --hc-focus-ring: rgba(var(--hc-accent-rgb),0.58);
+  --focus-ring: rgba(var(--hc-accent-rgb),0.5);
   --link-color: var(--hc-accent);
   --link-brand-text: var(--hc-accent);
-  --link-brand-border-hover: rgba(255, 234, 0, 0.9);
-  --link-brand-shadow-hover: rgba(255, 234, 0, 0.22);
+  --link-brand-border-hover: rgba(var(--hc-accent-rgb),0.9);
+  --link-brand-shadow-hover: rgba(var(--hc-accent-rgb),0.22);
   --home-link-color: var(--hc-accent);
-  --input-border: 2px solid rgba(255, 234, 0, 0.68);
+  --input-border: 2px solid rgba(var(--hc-accent-rgb),0.68);
   --input-text: var(--hc-accent);
-  --input-placeholder: rgba(255, 234, 0, 0.92);
+  --input-placeholder: rgba(var(--hc-accent-rgb),0.92);
   --input-caret: var(--hc-accent);
   --input-bg: rgba(9, 14, 24, 0.78);
   --input-bg-hover: rgba(10, 16, 27, 0.84);
   --input-bg-focus: rgba(10, 16, 27, 0.88);
   --input-shadow: none;
   --input-shadow-hover: none;
-  --btn-primary-border: 2px solid rgba(255, 234, 0, 0.66);
-  --btn-primary-border-hover: 2px solid rgba(255, 234, 0, 0.9);
-  --btn-primary-border-active: 2px solid rgba(255, 234, 0, 0.95);
+  --btn-primary-border: 2px solid rgba(var(--hc-accent-rgb),0.66);
+  --btn-primary-border-hover: 2px solid rgba(var(--hc-accent-rgb),0.9);
+  --btn-primary-border-active: 2px solid rgba(var(--hc-accent-rgb),0.95);
   --btn-primary-text: var(--hc-accent);
   --btn-primary-bg: rgba(9, 14, 24, 0.74);
-  --btn-primary-bg-hover: rgba(255, 234, 0, 0.18);
-  --btn-primary-bg-active: rgba(255, 234, 0, 0.22);
+  --btn-primary-bg-hover: rgba(var(--hc-accent-rgb),0.18);
+  --btn-primary-bg-active: rgba(var(--hc-accent-rgb),0.22);
   --btn-primary-shadow: none;
   --btn-primary-shadow-hover: none;
   --btn-primary-shadow-active: none;
-  --btn-primary-shadow-focus: 0 0 0 2px rgba(255, 234, 0, 0.44);
+  --btn-primary-shadow-focus: 0 0 0 2px rgba(var(--hc-accent-rgb),0.44);
 }
 html[data-contrast="hc"] #login-modal.login-modal--otp {
   --otp-panel-bg: rgba(14, 20, 32, 0.42);
-  --otp-panel-border: rgba(255, 234, 0, 0.62);
+  --otp-panel-border: rgba(var(--hc-accent-rgb),0.62);
   --otp-panel-shadow: none;
   --otp-input-bg: rgba(9, 14, 24, 0.76);
-  --otp-input-border: rgba(255, 234, 0, 0.68);
+  --otp-input-border: rgba(var(--hc-accent-rgb),0.68);
   --otp-accent: var(--hc-accent);
 }
 html[data-contrast="hc"] #login-modal {
   --login-pin-key-shadow:
     0 4px 9px rgba(2, 6, 16, 0.13),
     0 1px 1px rgba(15, 23, 42, 0.065),
-    0 0 8px rgba(255, 234, 0, 0.18),
-    0 6px 9px -5px rgba(255, 234, 0, 0.34),
-    0 12px 15px -14px rgba(255, 234, 0, 0.26),
+    0 0 8px rgba(var(--hc-accent-rgb),0.18),
+    0 6px 9px -5px rgba(var(--hc-accent-rgb),0.34),
+    0 12px 15px -14px rgba(var(--hc-accent-rgb),0.26),
     inset 0 0 0 var(--pin-border-w) rgba(30, 40, 58, 0.52),
     inset 0 1px 0 rgba(255, 255, 255, 0.04),
     inset 0 -1px 0 rgba(2, 6, 16, 0.19);
@@ -887,15 +894,15 @@ html[data-contrast="hc"] #login-modal {
     0 4px 9px rgba(2, 6, 16, 0.13),
     0 1px 1px rgba(15, 23, 42, 0.065),
     0 0 10px rgba(255, 248, 186, 0.22),
-    0 7px 10px -5px rgba(255, 234, 0, 0.4),
-    0 14px 17px -14px rgba(255, 234, 0, 0.3),
+    0 7px 10px -5px rgba(var(--hc-accent-rgb),0.4),
+    0 14px 17px -14px rgba(var(--hc-accent-rgb),0.3),
     inset 0 0 0 var(--pin-border-w) rgba(30, 40, 58, 0.52),
     inset 0 1px 0 rgba(255, 255, 255, 0.04),
     inset 0 -1px 0 rgba(2, 6, 16, 0.19);
 }
 html[data-contrast="hc"] #login-modal .login-modal-shell {
   color: var(--hc-accent) !important;
-  border-color: rgba(255, 234, 0, 0.56) !important;
+  border-color: rgba(var(--hc-accent-rgb),0.56) !important;
 }
 html[data-contrast="hc"] #login-modal.login-modal--otp .login-modal-shell {
   background: rgba(9, 14, 24, 0.74) !important;
@@ -910,12 +917,12 @@ html[data-contrast="hc"] #login-modal :is(h1, h2, h3, h4, p, span, label, legend
 html[data-contrast="hc"] #login-modal :is(input:not([type="hidden"]):not([aria-hidden="true"]), textarea, select) {
   color: var(--hc-accent) !important;
   caret-color: var(--hc-accent) !important;
-  border-color: rgba(255, 234, 0, 0.68) !important;
+  border-color: rgba(var(--hc-accent-rgb),0.68) !important;
   background: rgba(9, 14, 24, 0.78) !important;
   box-shadow: none !important;
 }
 html[data-contrast="hc"] #login-modal :is(input:not([type="hidden"]):not([aria-hidden="true"]), textarea, select)::placeholder {
-  color: rgba(255, 234, 0, 0.92) !important;
+  color: rgba(var(--hc-accent-rgb),0.92) !important;
 }
 html[data-contrast="hc"] #login-modal.login-modal--otp .login-otp-content :is(p, span, label, strong, em, a, button) {
   color: var(--hc-accent) !important;
@@ -927,13 +934,13 @@ html[data-contrast="hc"] #login-modal.login-modal--otp .login-otp-remember {
 }
 html[data-contrast="hc"] #login-modal {
   --btn-primary-bg: rgba(9, 14, 24, 0.74);
-  --btn-primary-bg-hover: rgba(255, 234, 0, 0.14);
-  --btn-primary-bg-active: rgba(255, 234, 0, 0.14);
-  --btn-primary-shadow-focus: 0 0 0 2px rgba(255, 234, 0, 0.52);
+  --btn-primary-bg-hover: rgba(var(--hc-accent-rgb),0.14);
+  --btn-primary-bg-active: rgba(var(--hc-accent-rgb),0.14);
+  --btn-primary-shadow-focus: 0 0 0 2px rgba(var(--hc-accent-rgb),0.52);
 }
 html[data-contrast="hc"] #login-modal .no-click-pulse {
   color: var(--hc-accent) !important;
-  border-color: rgba(255, 234, 0, 0.66) !important;
+  border-color: rgba(var(--hc-accent-rgb),0.66) !important;
   background: rgba(9, 14, 24, 0.74) !important;
   border-width: 2px !important;
   border-style: solid !important;
@@ -941,21 +948,21 @@ html[data-contrast="hc"] #login-modal .no-click-pulse {
 }
 @media (hover: hover) {
   html[data-contrast="hc"] #login-modal .no-click-pulse:hover {
-    border-color: rgba(255, 234, 0, 0.92) !important;
-    background: rgba(255, 234, 0, 0.14) !important;
+    border-color: rgba(var(--hc-accent-rgb),0.92) !important;
+    background: rgba(var(--hc-accent-rgb),0.14) !important;
     box-shadow: none !important;
   }
 }
 html[data-contrast="hc"] #login-modal .no-click-pulse:focus-visible {
-  border-color: rgba(255, 234, 0, 0.66) !important;
+  border-color: rgba(var(--hc-accent-rgb),0.66) !important;
   background: rgba(14, 20, 32, 0.34) !important;
   box-shadow: none !important;
-  outline: 2px solid rgba(255, 234, 0, 0.82) !important;
+  outline: 2px solid rgba(var(--hc-accent-rgb),0.82) !important;
   outline-offset: 3px !important;
 }
 html[data-contrast="hc"] #login-modal .no-click-pulse:active {
-  border-color: rgba(255, 234, 0, 0.92) !important;
-  background: rgba(255, 234, 0, 0.14) !important;
+  border-color: rgba(var(--hc-accent-rgb),0.92) !important;
+  background: rgba(var(--hc-accent-rgb),0.14) !important;
   box-shadow: none !important;
 }
 html[data-contrast="hc"] #login-modal .login-keypad-btn {
@@ -982,7 +989,7 @@ html[data-contrast="hc"] #login-modal .pin-layout-toggle:is(:hover, :focus-visib
 }
 @media (hover: none) {
   html[data-contrast="hc"] #login-modal .no-click-pulse:hover {
-    border-color: rgba(255, 234, 0, 0.66) !important;
+    border-color: rgba(var(--hc-accent-rgb),0.66) !important;
     background: rgba(14, 20, 32, 0.34) !important;
     box-shadow: none !important;
   }
@@ -1014,16 +1021,16 @@ html[data-contrast="hc"] #login-modal .login-submit-icon :is(path, circle, line,
 }
 html[data-contrast="hc"] #login-modal .login-submit-dots > span {
   background-color: var(--hc-accent) !important;
-  box-shadow: 0 0 0.32rem rgba(255, 234, 0, 0.34) !important;
+  box-shadow: 0 0 0.32rem rgba(var(--hc-accent-rgb),0.34) !important;
 }
 html[data-contrast="hc"] #login-modal .login-help-popover {
   color: var(--hc-accent) !important;
-  border-color: rgba(255, 234, 0, 0.62) !important;
+  border-color: rgba(var(--hc-accent-rgb),0.62) !important;
   box-shadow: none !important;
 }
 html[data-contrast="hc"] #login-modal :is(.fancy-checkbox--otp .box, .fancy-checkbox--otp .tick) {
   background: transparent !important;
-  border-color: rgba(255, 234, 0, 0.7) !important;
+  border-color: rgba(var(--hc-accent-rgb),0.7) !important;
   stroke: var(--hc-accent) !important;
 }
 html[data-contrast="hc"] #login-modal :is(.fancy-checkbox--otp .text, #otp-deadline) {
@@ -1039,33 +1046,33 @@ html[data-contrast="hc"] .register-mobile-ring .csp-chevron-icon {
   color: var(--hc-accent) !important;
 }
 html[data-contrast="hc"] .a11y-modal-shell .a11y-csp-scroll {
-  --hc-focus-ring: rgba(255, 234, 0, 0.58);
-  --input-border: 2px solid rgba(255, 234, 0, 0.68);
+  --hc-focus-ring: rgba(var(--hc-accent-rgb),0.58);
+  --input-border: 2px solid rgba(var(--hc-accent-rgb),0.68);
   --input-text: var(--hc-accent);
-  --input-placeholder: rgba(255, 234, 0, 0.92);
+  --input-placeholder: rgba(var(--hc-accent-rgb),0.92);
   --input-caret: var(--hc-accent);
   --input-bg: var(--form-surface);
   --input-bg-hover: var(--form-surface-hover);
   --input-bg-focus: var(--form-surface-active);
-  --seg-card-border: rgba(255, 234, 0, 0.62);
+  --seg-card-border: rgba(var(--hc-accent-rgb),0.62);
   --seg-card-border-width: 2px;
   --seg-card-text: var(--hc-accent);
   --seg-card-text-hover: var(--hc-accent);
   --seg-card-text-selected: var(--hc-accent);
   --seg-card-bg: var(--form-surface);
-  --seg-card-bg-hover: rgba(255, 234, 0, 0.14);
-  --seg-card-bg-selected: rgba(255, 234, 0, 0.16);
+  --seg-card-bg-hover: rgba(var(--hc-accent-rgb),0.14);
+  --seg-card-bg-selected: rgba(var(--hc-accent-rgb),0.16);
   --seg-card-shadow: none;
-  --seg-card-shadow-hover: 0 0 0 1px rgba(255, 234, 0, 0.46);
-  --seg-card-shadow-selected: 0 0 0 1px rgba(255, 234, 0, 0.78);
+  --seg-card-shadow-hover: 0 0 0 1px rgba(var(--hc-accent-rgb),0.46);
+  --seg-card-shadow-selected: 0 0 0 1px rgba(var(--hc-accent-rgb),0.78);
   --seg-radio-bg: var(--form-surface);
-  --seg-radio-border: rgba(255, 234, 0, 0.7);
-  --seg-radio-inner-ring: inset 0 0 0 1px rgba(255, 234, 0, 0.28);
+  --seg-radio-border: rgba(var(--hc-accent-rgb),0.7);
+  --seg-radio-inner-ring: inset 0 0 0 1px rgba(var(--hc-accent-rgb),0.28);
   --seg-radio-dot-bg: var(--hc-accent);
-  --seg-radio-dot-shadow: 0 0 8px rgba(255, 234, 0, 0.34);
-  --btn-primary-border: 2px solid rgba(255, 234, 0, 0.66);
-  --btn-primary-border-hover: 2px solid rgba(255, 234, 0, 0.9);
-  --btn-primary-border-active: 2px solid rgba(255, 234, 0, 0.95);
+  --seg-radio-dot-shadow: 0 0 8px rgba(var(--hc-accent-rgb),0.34);
+  --btn-primary-border: 2px solid rgba(var(--hc-accent-rgb),0.66);
+  --btn-primary-border-hover: 2px solid rgba(var(--hc-accent-rgb),0.9);
+  --btn-primary-border-active: 2px solid rgba(var(--hc-accent-rgb),0.95);
   --btn-primary-text: var(--hc-accent);
   --btn-primary-bg:
     radial-gradient(
@@ -1118,7 +1125,7 @@ html[data-contrast="hc"] .a11y-modal-shell .a11y-csp-scroll {
   --btn-primary-shadow-focus:
     inset 0 1px 0 rgba(220, 236, 255, 0.16),
     0 8px 18px rgba(2, 6, 16, 0.32),
-    0 0 0 2px rgba(255, 234, 0, 0.52);
+    0 0 0 2px rgba(var(--hc-accent-rgb),0.52);
 }
 html[data-contrast="hc"] .a11y-modal-shell :is(.a11y-csp-scroll, .csp-overlayTitle)
   :is(h1, h2, h3, h4, p, span, label, legend, li, a, button, strong, em) {
@@ -1130,13 +1137,13 @@ html[data-contrast="hc"] .a11y-modal-shell .a11y-csp-scroll [data-control-type][
   background: var(--btn-primary-bg-hover) !important;
   border-width: 2px !important;
   border-style: solid !important;
-  border-color: rgba(255, 234, 0, 0.94) !important;
+  border-color: rgba(var(--hc-accent-rgb),0.94) !important;
   box-shadow:
     var(--btn-primary-shadow-hover),
-    0 0 0 1px rgba(255, 234, 0, 0.72) !important;
+    0 0 0 1px rgba(var(--hc-accent-rgb),0.72) !important;
 }
 html[data-contrast="hc"] .a11y-modal-shell .a11y-csp-scroll [data-control-type][data-checked="false"] {
-  border-color: rgba(255, 234, 0, 0.62) !important;
+  border-color: rgba(var(--hc-accent-rgb),0.62) !important;
 }
 html[data-contrast="hc"]
   body
@@ -1169,7 +1176,7 @@ html[data-contrast="hc"]
   box-shadow:
     0 4px 9px rgba(2, 6, 16, 0.13),
     0 1px 1px rgba(15, 23, 42, 0.065),
-    0 6px 8px -6px rgba(255, 234, 0, 0.32),
+    0 6px 8px -6px rgba(var(--hc-accent-rgb),0.32),
     inset 0 0 0 var(--pin-border-w) rgba(30, 40, 58, 0.52),
     inset 0 1px 0 rgba(255, 255, 255, 0.04),
     inset 0 -1px 0 rgba(2, 6, 16, 0.19) !important;
@@ -1208,9 +1215,9 @@ html[data-contrast="hc"] .desc-ring-right * {
   paint-order: stroke fill;
 }
 html[data-contrast="hc"] {
-  --btn-primary-border: 2px solid rgba(255, 234, 0, 0.66);
-  --btn-primary-border-hover: 2px solid rgba(255, 234, 0, 0.9);
-  --btn-primary-border-active: 2px solid rgba(255, 234, 0, 0.95);
+  --btn-primary-border: 2px solid rgba(var(--hc-accent-rgb),0.66);
+  --btn-primary-border-hover: 2px solid rgba(var(--hc-accent-rgb),0.9);
+  --btn-primary-border-active: 2px solid rgba(var(--hc-accent-rgb),0.95);
 }
 
 /* Final desktop HC normalizer: keep interactive chrome yellow and avoid black/white fallbacks. */
@@ -1225,9 +1232,9 @@ html[data-contrast="hc"] {
   --btn-primary-bg: var(--hc-control-bg);
   --btn-primary-bg-hover: var(--hc-control-bg-hover);
   --btn-primary-bg-active: var(--hc-control-bg-active);
-  --btn-primary-border: 2px solid rgba(255, 234, 0, 0.66);
-  --btn-primary-border-hover: 2px solid rgba(255, 234, 0, 0.9);
-  --btn-primary-border-active: 2px solid rgba(255, 234, 0, 0.95);
+  --btn-primary-border: 2px solid rgba(var(--hc-accent-rgb),0.66);
+  --btn-primary-border-hover: 2px solid rgba(var(--hc-accent-rgb),0.9);
+  --btn-primary-border-active: 2px solid rgba(var(--hc-accent-rgb),0.95);
   --input-bg: var(--hc-control-bg);
   --input-bg-hover: var(--hc-control-bg-hover);
   --input-bg-focus: var(--hc-control-bg-active);
@@ -1235,17 +1242,17 @@ html[data-contrast="hc"] {
   --input-flat-bg-hover: var(--hc-control-bg-hover);
   --input-text: var(--hc-accent);
   --input-caret: var(--hc-accent);
-  --input-placeholder: rgba(255, 234, 0, 0.92);
-  --subpage-card-border: rgba(255, 234, 0, 0.66);
-  --subpage-card-border-hover: rgba(255, 234, 0, 0.9);
-  --panel-secondary-border: rgba(255, 234, 0, 0.66);
+  --input-placeholder: rgba(var(--hc-accent-rgb),0.92);
+  --subpage-card-border: rgba(var(--hc-accent-rgb),0.66);
+  --subpage-card-border-hover: rgba(var(--hc-accent-rgb),0.9);
+  --panel-secondary-border: rgba(var(--hc-accent-rgb),0.66);
   --workspace-feature-field-bg: var(--hc-field-bg);
   --workspace-feature-field-bg-hover: var(--hc-field-bg-hover);
   --workspace-feature-field-text: var(--hc-accent);
-  --workspace-feature-field-placeholder: rgba(255, 234, 0, 0.92);
-  --workspace-feature-field-border: 2px solid rgba(255, 234, 0, 0.72);
-  --workspace-feature-border: rgba(255, 234, 0, 0.66);
-  --workspace-feature-border-strong: rgba(255, 234, 0, 0.9);
+  --workspace-feature-field-placeholder: rgba(var(--hc-accent-rgb),0.92);
+  --workspace-feature-field-border: 2px solid rgba(var(--hc-accent-rgb),0.72);
+  --workspace-feature-border: rgba(var(--hc-accent-rgb),0.66);
+  --workspace-feature-border-strong: rgba(var(--hc-accent-rgb),0.9);
 }
 
 html[data-contrast="hc"] body,
@@ -1280,7 +1287,7 @@ html[data-contrast="hc"] :is(
 ) {
   background: var(--hc-field-bg) !important;
   color: var(--hc-accent) !important;
-  border: 2px solid rgba(255, 234, 0, 0.72) !important;
+  border: 2px solid rgba(var(--hc-accent-rgb),0.72) !important;
   box-shadow: none !important;
   caret-color: var(--hc-accent) !important;
 }
@@ -1298,7 +1305,7 @@ html[data-contrast="hc"] :is(
 ):is(:hover, :focus, :focus-within, :focus-visible, :active) {
   background: var(--hc-field-bg-focus) !important;
   color: var(--hc-accent) !important;
-  border-color: rgba(255, 234, 0, 0.94) !important;
+  border-color: rgba(var(--hc-accent-rgb),0.94) !important;
   box-shadow: none !important;
 }
 
@@ -1328,13 +1335,13 @@ html[data-contrast="hc"] :is(
   .workspace-feature-panel .workspace-feature-field,
   .documents-workspace :is(.documents-field, .documents-dropdown-trigger, .documents-form-input, .documents-agent-textarea)
 )::placeholder {
-  color: rgba(255, 234, 0, 0.92) !important;
+  color: rgba(var(--hc-accent-rgb),0.92) !important;
   opacity: 1 !important;
 }
 
 html[data-contrast="hc"] .service-map-workspace .service-map-toolbar__input::placeholder,
 html[data-contrast="hc"] .service-map-page-panel .service-map-toolbar__input::placeholder {
-  color: rgba(255, 234, 0, 0.92) !important;
+  color: rgba(var(--hc-accent-rgb),0.92) !important;
   opacity: 1 !important;
 }
 
@@ -1360,7 +1367,7 @@ html[data-contrast="hc"] :is(
 ) {
   background: var(--hc-panel-bg) !important;
   color: var(--hc-accent) !important;
-  border: 2px solid rgba(255, 234, 0, 0.66) !important;
+  border: 2px solid rgba(var(--hc-accent-rgb),0.66) !important;
   box-shadow: none !important;
 }
 
@@ -1370,7 +1377,7 @@ html[data-contrast="hc"] :is(
 ) {
   color: var(--hc-accent) !important;
   background: var(--hc-control-bg) !important;
-  border-color: rgba(255, 234, 0, 0.72) !important;
+  border-color: rgba(var(--hc-accent-rgb),0.72) !important;
   box-shadow: none !important;
 }
 
@@ -1390,20 +1397,20 @@ html[data-contrast="hc"] body :is(
 html[data-contrast="hc"] body .chat-inputbar,
 html[data-contrast="hc"] .documents-workspace .documents-agent-composer-slot .chat-inputbar {
   background: transparent !important;
-  border: 2px solid rgba(255, 234, 0, 0.72) !important;
+  border: 2px solid rgba(var(--hc-accent-rgb),0.72) !important;
   box-shadow: none !important;
 }
 
 html[data-contrast="hc"] .chat-composer-glow-shell,
 html[data-contrast="hc"] .documents-agent-glow-composer,
 html[data-contrast="hc"] .documents-agent-glow-window {
-  --glow-color: rgba(255, 234, 0, 0.64) !important;
-  --glow-color-60: rgba(255, 234, 0, 0.4) !important;
-  --glow-color-50: rgba(255, 234, 0, 0.34) !important;
-  --glow-color-40: rgba(255, 234, 0, 0.27) !important;
-  --glow-color-30: rgba(255, 234, 0, 0.2) !important;
-  --glow-color-20: rgba(255, 234, 0, 0.13) !important;
-  --glow-color-10: rgba(255, 234, 0, 0.08) !important;
+  --glow-color: rgba(var(--hc-accent-rgb),0.64) !important;
+  --glow-color-60: rgba(var(--hc-accent-rgb),0.4) !important;
+  --glow-color-50: rgba(var(--hc-accent-rgb),0.34) !important;
+  --glow-color-40: rgba(var(--hc-accent-rgb),0.27) !important;
+  --glow-color-30: rgba(var(--hc-accent-rgb),0.2) !important;
+  --glow-color-20: rgba(var(--hc-accent-rgb),0.13) !important;
+  --glow-color-10: rgba(var(--hc-accent-rgb),0.08) !important;
 }
 
 html[data-contrast="hc"] body .chat-inputbar .chat-send-btn.invite-primary-btn {
@@ -1411,19 +1418,19 @@ html[data-contrast="hc"] body .chat-inputbar .chat-send-btn.invite-primary-btn {
   --btn-primary-bg: transparent !important;
   --btn-primary-bg-hover: transparent !important;
   --btn-primary-bg-active: transparent !important;
-  --btn-primary-border: 2px solid rgba(255, 234, 0, 0.66) !important;
-  --btn-primary-border-hover: 2px solid rgba(255, 234, 0, 0.9) !important;
-  --btn-primary-border-active: 2px solid rgba(255, 234, 0, 0.95) !important;
+  --btn-primary-border: 2px solid rgba(var(--hc-accent-rgb),0.66) !important;
+  --btn-primary-border-hover: 2px solid rgba(var(--hc-accent-rgb),0.9) !important;
+  --btn-primary-border-active: 2px solid rgba(var(--hc-accent-rgb),0.95) !important;
   color: var(--hc-accent) !important;
   background: transparent !important;
-  border-color: rgba(255, 234, 0, 0.66) !important;
+  border-color: rgba(var(--hc-accent-rgb),0.66) !important;
   box-shadow: none !important;
 }
 
 html[data-contrast="hc"] body .chat-inputbar .chat-send-btn.invite-primary-btn:is(:hover, :focus-visible, :active) {
   color: var(--hc-accent) !important;
   background: transparent !important;
-  border-color: rgba(255, 234, 0, 0.94) !important;
+  border-color: rgba(var(--hc-accent-rgb),0.94) !important;
   box-shadow: none !important;
 }
 
@@ -1449,18 +1456,18 @@ html[data-contrast="hc"] :is(
 
 html[data-contrast="hc"] .framework-page-shell .ui-glow-button-frame,
 html[data-contrast="hc"] .framework-page-shell .ui-glow-button-frame:is(:hover, :focus-visible, :active) {
-  --btn-primary-border: 2px solid rgba(255, 234, 0, 0.72) !important;
-  --btn-primary-border-hover: 2px solid rgba(255, 234, 0, 0.94) !important;
-  --btn-primary-border-active: 2px solid rgba(255, 234, 0, 1) !important;
-  border: 2px solid rgba(255, 234, 0, 0.72) !important;
+  --btn-primary-border: 2px solid rgba(var(--hc-accent-rgb),0.72) !important;
+  --btn-primary-border-hover: 2px solid rgba(var(--hc-accent-rgb),0.94) !important;
+  --btn-primary-border-active: 2px solid rgba(var(--hc-accent-rgb),1) !important;
+  border: 2px solid rgba(var(--hc-accent-rgb),0.72) !important;
   color: var(--hc-accent) !important;
   background: var(--hc-control-bg) !important;
   box-shadow: none !important;
 }
 
 html[data-contrast="hc"] .framework-page-shell .ui-glow-button-frame:is(:hover, :focus-visible, :active) {
-  border-color: rgba(255, 234, 0, 0.94) !important;
-  background: rgba(255, 234, 0, 0.14) !important;
+  border-color: rgba(var(--hc-accent-rgb),0.94) !important;
+  background: rgba(var(--hc-accent-rgb),0.14) !important;
 }
 
 html[data-contrast="hc"] body :is(
@@ -1475,7 +1482,7 @@ html[data-contrast="hc"] body :is(
 ):is([class*="BorderGlow-module"], [class*="ui-glow"]) {
   background: var(--hc-field-bg) !important;
   color: var(--hc-accent) !important;
-  border-color: rgba(255, 234, 0, 0.72) !important;
+  border-color: rgba(var(--hc-accent-rgb),0.72) !important;
   box-shadow: none !important;
 }
 
@@ -1492,7 +1499,7 @@ html[data-contrast="hc"] body :is(
 ):not(.profile-orbit-menu__item):not(.profile-orbit-menu__center):not(.profile-orbit-mobile-action):not(.profile-orbit-stack-bubble):not(.chat-rail-icon-btn):not(.chat-send-btn):not(.chat-listen-btn):not(.chat-assistant-action-btn):not(.chat-dictate-btn):not(.chat-side-control-btn):not(.chat-tools-btn):not(.chat-document-attach-btn) {
   background: var(--hc-control-bg) !important;
   color: var(--hc-accent) !important;
-  border-color: rgba(255, 234, 0, 0.72) !important;
+  border-color: rgba(var(--hc-accent-rgb),0.72) !important;
   box-shadow: none !important;
 }
 
@@ -1502,16 +1509,16 @@ html[data-contrast="hc"] body :is(
   .person-invite-modal-content,
   .a11y-modal-shell
 ) [data-control-type][data-checked="true"] {
-  --hc-control-bg: rgba(255, 234, 0, 0.1) !important;
-  --hc-control-bg-hover: rgba(255, 234, 0, 0.12) !important;
-  --hc-control-bg-active: rgba(255, 234, 0, 0.14) !important;
-  --btn-primary-bg: rgba(255, 234, 0, 0.1) !important;
-  --btn-primary-bg-hover: rgba(255, 234, 0, 0.12) !important;
-  --btn-primary-bg-active: rgba(255, 234, 0, 0.14) !important;
-  background: rgba(255, 234, 0, 0.1) !important;
-  background-color: rgba(255, 234, 0, 0.1) !important;
-  border-color: rgba(255, 234, 0, 0.94) !important;
-  box-shadow: inset 0 0 0 1px rgba(255, 234, 0, 0.64) !important;
+  --hc-control-bg: rgba(var(--hc-accent-rgb),0.1) !important;
+  --hc-control-bg-hover: rgba(var(--hc-accent-rgb),0.12) !important;
+  --hc-control-bg-active: rgba(var(--hc-accent-rgb),0.14) !important;
+  --btn-primary-bg: rgba(var(--hc-accent-rgb),0.1) !important;
+  --btn-primary-bg-hover: rgba(var(--hc-accent-rgb),0.12) !important;
+  --btn-primary-bg-active: rgba(var(--hc-accent-rgb),0.14) !important;
+  background: rgba(var(--hc-accent-rgb),0.1) !important;
+  background-color: rgba(var(--hc-accent-rgb),0.1) !important;
+  border-color: rgba(var(--hc-accent-rgb),0.94) !important;
+  box-shadow: inset 0 0 0 1px rgba(var(--hc-accent-rgb),0.64) !important;
 }
 
 html[data-contrast="hc"] body :is(
@@ -1521,33 +1528,33 @@ html[data-contrast="hc"] body :is(
   .a11y-modal-shell
 ) [data-control-type][data-checked="true"]::before {
   opacity: 1 !important;
-  background: rgba(255, 234, 0, 0.06) !important;
+  background: rgba(var(--hc-accent-rgb),0.06) !important;
 }
 
 html[data-contrast="hc"] body :is(button, [role="button"], label).ui-glow-option-card-frame[data-checked="true"]:not(.profile-orbit-menu__item):not(.profile-orbit-menu__center):not(.profile-orbit-mobile-action):not(.profile-orbit-stack-bubble):not(.chat-rail-icon-btn):not(.chat-send-btn):not(.chat-listen-btn):not(.chat-assistant-action-btn):not(.chat-dictate-btn):not(.chat-side-control-btn):not(.chat-tools-btn):not(.chat-document-attach-btn),
 html[data-contrast="hc"] body :is(button, [role="button"], label).register-option-card[data-checked="true"]:not(.profile-orbit-menu__item):not(.profile-orbit-menu__center):not(.profile-orbit-mobile-action):not(.profile-orbit-stack-bubble):not(.chat-rail-icon-btn):not(.chat-send-btn):not(.chat-listen-btn):not(.chat-assistant-action-btn):not(.chat-dictate-btn):not(.chat-side-control-btn):not(.chat-tools-btn):not(.chat-document-attach-btn) {
-  --hc-control-bg: rgba(255, 234, 0, 0.1) !important;
-  --hc-control-bg-hover: rgba(255, 234, 0, 0.12) !important;
-  --hc-control-bg-active: rgba(255, 234, 0, 0.14) !important;
-  --btn-primary-bg: rgba(255, 234, 0, 0.1) !important;
-  --btn-primary-bg-hover: rgba(255, 234, 0, 0.12) !important;
-  --btn-primary-bg-active: rgba(255, 234, 0, 0.14) !important;
-  background: rgba(255, 234, 0, 0.1) !important;
-  background-color: rgba(255, 234, 0, 0.1) !important;
-  border-color: rgba(255, 234, 0, 0.94) !important;
-  box-shadow: inset 0 0 0 1px rgba(255, 234, 0, 0.64) !important;
+  --hc-control-bg: rgba(var(--hc-accent-rgb),0.1) !important;
+  --hc-control-bg-hover: rgba(var(--hc-accent-rgb),0.12) !important;
+  --hc-control-bg-active: rgba(var(--hc-accent-rgb),0.14) !important;
+  --btn-primary-bg: rgba(var(--hc-accent-rgb),0.1) !important;
+  --btn-primary-bg-hover: rgba(var(--hc-accent-rgb),0.12) !important;
+  --btn-primary-bg-active: rgba(var(--hc-accent-rgb),0.14) !important;
+  background: rgba(var(--hc-accent-rgb),0.1) !important;
+  background-color: rgba(var(--hc-accent-rgb),0.1) !important;
+  border-color: rgba(var(--hc-accent-rgb),0.94) !important;
+  box-shadow: inset 0 0 0 1px rgba(var(--hc-accent-rgb),0.64) !important;
 }
 
 html[data-contrast="hc"] body .workspace-dashboard-card,
 html[data-contrast="hc"] body .workspace-dashboard-card:is(:hover, :focus-visible, :active) {
   background: var(--workspace-elevated-card-bg, var(--hc-control-bg, rgba(14, 20, 32, 0.72))) !important;
-  border: 2px solid rgba(255, 234, 0, 0.72) !important;
+  border: 2px solid rgba(var(--hc-accent-rgb),0.72) !important;
   color: var(--hc-accent, #ffea00) !important;
   box-shadow: none !important;
 }
 
 html[data-contrast="hc"] body .workspace-dashboard-card:focus-visible {
-  border-color: rgba(255, 234, 0, 0.94) !important;
+  border-color: rgba(var(--hc-accent-rgb),0.94) !important;
 }
 
 html[data-contrast="hc"] body .workspace-dashboard-card::after {
@@ -1556,14 +1563,14 @@ html[data-contrast="hc"] body .workspace-dashboard-card::after {
 
 html[data-contrast="hc"] body .invite-list-panel {
   background: var(--hc-panel-bg) !important;
-  border: 2px solid rgba(255, 234, 0, 0.72) !important;
-  border-color: rgba(255, 234, 0, 0.72) !important;
+  border: 2px solid rgba(var(--hc-accent-rgb),0.72) !important;
+  border-color: rgba(var(--hc-accent-rgb),0.72) !important;
   box-shadow: none !important;
 }
 
 html[data-contrast="hc"] body .invite-list-panel:is(:hover, :focus-within, :focus-visible, :active) {
   background: var(--hc-panel-bg) !important;
-  border-color: rgba(255, 234, 0, 0.72) !important;
+  border-color: rgba(var(--hc-accent-rgb),0.72) !important;
   box-shadow: none !important;
 }
 
@@ -1581,8 +1588,8 @@ html[data-contrast="hc"] body :is(
   .person-invite-modal-content
 ) .invite-list-panel.invite-glow-panel {
   background: var(--hc-panel-bg) !important;
-  border: 2px solid rgba(255, 234, 0, 0.72) !important;
-  border-color: rgba(255, 234, 0, 0.72) !important;
+  border: 2px solid rgba(var(--hc-accent-rgb),0.72) !important;
+  border-color: rgba(var(--hc-accent-rgb),0.72) !important;
   box-shadow: none !important;
 }
 
@@ -1590,7 +1597,7 @@ html[data-contrast="hc"] body :is(
   .invite-modal-content,
   .person-invite-modal-content
 ) .invite-list-panel.invite-glow-panel:is(:hover, :focus-within) {
-  border-color: rgba(255, 234, 0, 0.72) !important;
+  border-color: rgba(var(--hc-accent-rgb),0.72) !important;
   background: var(--hc-panel-bg) !important;
   box-shadow: none !important;
 }
