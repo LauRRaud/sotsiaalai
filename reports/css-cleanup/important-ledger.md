@@ -70,6 +70,17 @@ render-redundantne → **strippitav**. See + feature vabad fraktsioonid = peamin
 Per-fail kiire: 1 strip-all-tsükkel. Ainus töö: contract-asserted markerite restore.
 **ENNE commiti:** laienda render-katet (hc kõrge nähtavus — rohkem route'e kui 1).
 
+### hc strip-katse tulemus (2026-06-15) — BLOKEERITUD täpsel restoreerimisel
+`theme-strip-keepasserted.mjs` (keep marker kui test väidab `prop:väärtus !important`):
+KEEP 166 / STRIP 156. Render: 0-diff (80 sel, ok). **AGA gate-2 → 4 uut testi-kukkumist.**
+Põhjus: heuristika **alasäilitab** keerukaid asserte (mitmerea `[\s\S]*?`, shorthand nagu
+`border: <w> solid var(--hc-accent)`) — väärtuse-ekstraktsioon regexist on habras.
+Reverditud (ei committi punasega). **Õppetund:** value-match heuristikast EI piisa;
+vaja täpsemat restoreerijat. Variandid: (a) prop-tasemel keep contract-props'ile (madal
+saak, garanteeritud roheline), (b) npm-test-oracle per-decl bisektsioon, (c) parem
+regex→deklaratsioon parser. Tööriist `scripts/css-cleanup/theme-strip-keepasserted.mjs`
+olemas (suund õige, vajab täpsust).
+
 ## Tööriistad
 
 - **Audit (valija):** `scripts/css-important-overrides.mjs` — verdikt per (selektor, prop),
