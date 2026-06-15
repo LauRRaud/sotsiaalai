@@ -37,12 +37,50 @@ function isTransparentLayer(layer) {
   }
   return false;
 }
-function normalize(prop, val) {
-  if (prop === "box-shadow" && val && val !== "none") {
-    const kept = splitTopLevel(val).filter((l) => !isTransparentLayer(l));
-    return kept.length ? kept.join(", ") : "none";
+// Color serialization is NOT stable: a literal rgba(255,234,0,0.66) computes to
+// hex "#ffea00a8", but rgba(var(--rgb),0.66) stays "rgba(255, 234, 0, .66)" —
+// SAME paint, different string. Without canonicalizing, tokenization (the core
+// hc.css cleanup) can never verify green. Parse every color to one canonical
+// #rrggbbaa (alpha as a 0-255 byte, so 0.66 and #..a8 match) before comparing.
+function parseColor(str) {
+  const s = str.trim();
+  let m = s.match(/^#([0-9a-f]{3,8})$/i);
+  if (m) {
+    let h = m[1];
+    if (h.length === 3) h = h.split("").map((c) => c + c).join("") + "ff";
+    else if (h.length === 4) h = h.split("").map((c) => c + c).join("");
+    else if (h.length === 6) h = h + "ff";
+    if (h.length !== 8) return null;
+    return { r: parseInt(h.slice(0, 2), 16), g: parseInt(h.slice(2, 4), 16), b: parseInt(h.slice(4, 6), 16), a: parseInt(h.slice(6, 8), 16) };
   }
-  return val;
+  m = s.match(/^rgba?\(([^)]*)\)$/i);
+  if (m) {
+    const p = m[1].split(/[,/\s]+/).filter(Boolean);
+    if (p.length < 3) return null;
+    const a = p[3] != null ? parseFloat(p[3]) : 1;
+    return { r: Math.round(parseFloat(p[0])), g: Math.round(parseFloat(p[1])), b: Math.round(parseFloat(p[2])), a: Math.round(a * 255) };
+  }
+  return null;
+}
+const hex2 = (n) => Math.max(0, Math.min(255, n)).toString(16).padStart(2, "0");
+function canonColor(str) {
+  const c = parseColor(str);
+  return c ? `#${hex2(c.r)}${hex2(c.g)}${hex2(c.b)}${hex2(c.a)}` : null;
+}
+function canonicalizeColors(val) {
+  if (!val) return val;
+  return val
+    .replace(/rgba?\([^)]*\)/gi, (m) => canonColor(m) || m)
+    .replace(/#[0-9a-fA-F]{3,8}\b/g, (m) => canonColor(m) || m);
+}
+function normalize(prop, val) {
+  if (val == null) return val;
+  let v = val;
+  if (prop === "box-shadow" && v !== "none") {
+    const kept = splitTopLevel(v).filter((l) => !isTransparentLayer(l));
+    v = kept.length ? kept.join(", ") : "none";
+  }
+  return canonicalizeColors(v);
 }
 // --------------------------------------------------------------------------
 
