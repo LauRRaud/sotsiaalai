@@ -80,7 +80,12 @@ function normalize(prop, val) {
     const kept = splitTopLevel(v).filter((l) => !isTransparentLayer(l));
     v = kept.length ? kept.join(", ") : "none";
   }
-  return canonicalizeColors(v);
+  v = canonicalizeColors(v);
+  // CSS values are whitespace-insensitive between tokens. Multi-line custom
+  // property values keep their source newlines/indent in the computed value, so
+  // an LF→CRLF file change (or reflow) creates false diffs. Collapse all
+  // whitespace runs to a single space.
+  return v.replace(/\s+/g, " ").trim();
 }
 // --------------------------------------------------------------------------
 
