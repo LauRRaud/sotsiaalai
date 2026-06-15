@@ -1,10 +1,15 @@
+:root.theme-night {
+  --night-white-rgb: 255, 255, 255;
+  --night-blue-rgb: 170, 204, 245;
+}
+
 :root.theme-night .space-backdrop[data-mode="dark"] {
   --space-backdrop-glow: radial-gradient(
     ellipse at 50% -12%,
-    rgba(255, 255, 255, 0.2) 0%,
-    rgba(255, 255, 255, 0.08) 34%,
-    rgba(255, 255, 255, 0.02) 56%,
-    rgba(255, 255, 255, 0) 74%
+    rgba(var(--night-white-rgb), 0.2) 0%,
+    rgba(var(--night-white-rgb), 0.08) 34%,
+    rgba(var(--night-white-rgb), 0.02) 56%,
+    rgba(var(--night-white-rgb), 0) 74%
   );
   background: radial-gradient(
     ellipse at top,
@@ -55,13 +60,13 @@
   --input-bg: rgba(10, 20, 36, 0.76);
   --input-bg-hover: rgba(12, 24, 42, 0.82);
   --input-bg-focus: rgba(12, 24, 42, 0.86);
-  --input-border: 1px solid rgba(170, 204, 245, 0.24);
+  --input-border: 1px solid rgba(var(--night-blue-rgb), 0.24);
   --input-shadow: none;
   --input-shadow-hover: none;
   --materials-panel-shadow: none;
   --panel-secondary-bg: var(--workspace-elevated-card-bg, var(--input-flat-bg));
   --panel-secondary-bg-hover: var(--workspace-elevated-card-bg-hover, var(--input-flat-bg-hover));
-  --panel-secondary-border: rgba(170, 204, 245, 0.22);
+  --panel-secondary-border: rgba(var(--night-blue-rgb), 0.22);
   --panel-secondary-shadow: none;
 }
 
