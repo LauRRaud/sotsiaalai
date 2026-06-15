@@ -1,0 +1,174 @@
+[
+ {
+  "route": "/",
+  "auth": false
+ },
+ {
+  "route": "/join",
+  "auth": false
+ },
+ {
+  "route": "/hinnastus",
+  "auth": false
+ },
+ {
+  "route": "/voimalused",
+  "auth": false
+ },
+ {
+  "route": "/autorilt",
+  "auth": false
+ },
+ {
+  "route": "/kasutusjuhend",
+  "auth": false
+ },
+ {
+  "route": "/kasutustingimused",
+  "auth": false
+ },
+ {
+  "route": "/privaatsustingimused",
+  "auth": false
+ },
+ {
+  "route": "/tooalase-kasutuse-raamistik",
+  "auth": false
+ },
+ {
+  "route": "/registreerimine",
+  "auth": false
+ },
+ {
+  "route": "/taasta-parool",
+  "auth": false
+ },
+ {
+  "route": "/profiil",
+  "auth": true
+ },
+ {
+  "route": "/materjalid",
+  "auth": true
+ },
+ {
+  "route": "/dokreziim",
+  "auth": true
+ },
+ {
+  "route": "/documents",
+  "auth": true
+ },
+ {
+  "route": "/kovisioon",
+  "auth": true
+ },
+ {
+  "route": "/tooheaolu",
+  "auth": true
+ },
+ {
+  "route": "/tooheaolu/kiirkontroll",
+  "auth": true
+ },
+ {
+  "route": "/tooheaolu/ulevaade",
+  "auth": true
+ },
+ {
+  "route": "/tooheaolu/raske-juhtum",
+  "auth": true
+ },
+ {
+  "route": "/tooheaolu/toovagivald",
+  "auth": true
+ },
+ {
+  "route": "/tooheaolu/taastumine",
+  "auth": true
+ },
+ {
+  "route": "/tooheaolu/toopiirid",
+  "auth": true
+ },
+ {
+  "route": "/tooheaolu/katkestused",
+  "auth": true
+ },
+ {
+  "route": "/tooheaolu/tooprotsessid",
+  "auth": true
+ },
+ {
+  "route": "/tooheaolu/rollipiirid",
+  "auth": true
+ },
+ {
+  "route": "/tooheaolu/alustaja-tugi",
+  "auth": true
+ },
+ {
+  "route": "/tooheaolu/piloot",
+  "auth": true
+ },
+ {
+  "route": "/teenusekaart",
+  "auth": true
+ },
+ {
+  "route": "/teenuseprofiil",
+  "auth": true
+ },
+ {
+  "route": "/tellimus",
+  "auth": true
+ },
+ {
+  "route": "/eelpoordumised",
+  "auth": true
+ },
+ {
+  "route": "/ruum",
+  "auth": true
+ },
+ {
+  "route": "/uuenda-epost",
+  "auth": true
+ },
+ {
+  "route": "/uuenda-pin",
+  "auth": true
+ },
+ {
+  "route": "/admin/analytics",
+  "auth": true
+ },
+ {
+  "route": "/admin/framework-acceptances",
+  "auth": true
+ },
+ {
+  "route": "/admin/rag",
+  "auth": true
+ },
+ {
+  "route": "/admin/rag/documents",
+  "auth": true
+ },
+ {
+  "route": "/admin/rag/ingest",
+  "auth": true
+ },
+ {
+  "route": "/admin/rag/kov",
+  "auth": true
+ },
+ {
+  "route": "/admin/rag/organizations",
+  "auth": true
+ },
+ {
+  "route": "/admin/rag/source-packages",
+  "auth": true
+ }
+]

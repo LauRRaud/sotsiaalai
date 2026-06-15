@@ -6,6 +6,7 @@
 
 ## Lugemisjärjekord uuele sessioonile
 1. **See logi** — kus oleme, mis tehtud, mis järgmine.
+1b. **`reports/css-styles-cleanup-strategy.md`** — AKTUAALNE plaan + "kuidas teha" retsept (safe-loop, teema kaupa). + `scripts/css-cleanup/README.md`.
 2. `reports/css-tailwind-cleanup-plan.md` — master-plaan (põhiidee, juured, arhitektuur, faasid, tööriistad).
 3. `reports/css-cleanup-runbook.md` — samm-sammuline snapshot-väravaga töövoog.
 4. `reports/css-struktuuriplaan-2026-06-11.md` §7/§9 — detailne ajalugu + võla-roadmap.
