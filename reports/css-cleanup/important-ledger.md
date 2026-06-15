@@ -62,6 +62,32 @@ Legend: ✅ tehtud · 🔄 pooleli · ⬜ tegemata · 🔒 alles-jäetud (load-b
   lukus VÕI interaktsiooni-gated VÕI orbit/var-entangled VÕI load-bearing. Edasi = flow-
   gate (ava modal/paneel `steps:[{click}]`) VÕI token-migratsioon (struktuurne). Vt HANDOFF §6.
 
+## ALLESJÄÄNUD FAILIDE KAART (oraakel-dry-run, 2026-06-16) — tuleviku prioriteet
+Veerg "STRIP?" = kontrakt-vaba marker (oraakel), MITTE render-tõestatud — vajab gate'i
+veerus "vaja". Sorteeritud STRIP-potentsiaali järgi. ⚠ = teadaolev takistus.
+
+| Fail | total | STRIP? | vaja (gate-tüüp) | märkus |
+|---|---:|---:|---|---|
+| service-map/desktop | 276 | 229 | JS-state-flow + Leaflet | ⚠ ~196 JS-oleku-taga, 33 Leaflet runtime |
+| mobile/accessibility-touch | 138 | 135 | multi-route 390px | ⚠ touch-target geomeetria = tõen. load-bearing (a11y) |
+| shared/ui-glow | 118 | 110 | — | ⚠ KAITSTUD (canonical-button-look, ÄRA keela glow) — poliitika-lukk, mitte kontrakt |
+| mobile/platform-android | 98 | 94 | eval `data-platform=android` + multi-route | android-fix, tõen. load-bearing |
+| mobile/subpage-title-system | 82 | 60 | multi-route 390px + modal-flow | broad: policy/profile/chat/documents/modaalid |
+| mobile/background-home | 67 | 58 | homepage 390px | ⚠ homepage capture-flaky |
+| mobile/modal-surfaces | 62 | 56 | modal-flow-gate (`eval`/click) | interaktsiooni-gated |
+| policy/responsive | 65 | 50 | /policy multi-route 390px | ⚠ policy geomeetria-kontrakt-lukus (vt policy õppetund) |
+| mobile/invite-workspace | 101 | 38 | invite-flow-gate | interaktsiooni-gated |
+| mobile/foundations | 41 | 13 | multi-route 390px | suuresti kontrakt-lukus |
+| mobile/scroll-panels | 95 | 12 | — | suuresti kontrakt-lukus (geomeetria) |
+| service-map/mobile | 81 | 4 | — | kontrakt-lukus |
+
+**Järeldus:** suurim kontrakt-vaba potentsiaal (service-map 229, touch 135, platform-android
+94) on KÕIK broad/state-gated → vajavad flow/multi-route/platform gate'i (üks-route ✗).
+Render-verifitseerimata STRIP = EI committi. `eval`-samm (`css-snapshot.mjs`) võimaldab
+platform-force + event-avatavaid pindu. ui-glow on poliitika-lukus (glow). Edasi-töö =
+kas (a) flow/platform-gate ehitamine per-fail, või (b) token-migratsioon (struktuurne,
+`css-progress-log.md` rada). Mõlemad = sihilik fokusseeritud sessioon, mitte autonoomne korje.
+
 ## Strateegiline leid (2026-06-15, policy strip-all eksperimendist)
 
 **Kiire masin = strip-all → üks gate → diff klassifitseerib KÕIK korraga.** Baseline +
