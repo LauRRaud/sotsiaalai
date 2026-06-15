@@ -21,6 +21,30 @@
 - **Faas 1 (surnud kood):** lihtsad võidud tehtud (skip-link + varasem). Jääk = JS-oleku-taga + teema-variant kandidaadid (case-by-case snapshot). **Faas 2 (konsolideerimine) on nüüd Sonneti põhitöö** — vt JÄRGMINE SAMM.
 - **Faas 2 — dropdown viil:** VALMIS (`ff8390cd`). `:root.theme-X` tokenid + eemaldatud `!important` + HC globaalsed reeglid. Järgmine: **button (~99 hajutus)**.
 
+## ⏳ POOLELI — viil 1.5 (mono/hc nupu-hiigel-ahelad) [Opus, alustatud 14.06.2026]
+
+**Otsus (kasutaja kinnitas 14.06):** migreeri allesjäänud `secondary`/`ghost` Button-kasutused → `primary` (või `linkBrand` ekspordile), SIIS kustuta teema-ahelad. Põhjus: mono ahel `:is(.button,.btn,[data-variant="primary"])` tabab `.button`-haru kaudu KÕIKI nuppe (ka ghost/secondary) ja sunnib neile `!important`-iga primary-välimuse — st mono's näevad praegu kõik nupud välja nagu primary klaaspill. See on **sihilik kaitse**: paljas ghost (`bg-rgba(255,255,255,0.04)`) on mono tumehallil peaaegu nähtamatu. Seega ahela lihtne kustutus EI ole identne — esmalt tuleb ghost/secondary platvormilt kaotada.
+
+**Avastus: progress-logi väide "viilud 1.2–1.4 valmis" oli ÜLEOPTIMISTLIK** — secondary/ghost on veel alles:
+1. `components/agent/AgentModePage.jsx:1890` — `variant={isSelected ? "primary" : "ghost"}` = päris VALITUD/valimata toggle. ⚠ Ghost annab siin visuaalse erinevuse; lihtne →primary kaotaks valitud-oleku eristuse. **Eriotsus vajalik** (kandidaat: valimata = `linkBrand`, või segmented/OptionCard archetype).
+2. `components/materials/MaterialsAdminSubmissionsPanel.jsx:313,322` — `variant={isRagAdmin ? "primary" : "secondary"}`; non-rag-admin tee kasutab `.materials-surface-button` aliast (`materialsSecondaryButtonClassName`, fail rida 21). ⚠ `.materials-surface-button` on mono.css:191 plokis OMA `--btn-primary-*` token-treatment → topelt-stiilitud, vajab hoolt.
+3. `app/admin/wellbeing/AdminWellbeingClient.jsx:237,254` (+332 submit) — `secondary` refresh/load nupud primary CSV kõrval → **lihtne →primary** (plaani siht).
+4. `app/tooheaolu/piloot/WellbeingPilotClient.jsx:243,251,255` — refresh + print/xlsx (`as="a"`) secondary, primary CSV kõrval → **lihtne →primary** (CSV on juba primary, ühtlustamiseks kõik primary).
+
+**Ahelate asukohad (kustutamiseks PÄRAST ülaltoodud migratsiooni):**
+- `app/styles/theme/mono.css` read **110, 254, 266, 272** — 4 ahelat (baas + ::before + hover + hover::before). Tokenid juba olemas `tokens/theme-mono.css:184–185` (`--btn-primary-text: var(--forest-icon)`, `--btn-primary-text-hover: var(--forest-title-soft)`); komponent `Button.jsx` `primaryStyles` toodab sama ::before-crossfade ise → ahel redundantne kui ghost/secondary kadunud.
+- `app/styles/theme/hc.css` read **538, 543, 549, 553, 558, 562, 813, 827, 840** (+ chat-analysis 903+). HC = a11y-kriitiline, kontrasti-kontroll kohustuslik.
+
+**NB nimekonventsioon (kasutaja selgitas 14.06):** `--forest-*` tokenid on **legacy roheka teema nimed** — mono on endine "forest"-teema, väärtused ümber kirjutatud hallskaalaks (`--forest-icon: rgba(230,230,230,0.96)` = hall). Nime EI pea muutma.
+
+**Järgmised sammud uue sessiooni jaoks:**
+1. Migreeri wellbeing (3+4) secondary→primary (lihtne, snapshot identical neil route'idel pole mono-ahela-sõltuvust väljaspool).
+2. Otsusta AgentModePage toggle (1) + Materials (2) — vajab brauseri-verifikatsiooni + võib vajada kasutaja disainisisendit.
+3. Alles kui ghost/secondary = 0 → kustuta mono + hc ahelad, lai snapshot (kõik 6 teemat × nupu-route'd), HC kontrasti-kontroll. Üks commit per teemafail.
+4. Värav: `css-snapshot` ✓ identical (v.a teadlikult muudetud secondary→primary route'd), `npm test` 967/13, `css-important-audit` arv langeb.
+
+---
+
 ## JÄRGMINE SAMM (kaks rada)
 
 ### Rada A — Effective-audit tööriista lõpetamine (üleantav ülesanne)

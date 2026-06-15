@@ -1,8 +1,8 @@
 {
-  "capturedAt": "2026-06-14T10:31:27.156Z",
-  "total": 3769,
+  "capturedAt": "2026-06-14T19:02:04.051Z",
+  "total": 3757,
   "surfaceCount": 1686,
-  "themeOverrideCount": 1646,
+  "themeOverrideCount": 1634,
   "rows": [
     {
       "file": "app/styles/base/backgrounds.css",
@@ -5095,7 +5095,7 @@
     {
       "file": "app/styles/features/chat/mono.css",
       "line": 48,
-      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .drawer-panel--chat-glass .drawer-chat-sidebar :is(.button, .btn, .drawer-pill-btn, .invite-primary-btn)",
+      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .drawer-panel--chat-glass .drawer-chat-sidebar :is(.button, .btn)",
       "prop": "color",
       "surface": true,
       "cats": [
@@ -5105,7 +5105,7 @@
     {
       "file": "app/styles/features/chat/mono.css",
       "line": 49,
-      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .drawer-panel--chat-glass .drawer-chat-sidebar :is(.button, .btn, .drawer-pill-btn, .invite-primary-btn)",
+      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .drawer-panel--chat-glass .drawer-chat-sidebar :is(.button, .btn)",
       "prop": "background",
       "surface": true,
       "cats": [
@@ -5115,7 +5115,7 @@
     {
       "file": "app/styles/features/chat/mono.css",
       "line": 50,
-      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .drawer-panel--chat-glass .drawer-chat-sidebar :is(.button, .btn, .drawer-pill-btn, .invite-primary-btn)",
+      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .drawer-panel--chat-glass .drawer-chat-sidebar :is(.button, .btn)",
       "prop": "border",
       "surface": true,
       "cats": [
@@ -5125,7 +5125,7 @@
     {
       "file": "app/styles/features/chat/mono.css",
       "line": 51,
-      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .drawer-panel--chat-glass .drawer-chat-sidebar :is(.button, .btn, .drawer-pill-btn, .invite-primary-btn)",
+      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .drawer-panel--chat-glass .drawer-chat-sidebar :is(.button, .btn)",
       "prop": "box-shadow",
       "surface": true,
       "cats": [
@@ -5135,7 +5135,7 @@
     {
       "file": "app/styles/features/chat/mono.css",
       "line": 55,
-      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .drawer-panel--chat-glass .drawer-chat-sidebar :is(.button, .btn, .drawer-pill-btn, .invite-primary-btn)::before",
+      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .drawer-panel--chat-glass .drawer-chat-sidebar :is(.button, .btn)::before",
       "prop": "background",
       "surface": true,
       "cats": [
@@ -5146,7 +5146,7 @@
     {
       "file": "app/styles/features/chat/mono.css",
       "line": 59,
-      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .drawer-panel--chat-glass .drawer-chat-sidebar :is(.button, .btn, .drawer-pill-btn, .invite-primary-btn):is(:hover, :",
+      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .drawer-panel--chat-glass .drawer-chat-sidebar :is(.button, .btn):is(:hover, :focus-visible)",
       "prop": "color",
       "surface": true,
       "cats": [
@@ -5157,7 +5157,7 @@
     {
       "file": "app/styles/features/chat/mono.css",
       "line": 60,
-      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .drawer-panel--chat-glass .drawer-chat-sidebar :is(.button, .btn, .drawer-pill-btn, .invite-primary-btn):is(:hover, :",
+      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .drawer-panel--chat-glass .drawer-chat-sidebar :is(.button, .btn):is(:hover, :focus-visible)",
       "prop": "background",
       "surface": true,
       "cats": [
@@ -5168,7 +5168,7 @@
     {
       "file": "app/styles/features/chat/mono.css",
       "line": 61,
-      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .drawer-panel--chat-glass .drawer-chat-sidebar :is(.button, .btn, .drawer-pill-btn, .invite-primary-btn):is(:hover, :",
+      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .drawer-panel--chat-glass .drawer-chat-sidebar :is(.button, .btn):is(:hover, :focus-visible)",
       "prop": "box-shadow",
       "surface": true,
       "cats": [
@@ -16702,7 +16702,7 @@
     {
       "file": "app/styles/features/service-map/desktop.css",
       "line": 706,
-      "selector": "html[data-contrast=\"hc\"] .workspace-feature-panel .workspace-feature-action-btn, html[data-contrast=\"hc\"] .workspace-feature-panel .workspace-feature-action-btn",
+      "selector": "html[data-contrast=\"hc\"] .workspace-feature-panel [data-variant=\"primary\"], html[data-contrast=\"hc\"] .workspace-feature-panel [data-variant=\"primary\"]:is(:hover",
       "prop": "color",
       "surface": true,
       "cats": [
@@ -16713,7 +16713,7 @@
     {
       "file": "app/styles/features/service-map/desktop.css",
       "line": 707,
-      "selector": "html[data-contrast=\"hc\"] .workspace-feature-panel .workspace-feature-action-btn, html[data-contrast=\"hc\"] .workspace-feature-panel .workspace-feature-action-btn",
+      "selector": "html[data-contrast=\"hc\"] .workspace-feature-panel [data-variant=\"primary\"], html[data-contrast=\"hc\"] .workspace-feature-panel [data-variant=\"primary\"]:is(:hover",
       "prop": "background",
       "surface": true,
       "cats": [
@@ -16724,7 +16724,7 @@
     {
       "file": "app/styles/features/service-map/desktop.css",
       "line": 708,
-      "selector": "html[data-contrast=\"hc\"] .workspace-feature-panel .workspace-feature-action-btn, html[data-contrast=\"hc\"] .workspace-feature-panel .workspace-feature-action-btn",
+      "selector": "html[data-contrast=\"hc\"] .workspace-feature-panel [data-variant=\"primary\"], html[data-contrast=\"hc\"] .workspace-feature-panel [data-variant=\"primary\"]:is(:hover",
       "prop": "border",
       "surface": true,
       "cats": [
@@ -16735,7 +16735,7 @@
     {
       "file": "app/styles/features/service-map/desktop.css",
       "line": 709,
-      "selector": "html[data-contrast=\"hc\"] .workspace-feature-panel .workspace-feature-action-btn, html[data-contrast=\"hc\"] .workspace-feature-panel .workspace-feature-action-btn",
+      "selector": "html[data-contrast=\"hc\"] .workspace-feature-panel [data-variant=\"primary\"], html[data-contrast=\"hc\"] .workspace-feature-panel [data-variant=\"primary\"]:is(:hover",
       "prop": "box-shadow",
       "surface": true,
       "cats": [
@@ -28695,7 +28695,7 @@
     {
       "file": "app/styles/shared/register.css",
       "line": 126,
-      "selector": ":root:not(.theme-light):not(.theme-mid) .invite-primary-btn:active::before, :root:not(.theme-light) .invite-sponsor-toggle-card:active::before",
+      "selector": ":root:not(.theme-light):not(.theme-mid) [data-variant=\"primary\"]:active::before, :root:not(.theme-light) .invite-sponsor-toggle-card:active::before",
       "prop": "opacity",
       "surface": true,
       "cats": [
@@ -35950,7 +35950,7 @@
     {
       "file": "app/styles/theme/light.css",
       "line": 322,
-      "selector": ":root.theme-light .drawer-panel .drawer-pill-btn.button[data-variant=\"primary\"]",
+      "selector": ":root.theme-light .drawer-panel .drawer-chat-sidebar [data-variant=\"primary\"]",
       "prop": "-webkit-backdrop-filter",
       "surface": true,
       "cats": [
@@ -35960,7 +35960,7 @@
     {
       "file": "app/styles/theme/light.css",
       "line": 323,
-      "selector": ":root.theme-light .drawer-panel .drawer-pill-btn.button[data-variant=\"primary\"]",
+      "selector": ":root.theme-light .drawer-panel .drawer-chat-sidebar [data-variant=\"primary\"]",
       "prop": "backdrop-filter",
       "surface": true,
       "cats": [
@@ -35970,7 +35970,7 @@
     {
       "file": "app/styles/theme/light.css",
       "line": 324,
-      "selector": ":root.theme-light .drawer-panel .drawer-pill-btn.button[data-variant=\"primary\"]",
+      "selector": ":root.theme-light .drawer-panel .drawer-chat-sidebar [data-variant=\"primary\"]",
       "prop": "background",
       "surface": true,
       "cats": [
@@ -35980,7 +35980,7 @@
     {
       "file": "app/styles/theme/light.css",
       "line": 325,
-      "selector": ":root.theme-light .drawer-panel .drawer-pill-btn.button[data-variant=\"primary\"]",
+      "selector": ":root.theme-light .drawer-panel .drawer-chat-sidebar [data-variant=\"primary\"]",
       "prop": "border",
       "surface": true,
       "cats": [
@@ -35990,7 +35990,7 @@
     {
       "file": "app/styles/theme/light.css",
       "line": 326,
-      "selector": ":root.theme-light .drawer-panel .drawer-pill-btn.button[data-variant=\"primary\"]",
+      "selector": ":root.theme-light .drawer-panel .drawer-chat-sidebar [data-variant=\"primary\"]",
       "prop": "box-shadow",
       "surface": true,
       "cats": [
@@ -35999,8 +35999,8 @@
     },
     {
       "file": "app/styles/theme/light.css",
-      "line": 331,
-      "selector": ":root.theme-light .drawer-panel .drawer-pill-btn.button[data-variant=\"primary\"]::before",
+      "line": 332,
+      "selector": ":root.theme-light .drawer-panel .drawer-chat-sidebar [data-variant=\"primary\"]::before",
       "prop": "background",
       "surface": true,
       "cats": [
@@ -37038,7 +37038,7 @@
     {
       "file": "app/styles/theme/mono.css",
       "line": 365,
-      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is(.button, .btn, .invite-primary-btn, .workspace-feature-action-btn, [data-variant=\"primary\"]):not(.back-button):no",
+      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is(.button, .btn, [data-variant=\"primary\"]):not(.back-button):not(.chat-back-button):not(.profile-logout-button):not",
       "prop": "color",
       "surface": true,
       "cats": [
@@ -37049,7 +37049,7 @@
     {
       "file": "app/styles/theme/mono.css",
       "line": 366,
-      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is(.button, .btn, .invite-primary-btn, .workspace-feature-action-btn, [data-variant=\"primary\"]):not(.back-button):no",
+      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is(.button, .btn, [data-variant=\"primary\"]):not(.back-button):not(.chat-back-button):not(.profile-logout-button):not",
       "prop": "background",
       "surface": true,
       "cats": [
@@ -37060,7 +37060,7 @@
     {
       "file": "app/styles/theme/mono.css",
       "line": 367,
-      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is(.button, .btn, .invite-primary-btn, .workspace-feature-action-btn, [data-variant=\"primary\"]):not(.back-button):no",
+      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is(.button, .btn, [data-variant=\"primary\"]):not(.back-button):not(.chat-back-button):not(.profile-logout-button):not",
       "prop": "border",
       "surface": true,
       "cats": [
@@ -37071,7 +37071,7 @@
     {
       "file": "app/styles/theme/mono.css",
       "line": 368,
-      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is(.button, .btn, .invite-primary-btn, .workspace-feature-action-btn, [data-variant=\"primary\"]):not(.back-button):no",
+      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is(.button, .btn, [data-variant=\"primary\"]):not(.back-button):not(.chat-back-button):not(.profile-logout-button):not",
       "prop": "box-shadow",
       "surface": true,
       "cats": [
@@ -37082,7 +37082,7 @@
     {
       "file": "app/styles/theme/mono.css",
       "line": 369,
-      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is(.button, .btn, .invite-primary-btn, .workspace-feature-action-btn, [data-variant=\"primary\"]):not(.back-button):no",
+      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is(.button, .btn, [data-variant=\"primary\"]):not(.back-button):not(.chat-back-button):not(.profile-logout-button):not",
       "prop": "transition",
       "surface": false,
       "cats": [
@@ -37092,127 +37092,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 377,
-      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .invite-refresh-btn",
-      "prop": "--btn-primary-bg",
-      "surface": false,
-      "cats": [
-        "theme-override"
-      ]
-    },
-    {
-      "file": "app/styles/theme/mono.css",
       "line": 378,
-      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .invite-refresh-btn",
-      "prop": "--btn-primary-bg-hover",
-      "surface": false,
-      "cats": [
-        "theme-override"
-      ]
-    },
-    {
-      "file": "app/styles/theme/mono.css",
-      "line": 379,
-      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .invite-refresh-btn",
-      "prop": "--btn-primary-bg-active",
-      "surface": false,
-      "cats": [
-        "theme-override"
-      ]
-    },
-    {
-      "file": "app/styles/theme/mono.css",
-      "line": 380,
-      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .invite-refresh-btn",
-      "prop": "--btn-primary-text",
-      "surface": false,
-      "cats": [
-        "theme-override"
-      ]
-    },
-    {
-      "file": "app/styles/theme/mono.css",
-      "line": 381,
-      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .invite-refresh-btn",
-      "prop": "--btn-primary-text-hover",
-      "surface": false,
-      "cats": [
-        "theme-override"
-      ]
-    },
-    {
-      "file": "app/styles/theme/mono.css",
-      "line": 382,
-      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .invite-refresh-btn",
-      "prop": "--btn-primary-border",
-      "surface": false,
-      "cats": [
-        "theme-override"
-      ]
-    },
-    {
-      "file": "app/styles/theme/mono.css",
-      "line": 383,
-      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .invite-refresh-btn",
-      "prop": "--btn-primary-border-hover",
-      "surface": false,
-      "cats": [
-        "theme-override"
-      ]
-    },
-    {
-      "file": "app/styles/theme/mono.css",
-      "line": 384,
-      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .invite-refresh-btn",
-      "prop": "--btn-primary-border-active",
-      "surface": false,
-      "cats": [
-        "theme-override"
-      ]
-    },
-    {
-      "file": "app/styles/theme/mono.css",
-      "line": 385,
-      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .invite-refresh-btn",
-      "prop": "--btn-primary-shadow",
-      "surface": false,
-      "cats": [
-        "theme-override"
-      ]
-    },
-    {
-      "file": "app/styles/theme/mono.css",
-      "line": 388,
-      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .invite-refresh-btn",
-      "prop": "--btn-primary-shadow-hover",
-      "surface": false,
-      "cats": [
-        "theme-override"
-      ]
-    },
-    {
-      "file": "app/styles/theme/mono.css",
-      "line": 391,
-      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .invite-refresh-btn",
-      "prop": "--btn-primary-shadow-active",
-      "surface": false,
-      "cats": [
-        "theme-override"
-      ]
-    },
-    {
-      "file": "app/styles/theme/mono.css",
-      "line": 394,
-      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .invite-refresh-btn",
-      "prop": "--btn-primary-shadow-focus",
-      "surface": false,
-      "cats": [
-        "theme-override"
-      ]
-    },
-    {
-      "file": "app/styles/theme/mono.css",
-      "line": 401,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .materials-page-shell",
       "prop": "--subpage-card-bg",
       "surface": false,
@@ -37222,7 +37102,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 402,
+      "line": 379,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .materials-page-shell",
       "prop": "--subpage-card-bg-hover",
       "surface": false,
@@ -37232,7 +37112,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 403,
+      "line": 380,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .materials-page-shell",
       "prop": "--subpage-card-border",
       "surface": false,
@@ -37242,7 +37122,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 404,
+      "line": 381,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .materials-page-shell",
       "prop": "--subpage-card-border-hover",
       "surface": false,
@@ -37252,7 +37132,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 405,
+      "line": 382,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .materials-page-shell",
       "prop": "--subpage-card-shadow",
       "surface": false,
@@ -37262,7 +37142,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 406,
+      "line": 383,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .materials-page-shell",
       "prop": "--subpage-card-shadow-hover",
       "surface": false,
@@ -37272,7 +37152,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 407,
+      "line": 384,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .materials-page-shell",
       "prop": "--panel-secondary-bg",
       "surface": false,
@@ -37282,7 +37162,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 408,
+      "line": 385,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .materials-page-shell",
       "prop": "--panel-secondary-bg-hover",
       "surface": false,
@@ -37292,7 +37172,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 409,
+      "line": 386,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .materials-page-shell",
       "prop": "--panel-secondary-border",
       "surface": false,
@@ -37302,7 +37182,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 410,
+      "line": 387,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .materials-page-shell",
       "prop": "--panel-secondary-shadow",
       "surface": false,
@@ -37312,7 +37192,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 411,
+      "line": 388,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .materials-page-shell",
       "prop": "--input-bg",
       "surface": false,
@@ -37322,7 +37202,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 412,
+      "line": 389,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .materials-page-shell",
       "prop": "--input-bg-hover",
       "surface": false,
@@ -37332,7 +37212,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 413,
+      "line": 390,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .materials-page-shell",
       "prop": "--input-bg-focus",
       "surface": false,
@@ -37342,7 +37222,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 414,
+      "line": 391,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .materials-page-shell",
       "prop": "--input-border",
       "surface": false,
@@ -37352,7 +37232,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 415,
+      "line": 392,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .materials-page-shell",
       "prop": "--input-shadow",
       "surface": false,
@@ -37362,7 +37242,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 416,
+      "line": 393,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .materials-page-shell",
       "prop": "--input-shadow-hover",
       "surface": false,
@@ -37372,7 +37252,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 420,
+      "line": 397,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .materials-page-shell :is(.materials-comment-box, .materials-comment-glow-field .ui-glow-control)",
       "prop": "background",
       "surface": true,
@@ -37382,7 +37262,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 421,
+      "line": 398,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .materials-page-shell :is(.materials-comment-box, .materials-comment-glow-field .ui-glow-control)",
       "prop": "border-color",
       "surface": true,
@@ -37392,7 +37272,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 422,
+      "line": 399,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .materials-page-shell :is(.materials-comment-box, .materials-comment-glow-field .ui-glow-control)",
       "prop": "box-shadow",
       "surface": true,
@@ -37402,7 +37282,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 423,
+      "line": 400,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .materials-page-shell :is(.materials-comment-box, .materials-comment-glow-field .ui-glow-control)",
       "prop": "color",
       "surface": true,
@@ -37412,7 +37292,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 427,
+      "line": 404,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .workspace-dashboard-panel .materials-page-body",
       "prop": "--subpage-card-bg",
       "surface": false,
@@ -37422,7 +37302,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 428,
+      "line": 405,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .workspace-dashboard-panel .materials-page-body",
       "prop": "--subpage-card-bg-hover",
       "surface": false,
@@ -37432,7 +37312,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 429,
+      "line": 406,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .workspace-dashboard-panel .materials-page-body",
       "prop": "--subpage-card-border",
       "surface": false,
@@ -37442,7 +37322,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 430,
+      "line": 407,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .workspace-dashboard-panel .materials-page-body",
       "prop": "--subpage-card-shadow",
       "surface": false,
@@ -37452,7 +37332,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 431,
+      "line": 408,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .workspace-dashboard-panel .materials-page-body",
       "prop": "--subpage-card-shadow-hover",
       "surface": false,
@@ -37462,7 +37342,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 432,
+      "line": 409,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .workspace-dashboard-panel .materials-page-body",
       "prop": "--input-bg",
       "surface": false,
@@ -37472,7 +37352,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 433,
+      "line": 410,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .workspace-dashboard-panel .materials-page-body",
       "prop": "--input-bg-hover",
       "surface": false,
@@ -37482,7 +37362,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 434,
+      "line": 411,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .workspace-dashboard-panel .materials-page-body",
       "prop": "--input-bg-focus",
       "surface": false,
@@ -37492,7 +37372,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 435,
+      "line": 412,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .workspace-dashboard-panel .materials-page-body",
       "prop": "--input-border",
       "surface": false,
@@ -37502,7 +37382,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 436,
+      "line": 413,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .workspace-dashboard-panel .materials-page-body",
       "prop": "--input-shadow",
       "surface": false,
@@ -37512,7 +37392,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 437,
+      "line": 414,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .workspace-dashboard-panel .materials-page-body",
       "prop": "--input-shadow-hover",
       "surface": false,
@@ -37522,7 +37402,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 445,
+      "line": 422,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .workspace-dashboard-panel .materials-page-body :is( .materials-comment-glow-field.ui-glow-field, .materials-comment-",
       "prop": "--card-bg",
       "surface": false,
@@ -37532,7 +37412,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 446,
+      "line": 423,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .workspace-dashboard-panel .materials-page-body :is( .materials-comment-glow-field.ui-glow-field, .materials-comment-",
       "prop": "background",
       "surface": true,
@@ -37542,7 +37422,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 447,
+      "line": 424,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .workspace-dashboard-panel .materials-page-body :is( .materials-comment-glow-field.ui-glow-field, .materials-comment-",
       "prop": "background-image",
       "surface": true,
@@ -37552,7 +37432,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 448,
+      "line": 425,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .workspace-dashboard-panel .materials-page-body :is( .materials-comment-glow-field.ui-glow-field, .materials-comment-",
       "prop": "border-color",
       "surface": true,
@@ -37562,7 +37442,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 449,
+      "line": 426,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .workspace-dashboard-panel .materials-page-body :is( .materials-comment-glow-field.ui-glow-field, .materials-comment-",
       "prop": "box-shadow",
       "surface": true,
@@ -37572,7 +37452,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 450,
+      "line": 427,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .workspace-dashboard-panel .materials-page-body :is( .materials-comment-glow-field.ui-glow-field, .materials-comment-",
       "prop": "color",
       "surface": true,
@@ -37582,7 +37462,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 459,
+      "line": 436,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .workspace-dashboard-panel .materials-page-body :is( .materials-comment-glow-field.ui-glow-field:hover, .materials-co",
       "prop": "--card-bg",
       "surface": false,
@@ -37593,7 +37473,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 460,
+      "line": 437,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .workspace-dashboard-panel .materials-page-body :is( .materials-comment-glow-field.ui-glow-field:hover, .materials-co",
       "prop": "background",
       "surface": true,
@@ -37604,7 +37484,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 461,
+      "line": 438,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .workspace-dashboard-panel .materials-page-body :is( .materials-comment-glow-field.ui-glow-field:hover, .materials-co",
       "prop": "background-image",
       "surface": true,
@@ -37615,7 +37495,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 462,
+      "line": 439,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .workspace-dashboard-panel .materials-page-body :is( .materials-comment-glow-field.ui-glow-field:hover, .materials-co",
       "prop": "box-shadow",
       "surface": true,
@@ -37626,7 +37506,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 466,
+      "line": 443,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .materials-page-shell :is(.materials-upload-choose-button, .materials-upload-submit-button, .materials-surface-button",
       "prop": "--btn-primary-bg",
       "surface": false,
@@ -37636,7 +37516,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 467,
+      "line": 444,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .materials-page-shell :is(.materials-upload-choose-button, .materials-upload-submit-button, .materials-surface-button",
       "prop": "--btn-primary-bg-hover",
       "surface": false,
@@ -37646,7 +37526,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 468,
+      "line": 445,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .materials-page-shell :is(.materials-upload-choose-button, .materials-upload-submit-button, .materials-surface-button",
       "prop": "--btn-primary-bg-active",
       "surface": false,
@@ -37656,7 +37536,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 469,
+      "line": 446,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .materials-page-shell :is(.materials-upload-choose-button, .materials-upload-submit-button, .materials-surface-button",
       "prop": "--btn-primary-text",
       "surface": false,
@@ -37666,7 +37546,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 470,
+      "line": 447,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .materials-page-shell :is(.materials-upload-choose-button, .materials-upload-submit-button, .materials-surface-button",
       "prop": "--btn-primary-text-hover",
       "surface": false,
@@ -37676,7 +37556,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 471,
+      "line": 448,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .materials-page-shell :is(.materials-upload-choose-button, .materials-upload-submit-button, .materials-surface-button",
       "prop": "--btn-primary-shadow",
       "surface": false,
@@ -37686,7 +37566,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 474,
+      "line": 451,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .materials-page-shell :is(.materials-upload-choose-button, .materials-upload-submit-button, .materials-surface-button",
       "prop": "--btn-primary-shadow-hover",
       "surface": false,
@@ -37696,7 +37576,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 477,
+      "line": 454,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .materials-page-shell :is(.materials-upload-choose-button, .materials-upload-submit-button, .materials-surface-button",
       "prop": "color",
       "surface": true,
@@ -37706,7 +37586,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 478,
+      "line": 455,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .materials-page-shell :is(.materials-upload-choose-button, .materials-upload-submit-button, .materials-surface-button",
       "prop": "background",
       "surface": true,
@@ -37716,7 +37596,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 479,
+      "line": 456,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .materials-page-shell :is(.materials-upload-choose-button, .materials-upload-submit-button, .materials-surface-button",
       "prop": "box-shadow",
       "surface": true,
@@ -37726,7 +37606,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 504,
+      "line": 481,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .workspace-feature-dropdown:not(.pre-inquiry-dropdown) .documents-dropdown-menu",
       "prop": "border",
       "surface": true,
@@ -37737,7 +37617,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 505,
+      "line": 482,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .workspace-feature-dropdown:not(.pre-inquiry-dropdown) .documents-dropdown-menu",
       "prop": "background",
       "surface": true,
@@ -37748,7 +37628,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 506,
+      "line": 483,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .workspace-feature-dropdown:not(.pre-inquiry-dropdown) .documents-dropdown-menu",
       "prop": "background-color",
       "surface": true,
@@ -37759,7 +37639,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 507,
+      "line": 484,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .workspace-feature-dropdown:not(.pre-inquiry-dropdown) .documents-dropdown-menu",
       "prop": "box-shadow",
       "surface": true,
@@ -37770,7 +37650,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 510,
+      "line": 487,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .workspace-feature-dropdown:not(.pre-inquiry-dropdown) .documents-dropdown-menu",
       "prop": "color",
       "surface": true,
@@ -37781,7 +37661,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 511,
+      "line": 488,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .workspace-feature-dropdown:not(.pre-inquiry-dropdown) .documents-dropdown-menu",
       "prop": "opacity",
       "surface": true,
@@ -37792,7 +37672,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 515,
+      "line": 492,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .workspace-feature-dropdown:not(.pre-inquiry-dropdown) .documents-dropdown-item",
       "prop": "background",
       "surface": true,
@@ -37803,7 +37683,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 516,
+      "line": 493,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .workspace-feature-dropdown:not(.pre-inquiry-dropdown) .documents-dropdown-item",
       "prop": "color",
       "surface": true,
@@ -37814,7 +37694,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 520,
+      "line": 497,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .workspace-feature-dropdown:not(.pre-inquiry-dropdown) .documents-dropdown-item:is(:hover, :focus-visible)",
       "prop": "background",
       "surface": true,
@@ -37826,7 +37706,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 524,
+      "line": 501,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .workspace-feature-dropdown:not(.pre-inquiry-dropdown) .documents-dropdown-item.is-active",
       "prop": "background",
       "surface": true,
@@ -37837,7 +37717,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 525,
+      "line": 502,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .workspace-feature-dropdown:not(.pre-inquiry-dropdown) .documents-dropdown-item.is-active",
       "prop": "color",
       "surface": true,
@@ -37848,8 +37728,8 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 535,
-      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is(.button, .btn, .invite-primary-btn, .workspace-feature-action-btn, [data-variant=\"primary\"]):not(.back-button):no",
+      "line": 512,
+      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is(.button, .btn, [data-variant=\"primary\"]):not(.back-button):not(.chat-back-button):not(.glass-policy-back):not(.pr",
       "prop": "background",
       "surface": true,
       "cats": [
@@ -37860,8 +37740,8 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 537,
-      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is(.button, .btn, .invite-primary-btn, .workspace-feature-action-btn, [data-variant=\"primary\"]):not(.back-button):no",
+      "line": 514,
+      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is(.button, .btn, [data-variant=\"primary\"]):not(.back-button):not(.chat-back-button):not(.glass-policy-back):not(.pr",
       "prop": "transition",
       "surface": false,
       "cats": [
@@ -37872,8 +37752,8 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 541,
-      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is(.button, .btn, .invite-primary-btn, .workspace-feature-action-btn, [data-variant=\"primary\"]):not(.back-button):no",
+      "line": 518,
+      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is(.button, .btn, [data-variant=\"primary\"]):not(.back-button):not(.chat-back-button):not(.glass-policy-back):not(.pr",
       "prop": "color",
       "surface": true,
       "cats": [
@@ -37884,8 +37764,8 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 542,
-      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is(.button, .btn, .invite-primary-btn, .workspace-feature-action-btn, [data-variant=\"primary\"]):not(.back-button):no",
+      "line": 519,
+      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is(.button, .btn, [data-variant=\"primary\"]):not(.back-button):not(.chat-back-button):not(.glass-policy-back):not(.pr",
       "prop": "background",
       "surface": true,
       "cats": [
@@ -37896,8 +37776,8 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 543,
-      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is(.button, .btn, .invite-primary-btn, .workspace-feature-action-btn, [data-variant=\"primary\"]):not(.back-button):no",
+      "line": 520,
+      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is(.button, .btn, [data-variant=\"primary\"]):not(.back-button):not(.chat-back-button):not(.glass-policy-back):not(.pr",
       "prop": "box-shadow",
       "surface": true,
       "cats": [
@@ -37908,8 +37788,8 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 547,
-      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is(.button, .btn, .invite-primary-btn, .workspace-feature-action-btn, [data-variant=\"primary\"]):not(.back-button):no",
+      "line": 524,
+      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is(.button, .btn, [data-variant=\"primary\"]):not(.back-button):not(.chat-back-button):not(.glass-policy-back):not(.pr",
       "prop": "opacity",
       "surface": true,
       "cats": [
@@ -37921,7 +37801,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 551,
+      "line": 528,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is(.glass-ring.glass-ring--desktop-stable, .policy-mobile-lower.glass-ring.glass-ring--desktop-stable, .guide-policy",
       "prop": "box-shadow",
       "surface": true,
@@ -37931,7 +37811,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 555,
+      "line": 532,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is(.ui-glow-field, .ui-glow-button-frame, .ui-glow-option-card-frame, .invite-glow-field, .profile-orbit-edge-glow)",
       "prop": "--glow-color",
       "surface": false,
@@ -37941,7 +37821,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 556,
+      "line": 533,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is(.ui-glow-field, .ui-glow-button-frame, .ui-glow-option-card-frame, .invite-glow-field, .profile-orbit-edge-glow)",
       "prop": "--glow-color-60",
       "surface": false,
@@ -37951,7 +37831,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 557,
+      "line": 534,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is(.ui-glow-field, .ui-glow-button-frame, .ui-glow-option-card-frame, .invite-glow-field, .profile-orbit-edge-glow)",
       "prop": "--glow-color-50",
       "surface": false,
@@ -37961,7 +37841,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 558,
+      "line": 535,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is(.ui-glow-field, .ui-glow-button-frame, .ui-glow-option-card-frame, .invite-glow-field, .profile-orbit-edge-glow)",
       "prop": "--glow-color-40",
       "surface": false,
@@ -37971,7 +37851,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 559,
+      "line": 536,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is(.ui-glow-field, .ui-glow-button-frame, .ui-glow-option-card-frame, .invite-glow-field, .profile-orbit-edge-glow)",
       "prop": "--glow-color-30",
       "surface": false,
@@ -37981,7 +37861,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 560,
+      "line": 537,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is(.ui-glow-field, .ui-glow-button-frame, .ui-glow-option-card-frame, .invite-glow-field, .profile-orbit-edge-glow)",
       "prop": "--glow-color-20",
       "surface": false,
@@ -37991,7 +37871,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 561,
+      "line": 538,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is(.ui-glow-field, .ui-glow-button-frame, .ui-glow-option-card-frame, .invite-glow-field, .profile-orbit-edge-glow)",
       "prop": "--glow-color-10",
       "surface": false,
@@ -38001,7 +37881,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 565,
+      "line": 542,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is(.ui-glow-field, .invite-glow-field)",
       "prop": "--card-bg",
       "surface": false,
@@ -38011,7 +37891,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 566,
+      "line": 543,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is(.ui-glow-field, .invite-glow-field)",
       "prop": "background",
       "surface": true,
@@ -38021,7 +37901,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 567,
+      "line": 544,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is(.ui-glow-field, .invite-glow-field)",
       "prop": "border",
       "surface": true,
@@ -38031,7 +37911,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 568,
+      "line": 545,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is(.ui-glow-field, .invite-glow-field)",
       "prop": "box-shadow",
       "surface": true,
@@ -38041,7 +37921,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 569,
+      "line": 546,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is(.ui-glow-field, .invite-glow-field)",
       "prop": "transition",
       "surface": false,
@@ -38051,7 +37931,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 579,
+      "line": 556,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .ui-glow-field:hover, :root.theme-mono:not([data-contrast=\"hc\"]) .ui-glow-field:focus-within, :root.theme-mono:not([d",
       "prop": "--card-bg",
       "surface": false,
@@ -38063,55 +37943,55 @@
     },
     {
       "file": "app/styles/theme/mono.css",
+      "line": 557,
+      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .ui-glow-field:hover, :root.theme-mono:not([data-contrast=\"hc\"]) .ui-glow-field:focus-within, :root.theme-mono:not([d",
+      "prop": "background",
+      "surface": true,
+      "cats": [
+        "theme-override",
+        "not-chain",
+        "state"
+      ]
+    },
+    {
+      "file": "app/styles/theme/mono.css",
+      "line": 558,
+      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .ui-glow-field:hover, :root.theme-mono:not([data-contrast=\"hc\"]) .ui-glow-field:focus-within, :root.theme-mono:not([d",
+      "prop": "box-shadow",
+      "surface": true,
+      "cats": [
+        "theme-override",
+        "not-chain",
+        "state"
+      ]
+    },
+    {
+      "file": "app/styles/theme/mono.css",
+      "line": 565,
+      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .ui-glow-button-frame:hover:not(.ui-glow-button-frame--disabled), :root.theme-mono:not([data-contrast=\"hc\"]) .ui-glow",
+      "prop": "background",
+      "surface": true,
+      "cats": [
+        "theme-override",
+        "not-chain",
+        "state"
+      ]
+    },
+    {
+      "file": "app/styles/theme/mono.css",
+      "line": 570,
+      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .ui-glow-button-frame:hover:not(.ui-glow-button-frame--disabled), :root.theme-mono:not([data-contrast=\"hc\"]) .ui-glow",
+      "prop": "box-shadow",
+      "surface": true,
+      "cats": [
+        "theme-override",
+        "not-chain",
+        "state"
+      ]
+    },
+    {
+      "file": "app/styles/theme/mono.css",
       "line": 580,
-      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .ui-glow-field:hover, :root.theme-mono:not([data-contrast=\"hc\"]) .ui-glow-field:focus-within, :root.theme-mono:not([d",
-      "prop": "background",
-      "surface": true,
-      "cats": [
-        "theme-override",
-        "not-chain",
-        "state"
-      ]
-    },
-    {
-      "file": "app/styles/theme/mono.css",
-      "line": 581,
-      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .ui-glow-field:hover, :root.theme-mono:not([data-contrast=\"hc\"]) .ui-glow-field:focus-within, :root.theme-mono:not([d",
-      "prop": "box-shadow",
-      "surface": true,
-      "cats": [
-        "theme-override",
-        "not-chain",
-        "state"
-      ]
-    },
-    {
-      "file": "app/styles/theme/mono.css",
-      "line": 588,
-      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .ui-glow-button-frame:hover:not(.ui-glow-button-frame--disabled), :root.theme-mono:not([data-contrast=\"hc\"]) .ui-glow",
-      "prop": "background",
-      "surface": true,
-      "cats": [
-        "theme-override",
-        "not-chain",
-        "state"
-      ]
-    },
-    {
-      "file": "app/styles/theme/mono.css",
-      "line": 593,
-      "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .ui-glow-button-frame:hover:not(.ui-glow-button-frame--disabled), :root.theme-mono:not([data-contrast=\"hc\"]) .ui-glow",
-      "prop": "box-shadow",
-      "surface": true,
-      "cats": [
-        "theme-override",
-        "not-chain",
-        "state"
-      ]
-    },
-    {
-      "file": "app/styles/theme/mono.css",
-      "line": 603,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .ui-glow-option-card-frame",
       "prop": "--seg-card-bg-hover",
       "surface": false,
@@ -38121,7 +38001,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 604,
+      "line": 581,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .ui-glow-option-card-frame",
       "prop": "--seg-card-bg-selected",
       "surface": false,
@@ -38131,7 +38011,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 605,
+      "line": 582,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .ui-glow-option-card-frame",
       "prop": "--seg-card-bg-active",
       "surface": false,
@@ -38141,7 +38021,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 606,
+      "line": 583,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .ui-glow-option-card-frame",
       "prop": "--seg-card-border-hover",
       "surface": false,
@@ -38151,7 +38031,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 607,
+      "line": 584,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .ui-glow-option-card-frame",
       "prop": "--seg-card-border-selected",
       "surface": false,
@@ -38161,7 +38041,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 608,
+      "line": 585,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .ui-glow-option-card-frame",
       "prop": "--seg-card-border-active",
       "surface": false,
@@ -38171,7 +38051,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 609,
+      "line": 586,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .ui-glow-option-card-frame",
       "prop": "--seg-card-shadow-hover",
       "surface": false,
@@ -38181,7 +38061,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 610,
+      "line": 587,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .ui-glow-option-card-frame",
       "prop": "--seg-card-shadow-selected",
       "surface": false,
@@ -38191,7 +38071,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 611,
+      "line": 588,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .ui-glow-option-card-frame",
       "prop": "--seg-card-shadow-active",
       "surface": false,
@@ -38201,7 +38081,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 625,
+      "line": 602,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .ui-glow-option-card-frame:is(:hover, :focus-visible, :focus-within, :active):not(.ui-glow-option-card-frame--disable",
       "prop": "background",
       "surface": true,
@@ -38213,7 +38093,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 626,
+      "line": 603,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .ui-glow-option-card-frame:is(:hover, :focus-visible, :focus-within, :active):not(.ui-glow-option-card-frame--disable",
       "prop": "border-color",
       "surface": true,
@@ -38225,7 +38105,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 627,
+      "line": 604,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .ui-glow-option-card-frame:is(:hover, :focus-visible, :focus-within, :active):not(.ui-glow-option-card-frame--disable",
       "prop": "box-shadow",
       "surface": true,
@@ -38237,7 +38117,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 631,
+      "line": 608,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .ui-glow-option-card-frame:is(:hover, :focus-visible, :focus-within, :active):not(.ui-glow-option-card-frame--disable",
       "prop": "opacity",
       "surface": true,
@@ -38250,7 +38130,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 636,
+      "line": 613,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is(.ui-glow-field, .invite-glow-field, .ui-glow-button-frame, .ui-glow-option-card-frame) > [class*=\"edgeLight\"]::be",
       "prop": "box-shadow",
       "surface": true,
@@ -38262,7 +38142,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 650,
+      "line": 627,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is( .update-pin-content .ui-glow-field, .update-email-content .ui-glow-field )",
       "prop": "--card-bg",
       "surface": false,
@@ -38272,7 +38152,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 651,
+      "line": 628,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is( .update-pin-content .ui-glow-field, .update-email-content .ui-glow-field )",
       "prop": "background",
       "surface": true,
@@ -38282,7 +38162,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 652,
+      "line": 629,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is( .update-pin-content .ui-glow-field, .update-email-content .ui-glow-field )",
       "prop": "border",
       "surface": true,
@@ -38292,7 +38172,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 653,
+      "line": 630,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is( .update-pin-content .ui-glow-field, .update-email-content .ui-glow-field )",
       "prop": "box-shadow",
       "surface": true,
@@ -38302,7 +38182,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 654,
+      "line": 631,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is( .update-pin-content .ui-glow-field, .update-email-content .ui-glow-field )",
       "prop": "-webkit-backdrop-filter",
       "surface": true,
@@ -38312,7 +38192,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 655,
+      "line": 632,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is( .update-pin-content .ui-glow-field, .update-email-content .ui-glow-field )",
       "prop": "backdrop-filter",
       "surface": true,
@@ -38322,7 +38202,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 660,
+      "line": 637,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .glass-field-hole-surface",
       "prop": "background",
       "surface": true,
@@ -38332,7 +38212,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 661,
+      "line": 638,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .glass-field-hole-surface",
       "prop": "-webkit-backdrop-filter",
       "surface": true,
@@ -38342,7 +38222,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 662,
+      "line": 639,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) .glass-field-hole-surface",
       "prop": "backdrop-filter",
       "surface": true,
@@ -38352,7 +38232,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 693,
+      "line": 670,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is( .update-pin-content .ui-glow-field, .update-email-content .ui-glow-field ):is(:hover, :focus-within)",
       "prop": "--card-bg",
       "surface": false,
@@ -38363,7 +38243,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 694,
+      "line": 671,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is( .update-pin-content .ui-glow-field, .update-email-content .ui-glow-field ):is(:hover, :focus-within)",
       "prop": "background",
       "surface": true,
@@ -38374,7 +38254,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 695,
+      "line": 672,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is( .update-pin-content .ui-glow-field, .update-email-content .ui-glow-field ):is(:hover, :focus-within)",
       "prop": "box-shadow",
       "surface": true,
@@ -38385,7 +38265,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 702,
+      "line": 679,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is( .update-pin-content .ui-glow-field, .update-email-content .ui-glow-field ) :is(input, textarea, select, .ui-glow",
       "prop": "background",
       "surface": true,
@@ -38395,7 +38275,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 703,
+      "line": 680,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is( .update-pin-content .ui-glow-field, .update-email-content .ui-glow-field ) :is(input, textarea, select, .ui-glow",
       "prop": "box-shadow",
       "surface": true,
@@ -38405,7 +38285,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 704,
+      "line": 681,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is( .update-pin-content .ui-glow-field, .update-email-content .ui-glow-field ) :is(input, textarea, select, .ui-glow",
       "prop": "-webkit-backdrop-filter",
       "surface": true,
@@ -38415,7 +38295,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 705,
+      "line": 682,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is( .update-pin-content .ui-glow-field, .update-email-content .ui-glow-field ) :is(input, textarea, select, .ui-glow",
       "prop": "backdrop-filter",
       "surface": true,
@@ -38425,7 +38305,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 720,
+      "line": 697,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is( .update-pin-content .ui-glow-field, .update-email-content .ui-glow-field )::before, :root.theme-mono:not([data-c",
       "prop": "display",
       "surface": false,
@@ -38437,7 +38317,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 779,
+      "line": 756,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is(.workspace-feature-glow-card, .workspace-feature-card, .workspace-feature-list-card, .workspace-feature-chip, .wo",
       "prop": "border-color",
       "surface": true,
@@ -38447,7 +38327,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 783,
+      "line": 760,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]) :is(.workspace-feature-glow-card, .workspace-feature-card, .workspace-feature-list-card, .workspace-feature-chip, .wo",
       "prop": "box-shadow",
       "surface": true,
@@ -38458,7 +38338,7 @@
     },
     {
       "file": "app/styles/theme/mono.css",
-      "line": 793,
+      "line": 770,
       "selector": ":root.theme-mono:not([data-contrast=\"hc\"]):not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast=\"hc\"]) .homepage-root .home-about-panel, :root",
       "prop": "box-shadow",
       "surface": true,

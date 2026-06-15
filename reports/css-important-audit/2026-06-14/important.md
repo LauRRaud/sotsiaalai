@@ -1,9 +1,9 @@
 # !important audit — 2026-06-14
 
-**Total `!important` declarations:** 3769
+**Total `!important` declarations:** 3757
 
 - on **surface props** (Root B theme-war: background/box-shadow/color/border/backdrop/opacity): **1686**
-- under **theme-override selectors** (`:not(.theme-)`/`:root.theme-`/`[data-contrast]`): **1646**
+- under **theme-override selectors** (`:not(.theme-)`/`:root.theme-`/`[data-contrast]`): **1634**
 
 > Strategy (css-tailwind-cleanup-plan §1): these are a SYMPTOM. Surface-prop +
 > theme-override `!important` dissolves when theming moves to `:root.theme-X { --token }`
@@ -17,8 +17,8 @@
 | `app/styles/features/service-map/desktop.css` | 281 |
 | `app/styles/features/chat/hc.css` | 207 |
 | `app/styles/features/chat/shell.css` | 204 |
-| `app/styles/theme/mono.css` | 171 |
 | `app/styles/features/chat/mobile.css` | 169 |
+| `app/styles/theme/mono.css` | 159 |
 | `app/styles/mobile/accessibility-touch.css` | 138 |
 | `app/styles/features/chat/mono.css` | 131 |
 | `app/styles/shared/ui-glow.css` | 118 |
@@ -74,7 +74,7 @@
 | category | count |
 |---|---|
 | plain | 1857 |
-| theme-override | 1646 |
+| theme-override | 1634 |
 | state | 647 |
 | not-chain | 315 |
 | pseudo-el | 157 |
