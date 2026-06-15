@@ -302,8 +302,8 @@
 .guide-quickstart-rich-text p,
 .guide-quickstart-rich-text ol,
 .guide-quickstart-rich-text ul {
-  margin-top: 0.22rem !important;
-  margin-bottom: 0.22rem !important;
+  margin-top: 0.22rem;
+  margin-bottom: 0.22rem;
 }
 
 .guide-quickstart-rich-text li {
@@ -320,12 +320,7 @@
     line-height: 1.56 !important;
   }
 
-  .guide-quickstart-rich-text p,
-  .guide-quickstart-rich-text ol,
-  .guide-quickstart-rich-text ul {
-    margin-top: 0.22rem !important;
-    margin-bottom: 0.22rem !important;
-  }
+  /* p/ol/ul margin on baasiga (0.22rem) identne — @media-duplikaat eemaldatud. */
 
   .guide-quickstart-rich-text li {
     margin-top: 0.14rem !important;
