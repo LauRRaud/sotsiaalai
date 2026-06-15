@@ -191,45 +191,61 @@ async function captureTarget(page, target, all = false) {
     // default to all themes. Previously target.themes was silently ignored.
     const themes = target.themes ? THEMES.filter((t) => target.themes.includes(t.id)) : THEMES;
     for (const theme of themes) {
-      await applyTheme(page, theme);
-      await freezeMotion(page); // re-inject: the reload in applyTheme dropped it
-      // Deterministic render flush instead of a guessed settle or a timeout:0
-      // wait. Two animation frames = styles/layout flushed.
-      await flush(page);
-      // Drive interactive states (hover/click/focus) then flush again so their
-      // (now instant) result is settled before we read computed styles. Park the
-      // mouse first so a prior theme's hover never bleeds into this capture.
-      await page.mouse.move(0, 0);
-      await runSteps(page, target.steps);
-      await flush(page);
-      const captured = await page.evaluate(
-        ({ selectors, properties, all }) => {
-          const out = {};
-          for (const sel of selectors) {
-            // --all captures EVERY instance (keyed sel##0, sel##1, …) so a
-            // change on a non-first instance can't slip past; default keeps the
-            // legacy single-element behaviour (key = sel).
-            const els = all
-              ? Array.from(document.querySelectorAll(sel))
-              : [document.querySelector(sel)].filter(Boolean);
-            if (els.length === 0) {
-              out[sel] = null;
-              continue;
+      // Per-theme resilience: a route that redirects/navigates mid-capture (e.g.
+      // a stateful page like /teekond) destroys the execution context. Catch it,
+      // record this cell as null, and continue — one bad route must not abort the
+      // whole crawl. The next theme's reload (or next target's goto) restores a
+      // clean context; we also re-goto here as a belt-and-suspenders.
+      try {
+        await applyTheme(page, theme);
+        await freezeMotion(page); // re-inject: the reload in applyTheme dropped it
+        // Deterministic render flush instead of a guessed settle or a timeout:0
+        // wait. Two animation frames = styles/layout flushed.
+        await flush(page);
+        // Drive interactive states (hover/click/focus) then flush again so their
+        // (now instant) result is settled before we read computed styles. Park the
+        // mouse first so a prior theme's hover never bleeds into this capture.
+        await page.mouse.move(0, 0);
+        await runSteps(page, target.steps);
+        await flush(page);
+        const captured = await page.evaluate(
+          ({ selectors, properties, all }) => {
+            const out = {};
+            for (const sel of selectors) {
+              // --all captures EVERY instance (keyed sel##0, sel##1, …) so a
+              // change on a non-first instance can't slip past; default keeps the
+              // legacy single-element behaviour (key = sel).
+              const els = all
+                ? Array.from(document.querySelectorAll(sel))
+                : [document.querySelector(sel)].filter(Boolean);
+              if (els.length === 0) {
+                out[sel] = null;
+                continue;
+              }
+              els.forEach((el, i) => {
+                const cs = getComputedStyle(el);
+                const props = {};
+                for (const p of properties) props[p] = cs.getPropertyValue(p);
+                out[all ? `${sel}##${i}` : sel] = props;
+              });
             }
-            els.forEach((el, i) => {
-              const cs = getComputedStyle(el);
-              const props = {};
-              for (const p of properties) props[p] = cs.getPropertyValue(p);
-              out[all ? `${sel}##${i}` : sel] = props;
-            });
-          }
-          return out;
-        },
-        { selectors: target.selectors, properties: target.properties, all }
-      );
-      for (const [sel, props] of Object.entries(captured)) {
-        result[sel] ??= {};
-        result[sel][`${theme.id}/${vp.id}`] = props;
+            return out;
+          },
+          { selectors: target.selectors, properties: target.properties, all }
+        );
+        for (const [sel, props] of Object.entries(captured)) {
+          result[sel] ??= {};
+          result[sel][`${theme.id}/${vp.id}`] = props;
+        }
+      } catch (e) {
+        console.warn(`  ⚠ ${target.name} ${theme.id}/${vp.id} skipped: ${e.message.split("\n")[0]}`);
+        for (const sel of target.selectors) {
+          result[sel] ??= {};
+          result[sel][`${theme.id}/${vp.id}`] = null;
+        }
+        try {
+          await page.goto(`${page.context()._baseUrl}${target.route}`, { waitUntil: "domcontentloaded" });
+        } catch {}
       }
     }
   }
