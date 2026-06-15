@@ -1,3 +1,7 @@
+:root.theme-mid {
+  --mid-white-rgb: 255, 255, 255;
+}
+
 :root.theme-mid .space-backdrop[data-mode="light"] {
   --space-backdrop-glow: radial-gradient(
     ellipse at 50% -14%,
@@ -186,8 +190,8 @@
   background:
     radial-gradient(
       120% 120% at 18% 16%,
-      rgba(255, 255, 255, 0.58) 0%,
-      rgba(255, 255, 255, 0.16) 62%
+      rgba(var(--mid-white-rgb), 0.58) 0%,
+      rgba(var(--mid-white-rgb), 0.16) 62%
     ),
     radial-gradient(
       120% 120% at 86% 90%,
@@ -204,21 +208,21 @@
   --pin-gloss-bg:
     linear-gradient(
       135deg,
-      rgba(255, 255, 255, 0.42) 0%,
-      rgba(255, 255, 255, 0.18) 32%,
-      rgba(255, 255, 255, 0) 58%,
-      rgba(255, 255, 255, 0.12) 74%,
+      rgba(var(--mid-white-rgb), 0.42) 0%,
+      rgba(var(--mid-white-rgb), 0.18) 32%,
+      rgba(var(--mid-white-rgb), 0) 58%,
+      rgba(var(--mid-white-rgb), 0.12) 74%,
       rgba(126, 95, 88, 0.08) 100%
     ),
     radial-gradient(
       120% 110% at 18% 16%,
-      rgba(255, 255, 255, 0.28) 0%,
-      rgba(255, 255, 255, 0) 64%
+      rgba(var(--mid-white-rgb), 0.28) 0%,
+      rgba(var(--mid-white-rgb), 0) 64%
     ),
     radial-gradient(
       120% 120% at 84% 90%,
-      rgba(255, 255, 255, 0.1) 0%,
-      rgba(255, 255, 255, 0) 56%
+      rgba(var(--mid-white-rgb), 0.1) 0%,
+      rgba(var(--mid-white-rgb), 0) 56%
     );
   --pin-gloss-op: 0.28;
 }
@@ -293,7 +297,7 @@
 }
 
 :root.theme-mid .modal-confirm-content {
-  border: 1px solid var(--rail-tooltip-border, rgba(255, 255, 255, 0.16)) !important;
+  border: 1px solid var(--rail-tooltip-border, rgba(var(--mid-white-rgb), 0.16)) !important;
   background: var(--chat-tools-panel-bg, var(--chat-rail-tooltip-bg, var(--rail-tooltip-bg, rgb(252, 246, 244)))) !important;
   color: var(--opaque-panel-text, var(--rail-tooltip-text, #2f3a4a)) !important;
   box-shadow: var(--opaque-panel-shadow, var(--rail-tooltip-shadow, 0 12px 28px rgba(46, 24, 21, 0.18))) !important;
@@ -323,7 +327,7 @@
       rgba(246, 237, 235, 0.36) 100%
     ),
     rgba(247, 238, 236, 0.32) !important;
-  border: 1px solid rgba(255, 255, 255, 0.46) !important;
+  border: 1px solid rgba(var(--mid-white-rgb), 0.46) !important;
   color: #2f3a4a !important;
   box-shadow: 0 6px 14px rgba(20, 12, 10, 0.15) !important;
 }
@@ -337,7 +341,7 @@
       rgba(247, 239, 237, 0.42) 100%
     ),
     rgba(249, 241, 239, 0.36) !important;
-  border: 1px solid rgba(255, 255, 255, 0.56) !important;
+  border: 1px solid rgba(var(--mid-white-rgb), 0.56) !important;
 }
 
 /* Materials page primary buttons in mid: avoid bright bottom stripe artifact. */
@@ -374,7 +378,7 @@
   --input-shadow-composite: var(--subpage-card-shadow);
   --input-shadow-hover-composite: var(--subpage-card-shadow);
   --input-shadow-focus-composite: var(--subpage-card-shadow);
-  --input-surface-overlay: inset 0 0 0 999px rgba(255, 255, 255, 0);
-  --input-surface-overlay-hover: inset 0 0 0 999px rgba(255, 255, 255, 0);
-  --input-surface-overlay-focus: inset 0 0 0 999px rgba(255, 255, 255, 0);
+  --input-surface-overlay: inset 0 0 0 999px rgba(var(--mid-white-rgb), 0);
+  --input-surface-overlay-hover: inset 0 0 0 999px rgba(var(--mid-white-rgb), 0);
+  --input-surface-overlay-focus: inset 0 0 0 999px rgba(var(--mid-white-rgb), 0);
 }
