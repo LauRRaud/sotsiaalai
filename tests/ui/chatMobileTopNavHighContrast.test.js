@@ -9,13 +9,14 @@ function read(path) {
 test("high contrast mobile chat top nav icons stay background-free", () => {
   const css = read("app/styles/theme/hc.css");
 
+  // The topnav button is now made background-free by a direct positive rule
+  // (background/background-image/box-shadow reset on the button itself), not by
+  // being excluded from a general reset chain. The assertion below guards that
+  // contract; the old `:not([data-chat-mobile-topnav-button]):not(.chat-rail-icon-btn)`
+  // exclusion shape was removed in the chat-feature CSS restructure (cf45cadb).
   assert.match(
     css,
     /html\[data-contrast="hc"\] \.chat-mobile-topnav button\[data-chat-mobile-topnav-button="1"\],[\s\S]*?\.chat-mobile-topnav button\[data-chat-mobile-topnav-button="1"\]::after\s*\{[\s\S]*?background:\s*transparent !important;[\s\S]*?background-image:\s*none !important;[\s\S]*?box-shadow:\s*none !important;/
-  );
-  assert.match(
-    css,
-    /:not\(\[data-chat-mobile-topnav-button="1"\]\):not\(\.chat-rail-icon-btn\)/
   );
 });
 
