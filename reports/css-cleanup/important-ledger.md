@@ -26,13 +26,33 @@ Legend: ✅ tehtud · 🔄 pooleli · ⬜ tegemata · 🔒 alles-jäetud (load-b
 | Sihtala | Algus | Stripitud | Surnud-välja | Alles (+miks) | Praegu | Staatus | Commit |
 |---|---:|---:|---:|---|---:|---|---|
 | `features/policy` tekstiklaster | — | 7 | 1 reegel | — | — | ✅ | 828bb330, 29685773 |
-| `features/policy` geomeetria | ~133 | 0 | 0 | kerimis-ring (tundlik) — auditeerimata | ~133 | ⬜ | — |
+| `features/policy` geomeetria | ~133 | 0 | 0 | 🔒 render-kandev (strip-all diff: height/margin/padding liiguvad) JA kontrakt-lukus (policyScrollHeader + scrollSurfaceHeader, ~29 assert'i) | ~133 | 🔒 | strip-all reverditud |
 | `utilities/glass-ring-stable` | 1 | 0 | 0 | 🔒 Reegel A — kontrakt-test valvab | 1 | 🔒 | 56ba160c (KEEP) |
 | `theme/` (hc/mono/mid) | 577 | 0 | 0 | token-migratsiooni siht | 577 | ⬜ | — |
 | `features/chat` | 794 | 0 | 0 | — | 794 | ⬜ | — |
 | `features/service-map` | 357 | 0 | 0 | — | 357 | ⬜ | — |
 | `mobile/` | 806 | 0 | 0 | — | 806 | ⬜ | — |
 | `shared/` | 384 | 0 | 0 | — | 384 | ⬜ | — |
+
+## Strateegiline leid (2026-06-15, policy strip-all eksperimendist)
+
+**Kiire masin = strip-all → üks gate → diff klassifitseerib KÕIK korraga.** Baseline +
+strip kõik failist + after + npm test (~10 min, mitte 588-nav audit). Diff nimetab
+TÄPSELT mis computed-väärtus liikus = render-kandev. Test-fail-count = kontrakt-lukus.
+See on edaspidine loop (mitte per-selektor audit).
+
+**Aus reaalsus 3642 kohta:** suur osa `!important`-st on **load-bearing**, mitte vaba:
+- **Geomeetria-kontrakt-süsteem** (policy/documents/workspace kerimis-ringid) — render-
+  kandev JA source-teksti kontrakt-testidega lukus. policy 133/140 oli seda. Documents,
+  service-map tõenäoliselt sarnased.
+- **Teema-override** (theme/ 577) — vajab **token-migratsiooni** (struktuurne), ei
+  saa lihtsalt strippida.
+- **Glow/glass** (shared/ui-glow 118) — kaitstud (canonical-button-look).
+
+**Järeldus:** marker-strip (autostrip) korjab ainult VABA fraktsiooni (policy-s ~11/144 = 8%).
+≪1000 jõudmiseks on **token-migratsioon kohustuslik** (theme/ 577 + override-mustriga
+feature-reeglid), MITTE ainult märksõna-eemaldus. Strip-all-masin on hea VABA fraktsiooni
+kiireks korjeks + load-bearing kaardistuseks per feature.
 
 ## Tööriistad
 
