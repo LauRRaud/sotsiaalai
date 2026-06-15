@@ -49,6 +49,16 @@ const THEMES = [
   { id: "hc", theme: "dark", contrast: "hc" },
 ];
 
+// Mirror css-snapshot.mjs DEFAULT_VIEWPORTS. Capturing BOTH viewports is what
+// makes "dead in every state" trustworthy on responsive @media pairs: a base
+// rule that loses to a min-width:768px override on desktop still WINS at 390px,
+// so it must not be flagged as a removal candidate. Desktop-only capture
+// produces false-dead positives (see reports/css-important-reduction-method.md).
+const ALL_VIEWPORTS = [
+  { id: "desktop", width: 1920, height: 1080 },
+  { id: "mobile", width: 390, height: 780 },
+];
+
 // Surface props are the !important theme-war hot zone; default to them but allow
 // override. Empty list = every property any matched rule declares.
 const DEFAULT_PROPS = [
@@ -58,7 +68,7 @@ const DEFAULT_PROPS = [
 ];
 
 function parseArgs(argv) {
-  const out = { targets: null, selector: null, route: "/vestlus", out: null, token: null, baseUrl: "http://localhost:3000", headed: false, pseudo: ["normal"], props: DEFAULT_PROPS };
+  const out = { targets: null, selector: null, route: "/vestlus", out: null, token: null, baseUrl: "http://localhost:3000", headed: false, pseudo: ["normal"], props: DEFAULT_PROPS, viewports: ALL_VIEWPORTS };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === "--targets") out.targets = argv[++i];
@@ -69,6 +79,7 @@ function parseArgs(argv) {
     else if (a === "--base-url") out.baseUrl = argv[++i];
     else if (a === "--pseudo") out.pseudo = argv[++i].split(",").map((s) => s.trim()).filter(Boolean);
     else if (a === "--props") { const v = argv[++i]; out.props = v === "all" ? [] : v.split(",").map((s) => s.trim()).filter(Boolean); }
+    else if (a === "--viewports") { const ids = argv[++i].split(",").map((s) => s.trim()); out.viewports = ALL_VIEWPORTS.filter((v) => ids.includes(v.id)); }
     else if (a === "--headed") out.headed = true;
   }
   if (!out.out) throw new Error("--out <file> is required");
@@ -362,26 +373,30 @@ async function main() {
     process.stderr.write(`inspecting ${target.name} (${target.route ?? args.route})...\n`);
     const route = target.route ?? args.route;
     const byState = {};
-    for (const theme of THEMES) {
-      await page.goto(`${args.baseUrl}${route}`, { waitUntil: "domcontentloaded" });
-      await applyTheme(page, theme);
-      for (const pseudo of args.pseudo) {
-        let cap;
-        try {
-          cap = await captureNode(page, cdp, sheets, target.selector, pseudo, args.props);
-        } catch (e) {
-          process.stderr.write(`  ! ${theme.id}/${pseudo} capture failed: ${e.message}\n`);
-          byState[`${theme.id}/${pseudo}`] = null;
-          continue;
+    for (const vp of args.viewports) {
+      await page.setViewportSize({ width: vp.width, height: vp.height });
+      for (const theme of THEMES) {
+        await page.goto(`${args.baseUrl}${route}`, { waitUntil: "domcontentloaded" });
+        await applyTheme(page, theme);
+        for (const pseudo of args.pseudo) {
+          const stateKey = `${theme.id}/${vp.id}/${pseudo}`;
+          let cap;
+          try {
+            cap = await captureNode(page, cdp, sheets, target.selector, pseudo, args.props);
+          } catch (e) {
+            process.stderr.write(`  ! ${stateKey} capture failed: ${e.message}\n`);
+            byState[stateKey] = null;
+            continue;
+          }
+          if (!cap.found) { byState[stateKey] = null; continue; }
+          const propList = args.props.length ? args.props : [...new Set(cap.rules.flatMap((r) => Object.keys(r.decls)))];
+          const perProp = {};
+          for (const prop of propList) {
+            const res = resolveProp(prop, cap.rules, cap.computed, cap.vars);
+            if (res && res.winner.important) perProp[prop] = res; // only !important winners
+          }
+          byState[stateKey] = perProp;
         }
-        if (!cap.found) { byState[`${theme.id}/${pseudo}`] = null; continue; }
-        const propList = args.props.length ? args.props : [...new Set(cap.rules.flatMap((r) => Object.keys(r.decls)))];
-        const perProp = {};
-        for (const prop of propList) {
-          const res = resolveProp(prop, cap.rules, cap.computed, cap.vars);
-          if (res && res.winner.important) perProp[prop] = res; // only !important winners
-        }
-        byState[`${theme.id}/${pseudo}`] = perProp;
       }
     }
     report.targets[target.name] = { selector: target.selector, route, byState };
