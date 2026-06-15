@@ -804,7 +804,6 @@ html[data-contrast="hc"] .person-invite-modal-content [data-control-type][data-c
   background: rgba(255, 234, 0, 0.12) !important;
 }
 html[data-contrast="hc"] body .chat-analysis-panel-card .chat-analysis-action-btn.button[data-variant="primary"] {
-  border: 2px solid rgba(255, 234, 0, 0.66) !important;
   -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;
 }
