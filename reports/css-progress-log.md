@@ -27,6 +27,7 @@
 **Viil 2.2 VALMIS [`bf9b1e83`]:** login-modal ahel kitsendatud `.no-click-pulse`-le + `#login-modal` token blokk. OTP `<Button>` saab BG tokenist, PIN-klahvistik saab serva !important-reeglist.
 **Viil 2.3 VALMIS [`76acf708`]:** chat-analysis HC ahel kärpitud minimumini — `border: 2px solid ...` + `backdrop-filter: none` (ainulaadne, glassPrimaryButtonToneClassName nullib border tokeni). Kustutatud 18 rida redundantset !important.
 **Viil 2.4 VALMIS [`f06fd321`]:** `app/error.jsx` retry nupp migreeritud `<Button>` komponendile. 3-reaLine Tailwind duplikaat (baseStyles+primaryStyles koopia) eemaldatud.
+**Viil 2.5 VALMIS [`055d1d15`]:** `glassPrimaryButtonToneClassName` border-nulli kitsendatud `.theme-light:not(.theme-mid)` kontekstile. HC teema saab nüüd 2px kollase piiri klaas-lehtedel läbi token kaskaadi (enam ei nullita üle).
 
 **Eelmiste viilide lühikokkuvõte (1.5–1.9):**
 - viil 1.5: `.invite-primary-btn` eemaldus mono/hc `:is()`-loendist + JSX
@@ -110,6 +111,9 @@ Faas 2 ja faas 4 tehakse **koos, ühe viiluna per primitiiv** (mitte eraldi glob
 ---
 
 ## Tehtud (krooniline)
+
+### Rada 1 viil 2.5 — glassPrimaryButtonToneClassName border-nulli kitsendus  [`055d1d15`]  (15.06.2026)
+`components/ui/glassPageStyles.js`: kolm `[--btn-primary-border:0_solid_transparent]` juhtumatut ülekirjutust asendatud `.theme-light:not(.theme-mid)_&`-skoobitutega. Night/mono/mid ei muutu (neil on teema-tokenist border null). HC teema: `glassPrimaryButtonToneClassName` ei nullita enam border-tokenit → `tokens/theme-hc.css`-i `--btn-primary-border: 2px solid rgba(255,234,0,0.66)` jõuab kõigile klaas-lehe nuppudele. Testid: 967/13.
 
 ### Rada 1 viil 2.4 — error.jsx retry nupp → Button komponent  [`f06fd321`]  (15.06.2026)
 `app/error.jsx`: `retryButtonClassName` (3 rida Tailwind) oli käsitsi kopeeritud `Button.jsx` `baseStyles + primaryStyles`. Asendatud `<Button type="button" onClick={...} className="max-[768px]:...">`. Mobile-mõõdu override säilinud className-s. Testid: 967/13.
