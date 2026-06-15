@@ -91,6 +91,20 @@ jaoks" ≠ "kasutamata mujal" — sama reegel võib võita teisel elemendil. **V
 globaalset kasutus-kontrolli + gate'i enne eemaldamist.** Teema+element-spetsiifilised
 selektorid on turvaline tsoon.
 
+> **KRIITILINE PIIRANG (2026-06-15, policy-puhastusel kinnitatud): audit on
+> DESKTOP-PIME.** `css-important-overrides.mjs` ei varieeri viewporti — püüab
+> ainult ühe (desktop) laiuse. Seega "surnud igas püütud olekus" = surnud **ainult
+> desktopil**. Responsiivne `@media`-paar (baas `<768px` + `@media(min-width:768px)`
+> override) annab **vale-positiivse**: audit näeb baas-reeglit alati kaotamas (sest
+> desktopil @media võidab) ja märgib selle "surnuks", kuigi see on tegelikult päris
+> `<768px` väärtus. **Ära kustuta `removalCandidates`-it ainult audi põhjal.**
+> Tõeline kaitse: **snapshot-gate püüab `mobile=390px`** (`css-snapshot.mjs`
+> `DEFAULT_VIEWPORTS`) — see näeks vale kustutuse. Päris surnud duplikaat = sama
+> selektor+prop **sama väärtusega** baasis JA @media-s → @media-pool on inertne,
+> kustutatav (nt policy `.guide-quickstart-rich-text p/ol/ul margin 0.22rem`).
+> **Parandus (kui audit muutub usaldatavaks):** lisa tööriistale viewport-loop
+> (390 + 1920), nagu snapshot'is.
+
 ### Auto-eemaldaja (faas 2, veel ehitamata)
 `removalCandidates` → eraldi eemaldaja rakendab → gate verifitseerib → 🔴 = auto-revert.
 Safe-loop, rakendatud eemaldamisele. ÄRA eemalda ilma gate'ita (capture katab vaid osa
