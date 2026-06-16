@@ -20,13 +20,21 @@ capture'ite vahel ka ILMA ühegi koodimuutuseta:
 **Müra tunnus:** ilmub igal jooksul ERINEVAL teemal (random). Päris-regressioon = JÄRJEPIDEV
 sama selektor+teema+väärtus mitmel jooksul.
 
-**MEETOD (kohustuslik enne "lukus"-otsust):**
-1. **Diagnoosi:** capture HEAD **kaks korda** samal gate'il → diff. Kui samad selektorid
-   "muutuvad" ka HEAD-vs-HEAD → müra, mitte sinu muutus.
-2. **Tee müra-vaba gate:** uus targets-fail ILMA müra-selektoriteta (jäta load-bearing
-   staatilised selektorid sisse — eriti need, mille all kahtlustad päris-regressiooni).
-3. **Kontrolli müra-põrand = 0:** HEAD×2 puhastatud gate'il → peab andma `✓ identical`.
-4. **Alles SIIS** gate'i kandidaat puhastatud gate'iga. `✓ identical` = päris-ohutu → commit.
+**MEETOD — AUTOMAATNE (sessioon 6, tööriist teeb ise):**
+```bash
+node scripts/css-cleanup/run.mjs before --file <css> --targets <gate> --noise-runs 3
+# ...muudatus...
+node scripts/css-cleanup/run.mjs verify --file <css>   # lahutab müra-põranda automaatselt
+```
+`--noise-runs N` capturib baseline'i N× → salvestab clean-rundide vahel erinevad cell'id
+(`<key>.noise.json`); `verify` lahutab need. `transform: none`≡`matrix(1,0,0,1,0,0)`
+kanoniseeritakse diffis alati. Käsitsi: `css-snapshot-diff.mjs A B --emit-noise n.json`
+(HEAD×2) → `... before after --noise n.json`.
+
+**Käsitsi-loogika (mida automaatika teeb):**
+1. capture HEAD ≥2× samal gate'il → cell'id mis erinevad = müra.
+2. `verify`/`--noise` lahutab need; jäänud diffid = päris-regressioon.
+3. `✓ identical` (müra lahutatud) = päris-ohutu → commit.
 
 **TÕESTATUD (`40a7892c`):** `service-map/desktop.css` oli prior-sessioonides "fully locked"
 (GATE-1 RED `.service-map-leaflet`). Müra-põranda diagnoos näitas: kogu RED oli Leaflet+map

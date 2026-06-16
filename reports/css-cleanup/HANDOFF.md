@@ -116,13 +116,22 @@ diff. Kui samad selektorid "muutuvad" ka HEAD-vs-HEAD → see on müra, MITTE si
 NB: müra võib igal jooksul ilmuda ERINEVAL teemal (random) — see ongi müra tunnus
 (päris-regressioon on JÄRJEPIDEV samal selektor+teema+väärtus).
 
-**Lahendus — müra-vaba gate:**
-1. Tuvasta müra-selektorid (HEAD×2 diff näitab neid).
-2. Tee uus targets-fail ILMA müra-selektoriteta (jäta load-bearing staatilised sisse).
-3. **Kontrolli müra-põrand = 0:** HEAD×2 sellel puhastatud gate'il → peab olema `✓ identical`.
-4. Alles SIIS gate'i kandidaat. `✓ identical` = päris-ohutu.
+**Lahendus — AUTOMAATNE (sessioon 6, commit `422965eb`):** tööriist teeb selle nüüd ise.
+```bash
+# enne muudatust: capture baseline N korda, salvesta müra-põrand
+node scripts/css-cleanup/run.mjs before --file <css> --targets <gate> --noise-runs 3
+# ...tee muudatus...
+node scripts/css-cleanup/run.mjs verify --file <css>   # lahutab müra-põranda automaatselt
+```
+`--noise-runs N` re-captuurib muutmata baseline'i N korda, salvestab `<key>.noise.json`-i
+kõik cell'id mis clean-runde vahel erinevad; `verify` lahutab need (`css-snapshot-diff.mjs
+--noise`). Lisaks: `transform: none` ≡ `matrix(1,0,0,1,0,0)` kanoniseeritakse diffis
+automaatselt (identity-müra kaob ilma noise-runs'itagi).
 
-**Tõestatud (`40a7892c`):** service-map/desktop "fully locked" → 14 markerit ohutult eemaldatud.
+**Käsitsi (kui ei kasuta run.mjs orchestraatorit):** `css-snapshot-diff.mjs A B --emit-noise
+noise.json` (capture müra HEAD×2-st) → siis `... before after --noise noise.json`.
+
+**Tõestatud (`40a7892c` strip + `422965eb` automaatika):** service-map/desktop "fully locked" → 14 markerit ohutult eemaldatud.
 Müra oli `.service-map-leaflet` + `.service-map-workspace__map`; puhas gate (page-panel +
 filters-shell + controls + result-button + leaflet-shell) andis 0 müra-põranda ja 14-strip
 ✓ identical. **JÄRGMINE: rakenda kõigile prior-"GATE-1 RED" failidele** (policy/responsive
