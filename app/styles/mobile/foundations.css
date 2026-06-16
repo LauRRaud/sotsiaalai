@@ -159,9 +159,9 @@
     min-height: 100% !important;
     max-height: none !important;
     transform: none !important;
-    -webkit-transform: none !important;
-    will-change: auto !important;
-    backface-visibility: visible !important;
+    -webkit-transform: none;
+    will-change: auto;
+    backface-visibility: visible;
   }
 
   html[data-layout="mobile"]
@@ -172,8 +172,8 @@
       .bg-bends-layer,
       .bg-particles-layer
     ) {
-    height: 100% !important;
-    min-height: 100% !important;
+    height: 100%;
+    min-height: 100%;
   }
 
   .homepage-root {
@@ -193,12 +193,12 @@
   }
 
   .drawer-close-btn--chat.modal-close-btn {
-    width: 3.2rem !important;
-    height: 3.2rem !important;
+    width: 3.2rem;
+    height: 3.2rem;
   }
 
   .drawer-close-btn--chat.modal-close-btn::before {
-    font-size: 2.45rem !important;
+    font-size: 2.45rem;
   }
 }
 
@@ -219,7 +219,7 @@
     --glass-ring-sheen: none;
     --glass-ring-edge-stroke-width: 0px;
     --glass-ring-edge-stroke-opacity: 0;
-    --glass-shell-shadow: none !important;
+    --glass-shell-shadow: none;
     --glass-modal-shadow: none !important;
     width: calc(
       100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) -
@@ -272,10 +272,10 @@
   .wellbeing-page-surface,
   .mobile-keep-desktop-glass-cards {
     --glass-shell-shadow: none !important;
-    --glass-modal-shadow: none !important;
-    --mid-shell-soft-shadow: none !important;
+    --glass-modal-shadow: none;
+    --mid-shell-soft-shadow: none;
     box-shadow: none !important;
-    filter: none !important;
+    filter: none;
   }
 }
 
@@ -293,7 +293,7 @@
 
 @media (max-width: 768px) {
   :is(button.button, a.button)[data-variant="primary"] {
-    transition: none !important;
+    transition: none;
     --btn-primary-bg-active: var(--btn-primary-bg);
     --btn-primary-shadow-active: var(--btn-primary-shadow);
     --btn-primary-border-active: var(--btn-primary-border);
