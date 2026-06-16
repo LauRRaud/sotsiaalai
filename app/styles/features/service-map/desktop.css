@@ -86,12 +86,12 @@
     --workspace-glass-inline-size: var(--ring-diameter, var(--workspace-glass-diameter));
     display: flex;
     flex-direction: column;
-    width: var(--workspace-glass-inline-size) !important;
-    max-width: var(--workspace-glass-inline-size) !important;
-    min-width: var(--workspace-glass-inline-size) !important;
+    width: var(--workspace-glass-inline-size);
+    max-width: var(--workspace-glass-inline-size);
+    min-width: var(--workspace-glass-inline-size);
     height: var(--ring-diameter, var(--workspace-glass-diameter));
     max-height: calc(100dvh - 2rem);
-    overflow: hidden !important;
+    overflow: hidden;
   }
 }
 
@@ -1625,22 +1625,22 @@ html[data-contrast="hc"] .workspace-feature-panel .workspace-feature-fancy-check
   --service-map-map-bg: #eef0ef;
   --service-map-map-radius: 1.08rem;
   --service-map-safe-area-bg: #10151d;
-  position: fixed !important;
-  inset: 0 !important;
+  position: fixed;
+  inset: 0;
   z-index: 21;
-  width: auto !important;
-  min-width: 0 !important;
+  width: auto;
+  min-width: 0;
   max-width: none !important;
-  height: auto !important;
-  max-height: none !important;
+  height: auto;
+  max-height: none;
   border: none;
   border-radius: 0;
-  background: transparent !important;
+  background: transparent;
   color: var(--workspace-feature-text, var(--glass-surface-text, #f2f2f2));
   box-shadow: none;
-  padding: 0 !important;
-  overflow: hidden !important;
-  scrollbar-gutter: auto !important;
+  padding: 0;
+  overflow: hidden;
+  scrollbar-gutter: auto;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
 }
