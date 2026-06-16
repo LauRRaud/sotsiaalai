@@ -21,7 +21,7 @@ Kokku **3642** `!important` 87 autori-CSS-failis. Jaotus arhitektuuri-rühmade k
 
 ## Edenemine feature/faili kaupa (uuendatud 2026-06-16, sessioon 4 lõpus)
 
-**KOKKUVÕTE: 3642 → 1209 (−2433). Kõik 87 faili uuritud ≥1 korda. Odav oraakel-korje ammendunud.**
+**KOKKUVÕTE: 3642 → 1208 (−2434). Kõik 87 faili uuritud ≥1 korda. Odav oraakel-korje ammendunud.**
 **✅ SESSIOON 7 (2026-06-16): müra-põranda re-audit lõpetatud. policy/responsive.css (noise=0, PÄRIS)
 + chat/shell.css (noise=45, pärast lahutust PÄRIS border-muutused) — mõlemad kinnitatult lukus.
 Kõik prior "GATE-1 RED" failid on nüüd müra-vaba-gate'iga kontrollitud.**
@@ -30,6 +30,12 @@ Kõik prior "GATE-1 RED" failid on nüüd müra-vaba-gate'iga kontrollitud.**
 **✅ documents/mono.css 6→0 (`361ffc30`):** teema-mono defineeris tokenid juba (`--input-bg` jne),
 eksplisiitsed `background: var(--forest-input-surface) !important` overrided olid cargo-cult.
 GATE-1 ✓ identical (noise=0, /dokreziim+/documents), GATE-2 0 uut, kontrakt-testi polnud vaja. **1215→1209.**
+
+**✅ theme/mid.css `.button[data-variant="primary"]` `-webkit-backdrop-filter: none !important` → ilma `!important` (commit all):**
+Button-arhitektuuri (I1) esimene viil. `!important` võitis ainult Tailwind-utiliiti — aga kihistamata käsitsi-CSS
+võidab Tailwindi niikuinii (kaskaadi-kihi reegel) → marker oli redundantne. Sõsar-rida `backdrop-filter: none`
+oli juba ilma `!important`-ita (asümmeetria parandatud). Gate (`mid-button-gate`, /registreerimine, noise=0):
+GATE-1 ✓ identical, GATE-2 0 uut (HEAD vs muudatus: identne 11-faili baseline, `comm -13` tühi). **mid.css 4→3, 1209→1208.**
 
 **⚠ KRIITILINE LEID — "273 tokeniseeritavat" on petlik ülempiir.** Empiiriline analüüs:
 - **151/273 sihib selektoreid mida `ui-glow.css` (POLIITIKA-LUKK) ka puudutab** → IMPORTANT-war
@@ -99,7 +105,7 @@ Legend: ✅ tehtud · 🔒 blokeeritud (põhjus järel)
 | `features/documents/mobile.css` | 11 | 9 | −2 | ✅ |
 | `features/profile/mobile.css` | 74 | 9 | −65 | ✅ |
 | `features/profile/mono.css` | 8 | 2 | −6 | ✅ kaks passi |
-| `theme/mid.css` | 65 | 4 | −61 | ✅ |
+| `theme/mid.css` | 65 | 3 | −62 | ✅ (sessioon 7: +1 Button I1 backdrop-filter, Tailwind-only redundant) |
 | `features/documents/workspace.css` | 6 | 3 | −3 | ✅ |
 | `mobile/background-home.css` | 26 | 7 | −19 | ✅ |
 | `shared/register.css` | 79 | 7 | −72 | ✅ |
