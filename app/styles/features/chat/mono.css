@@ -13,76 +13,76 @@
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .drawer-panel--chat-glass :is(.drawer-chat-sidebar, .cs-title-text, .cs-preview) {
-  color: var(--forest-highlight) !important;
-  -webkit-text-fill-color: var(--forest-highlight) !important;
+  color: var(--forest-highlight);
+  -webkit-text-fill-color: var(--forest-highlight);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .drawer-panel--chat-glass :is(.drawer-close-btn--chat, .drawer-close-btn--chat > span) {
   color: var(--forest-title) !important;
-  -webkit-text-fill-color: var(--forest-title) !important;
+  -webkit-text-fill-color: var(--forest-title);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .drawer-panel--chat-glass .drawer-title {
   color: var(--forest-title) !important;
-  -webkit-text-fill-color: var(--forest-title) !important;
-  text-shadow: 0 0.18rem 0.58rem rgba(7, 7, 7, 0.34) !important;
+  -webkit-text-fill-color: var(--forest-title);
+  text-shadow: 0 0.18rem 0.58rem rgba(7, 7, 7, 0.34);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .drawer-panel--chat-glass .cs-time {
-  color: var(--drawer-time-text) !important;
+  color: var(--drawer-time-text);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .drawer-panel--chat-glass .drawer-chat-card {
-  background: var(--drawer-card-bg) !important;
-  border-color: var(--drawer-card-border) !important;
-  box-shadow: var(--drawer-card-shadow) !important;
+  background: var(--drawer-card-bg);
+  border-color: var(--drawer-card-border);
+  box-shadow: var(--drawer-card-shadow);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .drawer-panel--chat-glass .drawer-chat-card:is(:hover, :focus-within) {
-  background: var(--drawer-card-bg-hover) !important;
-  border-color: var(--drawer-card-border-hover) !important;
-  box-shadow: var(--drawer-card-shadow-hover) !important;
+  background: var(--drawer-card-bg-hover);
+  border-color: var(--drawer-card-border-hover);
+  box-shadow: var(--drawer-card-shadow-hover);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .drawer-panel--chat-glass .drawer-chat-sidebar :is(.button, .btn) {
-  color: var(--forest-highlight) !important;
-  background: var(--btn-primary-bg) !important;
-  border: var(--btn-primary-border) !important;
-  box-shadow: var(--btn-primary-shadow) !important;
+  color: var(--forest-highlight);
+  background: var(--btn-primary-bg);
+  border: var(--btn-primary-border);
+  box-shadow: var(--btn-primary-shadow);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .drawer-panel--chat-glass .drawer-chat-sidebar :is(.button, .btn)::before {
-  background: var(--btn-primary-bg-hover) !important;
+  background: var(--btn-primary-bg-hover);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .drawer-panel--chat-glass .drawer-chat-sidebar :is(.button, .btn):is(:hover, :focus-visible) {
-  color: var(--forest-highlight) !important;
-  background: var(--btn-primary-bg-hover) !important;
-  box-shadow: var(--btn-primary-shadow-hover) !important;
+  color: var(--forest-highlight);
+  background: var(--btn-primary-bg-hover);
+  box-shadow: var(--btn-primary-shadow-hover);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .drawer-panel--chat-glass .chat-sidebar-search-input {
-  color: var(--input-text) !important;
-  caret-color: var(--input-caret) !important;
+  color: var(--input-text);
+  caret-color: var(--input-caret);
   min-height: 3.12rem !important;
-  border-radius: inherit !important;
+  border-radius: inherit;
   background: transparent !important;
   box-shadow: none !important;
   padding: 0.74rem 1.28rem !important;
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .drawer-panel--chat-glass .chat-sidebar-search-glow.ui-glow-field {
-  --card-bg: var(--input-bg) !important;
+  --card-bg: var(--input-bg);
   min-height: 3.12rem;
   border-radius: 999px !important;
-  border: var(--input-border) !important;
-  background: var(--input-bg) !important;
+  border: var(--input-border);
+  background: var(--input-bg);
   box-shadow:
     0 4px 10px rgba(0, 0, 0, 0.18),
-    inset 0 0 0 999px rgba(255, 255, 255, 0.006) !important;
-  color: var(--input-text) !important;
-  display: flex !important;
-  align-items: center !important;
+    inset 0 0 0 999px rgba(255, 255, 255, 0.006);
+  color: var(--input-text);
+  display: flex;
+  align-items: center;
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .drawer-panel--chat-glass .chat-sidebar-search-glow.ui-glow-field::before,
@@ -93,38 +93,38 @@
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .drawer-panel--chat-glass .chat-sidebar-search-glow.ui-glow-field:is(:hover, :focus-within) {
-  --card-bg: var(--input-bg-hover, var(--input-bg)) !important;
-  background: var(--input-bg-hover, var(--input-bg)) !important;
+  --card-bg: var(--input-bg-hover, var(--input-bg));
+  background: var(--input-bg-hover, var(--input-bg));
   box-shadow:
     0 5px 12px rgba(0, 0, 0, 0.2),
     inset 0 0 0 999px rgba(255, 255, 255, 0.012),
-    inset 0 0 0 1px rgba(var(--mono-light-rgb), 0.08) !important;
+    inset 0 0 0 1px rgba(var(--mono-light-rgb), 0.08);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .drawer-panel--chat-glass .chat-sidebar-search-input::placeholder {
-  color: var(--input-placeholder) !important;
-  opacity: 1 !important;
+  color: var(--input-placeholder);
+  opacity: 1;
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .drawer-panel--chat-glass .cs-delete {
-  color: var(--drawer-delete-text) !important;
-  border-color: var(--drawer-delete-border) !important;
-  background: var(--drawer-delete-bg) !important;
-  box-shadow: var(--drawer-delete-shadow, var(--opaque-panel-shadow)) !important;
+  color: var(--drawer-delete-text);
+  border-color: var(--drawer-delete-border);
+  background: var(--drawer-delete-bg);
+  box-shadow: var(--drawer-delete-shadow, var(--opaque-panel-shadow));
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .drawer-panel--chat-glass .cs-delete:is(:hover, :focus-visible) {
-  color: var(--drawer-delete-text-hover) !important;
-  border-color: var(--drawer-delete-border-hover) !important;
-  background: var(--drawer-delete-bg-hover) !important;
-  box-shadow: var(--drawer-delete-shadow-hover, var(--subpage-card-shadow-hover)) !important;
+  color: var(--drawer-delete-text-hover);
+  border-color: var(--drawer-delete-border-hover);
+  background: var(--drawer-delete-bg-hover);
+  box-shadow: var(--drawer-delete-shadow-hover, var(--subpage-card-shadow-hover));
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .drawer-panel--chat-glass .cs-trash-icon,
 :root.theme-mono:not([data-contrast="hc"]) .drawer-panel--chat-glass .cs-trash-icon :is(path, polyline, line) {
-  color: var(--forest-highlight) !important;
-  stroke: currentColor !important;
-  fill: none !important;
+  color: var(--forest-highlight);
+  stroke: currentColor;
+  fill: none;
 }
 
 :root.theme-mono:not([data-contrast="hc"]) :is(.chat-rail-icon-btn, .chat-side-control-btn, .chat-tools-btn, .chat-document-attach-btn, .chat-listen-btn, .chat-send-btn, .chat-assistant-action-btn, .chat-dictate-btn) {
@@ -293,10 +293,10 @@
 :root.theme-mono:not([data-contrast="hc"]) .drawer-panel--chat-glass .chat-sidebar-search-glow.ui-glow-field {
   --card-bg: var(--mono-field-hole-bg) !important;
   background: var(--mono-field-hole-bg) !important;
-  border: var(--mono-field-hole-border) !important;
+  border: var(--mono-field-hole-border);
   box-shadow: var(--mono-field-hole-shadow) !important;
   -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
+  backdrop-filter: none;
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .drawer-panel--chat-glass.glass-field-hole-surface > :not(.glass-hole-mask-layer):not(.modal-close-btn):not(.login-modal-close):not(.back-button) {
@@ -305,25 +305,25 @@
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .drawer-panel--chat-glass.glass-field-hole-surface::before {
-  -webkit-mask-image: var(--glass-field-hole-mask, linear-gradient(#fff, #fff)) !important;
-  mask-image: var(--glass-field-hole-mask, linear-gradient(#fff, #fff)) !important;
-  -webkit-mask-size: 100% 100% !important;
-  mask-size: 100% 100% !important;
-  -webkit-mask-repeat: no-repeat !important;
-  mask-repeat: no-repeat !important;
+  -webkit-mask-image: var(--glass-field-hole-mask, linear-gradient(#fff, #fff));
+  mask-image: var(--glass-field-hole-mask, linear-gradient(#fff, #fff));
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .drawer-panel--chat-glass .chat-sidebar-search-glow.ui-glow-field:is(:hover, :focus-within) {
-  --card-bg: var(--mono-field-hole-bg) !important;
-  background: var(--mono-field-hole-bg) !important;
+  --card-bg: var(--mono-field-hole-bg);
+  background: var(--mono-field-hole-bg);
   box-shadow: var(--mono-field-hole-shadow-hover) !important;
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .drawer-panel--chat-glass .chat-sidebar-search-glow.ui-glow-field :is(input, textarea, select, .ui-glow-control) {
   background: transparent !important;
-  box-shadow: none !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .drawer-panel--chat-glass .chat-sidebar-search-glow.ui-glow-field::before,

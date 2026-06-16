@@ -367,7 +367,7 @@ html[data-reduce-motion="1"] .chat-page-shell .chat-container.chat-container--ro
   position: relative;
   overflow: hidden;
   isolation: auto;
-  border: 0 !important;
+  border: 0;
   color: var(--glass-surface-text, #f2f2f2);
   background: var(
     --chat-analysis-panel-bg,
@@ -429,11 +429,11 @@ html[data-contrast="hc"] .chat-page-shell {
 
 /* Keep chat send/dictate controls borderless in normal contrast modes. */
 body .chat-input-row .chat-side-control-btn {
-  width: var(--chat-composer-side-control-size, calc(3.15 * var(--base-rem))) !important;
-  height: var(--chat-composer-side-control-size, calc(3.15 * var(--base-rem))) !important;
-  min-width: var(--chat-composer-side-control-size, calc(3.15 * var(--base-rem))) !important;
-  min-height: var(--chat-composer-side-control-size, calc(3.15 * var(--base-rem))) !important;
-  flex: 0 0 var(--chat-composer-side-control-size, calc(3.15 * var(--base-rem))) !important;
+  width: var(--chat-composer-side-control-size, calc(3.15 * var(--base-rem)));
+  height: var(--chat-composer-side-control-size, calc(3.15 * var(--base-rem)));
+  min-width: var(--chat-composer-side-control-size, calc(3.15 * var(--base-rem)));
+  min-height: var(--chat-composer-side-control-size, calc(3.15 * var(--base-rem)));
+  flex: 0 0 var(--chat-composer-side-control-size, calc(3.15 * var(--base-rem)));
 }
 
 body .chat-inputbar .chat-listen-btn,
@@ -469,9 +469,9 @@ body .chat-inputbar .chat-send-btn > .chat-send-icon-anchor {
 }
 
 body .chat-input-row .chat-side-control-btn svg {
-  display: block !important;
-  width: var(--chat-composer-plus-icon-size, calc(2.32 * var(--base-rem))) !important;
-  height: var(--chat-composer-plus-icon-size, calc(2.32 * var(--base-rem))) !important;
+  display: block;
+  width: var(--chat-composer-plus-icon-size, calc(2.32 * var(--base-rem)));
+  height: var(--chat-composer-plus-icon-size, calc(2.32 * var(--base-rem)));
 }
 
 body .chat-inputbar .chat-listen-btn svg {
@@ -520,14 +520,14 @@ body .chat-inputbar .chat-send-btn[data-empty-disabled="true"]:disabled {
 }
 
 :root:not(.theme-light):not(.theme-mid):not([data-contrast="hc"]) .chat-page-shell .chat-composer-glow-shell {
-  --glow-color: rgba(255, 122, 126, 0.62) !important;
-  --glow-color-60: rgba(255, 122, 126, 0.39) !important;
-  --glow-color-50: rgba(255, 122, 126, 0.32) !important;
-  --glow-color-40: rgba(255, 122, 126, 0.25) !important;
-  --glow-color-30: rgba(255, 122, 126, 0.18) !important;
-  --glow-color-20: rgba(255, 122, 126, 0.12) !important;
-  --glow-color-10: rgba(255, 122, 126, 0.07) !important;
-  background: transparent !important;
+  --glow-color: rgba(255, 122, 126, 0.62);
+  --glow-color-60: rgba(255, 122, 126, 0.39);
+  --glow-color-50: rgba(255, 122, 126, 0.32);
+  --glow-color-40: rgba(255, 122, 126, 0.25);
+  --glow-color-30: rgba(255, 122, 126, 0.18);
+  --glow-color-20: rgba(255, 122, 126, 0.12);
+  --glow-color-10: rgba(255, 122, 126, 0.07);
+  background: transparent;
   box-shadow:
     inset 0 0 0 1px rgba(255, 122, 126, 0),
     inset 0 0 7px rgba(255, 122, 126, 0),
@@ -535,16 +535,16 @@ body .chat-inputbar .chat-send-btn[data-empty-disabled="true"]:disabled {
     0 0 12px rgba(255, 122, 126, 0),
     0 0 26px rgba(255, 122, 126, 0),
     0 6px 16px rgba(0, 0, 0, 0.26),
-    var(--chat-under-glow) !important;
+    var(--chat-under-glow);
   transition:
     background 420ms cubic-bezier(0.22, 0.61, 0.36, 1),
     box-shadow 520ms cubic-bezier(0.22, 0.61, 0.36, 1),
     max-width 520ms cubic-bezier(0.22, 0.61, 0.36, 1),
-    transform 520ms cubic-bezier(0.22, 0.61, 0.36, 1) !important;
+    transform 520ms cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 :root:not(.theme-light):not(.theme-mid):not([data-contrast="hc"]) .chat-page-shell .chat-composer-glow-shell:hover {
-  background: transparent !important;
+  background: transparent;
   box-shadow:
     inset 0 0 4px rgba(255, 122, 126, 0.11),
     inset 0 0 9px rgba(255, 122, 126, 0.045),
@@ -552,39 +552,39 @@ body .chat-inputbar .chat-send-btn[data-empty-disabled="true"]:disabled {
     0 0 10px rgba(255, 122, 126, 0.08),
     0 0 20px rgba(255, 122, 126, 0.04),
     0 6px 16px rgba(0, 0, 0, 0.26),
-    var(--chat-under-glow-strong) !important;
+    var(--chat-under-glow-strong);
 }
 
 .chat-page-shell .chat-composer-glow-shell:focus-within:not(:hover) > .edgeLight,
 .chat-page-shell .chat-composer-glow-shell:focus-within:not(:hover) > [class*="edgeLight"] {
-  opacity: 0 !important;
+  opacity: 0;
 }
 
 :root.theme-light .chat-page-shell .chat-composer-glow-shell {
-  background: transparent !important;
+  background: transparent;
   box-shadow:
     0 5px 12px rgba(82, 50, 46, 0.045),
     0 0 3px rgba(122, 58, 56, 0.055),
-    0 0 10px rgba(197, 113, 113, 0.03) !important;
+    0 0 10px rgba(197, 113, 113, 0.03);
 }
 
 :root.theme-light .chat-page-shell .chat-composer-glow-shell:hover {
-  background: transparent !important;
+  background: transparent;
   box-shadow:
     0 6px 14px rgba(82, 50, 46, 0.055),
     0 0 3px rgba(122, 58, 56, 0.12),
     0 0 9px rgba(197, 113, 113, 0.085),
-    0 0 18px rgba(197, 113, 113, 0.045) !important;
+    0 0 18px rgba(197, 113, 113, 0.045);
 }
 
 :root.theme-light .chat-page-shell .chat-composer-glow-shell > [class*="edgeLight"] {
-  display: block !important;
-  opacity: calc(0.36 * (var(--edge-proximity) - var(--edge-sensitivity)) / (100 - var(--edge-sensitivity))) !important;
+  display: block;
+  opacity: calc(0.36 * (var(--edge-proximity) - var(--edge-sensitivity)) / (100 - var(--edge-sensitivity)));
 }
 
 :root.theme-light .chat-page-shell .chat-composer-glow-shell:hover > [class*="edgeLight"] {
-  display: block !important;
-  opacity: 0.36 !important;
+  display: block;
+  opacity: 0.36;
 }
 
 :root.theme-light .chat-page-shell .chat-composer-glow-shell:focus-within:not(:hover) > [class*="edgeLight"],
@@ -600,24 +600,24 @@ body .chat-inputbar .chat-send-btn[data-empty-disabled="true"]:disabled {
 
 html[data-contrast="hc"] .chat-composer-glow-shell > .edgeLight,
 html[data-contrast="hc"] .chat-composer-glow-shell > [class*="edgeLight"] {
-  display: block !important;
+  display: block;
 }
 
 html[data-contrast="hc"] .chat-composer-glow-shell {
-  --glow-color: rgba(255, 234, 0, 0.64) !important;
-  --glow-color-60: rgba(255, 234, 0, 0.4) !important;
-  --glow-color-50: rgba(255, 234, 0, 0.34) !important;
-  --glow-color-40: rgba(255, 234, 0, 0.27) !important;
-  --glow-color-30: rgba(255, 234, 0, 0.2) !important;
-  --glow-color-20: rgba(255, 234, 0, 0.13) !important;
-  --glow-color-10: rgba(255, 234, 0, 0.08) !important;
+  --glow-color: rgba(255, 234, 0, 0.64);
+  --glow-color-60: rgba(255, 234, 0, 0.4);
+  --glow-color-50: rgba(255, 234, 0, 0.34);
+  --glow-color-40: rgba(255, 234, 0, 0.27);
+  --glow-color-30: rgba(255, 234, 0, 0.2);
+  --glow-color-20: rgba(255, 234, 0, 0.13);
+  --glow-color-10: rgba(255, 234, 0, 0.08);
   box-shadow:
     inset 0 0 0 2px rgba(255, 234, 0, 0.66),
     0 0 2px rgba(255, 234, 0, 0.24),
     0 0 12px rgba(255, 234, 0, 0.12),
     0 0 24px rgba(255, 234, 0, 0.07),
     0 6px 16px rgba(0, 0, 0, 0.26),
-    var(--chat-under-glow) !important;
+    var(--chat-under-glow);
 }
 
 html[data-contrast="hc"] .chat-page-shell .chat-composer-glow-shell:hover {
@@ -627,13 +627,13 @@ html[data-contrast="hc"] .chat-page-shell .chat-composer-glow-shell:hover {
     0 0 12px rgba(255, 234, 0, 0.14),
     0 0 24px rgba(255, 234, 0, 0.08),
     0 6px 16px rgba(0, 0, 0, 0.26),
-    var(--chat-under-glow) !important;
+    var(--chat-under-glow);
 }
 
 html[data-contrast="hc"] .chat-page-shell .chat-composer-glow-shell > [class*="edgeLight"],
 html[data-contrast="hc"] .chat-page-shell .chat-composer-glow-shell:focus-within:not(:hover) > [class*="edgeLight"] {
-  display: block !important;
-  opacity: calc(0.58 * (var(--edge-proximity) - var(--edge-sensitivity)) / (100 - var(--edge-sensitivity))) !important;
+  display: block;
+  opacity: calc(0.58 * (var(--edge-proximity) - var(--edge-sensitivity)) / (100 - var(--edge-sensitivity)));
 }
 
 :root:not(.theme-light):not(.theme-mid):not([data-contrast="hc"]) .chat-page-shell .chat-composer-glow-shell .chat-inputbar {
