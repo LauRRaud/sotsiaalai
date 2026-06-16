@@ -77,7 +77,7 @@ test("light and mid glow controls define idle transparent glow layers", () => {
 test("light and mid buttons use an outer glow ring without inset double edges", () => {
   const css = readCss("app/styles/components/glass.css");
   const buttonHoverBlock = css.match(
-    /:root\.theme-light \.ui-glow-button-frame:hover:not\([^)]*\),[\s\S]*?:root\.theme-mid \.ui-glow-button-frame:hover:not\([^)]*\)\s*\{([\s\S]*?)\n\}/
+    /:root\.theme-light \.ui-glow-button-frame:hover:not\([^)]*\)(?::not\([^)]*\))*,[\s\S]*?:root\.theme-mid \.ui-glow-button-frame:hover:not\([^)]*\)(?::not\([^)]*\))*\s*\{([\s\S]*?)\n\}/
   );
   const softEdgeHoverBlock = css.match(
     /:root\.theme-light \.ui-glow-button-frame:hover:not\([^)]*\) > \.ui-glow-button-soft-edge,[\s\S]*?:root\.theme-mid \.ui-glow-button-frame:hover:not\([^)]*\) > \.ui-glow-button-soft-edge\s*\{([\s\S]*?)\n\}/
