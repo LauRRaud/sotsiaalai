@@ -235,43 +235,43 @@ body::-webkit-scrollbar {
 }
 
 html[data-reduce-transparency="1"] {
-  --glass-blur-radius: 0px !important;
-  --glass-modal-blur: 0px !important;
+  --glass-blur-radius: 0px;
+  --glass-modal-blur: 0px;
 }
 
 html[data-reduce-transparency="1"].theme-light {
-  --glass-surface-bg: var(--home-panel-bg, rgba(251, 249, 246, 0.93)) !important;
-  --glass-ring-surface-bg: var(--home-panel-bg, rgba(251, 249, 246, 0.93)) !important;
-  --glass-modal-bg: var(--home-panel-bg, rgba(251, 249, 246, 0.93)) !important;
-  --drawer-glass-bg: var(--home-panel-bg, rgba(251, 249, 246, 0.93)) !important;
+  --glass-surface-bg: var(--home-panel-bg, rgba(251, 249, 246, 0.93));
+  --glass-ring-surface-bg: var(--home-panel-bg, rgba(251, 249, 246, 0.93));
+  --glass-modal-bg: var(--home-panel-bg, rgba(251, 249, 246, 0.93));
+  --drawer-glass-bg: var(--home-panel-bg, rgba(251, 249, 246, 0.93));
 }
 
 html[data-reduce-transparency="1"].theme-mid {
-  --glass-surface-bg: var(--home-panel-bg, rgba(203, 190, 186, 0.79)) !important;
-  --glass-ring-surface-bg: var(--home-panel-bg, rgba(203, 190, 186, 0.79)) !important;
-  --glass-modal-bg: var(--home-panel-bg, rgba(203, 190, 186, 0.79)) !important;
-  --drawer-glass-bg: var(--home-panel-bg, rgba(203, 190, 186, 0.79)) !important;
+  --glass-surface-bg: var(--home-panel-bg, rgba(203, 190, 186, 0.79));
+  --glass-ring-surface-bg: var(--home-panel-bg, rgba(203, 190, 186, 0.79));
+  --glass-modal-bg: var(--home-panel-bg, rgba(203, 190, 186, 0.79));
+  --drawer-glass-bg: var(--home-panel-bg, rgba(203, 190, 186, 0.79));
 }
 
 html[data-reduce-transparency="1"]:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"]) {
-  --glass-surface-bg: var(--home-panel-bg, rgba(16, 19, 24, 0.84)) !important;
-  --glass-ring-surface-bg: var(--home-panel-bg, rgba(16, 19, 24, 0.84)) !important;
-  --glass-modal-bg: var(--home-panel-bg, rgba(16, 19, 24, 0.84)) !important;
-  --drawer-glass-bg: var(--home-panel-bg, rgba(16, 19, 24, 0.84)) !important;
+  --glass-surface-bg: var(--home-panel-bg, rgba(16, 19, 24, 0.84));
+  --glass-ring-surface-bg: var(--home-panel-bg, rgba(16, 19, 24, 0.84));
+  --glass-modal-bg: var(--home-panel-bg, rgba(16, 19, 24, 0.84));
+  --drawer-glass-bg: var(--home-panel-bg, rgba(16, 19, 24, 0.84));
 }
 
 html[data-reduce-transparency="1"].theme-night {
-  --glass-surface-bg: var(--home-panel-bg, rgba(12, 17, 27, 0.86)) !important;
-  --glass-ring-surface-bg: var(--home-panel-bg, rgba(12, 17, 27, 0.86)) !important;
-  --glass-modal-bg: var(--home-panel-bg, rgba(12, 17, 27, 0.86)) !important;
-  --drawer-glass-bg: var(--home-panel-bg, rgba(12, 17, 27, 0.86)) !important;
+  --glass-surface-bg: var(--home-panel-bg, rgba(12, 17, 27, 0.86));
+  --glass-ring-surface-bg: var(--home-panel-bg, rgba(12, 17, 27, 0.86));
+  --glass-modal-bg: var(--home-panel-bg, rgba(12, 17, 27, 0.86));
+  --drawer-glass-bg: var(--home-panel-bg, rgba(12, 17, 27, 0.86));
 }
 
 html[data-reduce-transparency="1"][data-contrast="hc"] {
-  --glass-surface-bg: var(--home-panel-bg, rgba(9, 18, 30, 0.86)) !important;
-  --glass-ring-surface-bg: var(--home-panel-bg, rgba(9, 18, 30, 0.86)) !important;
-  --glass-modal-bg: var(--home-panel-bg, rgba(9, 18, 30, 0.86)) !important;
-  --drawer-glass-bg: var(--home-panel-bg, rgba(9, 18, 30, 0.86)) !important;
+  --glass-surface-bg: var(--home-panel-bg, rgba(9, 18, 30, 0.86));
+  --glass-ring-surface-bg: var(--home-panel-bg, rgba(9, 18, 30, 0.86));
+  --glass-modal-bg: var(--home-panel-bg, rgba(9, 18, 30, 0.86));
+  --drawer-glass-bg: var(--home-panel-bg, rgba(9, 18, 30, 0.86));
 }
 
 html[data-reduce-transparency="1"] :is(
@@ -284,11 +284,11 @@ html[data-reduce-transparency="1"] :is(
     .profile-mask-layer
   ) {
   -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
+  backdrop-filter: none;
 }
 
 html[data-reduce-transparency="1"] :is(.glass-box, .glass-ring, .chat-mask-layer, .profile-mask-layer)::before,
 html[data-reduce-transparency="1"] :is(.glass-box, .glass-ring, .chat-mask-layer, .profile-mask-layer)::after {
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
 }

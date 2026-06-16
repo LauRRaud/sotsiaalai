@@ -1,26 +1,26 @@
 /* Shared invite and person-invite modal styles. */
 
 .invite-modal-overlay.person-invite-modal-overlay {
-  display: grid !important;
+  display: grid;
   grid-template-columns: minmax(0, 1fr);
-  justify-content: center !important;
-  justify-items: center !important;
-  align-items: start !important;
+  justify-content: center;
+  justify-items: center;
+  align-items: start;
 }
 
 .invite-modal-content.person-invite-modal-content {
-  justify-self: center !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
+  justify-self: center;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 @media (min-width: 768px) {
   .invite-modal-overlay.person-invite-modal-overlay.invite-modal-overlay--workspace {
-      align-items: center !important;
-      align-content: center !important;
-      padding-top: 0 !important;
-      padding-bottom: 0 !important;
-      overflow: hidden !important;
+      align-items: center;
+      align-content: center;
+      padding-top: 0;
+      padding-bottom: 0;
+      overflow: hidden;
     }
 
   .invite-modal-content--workspace {
@@ -32,14 +32,14 @@
       --ring-desktop-max: calc(58 * var(--base-rem));
       --chat-focus-diameter-scale: 1.06;
       --help-listings-workspace-inline-size: var(--workspace-glass-shell-inline-size);
-      width: var(--help-listings-workspace-inline-size) !important;
-      inline-size: var(--help-listings-workspace-inline-size) !important;
-      min-width: var(--help-listings-workspace-inline-size) !important;
-      max-width: var(--help-listings-workspace-inline-size) !important;
-      height: var(--workspace-glass-block-size) !important;
-      min-height: var(--workspace-glass-block-size) !important;
-      max-height: var(--workspace-glass-block-size) !important;
-      block-size: var(--workspace-glass-block-size) !important;
-      border-radius: clamp(1.6rem, 3.5vw, 2.4rem) !important;
+      width: var(--help-listings-workspace-inline-size);
+      inline-size: var(--help-listings-workspace-inline-size);
+      min-width: var(--help-listings-workspace-inline-size);
+      max-width: var(--help-listings-workspace-inline-size);
+      height: var(--workspace-glass-block-size);
+      min-height: var(--workspace-glass-block-size);
+      max-height: var(--workspace-glass-block-size);
+      block-size: var(--workspace-glass-block-size);
+      border-radius: clamp(1.6rem, 3.5vw, 2.4rem);
     }
 }
