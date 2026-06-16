@@ -2,7 +2,7 @@
 
 **Miks see fail:** sessiooni-mälu on konto-lokaalne ega kandu kontovahetust üle.
 See dokument elab repos → iga konto/mudel jätkab siit. Loe see + seotud dokud
-ENNE tööd. Kirjutatud 2026-06-15, **uuendatud 2026-06-16 (sessioon 3 — autonoomne). HEAD: `5fd1c1dc` (main).**
+ENNE tööd. Kirjutatud 2026-06-15, **uuendatud 2026-06-16 (sessioon 4 — autonoomne). HEAD: `67c2799b` (main).**
 Tööpuu puhas.
 
 ## 0. Lugemisjärjekord (3 faili)
@@ -17,25 +17,26 @@ ja **jälg** (register) et poleks segadust mis tehtud. Kõik `main`-il (kasutaja
 otse-push). Väikesed gate'itud commitid.
 
 ## 2. Seis praegu
-- **Platvorm: 3642 → 1306 `!important` (−2336 kampaania jooksul, sessioon 3 lõpetas −554).**
-- **Sessioon 3 (2026-06-16, autonoomne) tegi:**
-  - Uued failid: home/desktop (52→49), home/themes (15→10), profile/mono (8→4),
+- **Platvorm: 3642 → 1255 `!important` (−2387 kampaania jooksul, sessioon 3+4 kokku −605).**
+- **Sessioon 3+4 (2026-06-16, autonoomne) tegid:**
+  - Uued failid: home/desktop (52→49), home/themes (15→6), profile/mono (8→2),
     documents/mobile (11→9), documents/workspace (6→3), panel-surfaces (26→23),
     subpage-title-system (22→21), theme/mono (26→24), chat/themes (93→92)
   - Teised passid (kaskaad vabastas): workspace-guide (37→33), service-map/mobile (81→77),
-    scroll-panels (71→60), chat/mobile (33→14), agent.css (20→10), chat/mono (30→20)
+    scroll-panels (71→15, kolm passi!), chat/mobile (33→14), agent.css (20→10), chat/mono (30→20)
+  - Sessioon 4: profile/hc.css 23-STRIP katse GATE-2 RED (workspaceHeaderAlignment HC bundle) → reverditud
 - **PEAMISED SKIP-FAILID (kõik uuritud, kõik blokeeritud):**
   - `shared/ui-glow.css` (118) — POLIITIKA-LUKK (canonical-button-look, ÄRA PUUTU)
   - `service-map/desktop.css` (118) — position+kontrakt-lukk (keep-selectors annab 0 STRIP)
   - `mobile/platform-android.css` (98) — Android-only, gate puudub, ei saa verifitseerida
   - `features/chat/shell.css` (85) — inputbar Tailwind-kaskaadi-lukk (transform: none)
   - `features/service-map/mobile.css` (77) — kontrakt-lukus (0 STRIP keep-selectors'iga)
-  - `mobile/scroll-panels.css` (60) — geomeetria-kontrakt (pärast 11-STRIP-sessiooni)
+  - `mobile/scroll-panels.css` (15) — exhausted (kolm passi: 95→71→60→15); ülejäänu geomeetria-kontrakt
   - `mobile/invite-workspace.css` (63) — 0 STRIP, täielikult kontrakt-lukus
   - `features/policy/responsive.css` (62) — geomeetria load-bearing (CHANGED kõikides teemades)
   - `features/chat/hc.css` (29) — HC inputbar border + kontrakt-lukus (keep-selectors → 0)
   - `features/chat/mobile.css` (14) — kontrakt-lukus (pärast teist passi)
-  - `features/profile/hc.css` (28) — orbit-menu kontrakt + oracle blind spot, 0 STRIP
+  - `features/profile/hc.css` (28) — orbit-menu kontrakt + oracle blind spot + HC bundle interferents: 23 STRIP katse GATE-1 ✓ kuid GATE-2 RED (workspaceHeaderAlignment), reverditud
   - `components/workspace-help-listings.css` (29) — 0 STRIP
   - `mobile/touch-controls.css` (25) — 0 STRIP
   - `shared/register.css` (7) — 0 STRIP
@@ -61,8 +62,10 @@ on vastastikku välistavad (ei konkureeri runtime'is). hc.css 328 markerit maha 
 3. GATE-1 render:    css-snapshot.mjs (before) → muuda → (after) → css-snapshot-diff.mjs
                      → "✓ identical" = ohutu. ✗ = mõni marker render-kandev (taasta need).
 4. GATE-2 kontrakt:  npm test → võrdle kukkumiste-hulka baseline'iga (comm -23).
-                     Uusi kukkumisi = 0. (NB: 12 vs 13 on FLAKY test, mitte regressioon —
-                     võrdle NIMESID, mitte arvu.)
+                     Uusi kukkumisi = 0. (NB: 2026-06-16 praegune eeldas-baseline = 13
+                     kukkumist: 12 algsest + 1 uus pre-existing "HC selected option cards
+                     keep a yellow fill after the generic glow reset". Võrdle NIMESID,
+                     mitte arvu.)
 5. 🟢 mõlemad → commit main + uuenda ledger.  🔴 → revert (ÄRA committi punasega).
 ```
 
@@ -146,7 +149,12 @@ capture 2× → CHANGED-lõige tühi.
 
 ## 8. SESSIOONI COMMITID (main)
 ```
+# autonoomne sessioon 4 (16.06): profile/hc.css 23-STRIP GATE-2 RED → reverditud; dok uuendatud 1306→1255
+# (ei ole uusi CSS commite; ainult HANDOFF+ledger+mälu uuendus)
+
 # autonoomne sessioon 3 (16.06): kaskaad-teised-passid + uued failid
+67c2799b home/themes 10->6 (-4) + profile/mono 4->2 (-2) kaskaad
+f04ec4af scroll-panels kolmas pass 60->15 (-45) kaskaad jätkus
 5fd1c1dc chat/mobile 33->14 (-19) kaskaad vabastas
 ea5539a5 scroll-panels 71->60 (-11) kaskaad vabastas
 c1f1f575 workspace-guide 37->33 (-4) + service-map/mobile 81->77 (-4)

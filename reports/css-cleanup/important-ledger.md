@@ -19,9 +19,9 @@ Kokku **3642** `!important` 87 autori-CSS-failis. Jaotus arhitektuuri-rühmade k
 | `components/` + `utilities/` | 72 | 2% | |
 | `base/` + `tokens/` | 33 | 1% | |
 
-## Edenemine feature/faili kaupa (uuendatud 2026-06-16, sessioon 3 lõpus)
+## Edenemine feature/faili kaupa (uuendatud 2026-06-16, sessioon 4 lõpus)
 
-**KOKKUVÕTE: 3642 → 1306 (−2336). Kõik 87 faili uuritud ≥1 korda. Odav oraakel-korje ammendunud.**
+**KOKKUVÕTE: 3642 → 1255 (−2387). Kõik 87 faili uuritud ≥1 korda. Odav oraakel-korje ammendunud.**
 
 Legend: ✅ tehtud · 🔒 blokeeritud (põhjus järel)
 
@@ -33,7 +33,7 @@ Legend: ✅ tehtud · 🔒 blokeeritud (põhjus järel)
 | `features/chat/themes.css` | 93 | 92 | −1 | 🔒 kontrakt-lukus (256 oraakel-muster) |
 | `features/chat/shell.css` | 191 | 85 | −106 | 🔒 inputbar Tailwind-kaskaadi-lukk (transform) |
 | `features/service-map/mobile.css` | 81 | 77 | −4 | 🔒 kontrakt-lukus (0 STRIP) |
-| `mobile/scroll-panels.css` | 95 | 60 | −35 | 🔒 pärast 11-STRIP, ülejäänu geomeetria-kontrakt |
+| `mobile/scroll-panels.css` | 95 | 15 | −80 | 🔒 exhausted (kolm passi: 95→71→60→15); ülejäänu geomeetria-kontrakt |
 | `mobile/invite-workspace.css` | 101 | 63 | −38 | 🔒 0 STRIP, täielikult kontrakt-lukus |
 | `features/policy/responsive.css` | 65 | 62 | −3 | 🔒 geomeetria load-bearing (GATE-1 RED kõikides teemades) |
 | `features/home/desktop.css` | 52 | 49 | −3 | 🔒 kontrakt-lukus (0 STRIP teises passis) |
@@ -42,7 +42,7 @@ Legend: ✅ tehtud · 🔒 blokeeritud (põhjus järel)
 | `features/chat/mobile.css` | 169 | 14 | −155 | ✅ kaks passi (kaskaad vabastas data-chat-layout luku) |
 | `features/chat/hc.css` | 207 | 29 | −178 | 🔒 HC inputbar border + kontrakt (keep-selectors → 0) |
 | `components/workspace-help-listings.css` | 29 | 29 | 0 | 🔒 0 STRIP (273 oraakel-muster) |
-| `features/profile/hc.css` | 40 | 28 | −12 | 🔒 orbit-menu kontrakt + oracle blind spot (0 STRIP) |
+| `features/profile/hc.css` | 40 | 28 | −12 | 🔒 orbit-menu kontrakt + oracle blind spot (0 STRIP). Oracle 23-STRIP katse: GATE-1 ✓ kuid GATE-2 RED (workspaceHeaderAlignment — HC bundle interferents) |
 | `mobile/touch-controls.css` | 25 | 25 | 0 | 🔒 0 STRIP (119 oraakel-muster) |
 | `theme/mono.css` | 148 | 24 | −124 | ✅ |
 | `mobile/panel-surfaces.css` | 26 | 23 | −3 | ✅ |
@@ -52,12 +52,12 @@ Legend: ✅ tehtud · 🔒 blokeeritud (põhjus järel)
 | `theme/hc.css` | 328 | 16 | −312 | ✅ |
 | `features/chat/hc.css` (sessioon 2) | — | 29 | — | vt rida ülal |
 | `features/policy/mobile.css` | 32 | 15 | −17 | ✅ |
-| `features/home/themes.css` | 15 | 10 | −5 | ✅ |
+| `features/home/themes.css` | 15 | 6 | −9 | ✅ kaks passi |
 | `features/documents/agent.css` | 51 | 10 | −41 | ✅ kaks passi |
 | `features/documents/ui.css` | 110 | 13 | −97 | ✅ kaks passi |
 | `features/documents/mobile.css` | 11 | 9 | −2 | ✅ |
 | `features/profile/mobile.css` | 74 | 9 | −65 | ✅ |
-| `features/profile/mono.css` | 8 | 4 | −4 | ✅ |
+| `features/profile/mono.css` | 8 | 2 | −6 | ✅ kaks passi |
 | `theme/mid.css` | 65 | 4 | −61 | ✅ |
 | `features/documents/workspace.css` | 6 | 3 | −3 | ✅ |
 | `mobile/background-home.css` | 26 | 7 | −19 | ✅ |
@@ -72,7 +72,7 @@ Legend: ✅ tehtud · 🔒 blokeeritud (põhjus järel)
 
 ## ALLESJÄÄNUD — ÜLEJÄÄNUD PLOKID (2026-06-16, sessioon 3 lõpus)
 
-**Kogu odav oraakel-korje ammendunud. Allesjäänu 1306 = 3 bloki:**
+**Kogu odav oraakel-korje ammendunud. Allesjäänu 1255 = 3 bloki:**
 
 | Plokk | Näide-fail | Maht | Vaja |
 |---|---|---:|---|
