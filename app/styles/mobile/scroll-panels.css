@@ -3,36 +3,36 @@
 .workspace-scroll-surface.workspace-guide-panel > .workspace-guide-panel-scroll {
   --workspace-guide-panel-overscan-top: clamp(1.6rem, 4.8vh, 2.4rem);
   --workspace-guide-panel-overscan-bottom: clamp(1.05rem, 2.4vh, 1.45rem);
-  box-sizing: border-box !important;
-  position: relative !important;
-  width: calc(100% + var(--workspace-guide-panel-pad-x, 1rem) + var(--workspace-guide-panel-pad-x, 1rem)) !important;
+  box-sizing: border-box;
+  position: relative;
+  width: calc(100% + var(--workspace-guide-panel-pad-x, 1rem) + var(--workspace-guide-panel-pad-x, 1rem));
   max-width: none !important;
   height: calc(
     100% + var(--workspace-guide-panel-pad-top, 0.6rem) +
       var(--workspace-guide-panel-overscan-top) +
       var(--workspace-guide-panel-overscan-bottom)
-  ) !important;
+  );
   max-height: calc(
     100% + var(--workspace-guide-panel-pad-top, 0.6rem) +
       var(--workspace-guide-panel-overscan-top) +
       var(--workspace-guide-panel-overscan-bottom)
-  ) !important;
+  );
   margin-top: calc(
     0px - var(--workspace-guide-panel-pad-top, 0.6rem) -
       var(--workspace-guide-panel-overscan-top)
-  ) !important;
-  margin-right: calc(0px - var(--workspace-guide-panel-pad-x, 1rem)) !important;
-  margin-left: calc(0px - var(--workspace-guide-panel-pad-x, 1rem)) !important;
-  padding-right: var(--workspace-guide-panel-pad-x, 1rem) !important;
-  padding-left: var(--workspace-guide-panel-pad-x, 1rem) !important;
+  );
+  margin-right: calc(0px - var(--workspace-guide-panel-pad-x, 1rem));
+  margin-left: calc(0px - var(--workspace-guide-panel-pad-x, 1rem));
+  padding-right: var(--workspace-guide-panel-pad-x, 1rem);
+  padding-left: var(--workspace-guide-panel-pad-x, 1rem);
   padding-top: calc(
     var(--workspace-guide-panel-pad-top, 0.6rem) +
       var(--workspace-guide-panel-overscan-top) + clamp(0.18rem, 0.65vh, 0.42rem)
-  ) !important;
+  );
   padding-bottom: var(--workspace-guide-panel-overscan-bottom) !important;
   mask-image: none !important;
   -webkit-mask-image: none !important;
-  scrollbar-gutter: auto !important;
+  scrollbar-gutter: auto;
 }
 
 .invite-modal-content--workspace.workspace-guide-panel.glass-subpage-surface {
@@ -45,9 +45,9 @@
 .invite-modal-content--workspace.workspace-guide-panel.glass-subpage-surface
   > .invite-modal-scroll.workspace-guide-panel-scroll {
   flex: 1 1 auto !important;
-  min-height: 0 !important;
+  min-height: 0;
   overflow: visible !important;
-  scrollbar-gutter: auto !important;
+  scrollbar-gutter: auto;
 }
 
 .invite-modal-content--workspace.workspace-guide-panel.glass-subpage-surface
@@ -79,44 +79,44 @@
     ) {
     --mobile-glass-card-gap: clamp(0.32rem, 1.35vw, 0.4rem);
     --mobile-glass-card-radius: clamp(1.05rem, 3.8vw, 1.45rem);
-    box-sizing: border-box !important;
+    box-sizing: border-box;
     width: calc(
       100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) -
         (var(--mobile-glass-card-gap) * 2)
-    ) !important;
+    );
     inline-size: calc(
       100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) -
         (var(--mobile-glass-card-gap) * 2)
-    ) !important;
+    );
     min-width: calc(
       100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) -
         (var(--mobile-glass-card-gap) * 2)
-    ) !important;
+    );
     max-width: calc(
       100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) -
         (var(--mobile-glass-card-gap) * 2)
-    ) !important;
+    );
     height: calc(
       var(--glass-mobile-root-vh, 100dvh) - var(--mobile-safe-top, env(safe-area-inset-top, 0px)) -
         var(--mobile-safe-bottom, env(safe-area-inset-bottom, 0px)) -
         (var(--mobile-glass-card-gap) * 2)
-    ) !important;
+    );
     min-height: calc(
       var(--glass-mobile-root-vh, 100dvh) - var(--mobile-safe-top, env(safe-area-inset-top, 0px)) -
         var(--mobile-safe-bottom, env(safe-area-inset-bottom, 0px)) -
         (var(--mobile-glass-card-gap) * 2)
-    ) !important;
+    );
     max-height: calc(
       var(--glass-mobile-root-vh, 100dvh) - var(--mobile-safe-top, env(safe-area-inset-top, 0px)) -
         var(--mobile-safe-bottom, env(safe-area-inset-bottom, 0px)) -
         (var(--mobile-glass-card-gap) * 2)
-    ) !important;
-    margin-top: calc(var(--mobile-safe-top, env(safe-area-inset-top, 0px)) + var(--mobile-glass-card-gap)) !important;
-    margin-right: max(var(--mobile-glass-card-gap), env(safe-area-inset-right, 0px)) !important;
-    margin-bottom: calc(var(--mobile-safe-bottom, env(safe-area-inset-bottom, 0px)) + var(--mobile-glass-card-gap)) !important;
-    margin-left: max(var(--mobile-glass-card-gap), env(safe-area-inset-left, 0px)) !important;
-    border-radius: var(--mobile-glass-card-radius) !important;
-    overflow: hidden !important;
+    );
+    margin-top: calc(var(--mobile-safe-top, env(safe-area-inset-top, 0px)) + var(--mobile-glass-card-gap));
+    margin-right: max(var(--mobile-glass-card-gap), env(safe-area-inset-right, 0px));
+    margin-bottom: calc(var(--mobile-safe-bottom, env(safe-area-inset-bottom, 0px)) + var(--mobile-glass-card-gap));
+    margin-left: max(var(--mobile-glass-card-gap), env(safe-area-inset-left, 0px));
+    border-radius: var(--mobile-glass-card-radius);
+    overflow: hidden;
   }
 
   :is(
@@ -196,43 +196,43 @@
     width: calc(
       100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) -
         (var(--workspace-mobile-panel-gap) * 2)
-    ) !important;
+    );
     inline-size: calc(
       100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) -
         (var(--workspace-mobile-panel-gap) * 2)
-    ) !important;
+    );
     min-width: calc(
       100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) -
         (var(--workspace-mobile-panel-gap) * 2)
-    ) !important;
+    );
     max-width: calc(
       100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) -
         (var(--workspace-mobile-panel-gap) * 2)
-    ) !important;
+    );
     height: calc(
       var(--glass-mobile-root-vh, 100dvh) - var(--mobile-safe-top, env(safe-area-inset-top, 0px)) -
         var(--mobile-safe-bottom, env(safe-area-inset-bottom, 0px)) -
         (var(--workspace-mobile-panel-gap) * 2)
-    ) !important;
+    );
     min-height: calc(
       var(--glass-mobile-root-vh, 100dvh) - var(--mobile-safe-top, env(safe-area-inset-top, 0px)) -
         var(--mobile-safe-bottom, env(safe-area-inset-bottom, 0px)) -
         (var(--workspace-mobile-panel-gap) * 2)
-    ) !important;
+    );
     max-height: calc(
       var(--glass-mobile-root-vh, 100dvh) - var(--mobile-safe-top, env(safe-area-inset-top, 0px)) -
         var(--mobile-safe-bottom, env(safe-area-inset-bottom, 0px)) -
         (var(--workspace-mobile-panel-gap) * 2)
-    ) !important;
-    margin-top: calc(var(--mobile-safe-top, env(safe-area-inset-top, 0px)) + var(--workspace-mobile-panel-gap)) !important;
-    margin-right: max(var(--workspace-mobile-panel-gap), env(safe-area-inset-right, 0px)) !important;
-    margin-bottom: calc(var(--mobile-safe-bottom, env(safe-area-inset-bottom, 0px)) + var(--workspace-mobile-panel-gap)) !important;
-    margin-left: max(var(--workspace-mobile-panel-gap), env(safe-area-inset-left, 0px)) !important;
-    border-radius: var(--mobile-glass-card-radius) !important;
+    );
+    margin-top: calc(var(--mobile-safe-top, env(safe-area-inset-top, 0px)) + var(--workspace-mobile-panel-gap));
+    margin-right: max(var(--workspace-mobile-panel-gap), env(safe-area-inset-right, 0px));
+    margin-bottom: calc(var(--mobile-safe-bottom, env(safe-area-inset-bottom, 0px)) + var(--workspace-mobile-panel-gap));
+    margin-left: max(var(--workspace-mobile-panel-gap), env(safe-area-inset-left, 0px));
+    border-radius: var(--mobile-glass-card-radius);
     padding:
       var(--glass-ring-pad-top)
       var(--glass-ring-pad-x)
-      calc(var(--mobile-safe-bottom, env(safe-area-inset-bottom, 0px)) + 0.9rem) !important;
+      calc(var(--mobile-safe-bottom, env(safe-area-inset-bottom, 0px)) + 0.9rem);
   }
 
   .workspace-scroll-surface.workspace-guide-panel.workspace-feature-panel {
@@ -245,10 +245,10 @@
       var(--mobile-safe-bottom, env(safe-area-inset-bottom, 0px)) +
         clamp(0.9rem, 2.2vh, 1.35rem)
     );
-    box-sizing: border-box !important;
-    position: relative !important;
-    width: calc(100% + var(--glass-ring-pad-x, 1rem) + var(--glass-ring-pad-x, 1rem)) !important;
-    max-width: none !important;
+    box-sizing: border-box;
+    position: relative;
+    width: calc(100% + var(--glass-ring-pad-x, 1rem) + var(--glass-ring-pad-x, 1rem));
+    max-width: none;
     height: calc(
       100% + var(--glass-ring-pad-top, 0.6rem) +
         var(--workspace-guide-panel-overscan-top) +
