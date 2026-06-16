@@ -654,9 +654,9 @@ html[data-contrast="hc"] .documents-workspace :is(
 html[data-contrast="hc"] .documents-workspace .documents-panel-link,
 html[data-contrast="hc"] .documents-workspace .documents-panel-link:is(:hover, :focus-visible, :active) {
   border: 0 !important;
-  outline: none !important;
-  box-shadow: none !important;
-  background: transparent !important;
+  outline: none;
+  box-shadow: none;
+  background: transparent;
   padding: 0 !important;
 }
 
@@ -666,9 +666,9 @@ html[data-contrast="hc"] .documents-workspace :is(
   .documents-form-input,
   .documents-agent-textarea
 ) {
-  color: var(--hc-accent) !important;
-  border-color: rgba(255, 234, 0, 0.68) !important;
-  box-shadow: none !important;
+  color: var(--hc-accent);
+  border-color: rgba(255, 234, 0, 0.68);
+  box-shadow: none;
 }
 
 html[data-contrast="hc"] .documents-workspace :is(
@@ -677,7 +677,7 @@ html[data-contrast="hc"] .documents-workspace :is(
   .documents-form-input,
   .documents-agent-textarea
 ) {
-  background: rgba(14, 20, 32, 0.42) !important;
+  background: rgba(14, 20, 32, 0.42);
 }
 
 html[data-contrast="hc"] .documents-workspace :is(
@@ -686,7 +686,7 @@ html[data-contrast="hc"] .documents-workspace :is(
   .documents-form-input,
   .documents-agent-textarea
 )::placeholder {
-  color: rgba(255, 234, 0, 0.72) !important;
+  color: rgba(255, 234, 0, 0.72);
 }
 
 [data-contrast="hc"] .documents-dropdown-item {
@@ -778,9 +778,9 @@ html[data-contrast="hc"] .documents-workspace :is(
   .documents-notice--muted,
   .documents-empty-state
 ) {
-  color: var(--hc-accent) !important;
-  border-color: rgba(255, 234, 0, 0.58) !important;
-  background: rgba(14, 20, 32, 0.48) !important;
+  color: var(--hc-accent);
+  border-color: rgba(255, 234, 0, 0.58);
+  background: rgba(14, 20, 32, 0.48);
 }
 
 html[data-contrast="hc"] .documents-workspace-page--library :is(
@@ -790,15 +790,15 @@ html[data-contrast="hc"] .documents-workspace-page--library :is(
   .documents-panel.documents-surface-panel,
   .documents-subsection-stack.documents-panel
 ) {
-  background: var(--documents-hc-panel-bg) !important;
+  background: var(--documents-hc-panel-bg);
 }
 
 html[data-contrast="hc"] .documents-workspace-page--library .documents-page-shell {
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
 }
 
 html[data-contrast="hc"] .documents-workspace .documents-agent-conversation-window {
@@ -853,8 +853,8 @@ html[data-contrast="hc"] .documents-workspace-page--library :is(
   .documents-panel.documents-surface-panel,
   .documents-subsection-stack.documents-panel
 ) {
-  background: var(--documents-surface-panel-bg) !important;
-  box-shadow: var(--documents-surface-panel-shadow) !important;
-  -webkit-backdrop-filter: var(--documents-glass-backdrop-filter) !important;
-  backdrop-filter: var(--documents-glass-backdrop-filter) !important;
+  background: var(--documents-surface-panel-bg);
+  box-shadow: var(--documents-surface-panel-shadow);
+  -webkit-backdrop-filter: var(--documents-glass-backdrop-filter);
+  backdrop-filter: var(--documents-glass-backdrop-filter);
 }
