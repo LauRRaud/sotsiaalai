@@ -14,7 +14,7 @@
 }
 
 :root.theme-light .drawer-panel .drawer-chat-card {
-  border-color: transparent !important;
+  border-color: transparent;
   background: var(--subpage-card-bg) !important;
   box-shadow: none !important;
 }
