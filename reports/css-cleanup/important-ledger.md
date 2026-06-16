@@ -21,10 +21,28 @@ Kokku **3642** `!important` 87 autori-CSS-failis. Jaotus arhitektuuri-rühmade k
 
 ## Edenemine feature/faili kaupa (uuendatud 2026-06-16, sessioon 4 lõpus)
 
-**KOKKUVÕTE: 3642 → 1215 (−2427). Kõik 87 faili uuritud ≥1 korda. Odav oraakel-korje ammendunud.**
+**KOKKUVÕTE: 3642 → 1209 (−2433). Kõik 87 faili uuritud ≥1 korda. Odav oraakel-korje ammendunud.**
 **✅ SESSIOON 7 (2026-06-16): müra-põranda re-audit lõpetatud. policy/responsive.css (noise=0, PÄRIS)
 + chat/shell.css (noise=45, pärast lahutust PÄRIS border-muutused) — mõlemad kinnitatult lukus.
-Kõik prior "GATE-1 RED" failid on nüüd müra-vaba-gate'iga kontrollitud. 1215 on lõplik põhi.**
+Kõik prior "GATE-1 RED" failid on nüüd müra-vaba-gate'iga kontrollitud.**
+
+### SESSIOON 7 lisa — token-migratsiooni kampaania (kasutaja lubas täiskampaania + kontrakt-testi muutmise)
+**✅ documents/mono.css 6→0 (`361ffc30`):** teema-mono defineeris tokenid juba (`--input-bg` jne),
+eksplisiitsed `background: var(--forest-input-surface) !important` overrided olid cargo-cult.
+GATE-1 ✓ identical (noise=0, /dokreziim+/documents), GATE-2 0 uut, kontrakt-testi polnud vaja. **1215→1209.**
+
+**⚠ KRIITILINE LEID — "273 tokeniseeritavat" on petlik ülempiir.** Empiiriline analüüs:
+- **151/273 sihib selektoreid mida `ui-glow.css` (POLIITIKA-LUKK) ka puudutab** → IMPORTANT-war
+  poliitika-lukus failiga → EI eemaldatav ilma renderit muutmata (ui-glow `!important` võidaks).
+- **~47 on muul põhjusel load-bearing:** chat/hc+theme/hc (30, HC-reset war — proven GATE-1 RED),
+  service-map/desktop (11, Leaflet runtime-war), chat/shell (6, border-värvid PÄRIS).
+- **268/273 on kontrakt-puudutatud** (vajaks testi-uuendust).
+- **Tegelik puhas-drop saak ≈ 15-25 markerit** (documents/mono 6 tehtud + theme/mono ~5,
+  home/themes ~3, documents/ui ~2, home/desktop ~2 jt). **Realistlik põhi token-dropiga ≈ 1185-1190, MITTE ~940.**
+- **Number on kõrge, sest disain kasutab `!important`-i päris kaskaadi-sõdade võitmiseks**
+  (poliitika-lukus glow-süsteem + kontrakt-valvatud teema-süsteem), MITTE surnud prahti.
+- **Et minna oluliselt alla ~1185:** kas (a) luba puutuda ui-glow.css (poliitika-override), VÕI
+  (b) arhitektuuri-lõppmäng (primitiivi-konsolideerimine → sõjad kaovad struktuurselt).
 
 ### SESSIOON 7 lisa — baseline test-kukkumiste triaaž (13 → 12)
 Senised sessioonid lugesid 13 test-kukkumist "baseline'iks". Uurisin need läbi (täpne kukkuv rida + loetav fail):
