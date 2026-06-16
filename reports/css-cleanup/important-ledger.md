@@ -34,9 +34,11 @@ ko-lokeeritud 804 = SAMA profiil kui app/styles (WAR + surnud droppable), `:glob
 (moodul pole isoleeritud). Auth: `tmp-create-login-token.mjs` (e2e.call.owner) VÕI SNAPSHOT_SESSION cookie →
 `css-important-overrides.mjs --route <auth-route> --token/SNAPSHOT_SESSION`. Edasi = per-fail B1 audit fokusseeritud sessioonis.
 
-**✅ B1 ESIMENE STRIP (`b03d03f7`):** `CovisionPage.module.css .page` `width/max-width: 100vw !important` → ilma `!important`.
-Gate (covision-layout-gate, /kovisioon, e2e, noise=0): GATE-1 ✓ identical (kõik selektorid × 6 teemat × 390/1920),
-GATE-2 0 uut. **Ko-lokeeritud CovisionPage 169→167.**
+**✅ B1 STRIPID CovisionPage'il (`b03d03f7` + `808b1b59`): 169 → 163 (−6).**
+- `b03d03f7`: `.page width/max-width: 100vw !important` → redundantne (Tailwind `.w-full/.w-screen/.max-w-[…]` ainsad konkurendid).
+- `808b1b59`: `.surface margin-left/right: auto + justify-self/align-self: center !important` → redundantne (`.surface` kannab
+  Tailwind `mx-auto`; moodul võidab niikuinii). `.surface` width/height (workspace-glass geomeetria) JÄETI (kontrakt vs glass-subpage shell).
+Gate (covision, /kovisioon, e2e, noise-floor lahutatud): GATE-1 ✓ identical (kõik selektorid × 6 teemat × 390/1920), GATE-2 0 uut.
 - **KORDUV B1-MUSTER (oluline):** moodul-CSS layout-`!important`, mis võistleb AINULT Tailwind-utiliitidega
   (`.w-full`/`.w-screen`/`.max-w-[…]`, kõik non-important), on **REDUNDANTNE** — kihistamata moodul võidab kihistatud
   Tailwindi niikuinii (kaskaadi-kihi reegel). Resolver lipustab need "IMPORTANT-WAR" (sama-spec Tailwind), AGA see on
