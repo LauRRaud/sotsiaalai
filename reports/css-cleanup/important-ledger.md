@@ -26,6 +26,26 @@ Kokku **3642** `!important` 87 autori-CSS-failis. Jaotus arhitektuuri-rühmade k
 + chat/shell.css (noise=45, pärast lahutust PÄRIS border-muutused) — mõlemad kinnitatult lukus.
 Kõik prior "GATE-1 RED" failid on nüüd müra-vaba-gate'iga kontrollitud. 1215 on lõplik põhi.**
 
+### SESSIOON 7 lisa — baseline test-kukkumiste triaaž (13 → 12)
+Senised sessioonid lugesid 13 test-kukkumist "baseline'iks". Uurisin need läbi (täpne kukkuv rida + loetav fail):
+- ✅ **PARANDATUD (`59634165`):** `register ring surface...` — `profile/mobile.css`-s oli liitselektor
+  `.profile-container.glass-ring .profile-mask-layer, ...[data-orbit-open] ...` mis takistas testil
+  avanevat `{` leida. Jagasin kaheks identseks blokiks (0 render-muutust, gate roheline). **13 → 12.**
+- 🔒 **Ülejäänud 11 EI ole ohutult CSS-st parandatavad** (loader `register-node-test-loader.mjs` lahendab
+  `@import` + `legacyCssBundles`: documents-mode/hc/mono/dark = aggregaatorid mis toovad split-failid):
+  - **5 loevad JSX-i** (komponendi-kood, väljaspool CSS-skoopi): mobileChatKeyboardOffset:105,
+    entryTypeFilters:27, adminRolePropagation:16, workspaceDashboardBadges:91, serviceMapIconInline:14
+  - **4 on väärtuse/reegli triiv** (parandus = RENDER-muutus, regressiks praeguse disaini):
+    chatMobileTopNavHighContrast:41 (font-size 1.36/5.5/1.54 vs test 1.16/4.65/1.34),
+    dashboardInfoOverlay:59 (reegel shared/glass-subpage.css, test ootab ka mobiili-bundle's),
+    documentsWorkspaceLayout:47 (overscan reegel policy/ failis eri selektoritega),
+    scrollSurfaceHeader:68 (puuduv `--direct-scroll-surface-header-offset` + kaskaad)
+  - **2 pre-existing:** workspaceHeaderAlignment:8 (module.css false-negative, kukub HEAD-il muutuseta),
+    hcSurfaceContracts:220 (HC reset-järjestuse kontrakt)
+  - **Järeldus:** need 11 on aegunud kontrakt-testid 2026-06-01/02 suure restruktuuri järelt. Õige parandus =
+    testi-assertide uuendamine (vajab kasutaja luba) VÕI komponendi-muutus (eraldi ülesanne), MITTE CSS-allikas.
+    **Uus baseline = 12.**
+
 Legend: ✅ tehtud · 🔒 blokeeritud (põhjus järel)
 
 | Fail | Algus | Praegu | −Delta | Staatus / Blokeeritud põhjus |
