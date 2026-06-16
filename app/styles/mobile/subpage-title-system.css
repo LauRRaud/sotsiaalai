@@ -133,7 +133,7 @@
 
   .rag-admin-shell-card .rag-admin-shell-back {
     position: absolute !important;
-    left: var(--mobile-header-back-left) !important;
+    left: var(--mobile-header-back-left);
     top: calc(
       var(--mobile-header-control-top) +
         var(--mobile-header-browser-y-offset, 0rem) +
