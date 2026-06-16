@@ -449,23 +449,23 @@ body .chat-inputbar .chat-send-btn {
 }
 
 body .chat-inputbar .chat-send-btn {
-  width: var(--inputbar-h, var(--chat-composer-send-control-size, var(--chat-action-size, calc(3.2 * var(--base-rem))))) !important;
-  height: var(--inputbar-h, var(--chat-composer-send-control-size, var(--chat-action-size, calc(3.2 * var(--base-rem))))) !important;
-  min-width: var(--inputbar-h, var(--chat-composer-send-control-size, var(--chat-action-size, calc(3.2 * var(--base-rem))))) !important;
-  min-height: var(--inputbar-h, var(--chat-composer-send-control-size, var(--chat-action-size, calc(3.2 * var(--base-rem))))) !important;
-  flex: 0 0 var(--inputbar-h, var(--chat-composer-send-control-size, var(--chat-action-size, calc(3.2 * var(--base-rem))))) !important;
+  width: var(--inputbar-h, var(--chat-composer-send-control-size, var(--chat-action-size, calc(3.2 * var(--base-rem)))));
+  height: var(--inputbar-h, var(--chat-composer-send-control-size, var(--chat-action-size, calc(3.2 * var(--base-rem)))));
+  min-width: var(--inputbar-h, var(--chat-composer-send-control-size, var(--chat-action-size, calc(3.2 * var(--base-rem)))));
+  min-height: var(--inputbar-h, var(--chat-composer-send-control-size, var(--chat-action-size, calc(3.2 * var(--base-rem)))));
+  flex: 0 0 var(--inputbar-h, var(--chat-composer-send-control-size, var(--chat-action-size, calc(3.2 * var(--base-rem)))));
   display: inline-grid !important;
-  place-items: center !important;
+  place-items: center;
 }
 
 body .chat-inputbar .chat-send-btn > .chat-send-icon-anchor {
   width: 100% !important;
   height: 100% !important;
-  display: grid !important;
+  display: grid;
   place-items: center !important;
   position: absolute !important;
   inset: 0 !important;
-  line-height: 0 !important;
+  line-height: 0;
 }
 
 body .chat-input-row .chat-side-control-btn svg {
@@ -483,19 +483,19 @@ body .chat-inputbar .chat-send-btn .chat-send-glyph {
   display: block !important;
   transform-box: fill-box !important;
   transform-origin: center !important;
-  width: var(--chat-composer-send-icon-size, var(--chat-composer-mic-icon-size, calc(1.78 * var(--base-rem)))) !important;
-  height: var(--chat-composer-send-icon-size, var(--chat-composer-mic-icon-size, calc(1.78 * var(--base-rem)))) !important;
+  width: var(--chat-composer-send-icon-size, var(--chat-composer-mic-icon-size, calc(1.78 * var(--base-rem))));
+  height: var(--chat-composer-send-icon-size, var(--chat-composer-mic-icon-size, calc(1.78 * var(--base-rem))));
 }
 
 body .chat-inputbar .chat-send-btn .chat-send-stop-glyph {
-  display: block !important;
-  transform-box: fill-box !important;
-  transform-origin: center !important;
+  display: block;
+  transform-box: fill-box;
+  transform-origin: center;
 }
 
 body .chat-inputbar .chat-send-btn .chat-mic-glyph {
-  width: var(--chat-composer-mic-icon-size, calc(1.78 * var(--base-rem))) !important;
-  height: var(--chat-composer-mic-icon-size, calc(1.78 * var(--base-rem))) !important;
+  width: var(--chat-composer-mic-icon-size, calc(1.78 * var(--base-rem)));
+  height: var(--chat-composer-mic-icon-size, calc(1.78 * var(--base-rem)));
 }
 
 body .chat-inputbar .chat-dictate-btn,
@@ -511,7 +511,7 @@ body .chat-inputbar .chat-send-btn[data-empty-disabled="true"],
 body .chat-inputbar .chat-send-btn[data-empty-disabled="true"][aria-disabled="true"],
 body .chat-inputbar .chat-send-btn[data-empty-disabled="true"]:disabled {
   opacity: 1 !important;
-  filter: none !important;
+  filter: none;
 }
 
 .chat-container--input-focus .chat-inputbar,
@@ -637,11 +637,11 @@ html[data-contrast="hc"] .chat-page-shell .chat-composer-glow-shell:focus-within
 }
 
 :root:not(.theme-light):not(.theme-mid):not([data-contrast="hc"]) .chat-page-shell .chat-composer-glow-shell .chat-inputbar {
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 .chat-container--input-focus .chat-inputbar > .chat-listen-btn,
@@ -686,22 +686,22 @@ html[data-contrast="hc"] .chat-page-shell .chat-composer-glow-shell:focus-within
 }
 
 .chat-page-shell .chat-inputbar .chat-send-btn.ui-glow-button-frame > [class*="edgeLight"] {
-  opacity: 0 !important;
+  opacity: 0;
 }
 
 :root.theme-light .chat-page-shell .chat-inputbar .chat-send-btn.ui-glow-button-frame > [class*="edgeLight"],
 :root.theme-mid .chat-page-shell .chat-inputbar .chat-send-btn.ui-glow-button-frame > [class*="edgeLight"] {
-  display: block !important;
+  display: block;
 }
 
 .chat-page-shell .chat-inputbar .chat-send-btn.ui-glow-button-frame:is(:hover, :focus-visible) > [class*="edgeLight"] {
-  opacity: calc(0.34 * (var(--edge-proximity) - var(--edge-sensitivity)) / (100 - var(--edge-sensitivity))) !important;
+  opacity: calc(0.34 * (var(--edge-proximity) - var(--edge-sensitivity)) / (100 - var(--edge-sensitivity)));
 }
 
 .chat-page-shell .chat-inputbar .chat-send-btn.ui-glow-button-frame[data-empty-disabled="true"] > [class*="edgeLight"],
 .chat-page-shell .chat-inputbar .chat-send-btn.ui-glow-button-frame:disabled > [class*="edgeLight"],
 .chat-page-shell .chat-inputbar .chat-send-btn.ui-glow-button-frame[aria-disabled="true"] > [class*="edgeLight"] {
-  opacity: 0 !important;
+  opacity: 0;
 }
 
 .chat-container--input-focus .chat-inputbar > .chat-listen-btn,
@@ -711,7 +711,7 @@ html[data-contrast="hc"] .chat-page-shell .chat-composer-glow-shell:focus-within
 
 .chat-container--input-focus .chat-inputbar > .chat-send-btn,
 .chat-page-shell .chat-container.chat-container--round.chat-layout-desktop:has(.chat-inputbar:focus-within) .chat-inputbar > .chat-send-btn {
-  transform: none !important;
+  transform: none;
 }
 
 .chat-container--input-focus .chat-inputbar > .chat-listen-btn svg,
