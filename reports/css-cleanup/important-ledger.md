@@ -191,7 +191,7 @@ Legend: ✅ tehtud · 🔒 blokeeritud (põhjus järel)
 | `features/service-map/desktop.css` | 276 | 104 | −172 | ✅ sessioon 6 −14 (müra-põrand, `40a7892c`); ülejäänu = page-panel fixed-geomeetria + kontrakt |
 | `mobile/platform-android.css` | 98 | 98 | 0 | 🔒 gate testitud (sessioon 5): 94→65→21 STRIP erinevate keep-selektorite tasemel → kõik 21 geomeetria. **Täielikult lukus.** |
 | `features/chat/themes.css` | 93 | 92 | −1 | 🔒 kontrakt-lukus (256 oraakel-muster) |
-| `features/chat/shell.css` | 191 | 59 | −132 | 🔒 sessioon 7 müra-audit: noise=45, pärast lahutust GATE-1 RED — border-color muutused chat-dictate/listen-btn dark/night/mono teemades; kõik 38 STRIP katab keep-selectors → lukus |
+| `features/chat/shell.css` | 191 | 56 | −135 | ✅ sessioon 8 (`eff32a14`): chat-send-glyph display/transform-box/transform-origin `!important` (kasutaja-leitud kuhjatud marker; stop-glyph sama prop ilma markerita; selektor 0,0,3,1 > Tailwind .block; resolver REDUNDANT) → −3. Ülejäänu 🔒 border-color müra-audit lukus |
 | `features/service-map/mobile.css` | 81 | 77 | −4 | 🔒 kontrakt-lukus (0 STRIP) |
 | `mobile/scroll-panels.css` | 95 | 15 | −80 | 🔒 exhausted (kolm passi: 95→71→60→15); ülejäänu geomeetria-kontrakt |
 | `mobile/invite-workspace.css` | 101 | 63 | −38 | 🔒 0 STRIP, täielikult kontrakt-lukus |
