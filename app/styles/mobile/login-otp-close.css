@@ -4,23 +4,23 @@
   .login-modal-root.login-modal--otp .modal-close-btn,
   .login-modal-root.login-modal--otp .login-modal-close,
   .login-modal-root.login-modal--otp > button[aria-label] {
-    position: absolute !important;
-    top: 0.58rem !important;
-    right: 0.58rem !important;
-    left: auto !important;
-    margin: 0 !important;
-    transform: none !important;
-    width: 2.36rem !important;
-    height: 2.36rem !important;
-    min-width: 2.36rem !important;
-    min-height: 2.36rem !important;
-    border-radius: 0.62rem !important;
-    z-index: 12 !important;
+    position: absolute;
+    top: 0.58rem;
+    right: 0.58rem;
+    left: auto;
+    margin: 0;
+    transform: none;
+    width: 2.36rem;
+    height: 2.36rem;
+    min-width: 2.36rem;
+    min-height: 2.36rem;
+    border-radius: 0.62rem;
+    z-index: 12;
   }
 
   .login-modal-root.login-modal--otp .modal-close-btn::before,
   .login-modal-root.login-modal--otp .login-modal-close::before,
   .login-modal-root.login-modal--otp > button[aria-label]::before {
-    font-size: 2.02rem !important;
+    font-size: 2.02rem;
   }
 }
