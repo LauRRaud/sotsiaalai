@@ -42,7 +42,7 @@
     :is(.workspace-dashboard-panel, .wellbeing-page-surface)
     .workspace-dashboard-card:focus-visible {
     box-shadow: 0 0 0 2px
-      var(--covision-focus-ring, var(--btn-primary-focus-ring-color, rgba(197, 113, 113, 0.28))) !important;
+      var(--covision-focus-ring, var(--btn-primary-focus-ring-color, rgba(197, 113, 113, 0.28)));
   }
 
   html[data-layout="mobile"] body[data-layout="mobile"]
@@ -69,8 +69,8 @@
     [class*="cardTitle"] {
     max-width: 100% !important;
     font-size: clamp(1.14rem, 4.7vw, 1.28rem) !important;
-    line-height: 1.1 !important;
-    transform: translateY(0.22rem) !important;
+    line-height: 1.1;
+    transform: translateY(0.22rem);
     white-space: nowrap !important;
     text-wrap: nowrap;
   }
