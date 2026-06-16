@@ -107,9 +107,9 @@ html[data-contrast="hc"] {
   position: fixed !important;
   left: var(--glass-subpage-back-left) !important;
   top: var(--glass-subpage-back-top) !important;
-  bottom: auto !important;
-  margin-left: 0 !important;
-  transform: none !important;
+  bottom: auto;
+  margin-left: 0;
+  transform: none;
 }
 
 .ui-checkbox-glass,

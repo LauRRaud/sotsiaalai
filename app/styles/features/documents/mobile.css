@@ -50,10 +50,10 @@
   ) {
     border: 0 !important;
     border-radius: var(--documents-mobile-panel-radius) !important;
-    background: var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))) !important;
+    background: var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25)));
     box-shadow: var(--glass-shell-shadow, none) !important;
     -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) saturate(100%) !important;
-    backdrop-filter: blur(var(--glass-blur-radius, 1rem)) saturate(100%) !important;
+    backdrop-filter: blur(var(--glass-blur-radius, 1rem)) saturate(100%);
   }
 
   .documents-workspace-page--documents .documents-page-shell,
@@ -66,7 +66,7 @@
     background: transparent !important;
     box-shadow: none !important;
     -webkit-backdrop-filter: none !important;
-    backdrop-filter: none !important;
+    backdrop-filter: none;
   }
 
   .documents-workspace-page--documents :is(
@@ -114,11 +114,11 @@
   }
 
   .documents-workspace-page--documents .documents-artifact-filter-row {
-    margin-top: 0 !important;
+    margin-top: 0;
   }
 
   .documents-workspace-page--agent .documents-agent-layout {
-    margin-top: 0 !important;
+    margin-top: 0;
   }
 
   .documents-workspace-page--agent :is(
