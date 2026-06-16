@@ -12,7 +12,7 @@
     )
     .card-face.front
     :is(.glass-card, .glass-card-dark) {
-    box-shadow: none !important;
+    box-shadow: none;
   }
 }
 
@@ -36,12 +36,12 @@
 }
 
 html[data-reduce-motion="1"] .bottom-logo-breathe {
-  animation: none !important;
+  animation: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .bottom-logo-breathe {
-    animation: none !important;
+    animation: none;
   }
 }
 
