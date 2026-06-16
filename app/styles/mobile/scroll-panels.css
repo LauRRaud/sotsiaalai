@@ -258,28 +258,28 @@
       100% + var(--glass-ring-pad-top, 0.6rem) +
         var(--workspace-guide-panel-overscan-top) +
         var(--workspace-guide-panel-overscan-bottom)
-    ) !important;
+    );
     margin-top: calc(
       0px - var(--glass-ring-pad-top, 0.6rem) -
         var(--workspace-guide-panel-overscan-top)
-    ) !important;
-    margin-right: calc(0px - var(--glass-ring-pad-x, 1rem)) !important;
-    margin-left: calc(0px - var(--glass-ring-pad-x, 1rem)) !important;
-    padding-right: var(--glass-ring-pad-x, 1rem) !important;
-    padding-left: var(--glass-ring-pad-x, 1rem) !important;
+    );
+    margin-right: calc(0px - var(--glass-ring-pad-x, 1rem));
+    margin-left: calc(0px - var(--glass-ring-pad-x, 1rem));
+    padding-right: var(--glass-ring-pad-x, 1rem);
+    padding-left: var(--glass-ring-pad-x, 1rem);
     padding-top: calc(
       var(--glass-ring-pad-top, 0.6rem) +
         var(--workspace-guide-panel-overscan-top, 0px) +
         clamp(0.02rem, 0.35vh, 0.18rem)
-    ) !important;
+    );
     padding-bottom: 0 !important;
-    mask-image: none !important;
-    -webkit-mask-image: none !important;
-    scrollbar-gutter: auto !important;
+    mask-image: none;
+    -webkit-mask-image: none;
+    scrollbar-gutter: auto;
   }
 
   :is(.documents-workspace-shell.workspace-guide-panel, .workspace-feature-panel.workspace-guide-panel)
     > :is(.documents-grid.workspace-guide-panel-scroll, .workspace-guide-panel-scroll) {
-    scrollbar-gutter: auto !important;
+    scrollbar-gutter: auto;
   }
 }
