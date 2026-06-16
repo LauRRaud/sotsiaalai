@@ -41,7 +41,14 @@
     backdrop-filter: none;
   }
 
-  .profile-container.glass-ring .profile-mask-layer,
+  .profile-container.glass-ring .profile-mask-layer {
+    background:
+      var(--glass-ring-sheen, none),
+      var(--glass-surface-bg, rgba(0, 0, 0, 0.25)) !important;
+    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem));
+    backdrop-filter: blur(var(--glass-blur-radius, 1rem));
+  }
+
   .profile-container.glass-ring[data-orbit-open="true"] .profile-mask-layer {
     background:
       var(--glass-ring-sheen, none),
