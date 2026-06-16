@@ -29,11 +29,11 @@
   .journey-empty-orbit-label {
   padding: 0 !important;
   border: 0 !important;
-  border-radius: 0 !important;
-  background: transparent !important;
+  border-radius: 0;
+  background: transparent;
   box-shadow: none !important;
   -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
+  backdrop-filter: none;
   color: var(--orbit-accent, #c57171);
 }
 

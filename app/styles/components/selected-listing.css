@@ -55,37 +55,37 @@
 .selected-listing-body--inline {
   --help-scroll-fade-top: clamp(0.22rem, 0.7vh, 0.42rem);
   --help-scroll-fade-bottom: clamp(0.28rem, 0.8vh, 0.5rem);
-  scrollbar-gutter: auto !important;
+  scrollbar-gutter: auto;
 }
 
 .selected-listing-body--inline > *,
 .selected-listing-body--inline .selected-listing-panel--inline {
-  width: 100% !important;
+  width: 100%;
   max-width: none !important;
 }
 
 .selected-listing-modal-overlay {
-  display: grid !important;
+  display: grid;
   grid-template-columns: minmax(0, 1fr);
-  justify-content: center !important;
-  justify-items: center !important;
-  align-items: start !important;
+  justify-content: center;
+  justify-items: center;
+  align-items: start;
 }
 
 .selected-listing-modal-content {
-  justify-self: center !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
+  justify-self: center;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .selected-listing-body {
   box-sizing: border-box;
-  margin-left: auto !important;
-  margin-right: auto !important;
+  margin-left: auto;
+  margin-right: auto;
   scrollbar-gutter: stable both-edges;
 }
 
 .selected-listing-body > * {
-  margin-left: auto !important;
-  margin-right: auto !important;
+  margin-left: auto;
+  margin-right: auto;
 }
