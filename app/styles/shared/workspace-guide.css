@@ -48,14 +48,14 @@
     flex: 1 1 auto !important;
     min-height: 0 !important;
     overflow: visible !important;
-    scrollbar-gutter: auto !important;
+    scrollbar-gutter: auto;
   }
 
   .invite-modal-content--workspace.workspace-guide-panel.glass-subpage-surface
     .invite-list-panel {
-    flex: 1 1 auto !important;
-    min-height: clamp(7.5rem, 18vh, 11rem) !important;
-    max-height: min(24dvh, 13rem) !important;
+    flex: 1 1 auto;
+    min-height: clamp(7.5rem, 18vh, 11rem);
+    max-height: min(24dvh, 13rem);
     overflow-y: auto !important;
   }
 
@@ -65,35 +65,35 @@
     ).workspace-guide-panel.glass-subpage-surface {
     --glass-shell-shadow: none !important;
     --glass-modal-shadow: none !important;
-    --mid-shell-soft-shadow: none !important;
-    width: 100% !important;
-    inline-size: 100% !important;
-    min-width: 0 !important;
-    max-width: 100% !important;
-    height: auto !important;
-    min-height: 0 !important;
-    max-height: none !important;
-    block-size: auto !important;
-    max-block-size: none !important;
-    margin: 0 auto !important;
+    --mid-shell-soft-shadow: none;
+    width: 100%;
+    inline-size: 100%;
+    min-width: 0;
+    max-width: 100%;
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    block-size: auto;
+    max-block-size: none;
+    margin: 0 auto;
     padding: 0 !important;
-    overflow: visible !important;
-    border: none !important;
-    border-radius: 0 !important;
-    background: transparent !important;
-    box-shadow: none !important;
+    overflow: visible;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
     -webkit-backdrop-filter: none !important;
-    backdrop-filter: none !important;
-    mask-image: none !important;
-    -webkit-mask-image: none !important;
+    backdrop-filter: none;
+    mask-image: none;
+    -webkit-mask-image: none;
   }
 
   .workspace-feature-embedded
     > .invite-modal-content--embedded.workspace-guide-panel.glass-subpage-surface
     .invite-list-panel {
-    min-height: 0 !important;
-    max-height: none !important;
-    overflow: visible !important;
+    min-height: 0;
+    max-height: none;
+    overflow: visible;
   }
 
   .workspace-dashboard-panel .workspace-feature-embedded > :is(
@@ -108,8 +108,8 @@
     .help-listings-modal-content--embedded,
     .invite-modal-content--embedded
   ).workspace-guide-panel.glass-subpage-surface > .glass-hole-mask-layer {
-    display: none !important;
-    content: none !important;
+    display: none;
+    content: none;
     opacity: 0 !important;
   }
 
@@ -120,16 +120,16 @@
     .invite-list-panel,
     .invite-list-row
   ) {
-    --invite-panel-shadow: none !important;
-    --subpage-card-shadow: none !important;
-    --panel-secondary-shadow: none !important;
+    --invite-panel-shadow: none;
+    --subpage-card-shadow: none;
+    --panel-secondary-shadow: none;
     border: 0 !important;
-    border-color: transparent !important;
+    border-color: transparent;
     background: transparent !important;
     background-image: none !important;
     box-shadow: none !important;
-    -webkit-backdrop-filter: none !important;
-    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
   }
 
   .workspace-dashboard-panel .workspace-feature-embedded :is(
@@ -150,8 +150,8 @@
     :is(.invite-glow-panel, .invite-list-panel)
     > [class*="edgeLight"] {
     display: none !important;
-    content: none !important;
-    opacity: 0 !important;
+    content: none;
+    opacity: 0;
   }
 
   .workspace-dashboard-panel .workspace-feature-embedded :is(
@@ -160,15 +160,15 @@
     .invite-modal-scroll,
     .invite-list-panel
   ) {
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: 0 !important;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    padding-left: 0;
+    padding-right: 0;
   }
 
   .workspace-dashboard-panel .workspace-feature-embedded .invite-list-panel {
-    padding: 0.86rem 0.92rem !important;
+    padding: 0.86rem 0.92rem;
   }
 
   .workspace-dashboard-panel .workspace-feature-embedded :is(
@@ -178,12 +178,12 @@
     .invite-list-panel,
     .invite-list-row
   ) {
-    border-width: var(--subpage-card-border-width, 1px) !important;
-    border-style: solid !important;
-    border-color: var(--subpage-card-border, rgba(126, 95, 88, 0.18)) !important;
-    background: var(--subpage-card-bg, var(--workspace-elevated-card-bg, rgba(255, 255, 255, 0.72))) !important;
-    background-image: none !important;
-    box-shadow: var(--subpage-card-shadow, var(--workspace-elevated-card-shadow, 0 10px 24px rgba(38, 24, 22, 0.12))) !important;
+    border-width: var(--subpage-card-border-width, 1px);
+    border-style: solid;
+    border-color: var(--subpage-card-border, rgba(126, 95, 88, 0.18));
+    background: var(--subpage-card-bg, var(--workspace-elevated-card-bg, rgba(255, 255, 255, 0.72)));
+    background-image: none;
+    box-shadow: var(--subpage-card-shadow, var(--workspace-elevated-card-shadow, 0 10px 24px rgba(38, 24, 22, 0.12)));
   }
 
   .workspace-guide-panel.glass-subpage-surface .glass-subpage-title {
