@@ -168,10 +168,10 @@
   .homepage-root .home-about-panel,
   .homepage-root .home-about-scrollbox,
   .homepage-root .home-about-scrollbox > * {
-    contain: none !important;
-    will-change: auto !important;
-    transform: none !important;
-    -webkit-transform: none !important;
+    contain: none;
+    will-change: auto;
+    transform: none;
+    -webkit-transform: none;
     backface-visibility: visible !important;
 
   }
@@ -266,18 +266,18 @@
     transform: none;
   }
   .three-d-card.mobile-flipped-left .card-wrapper {
-    transform: rotateY(180deg) !important;
+    transform: rotateY(180deg);
   }
   .three-d-card.mobile-flipped-right .card-wrapper {
-    transform: rotateY(-180deg) !important;
+    transform: rotateY(-180deg);
   }
   .three-d-card.mobile-flipped-left .card-face.back,
   .three-d-card.mobile-flipped-right .card-face.back {
-    pointer-events: auto !important;
+    pointer-events: auto;
   }
   .three-d-card.mobile-flipped-left .card-face.front,
   .three-d-card.mobile-flipped-right .card-face.front {
-    pointer-events: none !important;
+    pointer-events: none;
   }
   .homepage-root .three-d-card.mobile-flipped-left,
   .homepage-root .three-d-card.mobile-flipped-right {
@@ -304,7 +304,7 @@
   }
   .centered-back-left h2,
   .centered-back-right h2 {
-    transform: translateY(0.02em) !important;
+    transform: translateY(0.02em);
   }
   .splash-cursor {
     display: none;
@@ -323,11 +323,11 @@
     will-change: transform;
   }
   html[data-reduce-motion="1"] .homepage-root .three-d-card.float-card {
-    animation: none !important;
-    transform: none !important;
+    animation: none;
+    transform: none;
   }
   html[data-reduce-motion="1"] .homepage-root .three-d-card .card-wrapper {
-    transition: none !important;
+    transition: none;
   }
   .homepage-root .three-d-card {
     touch-action: pan-y;
@@ -350,19 +350,19 @@
 
   html:not([data-contrast="hc"]) .homepage-root .left-card-primary .circular-text-line,
   html:not([data-contrast="hc"]) .homepage-root .centered-back-left h2 {
-    color: rgba(57, 57, 57, 0.78) !important;
+    color: rgba(57, 57, 57, 0.78);
   }
 
   html:not([data-contrast="hc"]) .homepage-root .right-card-primary .circular-text-line,
   html:not([data-contrast="hc"]) .homepage-root .centered-back-right h2 {
-    color: rgba(205, 93, 93, 0.72) !important;
+    color: rgba(205, 93, 93, 0.72);
     opacity: 1 !important;
   }
 
   html:not([data-contrast="hc"]) .homepage-root
     :is(.left-card-primary, .right-card-primary, .centered-back-left, .centered-back-right)
     > svg:not(.circular-text-svg) {
-    opacity: 0.9 !important;
+    opacity: 0.9;
   }
 }
 
@@ -380,15 +380,15 @@
 
 @media (max-width: 768px) {
   .circular-text-line {
-    font-size: clamp(30px, 10.4vw, 50px) !important;
+    font-size: clamp(30px, 10.4vw, 50px);
     letter-spacing: 0.12em;
-    animation: none !important;
+    animation: none;
   }
   .word1,
   .word2,
   .word3 {
-    opacity: 1 !important;
-    animation: none !important;
+    opacity: 1;
+    animation: none;
   }
   .circular-text-svg.circular-ring {
     opacity: 1;

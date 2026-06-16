@@ -41,7 +41,7 @@
   );
   color: var(--glass-modal-text, var(--glass-surface-text, #2c3340));
   border: var(--glass-modal-border, none);
-  box-shadow: var(--glass-modal-shadow, none) !important;
+  box-shadow: var(--glass-modal-shadow, none);
 }
 
 /* OTP explanatory copy must stay dark in mid mode (desktop + mobile). */
@@ -77,7 +77,7 @@
   backdrop-filter: none;
   background: var(--btn-primary-bg);
   border: var(--btn-primary-border);
-  box-shadow: var(--btn-primary-shadow) !important;
+  box-shadow: var(--btn-primary-shadow);
   transition:
     filter 560ms cubic-bezier(0.22, 0.61, 0.36, 1),
     border-color 560ms cubic-bezier(0.22, 0.61, 0.36, 1),
@@ -90,7 +90,7 @@
 :root.theme-mid .button[data-variant="primary"]:hover,
 :root.theme-mid .button[data-variant="primary"]:focus-visible {
   border: var(--btn-primary-border-hover, var(--btn-primary-border));
-  box-shadow: var(--btn-primary-shadow-hover, var(--btn-primary-shadow)) !important;
+  box-shadow: var(--btn-primary-shadow-hover, var(--btn-primary-shadow));
 }
 
 :root.theme-mid .button[data-variant="primary"]::before {
@@ -101,7 +101,7 @@
 :root.theme-mid .button[data-variant="primary"]:active {
   background: var(--btn-primary-bg);
   border: var(--btn-primary-border-hover, var(--btn-primary-border));
-  box-shadow: var(--btn-primary-shadow-active, var(--btn-primary-shadow-hover)) !important;
+  box-shadow: var(--btn-primary-shadow-active, var(--btn-primary-shadow-hover));
 }
 
 :root.theme-mid .button[data-variant="primary"]:active::before {
@@ -162,7 +162,7 @@
   .policy-mobile-lower.glass-ring.glass-ring--desktop-stable,
   .guide-policy-ring.glass-ring.glass-ring--desktop-stable
 ) {
-  box-shadow: var(--mid-round-shell-shadow) !important;
+  box-shadow: var(--mid-round-shell-shadow);
 }
 
 :root.theme-mid :is(
@@ -174,7 +174,7 @@
   .account-settings-modal-content,
   .subscription-modal-content
 ) {
-  box-shadow: var(--mid-shell-soft-shadow) !important;
+  box-shadow: var(--mid-shell-soft-shadow);
 }
 
 /* Orbital menu bubbles: keep the light-theme material logic, but tint it for mid. */
@@ -261,7 +261,7 @@
   border-color: var(--mid-pill-surface-border);
   background: var(--mid-pill-surface-bg);
   color: #2f3a4a;
-  box-shadow: var(--mid-pill-surface-shadow) !important;
+  box-shadow: var(--mid-pill-surface-shadow);
 }
 
 :root.theme-light.theme-mid .rooms-action-btn {
@@ -300,7 +300,7 @@
   border: 1px solid var(--rail-tooltip-border, rgba(var(--mid-white-rgb), 0.16));
   background: var(--chat-tools-panel-bg, var(--chat-rail-tooltip-bg, var(--rail-tooltip-bg, rgb(252, 246, 244))));
   color: var(--opaque-panel-text, var(--rail-tooltip-text, #2f3a4a));
-  box-shadow: var(--opaque-panel-shadow, var(--rail-tooltip-shadow, 0 12px 28px rgba(46, 24, 21, 0.18))) !important;
+  box-shadow: var(--opaque-panel-shadow, var(--rail-tooltip-shadow, 0 12px 28px rgba(46, 24, 21, 0.18)));
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
 }
@@ -329,7 +329,7 @@
     rgba(247, 238, 236, 0.32);
   border: 1px solid rgba(var(--mid-white-rgb), 0.46);
   color: #2f3a4a;
-  box-shadow: 0 6px 14px rgba(20, 12, 10, 0.15) !important;
+  box-shadow: 0 6px 14px rgba(20, 12, 10, 0.15);
 }
 
 :root.theme-mid .modal-confirm-content .button:not([data-variant="danger"]):hover,
