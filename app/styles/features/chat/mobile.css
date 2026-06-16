@@ -28,11 +28,11 @@
   }
 
   .chat-page-shell .chat-container.chat-container--round.chat-container--input-focus {
-    --chat-window-fade-top: clamp(0.42rem, 1.1vh, 0.72rem) !important;
-    --chat-window-fade-top-focus: clamp(0.42rem, 1.1vh, 0.72rem) !important;
-    --chat-window-scroll-top-fade-start-focus: 0.2rem !important;
-    --chat-window-scroll-top-fade-mid-focus: 0.45rem !important;
-    --chat-window-scroll-top-fade-end-focus: 0.82rem !important;
+    --chat-window-fade-top: clamp(0.42rem, 1.1vh, 0.72rem);
+    --chat-window-fade-top-focus: clamp(0.42rem, 1.1vh, 0.72rem);
+    --chat-window-scroll-top-fade-start-focus: 0.2rem;
+    --chat-window-scroll-top-fade-mid-focus: 0.45rem;
+    --chat-window-scroll-top-fade-end-focus: 0.82rem;
   }
 
   .chat-page-shell .chat-container.chat-container--round.chat-container--workspace-open {
@@ -41,57 +41,57 @@
       clamp(calc(0.4 * var(--base-rem)), 1.4vh, calc(1.1 * var(--base-rem)))
     );
     --chat-pad-bottom: 0rem;
-    padding-top: var(--chat-pad-top) !important;
-    padding-bottom: 0 !important;
+    padding-top: var(--chat-pad-top);
+    padding-bottom: 0;
   }
 
   .drawer-overlay {
-    background: transparent !important;
-    -webkit-backdrop-filter: none !important;
-    backdrop-filter: none !important;
+    background: transparent;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
   }
 
   .drawer-panel--chat-glass {
-    left: max(var(--mobile-glass-card-gap, 0.35rem), env(safe-area-inset-left, 0px)) !important;
-    right: max(var(--mobile-glass-card-gap, 0.35rem), env(safe-area-inset-right, 0px)) !important;
-    top: calc(env(safe-area-inset-top, 0px) + var(--mobile-glass-card-gap, 0.35rem)) !important;
-    bottom: calc(env(safe-area-inset-bottom, 0px) + var(--mobile-glass-card-gap, 0.35rem)) !important;
-    width: auto !important;
+    left: max(var(--mobile-glass-card-gap, 0.35rem), env(safe-area-inset-left, 0px));
+    right: max(var(--mobile-glass-card-gap, 0.35rem), env(safe-area-inset-right, 0px));
+    top: calc(env(safe-area-inset-top, 0px) + var(--mobile-glass-card-gap, 0.35rem));
+    bottom: calc(env(safe-area-inset-bottom, 0px) + var(--mobile-glass-card-gap, 0.35rem));
+    width: auto;
     max-width: none !important;
-    border-radius: var(--mobile-glass-card-radius, clamp(1.05rem, 3.8vw, 1.45rem)) !important;
+    border-radius: var(--mobile-glass-card-radius, clamp(1.05rem, 3.8vw, 1.45rem));
     border: 0 !important;
-    background: var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))) !important;
+    background: var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25)));
     box-shadow: none !important;
-    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
-    backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem));
+    backdrop-filter: blur(var(--glass-blur-radius, 1rem));
   }
 
   .drawer-panel--chat-glass::before {
-    content: none !important;
-    display: none !important;
+    content: none;
+    display: none;
   }
 
   .drawer-panel--chat-glass .drawer-header {
-    padding-top: calc(env(safe-area-inset-top, 0px) + 0.6rem) !important;
-    padding-right: 1rem !important;
-    padding-left: 1rem !important;
+    padding-top: calc(env(safe-area-inset-top, 0px) + 0.6rem);
+    padding-right: 1rem;
+    padding-left: 1rem;
   }
 
   .drawer-panel--chat-glass .drawer-close-btn--chat {
-    position: absolute !important;
-    top: calc(env(safe-area-inset-top, 0px) + 0.06rem) !important;
-    right: calc(env(safe-area-inset-right, 0px) + 0.12rem) !important;
-    left: auto !important;
-    color: #c57171 !important;
-    z-index: 150 !important;
+    position: absolute;
+    top: calc(env(safe-area-inset-top, 0px) + 0.06rem);
+    right: calc(env(safe-area-inset-right, 0px) + 0.12rem);
+    left: auto;
+    color: #c57171;
+    z-index: 150;
   }
 
   :root.theme-light .drawer-panel--chat-glass .drawer-close-btn--chat {
-    color: #7a3a38 !important;
+    color: #7a3a38;
   }
 
   :root.theme-light .drawer-panel--chat-glass {
-    color: var(--text-strong, #1f2937) !important;
+    color: var(--text-strong, #1f2937);
   }
 
   .chat-page-shell .chat-container .chat-mask-layer,
@@ -146,8 +146,8 @@
   }
 
   .drawer-panel--chat-glass .drawer-content {
-    padding-left: clamp(0.8rem, 3vw, 1rem) !important;
-    padding-right: clamp(0.8rem, 3vw, 1rem) !important;
+    padding-left: clamp(0.8rem, 3vw, 1rem);
+    padding-right: clamp(0.8rem, 3vw, 1rem);
   }
 
   .chat-right-actions,
