@@ -19,8 +19,8 @@
   .mobile-keep-desktop-glass-cards {
     --glass-shell-shadow: none !important;
     --glass-modal-shadow: none !important;
-    --mid-shell-soft-shadow: none !important;
-    box-shadow: none !important;
+    --mid-shell-soft-shadow: none;
+    box-shadow: none;
   }
 
   html[data-layout="mobile"] body[data-layout="mobile"]
@@ -50,7 +50,7 @@
     .workspace-dashboard-card
     [class*="cardTitle"] {
     font-size: clamp(1.14rem, 4.7vw, 1.28rem) !important;
-    line-height: 1.1 !important;
+    line-height: 1.1;
     transform: translateY(0.22rem) !important;
   }
 
