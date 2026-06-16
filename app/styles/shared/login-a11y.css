@@ -80,7 +80,7 @@ body.login-modal-open {
 
 .a11y-modal-shell .csp-overlayTitle,
 .a11y-modal-shell[data-scrolled="1"] .csp-overlayTitle {
-  filter: none !important;
+  filter: none;
 }
 
 .a11y-modal-shell::before {
@@ -109,21 +109,21 @@ body[data-a11y-scroll-lock="1"] .profile-orbit-layer,
 body[data-a11y-scroll-lock="1"] .profile-orbit-menu__center-shell,
 body[data-a11y-scroll-lock="1"] .profile-orbit-menu__center-pulse {
   opacity: 0 !important;
-  visibility: hidden !important;
-  pointer-events: none !important;
-  animation: none !important;
-  transition: none !important;
+  visibility: hidden;
+  pointer-events: none;
+  animation: none;
+  transition: none;
 }
 
 .glass-title-register {
-  font-size: clamp(1.64rem, calc(var(--ring-diameter, 52rem) / 20.8), 2.56rem) !important;
-  line-height: 1.1 !important;
+  font-size: clamp(1.64rem, calc(var(--ring-diameter, 52rem) / 20.8), 2.56rem);
+  line-height: 1.1;
 }
 
 .glass-title-register-ru {
-  font-size: clamp(1.5rem, calc(var(--ring-diameter, 52rem) / 23.2), 2.24rem) !important;
-  line-height: 1.08 !important;
-  letter-spacing: 0.01em !important;
+  font-size: clamp(1.5rem, calc(var(--ring-diameter, 52rem) / 23.2), 2.24rem);
+  line-height: 1.08;
+  letter-spacing: 0.01em;
 }
 
 @media (min-width: 769px) {
@@ -188,20 +188,20 @@ body[data-a11y-scroll-lock="1"] .profile-orbit-menu__center-pulse {
 
 .login-modal-box .login-modal-close.modal-close-btn {
   position: absolute;
-  top: 0.58rem !important;
-  right: 0.58rem !important;
+  top: 0.58rem;
+  right: 0.58rem;
   z-index: 4;
   color: #c57171;
-  transform: none !important;
+  transform: none;
   transition:
     color 0.18s ease,
-    opacity 0.18s ease !important;
+    opacity 0.18s ease;
 }
 
 .login-modal-box .login-modal-close.modal-close-btn:hover,
 .login-modal-box .login-modal-close.modal-close-btn:focus-visible,
 .login-modal-box .login-modal-close.modal-close-btn:active {
-  transform: none !important;
+  transform: none;
 }
 
 @media (min-width: 769px) {
@@ -292,14 +292,14 @@ html[data-contrast="hc"] {
 .register-input-mid-shell:is(:-webkit-autofill, :autofill):focus,
 .register-input-mid-shell:is(:-webkit-autofill, :autofill):focus-visible,
 .register-input-mid-shell:is(:-webkit-autofill, :autofill):active {
-  background: var(--input-bg, var(--subpage-card-bg, rgba(255, 255, 255, 0.82))) !important;
-  background-image: none !important;
+  background: var(--input-bg, var(--subpage-card-bg, rgba(255, 255, 255, 0.82)));
+  background-image: none;
   background-clip: padding-box;
-  color: var(--input-text) !important;
-  caret-color: var(--input-caret) !important;
-  -webkit-text-fill-color: var(--input-text) !important;
-  -webkit-box-shadow: inset 0 0 0 1000px var(--input-bg, var(--subpage-card-bg, rgba(255, 255, 255, 0.82))) !important;
-  box-shadow: inset 0 0 0 1000px var(--input-bg, var(--subpage-card-bg, rgba(255, 255, 255, 0.82))) !important;
+  color: var(--input-text);
+  caret-color: var(--input-caret);
+  -webkit-text-fill-color: var(--input-text);
+  -webkit-box-shadow: inset 0 0 0 1000px var(--input-bg, var(--subpage-card-bg, rgba(255, 255, 255, 0.82)));
+  box-shadow: inset 0 0 0 1000px var(--input-bg, var(--subpage-card-bg, rgba(255, 255, 255, 0.82)));
   transition: background-color 99999s ease-out 0s, color 99999s ease-out 0s;
 }
 
