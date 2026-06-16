@@ -21,14 +21,16 @@ Kokku **3642** `!important` 87 autori-CSS-failis. Jaotus arhitektuuri-rühmade k
 
 ## Edenemine feature/faili kaupa (uuendatud 2026-06-16, sessioon 4 lõpus)
 
-**KOKKUVÕTE: 3642 → 1229 (−2413). Kõik 87 faili uuritud ≥1 korda. Odav oraakel-korje ammendunud.**
+**KOKKUVÕTE: 3642 → 1215 (−2427). Kõik 87 faili uuritud ≥1 korda. Odav oraakel-korje ammendunud.**
+**⚠ SESSIOON 6: "lukus"-otsused EI ole lõplikud — müra-põranda tehnika (HANDOFF §4a) avas
+service-map/desktop 118→104. Iga prior "GATE-1 RED" fail vajab müra-vaba-gate re-auditit.**
 
 Legend: ✅ tehtud · 🔒 blokeeritud (põhjus järel)
 
 | Fail | Algus | Praegu | −Delta | Staatus / Blokeeritud põhjus |
 |---|---:|---:|---:|---|
 | `shared/ui-glow.css` | 118 | 118 | 0 | 🔒 POLIITIKA-LUKK (canonical-button-look) |
-| `features/service-map/desktop.css` | 276 | 118 | −158 | 🔒 position+kontrakt-lukk (keep-selectors → 0 STRIP) |
+| `features/service-map/desktop.css` | 276 | 104 | −172 | ✅ sessioon 6 −14 (müra-põrand, `40a7892c`); ülejäänu = page-panel fixed-geomeetria + kontrakt |
 | `mobile/platform-android.css` | 98 | 98 | 0 | 🔒 gate testitud (sessioon 5): 94→65→21 STRIP erinevate keep-selektorite tasemel → kõik 21 geomeetria. **Täielikult lukus.** |
 | `features/chat/themes.css` | 93 | 92 | −1 | 🔒 kontrakt-lukus (256 oraakel-muster) |
 | `features/chat/shell.css` | 191 | 85 | −106 | 🔒 inputbar Tailwind-kaskaadi-lukk (transform) |
@@ -84,6 +86,10 @@ Legend: ✅ tehtud · 🔒 blokeeritud (põhjus järel)
 | ÜLEJÄÄNUD VÄIKSED LUKUS | chat/hc, profile/hc, touch-controls | ~200 | HC border / orbit-kontrakt |
 
 **Edasi-töö valikud:**
+0. **🥇 MÜRA-PÕRANDA RE-AUDIT** (sessioon 6 uus, ODAVAIM võit): iga prior "GATE-1 RED → lukus"
+   fail üle-kontrolli müra-vaba gate'iga (HANDOFF §4a). service-map tõestas, et "lukus" võis olla
+   ainult async-müra (Leaflet/scroll/identity-transform). Alusta: policy/responsive.css (47 STRIP),
+   chat/shell.css (38 STRIP, transform=identity-müra).
 1. **Token-migratsioon** (struktuurne): `--token` süsteem asendab `!important` teema-overridesid — suurim mõju, kuid struktuurne töö.
 2. **Flow-gate** (`steps:[{eval/click}]`): avab modaalid/drawerid, et gateida interaktsiooni-gated reegleid.
 3. **Tailwind override** chat/shell.css inputbar osas: CSS Layers või specificity fix.
@@ -94,7 +100,7 @@ veerus "vaja". Sorteeritud STRIP-potentsiaali järgi. ⚠ = teadaolev takistus.
 
 | Fail | total | STRIP? | vaja (gate-tüüp) | märkus |
 |---|---:|---:|---|---|
-| service-map/desktop | 276 | 229 | JS-state-flow + Leaflet | ⚠ ~196 JS-oleku-taga, 33 Leaflet runtime |
+| service-map/desktop | 104 | (14 tehtud) | müra-vaba gate | ✅ sessioon 6: müra-põrand avas 14. Ülejäänu page-panel fixed + kontrakt |
 | mobile/accessibility-touch | 138 | 135 | multi-route 390px | ⚠ touch-target geomeetria = tõen. load-bearing (a11y) |
 | shared/ui-glow | 118 | 110 | — | ⚠ KAITSTUD (canonical-button-look, ÄRA keela glow) — poliitika-lukk, mitte kontrakt |
 | mobile/platform-android | 98 | 94 | — | ⚠ gate testitud sessioon 5: 3 keep-taset → 21 STRIP jäi → kõik geomeetria. **LUKUS** |

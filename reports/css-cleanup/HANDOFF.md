@@ -2,8 +2,17 @@
 
 **Miks see fail:** sessiooni-mälu on konto-lokaalne ega kandu kontovahetust üle.
 See dokument elab repos → iga konto/mudel jätkab siit. Loe see + seotud dokud
-ENNE tööd. Kirjutatud 2026-06-15, **uuendatud 2026-06-16 (sessioon 5 — autonoomne). HEAD: `a7de2c74` (main).**
+ENNE tööd. Kirjutatud 2026-06-15, **uuendatud 2026-06-16 (sessioon 6 — Opus). HEAD: `40a7892c` (main).**
 Tööpuu puhas.
+
+> **🔑 SESSIOON 6 LÄBIMURRE — MÜRA-PÕRANDA TEHNIKA kummutab valed "lukus"-otsused.**
+> "GATE-1 RED" EI tähenda alati päris-regressiooni. Asünkroonselt-settivad JS-komponendid
+> (Leaflet kaart, kerimis-konteinerid, toolbar mis renderdab tulemusi) annavad **müra-põranda**:
+> needsamad selektorid "muutuvad" ka ILMA ühegi koodimuutuseta. Prior sessioonid lugesid
+> selle müra päris-regressiooniks → märkisid failid "täielikult lukus" EKSLIKULT. **Tõestatud:
+> service-map/desktop.css oli "fully locked" — tegelikult 14 markerit ohutult eemaldatavad
+> (118→104, commit `40a7892c`).** Vt §4a allpool meetodi jaoks. JÄRGMINE konto: rakenda sama
+> tehnika kõigile "GATE-1 RED"-failidele (policy/responsive, chat/shell jt).
 
 ## 0. Lugemisjärjekord (3 faili)
 1. **SEE FAIL** — seis, meetod, infra, järgmine samm.
@@ -17,7 +26,23 @@ ja **jälg** (register) et poleks segadust mis tehtud. Kõik `main`-il (kasutaja
 otse-push). Väikesed gate'itud commitid.
 
 ## 2. Seis praegu
-- **Platvorm: 3642 → 1229 `!important` (−2413 kampaania jooksul, sessioon 3+4+5 kokku −631).**
+- **Platvorm: 3642 → 1215 `!important` (−2427 kampaania jooksul, sessioon 3+4+5+6 kokku −645).**
+- **Sessioon 6 (2026-06-16, Opus):**
+  - ✅ **service-map/desktop.css 118→104 (−14), commit `40a7892c`.** Prior "fully locked" oli VALE.
+    Müra-põranda tehnika (§4a) tõestas: GATE-1 RED oli AINULT Leaflet/map async-müra
+    (`.service-map-leaflet` position/inset, `.service-map-workspace__map` top/inset flipivad
+    capture'ite vahel ka ilma muutuseta). Müra-vaba gate (page-panel + filters-shell + controls,
+    ilma kahe müra-selektorita; HEAD×2 = identical kontrollitud) → 14-strip ✓ identical.
+    Oracle blind spot (8 testi loevad CSS-i custom `readServiceMapCssBundle()` readFileSync-iga,
+    nähtamatu oraaklile) lahendatud keep-selectors'iga: `service-map-leaflet,service-map-toolbar,
+    service-map-workspace,service-profile,workspace-feature-toggle-row`.
+  - **Re-rescan kõik STRIP>0 failid (chat/hc 19, chat/shell 38, profile/hc 23):** kõik GATE-1 RED
+    PÄRIS põhjustel (chat/hc + chat/shell + profile/hc = nähtavad äär/glow/border muutused, EI müra).
+    AGA vt §4a: chat/shell transform-müra (`none`↔`matrix(1,0,0,1,0,0)` = identne!) on osaliselt vale-
+    positiivne — kui border-selektorid keep'ida + transform mürast välja, võib jääda strippe.
+  - **workspaceHeaderAlignment GATE-2 false-negative tuvastatud:** see test ON 13-baseline'is
+    (kukub HEAD-il ilma muutuseta). Sessioon 4 reverdis profile/hc selle "GATE-2 RED" pärast —
+    LIIGA ETTEVAATLIK. (profile/hc on siiski GATE-1 RED päris HC-glow tõttu, nii et lukus jääb.)
 - **Sessioon 3+4 (2026-06-16, autonoomne) tegid:**
   - Uued failid: home/desktop (52→49), home/themes (15→6), profile/mono (8→2),
     documents/mobile (11→9), documents/workspace (6→3), panel-surfaces (26→23),
@@ -34,7 +59,7 @@ otse-push). Väikesed gate'itud commitid.
   - 0 uut commiti
 - **PEAMISED SKIP-FAILID (kõik uuritud, kõik blokeeritud):**
   - `shared/ui-glow.css` (118) — POLIITIKA-LUKK (canonical-button-look, ÄRA PUUTU)
-  - `service-map/desktop.css` (118) — position+kontrakt-lukk (keep-selectors annab 0 STRIP)
+  - `service-map/desktop.css` (104 — oli 118) — ✅ −14 sessioon 6 (müra-põrand). Ülejäänu = `.service-map-page-panel` full-screen fixed-geomeetria + kontrakt-lukk. NB: page-panel `position:fixed !important` strip oli tegelikult render-redundantne (uncontested), aga ei committinud seda eraldi — keep'is konservatiivselt.
   - `mobile/platform-android.css` (98) — gate ehitatud + testitud (sessioon 5). Kõik 98 on Android-layout geomeetria-overrides. 3 keep-taset (policy-section, profile-mobile-action, profile-orbit-stack) → 21 STRIP jäi → kõik geomeetria. **Täielikult lukus.**
   - `features/chat/shell.css` (85) — Tailwind transform cascade: 64 STRIP kaskaadiga vabastatud, kuid GATE-1 RED: `.chat-listen-btn | transform: none → matrix(1,0,0,1,0,0)` dark/night/mono/hc teemades. Keep-selectors "chat-listen-btn" → 27 STRIP, kuid sama probleem. "chat-inputbar" → 0 STRIP (liiga lai). Kaudne kaskaadikoosmõju (ei ole direct transform-reegel — Tailwind võidab pärast muude `!important` eemaldust)
   - `features/service-map/mobile.css` (77) — kontrakt-lukus (0 STRIP keep-selectors'iga)
@@ -76,6 +101,33 @@ on vastastikku välistavad (ei konkureeri runtime'is). hc.css 328 markerit maha 
 5. 🟢 mõlemad → commit main + uuenda ledger.  🔴 → revert (ÄRA committi punasega).
 ```
 
+## 4a. ⭐ MÜRA-PÕRANDA TEHNIKA (sessioon 6 — kummutab valed "lukus"-otsused)
+**Probleem:** `css-snapshot-diff` "✖ N differences" EI tähenda alati päris-regressiooni.
+Asünkroonselt-renderduvad komponendid annavad **mittedeterministliku müra-põranda**:
+- **Leaflet kaart** (`.service-map-leaflet`): position `relative`↔`static`, inset `0px`↔`auto`
+- **Kerimis/sisu-konteinerid** (`.service-map-workspace__map` top/inset): settivad async,
+  flipivad nt `88.8px`↔`146.08px` kui toolbar tulemused renderduvad eri ajal
+- **Identity-transform**: `transform: none` vs `matrix(1, 0, 0, 1, 0, 0)` = VISUAALSELT IDENTNE
+  (mõlemad = pole transformi); diff lipustab string-erinevuse, aga render on sama
+- **/vestlus + homepage** teema-batch dropout (~18 diffi, vt MÜRA-REEGEL §6)
+
+**Diagnostika (KOHUSTUSLIK enne "lukus"-otsust):** capture HEAD **kaks korda** samal gate'il →
+diff. Kui samad selektorid "muutuvad" ka HEAD-vs-HEAD → see on müra, MITTE sinu muutus.
+NB: müra võib igal jooksul ilmuda ERINEVAL teemal (random) — see ongi müra tunnus
+(päris-regressioon on JÄRJEPIDEV samal selektor+teema+väärtus).
+
+**Lahendus — müra-vaba gate:**
+1. Tuvasta müra-selektorid (HEAD×2 diff näitab neid).
+2. Tee uus targets-fail ILMA müra-selektoriteta (jäta load-bearing staatilised sisse).
+3. **Kontrolli müra-põrand = 0:** HEAD×2 sellel puhastatud gate'il → peab olema `✓ identical`.
+4. Alles SIIS gate'i kandidaat. `✓ identical` = päris-ohutu.
+
+**Tõestatud (`40a7892c`):** service-map/desktop "fully locked" → 14 markerit ohutult eemaldatud.
+Müra oli `.service-map-leaflet` + `.service-map-workspace__map`; puhas gate (page-panel +
+filters-shell + controls + result-button + leaflet-shell) andis 0 müra-põranda ja 14-strip
+✓ identical. **JÄRGMINE: rakenda kõigile prior-"GATE-1 RED" failidele** (policy/responsive
+`.glass-policy-scroll` võib olla scroll-settle-müra; chat/shell transform = identity-müra).
+
 ## 5. TÖÖRIISTAD (kõik scripts/-is, töötavad)
 - **`scripts/css-cleanup/theme-strip-oracle.mjs`** ⭐ — teema-faili strippija. Kasutab
   TESTIDE regex-literaale oraaklina (in-process, ilma brauserita): strip marker kui
@@ -102,11 +154,24 @@ on vastastikku välistavad (ei konkureeri runtime'is). hc.css 328 markerit maha 
   `--targets <fail>`, `--out`. Diff exit 0 = identne.
 - `important-autostrip.mjs`, `theme-strip-keepasserted.mjs` — varasemad katsed (oracle on parem).
 
-## 6. JÄRGMINE SAMM: odav korje LÕPETATUD → raske klass (3 tüüpi)
-Teema-failid + teema-laadsed feature/shared failid on harvitud (oraakel + render-gate,
-§5). Platvorm 3642 → 2669. **📊 Täpne allesjäänud-failide kaart (STRIP-potentsiaal +
-vajalik gate-tüüp per fail) = [important-ledger.md](important-ledger.md) §"ALLESJÄÄNUD
-FAILIDE KAART".** Alusta sealt. **Allesjäänu jaguneb 3 raskemaks klassiks:**
+## 6. JÄRGMINE SAMM (sessioon 6 uuendus)
+
+**🥇 PRIORITEET 1 — MÜRA-PÕRANDA RE-AUDIT (§4a, uus võit-allikas).** Iga fail, mis prior-
+sessioon märkis "GATE-1 RED → lukus", VAJAB üle-kontrolli müra-vaba gate'iga. service-map
+tõestas, et "lukus" võis olla AINULT async-müra. Kandidaadid (prior GATE-1 RED, potentsiaalselt müra):
+- `policy/responsive.css` (62, 47 STRIP) — `.glass-policy-scroll` laius/kõrgus/margin.
+  Gate olemas: `state/policy-responsive-gate.targets.json`. **POOLELI sessioon 6 lõpus** —
+  järgmine samm: HEAD×2 diff sellel gate'il, vaata kas glass-policy-scroll on scroll-settle-müra.
+  (Hoiatus: handoff väitis "kõikides teemades" mis viitaks PÄRIS-le, aga pole müra-vaba-gate'iga
+  kinnitatud — tee seda.)
+- `chat/shell.css` (59, 38 STRIP) — `.chat-dictate-btn`/`.chat-listen-btn` `transform: none`
+  ↔ `matrix(1,0,0,1,0,0)` = IDENTITY-müra (visuaalselt identne!). Border-muutused (rgba(0,0,0,0)
+  → valge) on PÄRIS. Strateegia: keep border-selektorid (send-btn, dictate-btn, listen-btn,
+  invite-primary-btn, back-icon), jäta transform mürast välja → võib jääda strippe.
+- chat/hc + profile/hc: re-kontrollitud sessioon 6, GATE-1 RED on PÄRIS (HC kollane äär/glow
+  muutub valgeks) — needsamad EI ole müra. Lukus jääb.
+
+**🥈 PRIORITEET 2 — raske klass (3 tüüpi):**
 
 1. **INTERAKTSIOONI-GATED pinnad** (suurim) — modal/paneel/drawer/help-listings/invite
    selektorid renderduvad ALLES klikiga. Üks-route ega mitme-route gate ei kata neid
@@ -156,6 +221,11 @@ capture 2× → CHANGED-lõige tühi.
 
 ## 8. SESSIOONI COMMITID (main)
 ```
+# sessioon 6 (16.06, Opus): müra-põranda tehnika
+40a7892c service-map/desktop 118->104 (-14) — prior "fully locked" oli VALE, Leaflet/map async-müra
+# Leid: GATE-1 RED ≠ alati regressioon; HEAD×2 diff paljastab müra-põranda (§4a)
+# Re-rescan: chat/hc(19) chat/shell(38) profile/hc(23) STRIP — kõik GATE-1 RED päris põhjustel
+
 # autonoomne sessioon 5 (16.06): android gate — 0 uut commiti
 # platform-android.css 98 !important: gate testitud 3 keep-tasemel → täielikult lukus (kõik geomeetria)
 # Docs uuendatud: HANDOFF (3642→1229) + ledger (android rida) + mälu

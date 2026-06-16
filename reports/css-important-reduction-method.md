@@ -5,6 +5,35 @@ sessioon/konto jätkaks. Seotud: [css-tailwind-cleanup-plan.md](css-tailwind-cle
 [css-styles-cleanup-strategy.md](css-styles-cleanup-strategy.md),
 [css-campaign1-progress-2026-06-15.md](css-campaign1-progress-2026-06-15.md).
 
+## ⭐ MÜRA-PÕRANDA TEHNIKA (2026-06-16, sessioon 6 — kummutab valed "lukus"-otsused)
+
+**"GATE-1 RED" (`css-snapshot-diff` "✖ N differences") EI tähenda alati päris-regressiooni.**
+Asünkroonselt-renderduvad komponendid annavad mittedeterministliku müra-põranda, mis flipib
+capture'ite vahel ka ILMA ühegi koodimuutuseta:
+- **Leaflet kaart** (`.service-map-leaflet`): `position` `relative`↔`static`, inset `0px`↔`auto`
+- **Async-settivad sisu/kerimis-konteinerid** (`.service-map-workspace__map`): `top`/`inset`
+  flipib (nt `88.8px`↔`146.08px`) sõltuvalt sellest, millal toolbar/tulemused renderduvad
+- **Identity-transform**: `transform: none` vs `matrix(1, 0, 0, 1, 0, 0)` = VISUAALSELT IDENTNE
+  (mõlemad = pole transformi). Diff lipustab string-erinevuse, render on sama → **vale-positiivne**
+- **Teema-batch dropout** /vestlus + homepage gate'idel (~18 diffi, transient opacity)
+
+**Müra tunnus:** ilmub igal jooksul ERINEVAL teemal (random). Päris-regressioon = JÄRJEPIDEV
+sama selektor+teema+väärtus mitmel jooksul.
+
+**MEETOD (kohustuslik enne "lukus"-otsust):**
+1. **Diagnoosi:** capture HEAD **kaks korda** samal gate'il → diff. Kui samad selektorid
+   "muutuvad" ka HEAD-vs-HEAD → müra, mitte sinu muutus.
+2. **Tee müra-vaba gate:** uus targets-fail ILMA müra-selektoriteta (jäta load-bearing
+   staatilised selektorid sisse — eriti need, mille all kahtlustad päris-regressiooni).
+3. **Kontrolli müra-põrand = 0:** HEAD×2 puhastatud gate'il → peab andma `✓ identical`.
+4. **Alles SIIS** gate'i kandidaat puhastatud gate'iga. `✓ identical` = päris-ohutu → commit.
+
+**TÕESTATUD (`40a7892c`):** `service-map/desktop.css` oli prior-sessioonides "fully locked"
+(GATE-1 RED `.service-map-leaflet`). Müra-põranda diagnoos näitas: kogu RED oli Leaflet+map
+async-müra. Müra-vaba gate (page-panel + filters-shell + controls + result-button +
+leaflet-shell, ilma kahe müra-selektorita) andis 0 müra-põranda → 14-strip ✓ identical →
+118→104. **Õppetund: enne kui usud "GATE-1 RED = regressioon", tõesta müra-põrand.**
+
 ## KASKAADI-KIHI REEGEL (kriitiline, verifitseeritud)
 
 `app/styles/tailwind.css` deklareerib: `@layer theme, base, components, utilities;`
