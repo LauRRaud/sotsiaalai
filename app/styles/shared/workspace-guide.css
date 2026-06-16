@@ -37,16 +37,16 @@
   }
 
   .invite-modal-content--workspace.workspace-guide-panel.glass-subpage-surface {
-    overflow-x: hidden !important;
+    overflow-x: hidden;
     overflow-y: hidden !important;
-    overscroll-behavior: none !important;
-    scrollbar-gutter: auto !important;
+    overscroll-behavior: none;
+    scrollbar-gutter: auto;
   }
 
   .invite-modal-content--workspace.workspace-guide-panel.glass-subpage-surface
     > .invite-modal-scroll.workspace-guide-panel-scroll {
     flex: 1 1 auto !important;
-    min-height: 0 !important;
+    min-height: 0;
     overflow: visible !important;
     scrollbar-gutter: auto;
   }

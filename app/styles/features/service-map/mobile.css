@@ -666,14 +666,14 @@
   }
 
   .service-map-toolbar__types {
-    display: grid !important;
+    display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.36rem;
   }
 
   .service-map-workspace__filters-shell,
   .service-map-workspace--toolbar-feedback .service-map-workspace__filters-shell {
-    padding-inline: var(--service-map-mobile-toolbar-inline-pad) !important;
+    padding-inline: var(--service-map-mobile-toolbar-inline-pad);
   }
 
   .service-map-toolbar__fields {
@@ -688,8 +688,8 @@
   }
 
   .service-map-toolbar__type-card {
-    flex: initial !important;
-    width: 100% !important;
+    flex: initial;
+    width: 100%;
     min-height: 2.48rem;
     padding-right: 0.4rem;
     padding-left: 0.4rem;
