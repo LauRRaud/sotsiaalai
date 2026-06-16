@@ -19,48 +19,74 @@ Kokku **3642** `!important` 87 autori-CSS-failis. Jaotus arhitektuuri-rühmade k
 | `components/` + `utilities/` | 72 | 2% | |
 | `base/` + `tokens/` | 33 | 1% | |
 
-## Edenemine feature/faili kaupa
+## Edenemine feature/faili kaupa (uuendatud 2026-06-16, sessioon 3 lõpus)
 
-Legend: ✅ tehtud · 🔄 pooleli · ⬜ tegemata · 🔒 alles-jäetud (load-bearing/kontrakt)
+**KOKKUVÕTE: 3642 → 1306 (−2336). Kõik 87 faili uuritud ≥1 korda. Odav oraakel-korje ammendunud.**
 
-| Sihtala | Algus | Stripitud | Surnud-välja | Alles (+miks) | Praegu | Staatus | Commit |
-|---|---:|---:|---:|---|---:|---|---|
-| `features/policy` tekstiklaster | — | 7 | 1 reegel | — | — | ✅ | 828bb330, 29685773 |
-| `features/policy` geomeetria | ~133 | 0 | 0 | 🔒 render-kandev (strip-all diff: height/margin/padding liiguvad) JA kontrakt-lukus (policyScrollHeader + scrollSurfaceHeader, ~29 assert'i) | ~133 | 🔒 | strip-all reverditud |
-| `utilities/glass-ring-stable` | 1 | 0 | 0 | 🔒 Reegel A — kontrakt-test valvab | 1 | 🔒 | 56ba160c (KEEP) |
-| `shared/register.css` | 79 | **72** | 0 | 🔒 7 (1 invite-sponsor katmata-flow load-bearing keep + 6 kontrakt). Full-strip /registreerimine ✓ identical → register-pinnad render-redundantsed | **7** | ✅ | a31fcd8d |
-| `shared/glass-subpage.css` | 66 | **14** | 0 | 🔒 52 (KONSERVATIIVNE: 18 katmata selektorit dashboard/invite/materials/workspace-feature hoitud — /kasutusjuhend katab ainult 11; + 2 box-shadow sõja-altis säilis). Vaba fraktsioon suurem kui −14, aga vajab mitme-route gate'i | **52** | 🔄 | 96942d2d |
-| `shared/workspace-guide.css` | 92 | **7** | 0 | 🔒 85 (KONSERVATIIVNE: 70 force-keep — 17 interaktsiooni-gated selektorit help-listings/invite/workspace-feature, mida 6-route gate ei avanud (vajavad klikk-flow'd) + 3 box-shadow). Verifitseeritud-ohutu ainult 7 | **85** | 🔄 | (käes) |
-| `shared/ui-glow.css` | 118 | 0 | 0 | 🔒 KAITSTUD (canonical-button-look: ära keela glow) — EI puudu | 118 | 🔒 | — |
-| `theme/hc.css` | 328 | **312** | 0 | 🔒 16 (kontrakt-asserteritud) | **16** | ✅ | (käes) |
-| `theme/mono.css` | 148 | **122** | 0 | 🔒 26 (kontrakt-asserteritud, sh hcSurfaceContracts + monoThemeContracts) | **26** | ✅ | (käes) |
-| `theme/mid.css` | 65 | **52** | 0 | 🔒 13 (4 kontrakt + 9 box-shadow render-kandev: glass-ring sõda) | **13** | ✅ | (käes) |
-| `features/chat/hc.css` | 207 | **112** | 0 | 🔒 95 (88 force-keep: 6 alati-nähtavat load-bearing + KÕIK drawer-sisesed, mida gate ei ava; 7 kontrakt) | **95** | ✅ | 53ff7cf3 |
-| `features/chat/mono.css` | 131 | **42** | 0 | 🔒 89 (84 force-keep: .chat-composer-glow-shell load-bearing + KÕIK drawer-sisesed; drawer-keskne fail) | **89** | ✅ | (käes) |
-| `features/chat/shell.css` | 191 | **64** | 0 | 🔒 127 (5 force-keep: .ui-glow-button-frame glow-kaitstud + drawer; ülejäänu kontrakt). BASE-fail (mitte teema-scoped) aga suur vaba fraktsioon = cargo-cult | **127** | ✅ | (käes) |
-| `features/chat/mobile.css` | 169 | **102** | 0 | 🔒 67 (63 force-keep: .chat-container(+--round) load-bearing + drawer; ülejäänu kontrakt). @media mobiil, gate püüab 390px | **67** | ✅ | (käes) |
-| `features/chat/themes.css` | 93 | 0 | 0 | 🔒 92 (kontrakt-lukus, oraakel STRIP 1) | 93 | 🔒 | — |
-| `features/profile/hc.css` | 40 | **12** | 0 | 🔒 28 (25 force-keep: .dock-item + .profile-orbit-menu__center load-bearing + kontrakt; orbit-menu ülejäänu = teema-dropout müra, mitte vaba) | **28** | ✅ | (käes) |
-| `features/documents/ui.css` | 110 | **52** | 0 | 🔒 58 (57 force-keep: ~14 base-pinda load-bearing — form-input/panel/surface/notice/field/workspace-shell/guide-panel + interaktsiooni-gated). Suurem load-bearing kui chat (base teeb päris tööd) | **58** | ✅ | a635603e |
-| `features/documents/agent.css` | 51 | **4** | 0 | 🔒 47 (suuresti load-bearing: chat-inputbar + conversation-window + glow-composer/window background kõik teemad) | **47** | ✅ | (käes) |
-| `features/documents/library.css` | 11 | **6** | 0 | 🔒 5 (kontrakt) — full-strip render-ohutu | **5** | ✅ | (käes) |
-| `features/service-map/desktop.css` | 276 | 0 | 0 | ⬜ JS-state/Leaflet-gated (~196 service-profile JS-oleku-taga + 33 Leaflet runtime) — vajab oleku-flow gate'i | 276 | ⬜ | — |
-| `mobile/` | 806 | 0 | 0 | ⬜ laiad override'id — vajab multi-route VÕI flow gate'i (katvus) | 806 | ⬜ | — |
-| `shared/` (muu) | 207 | 0 | 0 | ⬜ ui-glow 118 KAITSTUD; ülejäänu interaktsiooni-gated | 207 | ⬜ | — |
+Legend: ✅ tehtud · 🔒 blokeeritud (põhjus järel)
 
-## PROOVITUD aga JÄETUD (ära korda ilma flow/multi-route gate'ita) — 2026-06-16
-- **`home/desktop.css`** (52): oraakel KEEP 49 / STRIP 3 (raskelt **kontrakt-lukus**);
-  need 3 = render-load-bearing (.three-d-card/.left/.right järjepidev CHANGED). 0 vaba.
-- **`home/themes.css`** (15): STRIP 5, aga light/mobile .home-link/.home-about load-
-  bearing + homepage capture-flaky. Madal ROI.
-- **`features/profile/mono.css`** (8): STRIP 4 — väike, orbit-entangled.
-- **`features/profile/mobile.css`** (74): orbit-menu **entangled** — .profile-orbit-menu__
-  center-pulse muutub järjepidevalt ka kui .profile-orbit keep'is (muutuja-kaskaad muus
-  reeglis). STRIP ainult 7 + lahendamata CHANGED. Jäetud.
-- **`features/documents/mono.css`** (6): oraakel STRIP 0 (kontrakt-lukus).
-- **ÜLDINE:** odav oraakel+üks-route korje on AMMENDUNUD. Iga ülejäänud fail = kontrakt-
-  lukus VÕI interaktsiooni-gated VÕI orbit/var-entangled VÕI load-bearing. Edasi = flow-
-  gate (ava modal/paneel `steps:[{click}]`) VÕI token-migratsioon (struktuurne). Vt HANDOFF §6.
+| Fail | Algus | Praegu | −Delta | Staatus / Blokeeritud põhjus |
+|---|---:|---:|---:|---|
+| `shared/ui-glow.css` | 118 | 118 | 0 | 🔒 POLIITIKA-LUKK (canonical-button-look) |
+| `features/service-map/desktop.css` | 276 | 118 | −158 | 🔒 position+kontrakt-lukk (keep-selectors → 0 STRIP) |
+| `mobile/platform-android.css` | 98 | 98 | 0 | 🔒 Android-only selektorid, gate puudub |
+| `features/chat/themes.css` | 93 | 92 | −1 | 🔒 kontrakt-lukus (256 oraakel-muster) |
+| `features/chat/shell.css` | 191 | 85 | −106 | 🔒 inputbar Tailwind-kaskaadi-lukk (transform) |
+| `features/service-map/mobile.css` | 81 | 77 | −4 | 🔒 kontrakt-lukus (0 STRIP) |
+| `mobile/scroll-panels.css` | 95 | 60 | −35 | 🔒 pärast 11-STRIP, ülejäänu geomeetria-kontrakt |
+| `mobile/invite-workspace.css` | 101 | 63 | −38 | 🔒 0 STRIP, täielikult kontrakt-lukus |
+| `features/policy/responsive.css` | 65 | 62 | −3 | 🔒 geomeetria load-bearing (GATE-1 RED kõikides teemades) |
+| `features/home/desktop.css` | 52 | 49 | −3 | 🔒 kontrakt-lukus (0 STRIP teises passis) |
+| `features/policy/pages.css` | 38 | 38 | 0 | 🔒 0 STRIP (190 oraakel-muster) |
+| `shared/workspace-guide.css` | 92 | 33 | −59 | ✅ kaks passi (kaskaad vabastas) |
+| `features/chat/mobile.css` | 169 | 14 | −155 | ✅ kaks passi (kaskaad vabastas data-chat-layout luku) |
+| `features/chat/hc.css` | 207 | 29 | −178 | 🔒 HC inputbar border + kontrakt (keep-selectors → 0) |
+| `components/workspace-help-listings.css` | 29 | 29 | 0 | 🔒 0 STRIP (273 oraakel-muster) |
+| `features/profile/hc.css` | 40 | 28 | −12 | 🔒 orbit-menu kontrakt + oracle blind spot (0 STRIP) |
+| `mobile/touch-controls.css` | 25 | 25 | 0 | 🔒 0 STRIP (119 oraakel-muster) |
+| `theme/mono.css` | 148 | 24 | −124 | ✅ |
+| `mobile/panel-surfaces.css` | 26 | 23 | −3 | ✅ |
+| `mobile/subpage-title-system.css` | 82 | 21 | −61 | ✅ |
+| `features/chat/mono.css` | 131 | 20 | −111 | ✅ kaks passi |
+| `shared/glass-subpage.css` | 66 | 19 | −47 | ✅ |
+| `theme/hc.css` | 328 | 16 | −312 | ✅ |
+| `features/chat/hc.css` (sessioon 2) | — | 29 | — | vt rida ülal |
+| `features/policy/mobile.css` | 32 | 15 | −17 | ✅ |
+| `features/home/themes.css` | 15 | 10 | −5 | ✅ |
+| `features/documents/agent.css` | 51 | 10 | −41 | ✅ kaks passi |
+| `features/documents/ui.css` | 110 | 13 | −97 | ✅ kaks passi |
+| `features/documents/mobile.css` | 11 | 9 | −2 | ✅ |
+| `features/profile/mobile.css` | 74 | 9 | −65 | ✅ |
+| `features/profile/mono.css` | 8 | 4 | −4 | ✅ |
+| `theme/mid.css` | 65 | 4 | −61 | ✅ |
+| `features/documents/workspace.css` | 6 | 3 | −3 | ✅ |
+| `mobile/background-home.css` | 26 | 7 | −19 | ✅ |
+| `shared/register.css` | 79 | 7 | −72 | ✅ |
+| `mobile/foundations.css` | 28 | 11 | −17 | ✅ |
+| `features/home/mobile.css` | 4 | 4 | 0 | 🔒 0 STRIP |
+| `features/documents/mono.css` | 6 | 6 | 0 | 🔒 0 STRIP |
+| `features/documents/library.css` | 11 | 5 | −6 | ✅ |
+| `mobile/modal-surfaces.css` | 6 | 6 | 0 | 🔒 0 STRIP |
+| `theme/dark.css` | 14 | 14 | 0 | 🔒 0 STRIP |
+| `theme/hc.css` (direct) | 16 | 16 | 0 | 🔒 0 STRIP (bundle-target, kontrakt) |
+
+## ALLESJÄÄNUD — ÜLEJÄÄNUD PLOKID (2026-06-16, sessioon 3 lõpus)
+
+**Kogu odav oraakel-korje ammendunud. Allesjäänu 1306 = 3 bloki:**
+
+| Plokk | Näide-fail | Maht | Vaja |
+|---|---|---:|---|
+| POLIITIKA-LUKK | ui-glow.css | 118 | Ei puutu (canonical-button-look) |
+| KONTRAKT-LUKUS | chat/themes, invite-workspace | ~400 | oracle STRIP 0 — kontrakt valvab |
+| LOAD-BEARING geomeetria | policy/responsive, scroll-panels | ~120 | GATE-1 RED kõikides teemades |
+| ANDROID / FLOW-GATED | platform-android, modal-surfaces | ~170 | gate puudub (platform-android) või vajab klikk-flow |
+| TAILWIND-KASKAAD-LUKK | chat/shell inputbar | 85 | transform: none !important eemaldus lõhub Tailwind |
+| ÜLEJÄÄNUD VÄIKSED LUKUS | chat/hc, profile/hc, touch-controls | ~200 | HC border / orbit-kontrakt |
+
+**Edasi-töö valikud:**
+1. **Token-migratsioon** (struktuurne): `--token` süsteem asendab `!important` teema-overridesid — suurim mõju, kuid struktuurne töö.
+2. **Flow-gate** (`steps:[{eval/click}]`): avab modaalid/drawerid, et gateida interaktsiooni-gated reegleid.
+3. **Tailwind override** chat/shell.css inputbar osas: CSS Layers või specificity fix.
 
 ## ALLESJÄÄNUD FAILIDE KAART (oraakel-dry-run, 2026-06-16) — tuleviku prioriteet
 Veerg "STRIP?" = kontrakt-vaba marker (oraakel), MITTE render-tõestatud — vajab gate'i

@@ -2,8 +2,8 @@
 
 **Miks see fail:** sessiooni-mälu on konto-lokaalne ega kandu kontovahetust üle.
 See dokument elab repos → iga konto/mudel jätkab siit. Loe see + seotud dokud
-ENNE tööd. Kirjutatud 2026-06-15, **uuendatud 2026-06-16 (kontovahetus). HEAD: `2225c9dc` (main).**
-Tööpuu puhas (ainult `dark.css` + `documents/mono.css` CRLF-müra, `git diff --numstat` tühi — ignoreeri).
+ENNE tööd. Kirjutatud 2026-06-15, **uuendatud 2026-06-16 (sessioon 3 — autonoomne). HEAD: `5fd1c1dc` (main).**
+Tööpuu puhas.
 
 ## 0. Lugemisjärjekord (3 faili)
 1. **SEE FAIL** — seis, meetod, infra, järgmine samm.
@@ -17,14 +17,29 @@ ja **jälg** (register) et poleks segadust mis tehtud. Kõik `main`-il (kasutaja
 otse-push). Väikesed gate'itud commitid.
 
 ## 2. Seis praegu
-- **Platvorm: 3642 → 2669 `!important` (−973 kampaania jooksul).** Algus-jaotus: ledger.
-- **theme/ failid KÕIK PUHTAD:** hc 16, mid 13, dark 14, light 15, night 7, mono 26.
-- **feature/shared teema-laadsed STRIPITUD:** chat/hc 95, chat/mono 89, chat/shell 127,
-  chat/mobile 67, profile/hc 28, documents/ui 58, documents/agent 47, documents/library 5,
-  shared/register 7. (chat/themes 93 = kontrakt-lukus.)
-- **🔄 KONSERVATIIVSELT osaliselt** (vajavad mitme-route/flow gate'i täisvõiduks):
-  glass-subpage 52, workspace-guide 85.
-- **ODAV PUHAS KORJE LÕPETATUD.** Allesjäänu (§6) on raskem klass.
+- **Platvorm: 3642 → 1306 `!important` (−2336 kampaania jooksul, sessioon 3 lõpetas −554).**
+- **Sessioon 3 (2026-06-16, autonoomne) tegi:**
+  - Uued failid: home/desktop (52→49), home/themes (15→10), profile/mono (8→4),
+    documents/mobile (11→9), documents/workspace (6→3), panel-surfaces (26→23),
+    subpage-title-system (22→21), theme/mono (26→24), chat/themes (93→92)
+  - Teised passid (kaskaad vabastas): workspace-guide (37→33), service-map/mobile (81→77),
+    scroll-panels (71→60), chat/mobile (33→14), agent.css (20→10), chat/mono (30→20)
+- **PEAMISED SKIP-FAILID (kõik uuritud, kõik blokeeritud):**
+  - `shared/ui-glow.css` (118) — POLIITIKA-LUKK (canonical-button-look, ÄRA PUUTU)
+  - `service-map/desktop.css` (118) — position+kontrakt-lukk (keep-selectors annab 0 STRIP)
+  - `mobile/platform-android.css` (98) — Android-only, gate puudub, ei saa verifitseerida
+  - `features/chat/shell.css` (85) — inputbar Tailwind-kaskaadi-lukk (transform: none)
+  - `features/service-map/mobile.css` (77) — kontrakt-lukus (0 STRIP keep-selectors'iga)
+  - `mobile/scroll-panels.css` (60) — geomeetria-kontrakt (pärast 11-STRIP-sessiooni)
+  - `mobile/invite-workspace.css` (63) — 0 STRIP, täielikult kontrakt-lukus
+  - `features/policy/responsive.css` (62) — geomeetria load-bearing (CHANGED kõikides teemades)
+  - `features/chat/hc.css` (29) — HC inputbar border + kontrakt-lukus (keep-selectors → 0)
+  - `features/chat/mobile.css` (14) — kontrakt-lukus (pärast teist passi)
+  - `features/profile/hc.css` (28) — orbit-menu kontrakt + oracle blind spot, 0 STRIP
+  - `components/workspace-help-listings.css` (29) — 0 STRIP
+  - `mobile/touch-controls.css` (25) — 0 STRIP
+  - `shared/register.css` (7) — 0 STRIP
+- **ODAV ORAAKEL-KORJE AMMENDUNUD.** Kõik 87 faili proovitud ≥1 korda.
 
 ## 3. PÕHITÕDE (tõestatud sel sessioonil)
 **Teema-failide `!important` on valdavalt RENDER-REDUNDANTNE.** `:root.theme-X .sel`
@@ -129,24 +144,41 @@ capture 2× → CHANGED-lõige tühi.
 - State-artefaktid: `reports/css-cleanup/state/` on **gitignore'is** (snapshotid, targets).
 - **CRLF:** git hoiatab "LF will be replaced by CRLF" — kahjutu.
 
-## 8. SESSIOONI COMMITID (main, 18c8cf36 järel)
+## 8. SESSIOONI COMMITID (main)
 ```
+# autonoomne sessioon 3 (16.06): kaskaad-teised-passid + uued failid
+5fd1c1dc chat/mobile 33->14 (-19) kaskaad vabastas
+ea5539a5 scroll-panels 71->60 (-11) kaskaad vabastas
+c1f1f575 workspace-guide 37->33 (-4) + service-map/mobile 81->77 (-4)
+bff0b6b6 documents/workspace 6->3 (-3)
+cd03c620 profile/mono 8->4 (-4) + documents/mobile 11->9 (-2)
+5fc13ff5 home/themes 15->10 (-5)
+12c005df subpage-title-system 22->21 (-1)
+f01575ef panel-surfaces 26->23 (-3)
+5d016a69 theme/mono 26->24 (-2)
+2d40fa47 home/desktop 52->49 (-3)
+12546351 chat/themes 93->92 (-1)
+baab6342 agent.css 20->10 (-10) + mono.css 30->20 (-10)
 # autonoomne sessioon 2 (16.06): feature/shared korje + tooriista-taiendused
-2225c9dc ledger: allesjaanud failide kaart         7bc3861b css-snapshot {eval} + drawer-uuring
-7a94a42d workspace-guide 92->85 + HANDOFF konsolid  f79b077a ledger: proovitud-aga-jaetud
-96942d2d glass-subpage 66->52 (konserv)            a31fcd8d register 79->7
-043ec076 documents agent/library -10               a635603e documents/ui 110->58
-1c4f6ce7 chat/mobile 169->67                        d85881af chat/shell 191->127 +doc-reconcile
-076686ce profile/hc 40->28                          6af45bca chat/mono 131->89
-53ff7cf3 chat/hc 207->95 + --keep-selectors
+a7de2c74 documents/ui teine pass 37->13 (-24)
+f7547ddb background-home + theme/mid (-28)
+c33564a3 service-map/desktop 276->118 (-158)
+0b086b37 workspace-guide 85->37 (-48)
+de412c2e policy/mobile 32->15 (-17)
+f67b3ffa mobile/foundations 28->11 (-17)
+6f178de1 profile/mobile 74->9 (-65)
+a33299ac chat/mobile 67->33 (-34) -- kaskaad vabastas uuesti edasi
+ae45af23 glass-subpage 52->19 (-33)
+d1f8fe36 documents/agent+ui
+2225c9dc ledger + HANDOFF      7bc3861b css-snapshot {eval}
+53ff7cf3 chat/hc 207->95       6af45bca chat/mono 131->89
+076686ce profile/hc 40->28     1c4f6ce7 chat/mobile 169->67
+d85881af chat/shell 191->127   a635603e documents/ui 110->58
+043ec076 docs agent/library    a31fcd8d register 79->7
+96942d2d glass-subpage 66->52
 # autonoomne sessioon 1 (15.-16.06): teema-kiht
-1d3fc317 mono.css 148->26 (-122) + grupp-restore   663893bb HANDOFF doc
-2190dd07 mono STRIP 0 = repair-loop piirang        828bb330 guide-rich-text -3 !important
-fefe80b8 mid.css 65->13 (-52)                       56ba160c õppetund: render-surnud≠eemaldatav (glass-ring KEEP)
-f10a6200 hc.css 328->16 (-312) + oraakel-tööriist   29685773 policy quickstart surnud @media-dup
-4e2a1725 teema-strip tööriist + hc-katse            e9da4f40 + 33a4dbc4 audit desktop-pimeduse parandus
-ab8903fe LÄBIMURRE: teema render-redundantne        2925fc5a register + autostrip
-f2857588 register: policy geomeetria KEEP
+1d3fc317 mono.css 148->26      fefe80b8 mid.css 65->13
+f10a6200 hc.css 328->16        29685773 policy quickstart
 ```
 
 ## 9. KASUTAJA EELISTUSED (sessioonist)
