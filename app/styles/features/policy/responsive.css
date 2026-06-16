@@ -192,15 +192,15 @@
 
 .guide-policy-scroll > footer,
 .policy-page-scroll > footer.policy-page-footer {
-  margin-bottom: 0 !important;
+  margin-bottom: 0;
 }
 
 .guide-policy-ring--layout-init,
 .guide-policy-ring--layout-init::before,
 .guide-policy-content--layout-init,
 .guide-policy-scroll--layout-init {
-  transition: none !important;
-  animation: none !important;
+  transition: none;
+  animation: none;
 }
 
 .guide-policy-scroll.glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open)
