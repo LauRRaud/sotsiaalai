@@ -65,13 +65,13 @@
 
 :root.theme-mono:not([data-contrast="hc"]) .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-item-icon :is(svg, path, circle, rect, line, polyline, polygon),
 :root.theme-mono:not([data-contrast="hc"]) .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-mobile-action.dock-item .dock-icon :is(svg, path, circle, rect, line, polyline, polygon) {
-  color: var(--forest-title, #c57171) !important;
-  stroke: var(--forest-title, #c57171) !important;
+  color: var(--forest-title, #c57171);
+  stroke: var(--forest-title, #c57171);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-item-icon :is(path, circle, rect, polygon)[fill]:not([fill="none"]),
 :root.theme-mono:not([data-contrast="hc"]) .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-mobile-action.dock-item .dock-icon :is(path, circle, rect, polygon)[fill]:not([fill="none"]) {
-  fill: var(--forest-title, #c57171) !important;
+  fill: var(--forest-title, #c57171);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-static-glow {
@@ -80,5 +80,5 @@
     inset 0 0 7px rgba(var(--mono-light-rgb), 0.08),
     0 0 2px rgba(var(--mono-light-rgb), 0.16),
     0 0 10px rgba(var(--mono-light-rgb), 0.11),
-    0 0 22px rgba(var(--mono-light-rgb), 0.07) !important;
+    0 0 22px rgba(var(--mono-light-rgb), 0.07);
 }
