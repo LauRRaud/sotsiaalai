@@ -3,6 +3,28 @@
 **Miks:** et üheski sessioonis/kontol ei tekiks segadust, mis on tehtud ja mis tegemata.
 See fail elab repos (kandub kontovahetust üle). Uuenda iga partii järel.
 Meetod + reeglid: [css-important-reduction-method.md](../css-important-reduction-method.md).
+Kaustade restruktuuri-plaan (sessioon 8): [css-styles-restructure-plan.md](../css-styles-restructure-plan.md).
+
+## ⚠⚠ SESSIOON 8 LEID — KAMPAANIA SKOOP OLI PIME 804 `!important`-ile (2026-06-16)
+
+**Kogu prior "3642 → 1208 (−74%)" mõõdik luges AINULT `app/styles`-i (87 faili). TÕELINE TOTAL = 2013.**
+- `app/styles/**` (globaalne kaskaad): **1209** ← kampaania jälgis ainult seda
+- ko-lokeeritud `components/**/*.module.css` + paar `.css` (~13 faili): **804** ← KUNAGI AUDITEERIMATA
+- Tipud: `CovisionPage.module.css` 169, `chat/WorkspacePanel.module.css` 163, `OrbitalMenu.css` 155,
+  `WellbeingPage.module.css` 92, `chat/RightRail`+`LeftRail` 130, `ui/BorderGlow.module.css` 62.
+- **Profiil = sama pinna-sõda** (background 70, box-shadow 64, color 44, opacity 43) — MITTE skoobitud cargo-cult.
+- **Anti-muster:** CovisionPage 169-st on **72 `:global(...)`** + 16 teema-override't → moodul lekib globaalsesse
+  skoopi, taasloob kaskaadi-sõja mooduli-failis. St suur osa 804-st on load-bearing-laadne `:global` sõda, mitte vaba.
+
+**Kaks JUURT (kinnitatud kaskaadi-kihi reegliga):**
+- **Root B = CSS-vs-CSS teema-sõda (2013 `!important`)** — kihistamata käsitsi-CSS võidab Tailwindi niikuinii;
+  `!important` võitleb TEISTE teema-failide vastu. EI ole Tailwindi pärast.
+- **Root A = Tailwind-sõda elab JSX-is: ~480 Tailwind-`!` modifikaatorit** üle 42 `.jsx/.tsx` faili. MITTE `.css`-is.
+- ⇒ **Vastus "kas Tailwind-sõda on CSS-is": EI.** CSS `!important` = teema-kaskaad; Tailwind-sõda = JSX-`!`.
+
+**Edasi (vt restruktuuri-plaan):** (1) sulata `mobile/` → features (kaotab override-kihi); (2) ühenda token-failid;
+(3) auditeeri 804 ko-lokeeritut (pime nurk); (4) struktuurne lõppmäng = CSS-moodulite skoopimine + `:global` koristus
+→ kaskaadi-sõjad kaovad → `!important` langeb kõrvalsaadusena.
 
 ## Lähteseis (staatiline, 2026-06-15)
 
