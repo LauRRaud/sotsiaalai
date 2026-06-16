@@ -37,6 +37,36 @@ võidab Tailwindi niikuinii (kaskaadi-kihi reegel) → marker oli redundantne. S
 oli juba ilma `!important`-ita (asümmeetria parandatud). Gate (`mid-button-gate`, /registreerimine, noise=0):
 GATE-1 ✓ identical, GATE-2 0 uut (HEAD vs muudatus: identne 11-faili baseline, `comm -13` tühi). **mid.css 4→3, 1209→1208.**
 
+### SESSIOON 7 lisa — Button I1 mapping (2 paralleelset Explore-agenti, read-only)
+**Eesmärk:** kaardistada Button-arhitektuuri-lõppmängu (I1 = NULL nupu-selektori `!important` teema-failides) PÄRIS
+allesjäänud pind. Agent A = `Button.jsx` token-tarbimine + `ui-glow.css` poliitika-lukus nupu-pinnad; Agent B =
+teema-failide nupu-`!important` loendus + `tests/` kontrakt-lukud. Liite tulemus:
+
+**`Button.jsx` tarbib juba KÕIK primary/danger tokenid** (`--btn-primary-{bg,bg-hover,bg-active,border,shadow,
+shadow-hover,shadow-focus,shadow-active,text}` jne) base/hover[`before:`]/active/focus seisudes → teema-faili
+otse-tarbimine on redundantne; õige koht teemale = `:root.theme-X { --btn-* }` blokk.
+
+**PÄRIS `<Button>`-primitiivi / `[data-variant]` / `.ui-glow-button-frame` / `.chat-send-btn` `!important` teema-failides = ainult ~4 markerit:**
+
+| file:line | selektor | property | klassifikatsioon |
+|---|---|---|---|
+| `mid.css:109` | `.button[data-variant="primary"]:active::before` | `opacity: 1` | KONTRAKT-VABA, aga **active-gated** (glow-reveal ::before) — vajab gate'i, võib olla mid-spetsiifiline |
+| `light.css:70` | `.drawer-chat-sidebar [data-variant="primary"]` | `-webkit-backdrop-filter: none` | KONTRAKT-VABA, aga **drawer-gated** — madal ROI |
+| `hc.css:1425` | `.chat-inputbar .chat-send-btn.invite-primary-btn` | `background: transparent` | 🔒 **KONTRAKT-LUKUS** (`hcSurfaceContracts.test.js:27-28`) |
+| `hc.css:1462` | `.framework-page-shell .ui-glow-button-frame` | `border: 2px solid` | 🔒 **KONTRAKT-LUKUS** (`hcSurfaceContracts.test.js:259-266`) |
+
+**Ülejäänud "nupu-nimelised" teema-`!important` EI OLE `<Button>`-primitiiv** (eraldi mure, mitte I1):
+`hc.css` home-before-contact / home-card-a11y (lehe-nupud), invite-modal-overlay backdrop + checkbox `::before`
+(modaal/kontroll), `mid.css:207` dock-item (dokk), `mono.css:98-100` chat-tools-surface-popover (popover),
+`dark.css:299-302` login-modal OTP shell (modaal). Need ei kuulu Button-konsolideerimise alla.
+
+**⇒ JÄRELDUS:** varasem "~39 I1-rikkumist" = `css-primitive-scatter.mjs` "button"-primitiivi-tüübi summa (nupu-PERE
+klassid hajutatud failides, sh dock/popover/modal-close + `!important`-vabad read), MITTE eemaldatav `!important`.
+**Button I1 puhas eemaldus-pind = ~4 markerit**, neist 2 kontrakt-vaba-aga-gated + 2 kontrakt-lukus. See KINNITAB
+ülalolevat "~15-25 puhas-drop" leidu: Button-lever üksi annab käputäie. Sügavam langus = kontrakt-update
+(`chat-send-btn` + `ui-glow-button-frame` vabastamine, vajab kasutaja luba) VÕI primitiivi-konsolideerimine
+(struktuurne, väärtus = loetavus + tulevased sõjad kaovad, mitte marker-arv).
+
 **⚠ KRIITILINE LEID — "273 tokeniseeritavat" on petlik ülempiir.** Empiiriline analüüs:
 - **151/273 sihib selektoreid mida `ui-glow.css` (POLIITIKA-LUKK) ka puudutab** → IMPORTANT-war
   poliitika-lukus failiga → EI eemaldatav ilma renderit muutmata (ui-glow `!important` võidaks).
