@@ -67,6 +67,26 @@ klassid hajutatud failides, sh dock/popover/modal-close + `!important`-vabad rea
 (`chat-send-btn` + `ui-glow-button-frame` vabastamine, vajab kasutaja luba) VÕI primitiivi-konsolideerimine
 (struktuurne, väärtus = loetavus + tulevased sõjad kaovad, mitte marker-arv).
 
+### SESSIOON 7 lisa — ui-glow.css poliitika-lukk avatud (kasutaja andis loa lever 1-le) → TULEMUS: ~0 ohutut drop'i
+**Kasutaja andis eksplitsiitse loa ui-glow.css puutumiseks** (canonical-button-look guard ajutiselt tõstetud SELLE
+`!important`-vähenduse jaoks; tingimus: glow peab renderduma identselt). Tegin `css-important-overrides.mjs` auditi
+`.ui-glow-button-frame` peal /registreerimine'l (6 teemat × pseudo-seisud, box-shadow+background+all-props):
+
+**Verdiktid `.ui-glow-button-frame`:**
+- **box-shadow:** WINS-BY-SPECIFICITY (light/dark/mono/night) + IMPORTANT-WAR (mid, **hc**). HC-reset `box-shadow: none !important`
+  (`components_06~ie25._.css:187`) konkureerib → ui-glow `!important` ON HC jaoks kandev.
+- **background:** IMPORTANT-WAR (hc — `--hc-control-bg !important` konkurent).
+- **overflow:** IMPORTANT-WAR **kõigis teemades** (Button.jsx baseStyles `overflow-hidden` + konkurent → glow peab `visible`-i läbi suruma).
+- **REDUNDANT markereid: 0.**
+
+**⇒ KRIITILINE JÄRELDUS:** üks deklaratsioon (`:root:not(.theme-light):not(.theme-mid) .ui-glow-button-frame`) katab ka HC →
+ei saa `!important`-it dropida ilma HC glow'd regresseerimata. Drop nõuaks HC-reset-konkurentide kõrvaldamist (mitmefaili,
+need teenivad teisi selektoreid) VÕI deklaratsiooni tükeldamist (HC hoiab `!important`, muud kaotavad → ROHKEM ridu, marginaalne võit).
+**+ ANIMATSIOONI-PIME GATE:** box-shadow `!important`-id kannavad 0-alpha glow-kihte transitsiooni kihi-arvu-sobitamiseks (sujuv fade);
+`css-snapshot-diff` ignoreerib läbipaistvaid kihte → strip annaks VALE-ROHELISE kui kihi-arv muutub (glow popib, mitte fade'ib).
+**ui-glow 118 `!important` EI OLE cargo-cult — need on päris HC-kaskaadi-sõja-valvurid + glow-transitsiooni-kandjad.**
+Lever 1 (ui-glow override) annab ~0 ohutut automaat-drop'i; päris vähendus = kallis mitmefaili HC-reset-kirurgia + KÄSITSI animatsiooni-verifikatsioon (gate ei kata).
+
 ### SESSIOON 7 lisa — glass/glow token-migratsiooni audit (kasutaja valis "üks terviklik glass-pind")
 **Eesmärk:** leida pind, kus teema-override `!important` seab pinna-literaali, mis saaks `:root.theme-X { --token }`-iks.
 **LEID: see töö on JUBA TEHTUD (Kampaania 1, vt `[[css-safe-loop]]`).** Kontrollitud 5 pinda:
