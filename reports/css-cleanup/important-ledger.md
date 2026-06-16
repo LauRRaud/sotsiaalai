@@ -67,6 +67,26 @@ klassid hajutatud failides, sh dock/popover/modal-close + `!important`-vabad rea
 (`chat-send-btn` + `ui-glow-button-frame` vabastamine, vajab kasutaja luba) VÕI primitiivi-konsolideerimine
 (struktuurne, väärtus = loetavus + tulevased sõjad kaovad, mitte marker-arv).
 
+### SESSIOON 7 lisa — glass/glow token-migratsiooni audit (kasutaja valis "üks terviklik glass-pind")
+**Eesmärk:** leida pind, kus teema-override `!important` seab pinna-literaali, mis saaks `:root.theme-X { --token }`-iks.
+**LEID: see töö on JUBA TEHTUD (Kampaania 1, vt `[[css-safe-loop]]`).** Kontrollitud 5 pinda:
+- **`shared/glass-subpage.css`:** teema-blokid (L130-205) on PUHTAD token-definitsioonid (`--subpage-card-bg: …`, **0 `!important`**);
+  baas-konsument loeb tokeneid ilma `!important`-ita. Allesjäänud 19 = **geomeetria** (workspace-glass fikseeritud mõõdud,
+  scroll-overscan, HC `::before` reset) — mitte pinna-värv.
+- **`features/home/themes.css`:** peaaegu täielikult per-teema `--home-*` definitsioonid; ~6 `!important` = mono link-värvi-sõjad + opacity.
+- **`features/home/desktop.css`:** 49 `!important` = **reset'id** (`none`/`0` lülitavad efekte välja) + **värvi-sõjad** (juba `color: var(--home-*) !important`).
+- **`features/chat/themes.css`:** read 18-102 tarbivad juba tokeneid (`background: var(--subpage-card-bg) !important`,
+  `var(--chat-tools-panel-bg) !important`) — `!important` = kaskaadi-sõja valvur drawer-gated pindadel, MITTE migreerimata literaal.
+
+**⇒ JÄRELDUS (5 sõltumatut nurka sessioonis 7):** struktuursed leverid (Button-komponentiseerimine + glass/glow token-migratsioon)
+on JUBA ammendatud eelmise kampaania poolt. Allesjäänud ~1208 on PÄRISELT load-bearing: geomeetria-kontraktid, efekti-reset'id
+(`none`/`0`), värvi-sõjad (token-tarbivad aga `!important`-valvega), kaskaadi-sõja-valvurid gated pindadel, poliitika-lukus glow.
+**Et minna oluliselt alla ~1185, on AINULT 3 päris-leverit** (kõik vajavad poliitika/luba-otsust, mitte odavat korjet):
+1. **ui-glow.css poliitika-override** (118 + ~151 sõjs. ≈ kuni 270) — suurim üksik-blokk, vajab luba (canonical-button-look), risk = glow.
+2. **Kontrakt-testide uuendus** (~268 kontrakt-puudutatud) — uuenda test väitma render-elust, siis strip; vajab luba (testid = inim-otsus), mõni kontrakt juba baseline-punane.
+3. **Kaskaadi-sõja-valvurite eemaldus gated pindadel** (chat/themes tools-popover jt) — vajab drawer-flow-gate'i per pind (ehitatav, aga töömahukas).
+**Aus soovitus: kampaania on sisuliselt valmis (4637 → 1208 = −74%). Edasi = kas poliitika-otsus (lever 1/2) või lõpeta + hoolda.**
+
 **⚠ KRIITILINE LEID — "273 tokeniseeritavat" on petlik ülempiir.** Empiiriline analüüs:
 - **151/273 sihib selektoreid mida `ui-glow.css` (POLIITIKA-LUKK) ka puudutab** → IMPORTANT-war
   poliitika-lukus failiga → EI eemaldatav ilma renderit muutmata (ui-glow `!important` võidaks).
