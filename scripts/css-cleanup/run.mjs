@@ -12,12 +12,19 @@
 // Two phases (no interactive prompts — this env can't answer them):
 //
 //   # 1) BEFORE you edit the css file — capture the baseline
-//   node scripts/css-cleanup/run.mjs before --file app/styles/.../hc.css
+//   node scripts/css-cleanup/run.mjs before --file app/styles/.../hc.css [--noise-runs 2]
 //
 //   # 2) ...make your edit...
 //
 //   # 3) AFTER — capture again, diff, run tests, decide
 //   node scripts/css-cleanup/run.mjs verify --file app/styles/.../hc.css [--auto-revert]
+//
+// --noise-runs N (before): re-capture the UNCHANGED baseline N times and record
+//   the cells that differ between clean captures (async render noise: Leaflet,
+//   scroll/layout settle, identity transforms). verify auto-subtracts that noise
+//   floor so it can't masquerade as a regression. Use this for files whose gate
+//   touches map/scroll/animated surfaces (was the manual technique that proved
+//   service-map/desktop was NOT "locked" — see css-important-reduction-method.md).
 //
 // Gate verdict: green only if computed-style diff is identical AND tests pass.
 // On red with --auto-revert, the file is reverted IF it is the only working-tree
@@ -55,6 +62,7 @@ function parseArgs(argv) {
     autoRevert: false,
     baseUrl: "http://localhost:3000",
     token: null,
+    noiseRuns: 1,
   };
   for (let i = 1; i < argv.length; i++) {
     const a = argv[i];
@@ -67,6 +75,7 @@ function parseArgs(argv) {
     else if (a === "--auto-revert") out.autoRevert = true;
     else if (a === "--base-url") out.baseUrl = argv[++i];
     else if (a === "--token") out.token = argv[++i];
+    else if (a === "--noise-runs") out.noiseRuns = Math.max(1, parseInt(argv[++i], 10) || 1);
     else throw new Error(`Unknown argument: ${a}`);
   }
   if (cmd !== "before" && cmd !== "verify") {
@@ -115,6 +124,7 @@ function main() {
   const beforePath = path.join(STATE_DIR, `${key}.before.json`);
   const afterPath = path.join(STATE_DIR, `${key}.after.json`);
   const metaPath = path.join(STATE_DIR, `${key}.meta.json`);
+  const noisePath = path.join(STATE_DIR, `${key}.noise.json`);
 
   if (!existsSync(args.targets)) {
     console.error(`✖ targets file not found: ${args.targets}\n  Run: node scripts/css-cleanup/targets-gen.mjs`);
@@ -133,8 +143,26 @@ function main() {
     console.log(`\n▶ BEFORE  key=${key}  file=${args.file ?? "(label)"}\n  targets=${targetsPath}  (headed, all instances)`);
     const code = captureSnapshot({ targetsPath, outPath: beforePath, baseUrl: args.baseUrl, token: args.token });
     if (code !== 0) { console.error("✖ baseline capture failed"); process.exit(code); }
-    writeFileSync(metaPath, JSON.stringify({ file: args.file, label: args.label, targetsPath, baseUrl: args.baseUrl, createdAt: new Date().toISOString() }, null, 2));
-    console.log(`\n✓ baseline saved: ${beforePath}\n  Now make your edit, then: node scripts/css-cleanup/run.mjs verify --file ${args.file ?? ""}`.trimEnd());
+
+    // Noise-floor: re-capture the UNCHANGED baseline N-1 more times and record
+    // every cell that differs between clean captures. These are async render
+    // noise (Leaflet, scroll/layout settle, identity transforms that slipped
+    // canonicalization) — verify subtracts them so they can't masquerade as a
+    // regression (see reports/css-important-reduction-method.md MÜRA-PÕRAND).
+    let noiseCaptured = false;
+    if (args.noiseRuns >= 2) {
+      if (existsSync(noisePath)) spawnSync("node", ["-e", `require('fs').unlinkSync(${JSON.stringify(noisePath)})`]);
+      console.log(`\n  measuring noise floor: ${args.noiseRuns - 1} extra baseline capture(s)…`);
+      const extraPath = path.join(STATE_DIR, `${key}.noise-extra.json`);
+      for (let i = 1; i < args.noiseRuns; i++) {
+        const c = captureSnapshot({ targetsPath, outPath: extraPath, baseUrl: args.baseUrl, token: args.token });
+        if (c !== 0) { console.error("✖ noise-floor capture failed"); process.exit(c); }
+        spawnSync("node", ["scripts/css-snapshot-diff.mjs", beforePath, extraPath, "--emit-noise", noisePath], { stdio: "inherit" });
+      }
+      noiseCaptured = existsSync(noisePath);
+    }
+    writeFileSync(metaPath, JSON.stringify({ file: args.file, label: args.label, targetsPath, baseUrl: args.baseUrl, noisePath: noiseCaptured ? noisePath : null, createdAt: new Date().toISOString() }, null, 2));
+    console.log(`\n✓ baseline saved: ${beforePath}${noiseCaptured ? `\n✓ noise floor: ${noisePath}` : ""}\n  Now make your edit, then: node scripts/css-cleanup/run.mjs verify --file ${args.file ?? ""}`.trimEnd());
     return;
   }
 
@@ -150,9 +178,14 @@ function main() {
   const capCode = captureSnapshot({ targetsPath, outPath: afterPath, baseUrl: args.baseUrl, token: args.token });
   if (capCode !== 0) { console.error("✖ after capture failed"); process.exit(capCode); }
 
-  // Gate 1: computed-style diff.
+  // Gate 1: computed-style diff (subtracting the recorded noise floor, if any).
   console.log("\n— Gate 1: computed-style diff —");
-  const diff = spawnSync("node", ["scripts/css-snapshot-diff.mjs", beforePath, afterPath], { stdio: "inherit" });
+  const diffArgs = ["scripts/css-snapshot-diff.mjs", beforePath, afterPath];
+  if (meta.noisePath && existsSync(meta.noisePath)) {
+    diffArgs.push("--noise", meta.noisePath);
+    console.log(`  (subtracting noise floor: ${meta.noisePath})`);
+  }
+  const diff = spawnSync("node", diffArgs, { stdio: "inherit" });
   const diffOk = diff.status === 0;
 
   // Gate 2: test baseline (optional).
