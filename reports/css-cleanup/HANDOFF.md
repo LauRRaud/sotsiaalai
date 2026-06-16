@@ -2,7 +2,7 @@
 
 **Miks see fail:** sessiooni-mälu on konto-lokaalne ega kandu kontovahetust üle.
 See dokument elab repos → iga konto/mudel jätkab siit. Loe see + seotud dokud
-ENNE tööd. Kirjutatud 2026-06-15, **uuendatud 2026-06-16 (sessioon 4 — autonoomne). HEAD: `67c2799b` (main).**
+ENNE tööd. Kirjutatud 2026-06-15, **uuendatud 2026-06-16 (sessioon 5 — autonoomne). HEAD: `a7de2c74` (main).**
 Tööpuu puhas.
 
 ## 0. Lugemisjärjekord (3 faili)
@@ -17,18 +17,25 @@ ja **jälg** (register) et poleks segadust mis tehtud. Kõik `main`-il (kasutaja
 otse-push). Väikesed gate'itud commitid.
 
 ## 2. Seis praegu
-- **Platvorm: 3642 → 1255 `!important` (−2387 kampaania jooksul, sessioon 3+4 kokku −605).**
+- **Platvorm: 3642 → 1229 `!important` (−2413 kampaania jooksul, sessioon 3+4+5 kokku −631).**
 - **Sessioon 3+4 (2026-06-16, autonoomne) tegid:**
   - Uued failid: home/desktop (52→49), home/themes (15→6), profile/mono (8→2),
     documents/mobile (11→9), documents/workspace (6→3), panel-surfaces (26→23),
     subpage-title-system (22→21), theme/mono (26→24), chat/themes (93→92)
   - Teised passid (kaskaad vabastas): workspace-guide (37→33), service-map/mobile (81→77),
     scroll-panels (71→15, kolm passi!), chat/mobile (33→14), agent.css (20→10), chat/mono (30→20)
-  - Sessioon 4: profile/hc.css 23-STRIP katse GATE-2 RED (workspaceHeaderAlignment HC bundle) → reverditud
+  - Sessioon 4: chat/shell.css 85→59 (−26); profile/hc.css 23-STRIP katse GATE-2 RED → reverditud
+- **Sessioon 5 (2026-06-16, autonoomne):**
+  - platform-android.css gate ehitatud (android-gate.targets.json, eval `data-platform=android`)
+  - 94 STRIP → GATE-1 RED (policy-heading geomeetria + profile-action-stack positsioon)
+  - keep-selectors järk: policy-section+profile-mobile-action → 65 STRIP → GATE-1 RED
+  - keep-selectors järk: +profile-orbit-stack → 21 STRIP → kõik 21 geomeetria (orbit-sizes, logout-wrap, a11y)
+  - Järeldus: kõik 98 !important load-bearing Android-layout-overrides — **fail täielikult lukus**
+  - 0 uut commiti
 - **PEAMISED SKIP-FAILID (kõik uuritud, kõik blokeeritud):**
   - `shared/ui-glow.css` (118) — POLIITIKA-LUKK (canonical-button-look, ÄRA PUUTU)
   - `service-map/desktop.css` (118) — position+kontrakt-lukk (keep-selectors annab 0 STRIP)
-  - `mobile/platform-android.css` (98) — Android-only, gate puudub, ei saa verifitseerida
+  - `mobile/platform-android.css` (98) — gate ehitatud + testitud (sessioon 5). Kõik 98 on Android-layout geomeetria-overrides. 3 keep-taset (policy-section, profile-mobile-action, profile-orbit-stack) → 21 STRIP jäi → kõik geomeetria. **Täielikult lukus.**
   - `features/chat/shell.css` (85) — Tailwind transform cascade: 64 STRIP kaskaadiga vabastatud, kuid GATE-1 RED: `.chat-listen-btn | transform: none → matrix(1,0,0,1,0,0)` dark/night/mono/hc teemades. Keep-selectors "chat-listen-btn" → 27 STRIP, kuid sama probleem. "chat-inputbar" → 0 STRIP (liiga lai). Kaudne kaskaadikoosmõju (ei ole direct transform-reegel — Tailwind võidab pärast muude `!important` eemaldust)
   - `features/service-map/mobile.css` (77) — kontrakt-lukus (0 STRIP keep-selectors'iga)
   - `mobile/scroll-panels.css` (15) — exhausted (kolm passi: 95→71→60→15); ülejäänu geomeetria-kontrakt
@@ -149,8 +156,12 @@ capture 2× → CHANGED-lõige tühi.
 
 ## 8. SESSIOONI COMMITID (main)
 ```
-# autonoomne sessioon 4 (16.06): täisrescan — kõik 87 faili, 0 uut commiti
-# Leiud: chat/shell 64 STRIP (Tailwind transform blokeering), policy/resp 47 STRIP (geomeetria)
+# autonoomne sessioon 5 (16.06): android gate — 0 uut commiti
+# platform-android.css 98 !important: gate testitud 3 keep-tasemel → täielikult lukus (kõik geomeetria)
+# Docs uuendatud: HANDOFF (3642→1229) + ledger (android rida) + mälu
+
+# autonoomne sessioon 4 (16.06): täisrescan — kõik 87 faili, 1 commit
+# chat/shell.css 85→59 (-26) commit b663baa6
 # profile/hc 23 STRIP GATE-2 RED (workspaceHeaderAlignment HC bundle) → reverditud
 # Dok: 1306→1255 parandus + uued blokeeringu kirjeldused HANDOFF+ledger+mälu
 

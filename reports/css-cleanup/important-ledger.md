@@ -21,7 +21,7 @@ Kokku **3642** `!important` 87 autori-CSS-failis. Jaotus arhitektuuri-rühmade k
 
 ## Edenemine feature/faili kaupa (uuendatud 2026-06-16, sessioon 4 lõpus)
 
-**KOKKUVÕTE: 3642 → 1255 (−2387). Kõik 87 faili uuritud ≥1 korda. Odav oraakel-korje ammendunud.**
+**KOKKUVÕTE: 3642 → 1229 (−2413). Kõik 87 faili uuritud ≥1 korda. Odav oraakel-korje ammendunud.**
 
 Legend: ✅ tehtud · 🔒 blokeeritud (põhjus järel)
 
@@ -29,7 +29,7 @@ Legend: ✅ tehtud · 🔒 blokeeritud (põhjus järel)
 |---|---:|---:|---:|---|
 | `shared/ui-glow.css` | 118 | 118 | 0 | 🔒 POLIITIKA-LUKK (canonical-button-look) |
 | `features/service-map/desktop.css` | 276 | 118 | −158 | 🔒 position+kontrakt-lukk (keep-selectors → 0 STRIP) |
-| `mobile/platform-android.css` | 98 | 98 | 0 | 🔒 Android-only selektorid, gate puudub |
+| `mobile/platform-android.css` | 98 | 98 | 0 | 🔒 gate testitud (sessioon 5): 94→65→21 STRIP erinevate keep-selektorite tasemel → kõik 21 geomeetria. **Täielikult lukus.** |
 | `features/chat/themes.css` | 93 | 92 | −1 | 🔒 kontrakt-lukus (256 oraakel-muster) |
 | `features/chat/shell.css` | 191 | 85 | −106 | 🔒 inputbar Tailwind-kaskaadi-lukk (transform) |
 | `features/service-map/mobile.css` | 81 | 77 | −4 | 🔒 kontrakt-lukus (0 STRIP) |
@@ -72,14 +72,14 @@ Legend: ✅ tehtud · 🔒 blokeeritud (põhjus järel)
 
 ## ALLESJÄÄNUD — ÜLEJÄÄNUD PLOKID (2026-06-16, sessioon 3 lõpus)
 
-**Kogu odav oraakel-korje ammendunud. Allesjäänu 1255 = 3 bloki:**
+**Kogu odav oraakel-korje ammendunud. Allesjäänu 1229 = 3 bloki:**
 
 | Plokk | Näide-fail | Maht | Vaja |
 |---|---|---:|---|
 | POLIITIKA-LUKK | ui-glow.css | 118 | Ei puutu (canonical-button-look) |
 | KONTRAKT-LUKUS | chat/themes, invite-workspace | ~400 | oracle STRIP 0 — kontrakt valvab |
 | LOAD-BEARING geomeetria | policy/responsive, scroll-panels | ~120 | GATE-1 RED kõikides teemades |
-| ANDROID / FLOW-GATED | platform-android, modal-surfaces | ~170 | gate puudub (platform-android) või vajab klikk-flow |
+| ANDROID / FLOW-GATED | platform-android, modal-surfaces | ~170 | android 98 = täielikult lukus (geomeetria); modal-surfaces vajab klikk-flow |
 | TAILWIND-KASKAAD-LUKK | chat/shell inputbar | 85 | transform: none !important eemaldus lõhub Tailwind |
 | ÜLEJÄÄNUD VÄIKSED LUKUS | chat/hc, profile/hc, touch-controls | ~200 | HC border / orbit-kontrakt |
 
@@ -97,7 +97,7 @@ veerus "vaja". Sorteeritud STRIP-potentsiaali järgi. ⚠ = teadaolev takistus.
 | service-map/desktop | 276 | 229 | JS-state-flow + Leaflet | ⚠ ~196 JS-oleku-taga, 33 Leaflet runtime |
 | mobile/accessibility-touch | 138 | 135 | multi-route 390px | ⚠ touch-target geomeetria = tõen. load-bearing (a11y) |
 | shared/ui-glow | 118 | 110 | — | ⚠ KAITSTUD (canonical-button-look, ÄRA keela glow) — poliitika-lukk, mitte kontrakt |
-| mobile/platform-android | 98 | 94 | eval `data-platform=android` + multi-route | android-fix, tõen. load-bearing |
+| mobile/platform-android | 98 | 94 | — | ⚠ gate testitud sessioon 5: 3 keep-taset → 21 STRIP jäi → kõik geomeetria. **LUKUS** |
 | mobile/subpage-title-system | 82 | 60 | multi-route 390px + modal-flow | broad: policy/profile/chat/documents/modaalid |
 | mobile/background-home | 67 | 58 | homepage 390px | ⚠ homepage capture-flaky |
 | mobile/modal-surfaces | 62 | 56 | modal-flow-gate (`eval`/click) | interaktsiooni-gated |
@@ -107,12 +107,12 @@ veerus "vaja". Sorteeritud STRIP-potentsiaali järgi. ⚠ = teadaolev takistus.
 | mobile/scroll-panels | 95 | 12 | — | suuresti kontrakt-lukus (geomeetria) |
 | service-map/mobile | 81 | 4 | — | kontrakt-lukus |
 
-**Järeldus:** suurim kontrakt-vaba potentsiaal (service-map 229, touch 135, platform-android
-94) on KÕIK broad/state-gated → vajavad flow/multi-route/platform gate'i (üks-route ✗).
-Render-verifitseerimata STRIP = EI committi. `eval`-samm (`css-snapshot.mjs`) võimaldab
-platform-force + event-avatavaid pindu. ui-glow on poliitika-lukus (glow). Edasi-töö =
-kas (a) flow/platform-gate ehitamine per-fail, või (b) token-migratsioon (struktuurne,
-`css-progress-log.md` rada). Mõlemad = sihilik fokusseeritud sessioon, mitte autonoomne korje.
+**Järeldus:** suurim kontrakt-vaba potentsiaal (service-map 229, touch 135) vajab flow/multi-route gate'i.
+platform-android (94 STRIP) on nüüd kinnitatud täielikult lukus (sessioon 5 testis 3 keep-taset).
+Render-verifitseerimata STRIP = EI committi. ui-glow on poliitika-lukus (glow). Edasi-töö =
+kas (a) flow/platform-gate ehitamine per-fail (service-map JS-state, modal-surfaces click-flow),
+või (b) token-migratsioon (struktuurne, `css-progress-log.md` rada).
+Mõlemad = sihilik fokusseeritud sessioon, mitte autonoomne korje.
 
 ## Strateegiline leid (2026-06-15, policy strip-all eksperimendist)
 
