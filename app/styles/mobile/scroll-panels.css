@@ -36,10 +36,10 @@
 }
 
 .invite-modal-content--workspace.workspace-guide-panel.glass-subpage-surface {
-  overflow-x: hidden !important;
-  overflow-y: hidden !important;
-  overscroll-behavior: none !important;
-  scrollbar-gutter: auto !important;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  overscroll-behavior: none;
+  scrollbar-gutter: auto;
 }
 
 .invite-modal-content--workspace.workspace-guide-panel.glass-subpage-surface
@@ -52,9 +52,9 @@
 
 .invite-modal-content--workspace.workspace-guide-panel.glass-subpage-surface
   .invite-list-panel {
-  flex: 1 1 auto !important;
-  min-height: clamp(7.5rem, 18vh, 11rem) !important;
-  max-height: min(24dvh, 13rem) !important;
+  flex: 1 1 auto;
+  min-height: clamp(7.5rem, 18vh, 11rem);
+  max-height: min(24dvh, 13rem);
   overflow-y: auto !important;
 }
 
@@ -130,38 +130,38 @@
       .glass-mobile-card,
       .invite-modal-content.person-invite-modal-content.glass-subpage-surface
     ) {
-    --subpage-card-bg: var(--mobile-common-glass-surface-bg) !important;
-    --subpage-card-bg-hover: var(--mobile-common-glass-surface-bg) !important;
-    --input-bg: var(--mobile-common-glass-surface-bg) !important;
-    --input-bg-hover: var(--mobile-common-glass-surface-bg) !important;
-    --input-bg-focus: var(--mobile-common-glass-surface-bg) !important;
-    --opaque-panel-bg: var(--mobile-common-glass-surface-bg) !important;
-    --opaque-panel-bg-hover: var(--mobile-common-glass-surface-bg) !important;
-    background: var(--mobile-common-glass-surface-bg) !important;
+    --subpage-card-bg: var(--mobile-common-glass-surface-bg);
+    --subpage-card-bg-hover: var(--mobile-common-glass-surface-bg);
+    --input-bg: var(--mobile-common-glass-surface-bg);
+    --input-bg-hover: var(--mobile-common-glass-surface-bg);
+    --input-bg-focus: var(--mobile-common-glass-surface-bg);
+    --opaque-panel-bg: var(--mobile-common-glass-surface-bg);
+    --opaque-panel-bg-hover: var(--mobile-common-glass-surface-bg);
+    background: var(--mobile-common-glass-surface-bg);
     border: 0 !important;
     box-shadow: var(--glass-shell-shadow, none) !important;
-    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
-    backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem));
+    backdrop-filter: blur(var(--glass-blur-radius, 1rem));
   }
 
   .glass-mobile-card {
     --glass-mobile-vh: var(--glass-mobile-root-vh, 100dvh);
     --glass-mobile-safe-top: var(--mobile-safe-top, env(safe-area-inset-top, 0px));
     --glass-mobile-safe-bottom: var(--mobile-safe-bottom, env(safe-area-inset-bottom, 0px));
-    max-width: none !important;
+    max-width: none;
     padding-right: var(
       --glass-ring-pad-x,
       clamp(calc(1.8 * var(--base-rem)), 5vw, calc(3.2 * var(--base-rem)))
-    ) !important;
+    );
     padding-left: var(
       --glass-ring-pad-x,
       clamp(calc(1.8 * var(--base-rem)), 5vw, calc(3.2 * var(--base-rem)))
-    ) !important;
+    );
     padding-top: var(
       --glass-ring-pad-top,
       clamp(calc(0.4 * var(--base-rem)), 1.4vh, calc(1.1 * var(--base-rem)))
-    ) !important;
-    padding-bottom: calc(var(--glass-mobile-safe-bottom) + 0.9rem) !important;
+    );
+    padding-bottom: calc(var(--glass-mobile-safe-bottom) + 0.9rem);
   }
 
   .glass-full-panel-mobile-header {
@@ -169,8 +169,8 @@
       clamp(calc(0.4 * var(--base-rem)), 1.4vh, calc(1.1 * var(--base-rem))) +
         0.18rem
     );
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
+    padding-top: 0;
+    padding-bottom: 0;
   }
 
   :is(.documents-workspace-page--documents, .documents-workspace-page--agent) {
