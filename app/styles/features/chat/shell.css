@@ -480,9 +480,9 @@ body .chat-inputbar .chat-listen-btn svg {
 }
 
 body .chat-inputbar .chat-send-btn .chat-send-glyph {
-  display: block !important;
-  transform-box: fill-box !important;
-  transform-origin: center !important;
+  display: block;
+  transform-box: fill-box;
+  transform-origin: center;
   width: var(--chat-composer-send-icon-size, var(--chat-composer-mic-icon-size, calc(1.78 * var(--base-rem))));
   height: var(--chat-composer-send-icon-size, var(--chat-composer-mic-icon-size, calc(1.78 * var(--base-rem))));
 }
