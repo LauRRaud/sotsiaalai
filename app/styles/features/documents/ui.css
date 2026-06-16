@@ -33,7 +33,7 @@
   height: 100%;
   min-height: 0;
   max-height: 100%;
-  overflow-x: hidden !important;
+  overflow-x: hidden;
   overflow-y: auto !important;
   padding-top: clamp(0.18rem, 0.65vh, 0.42rem);
   padding-bottom: clamp(2.45rem, 4.8vh, 3rem);
@@ -49,18 +49,18 @@
 }
 
 .documents-workspace-shell--embedded > .documents-grid.workspace-guide-panel-scroll {
-  width: 100% !important;
-  max-width: 100% !important;
+  width: 100%;
+  max-width: 100%;
   min-width: 0;
-  height: auto !important;
-  max-height: none !important;
+  height: auto;
+  max-height: none;
   flex: 0 0 auto;
-  margin: 0 !important;
+  margin: 0;
   overflow: visible !important;
-  padding-top: 0 !important;
-  padding-bottom: clamp(0.55rem, 1.6vh, 0.9rem) !important;
-  padding-right: 0 !important;
-  padding-left: 0 !important;
+  padding-top: 0;
+  padding-bottom: clamp(0.55rem, 1.6vh, 0.9rem);
+  padding-right: 0;
+  padding-left: 0;
   mask-image: none !important;
   -webkit-mask-image: none !important;
 }
@@ -69,15 +69,15 @@
   .documents-workspace-shell--embedded
     > .documents-grid.workspace-guide-panel-scroll
     > .workspace-scroll-back-button {
-    left: var(--workspace-subpage-back-left, 0.55rem) !important;
-    top: 0.05rem !important;
+    left: var(--workspace-subpage-back-left, 0.55rem);
+    top: 0.05rem;
   }
 
   .documents-workspace-shell--embedded
     > .documents-grid.workspace-guide-panel-scroll
     > .dashboard-info-trigger-corner {
-    right: var(--workspace-subpage-back-left, 0.55rem) !important;
-    top: 0.475rem !important;
+    right: var(--workspace-subpage-back-left, 0.55rem);
+    top: 0.475rem;
   }
 }
 
@@ -172,8 +172,8 @@
   background: var(--documents-surface-panel-bg) !important;
   border: none !important;
   box-shadow: var(--glass-shell-shadow, none) !important;
-  -webkit-backdrop-filter: var(--documents-glass-backdrop-filter, blur(var(--glass-blur-radius, 1rem))) !important;
-  backdrop-filter: var(--documents-glass-backdrop-filter, blur(var(--glass-blur-radius, 1rem))) !important;
+  -webkit-backdrop-filter: var(--documents-glass-backdrop-filter, blur(var(--glass-blur-radius, 1rem)));
+  backdrop-filter: var(--documents-glass-backdrop-filter, blur(var(--glass-blur-radius, 1rem)));
 }
 
 .documents-workspace-page--library:is(
@@ -182,9 +182,9 @@
 ) .documents-workspace-shell.workspace-guide-panel {
   background:
     var(--glass-ring-sheen, none),
-    var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))) !important;
-  -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
-  backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+    var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25)));
+  -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem));
+  backdrop-filter: blur(var(--glass-blur-radius, 1rem));
 }
 
 .documents-workspace-page--library:is(
@@ -196,7 +196,7 @@
   background: transparent !important;
   box-shadow: none !important;
   -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
+  backdrop-filter: none;
 }
 
 .documents-card {
@@ -633,9 +633,9 @@ html[data-contrast="hc"] .documents-workspace :is(
   .documents-select-card,
   .documents-content
 ) {
-  border: 2px solid rgba(255, 234, 0, 0.54) !important;
-  background: var(--documents-hc-panel-bg) !important;
-  box-shadow: none !important;
+  border: 2px solid rgba(255, 234, 0, 0.54);
+  background: var(--documents-hc-panel-bg);
+  box-shadow: none;
 }
 
 html[data-contrast="hc"] .documents-workspace :is(
@@ -648,7 +648,7 @@ html[data-contrast="hc"] .documents-workspace :is(
   .documents-notice,
   .documents-content
 ).\!border-0 {
-  border: 2px solid rgba(255, 234, 0, 0.54) !important;
+  border: 2px solid rgba(255, 234, 0, 0.54);
 }
 
 html[data-contrast="hc"] .documents-workspace .documents-panel-link,
