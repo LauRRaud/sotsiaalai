@@ -22,8 +22,9 @@ Kokku **3642** `!important` 87 autori-CSS-failis. Jaotus arhitektuuri-rühmade k
 ## Edenemine feature/faili kaupa (uuendatud 2026-06-16, sessioon 4 lõpus)
 
 **KOKKUVÕTE: 3642 → 1215 (−2427). Kõik 87 faili uuritud ≥1 korda. Odav oraakel-korje ammendunud.**
-**⚠ SESSIOON 6: "lukus"-otsused EI ole lõplikud — müra-põranda tehnika (HANDOFF §4a) avas
-service-map/desktop 118→104. Iga prior "GATE-1 RED" fail vajab müra-vaba-gate re-auditit.**
+**✅ SESSIOON 7 (2026-06-16): müra-põranda re-audit lõpetatud. policy/responsive.css (noise=0, PÄRIS)
++ chat/shell.css (noise=45, pärast lahutust PÄRIS border-muutused) — mõlemad kinnitatult lukus.
+Kõik prior "GATE-1 RED" failid on nüüd müra-vaba-gate'iga kontrollitud. 1215 on lõplik põhi.**
 
 Legend: ✅ tehtud · 🔒 blokeeritud (põhjus järel)
 
@@ -33,11 +34,11 @@ Legend: ✅ tehtud · 🔒 blokeeritud (põhjus järel)
 | `features/service-map/desktop.css` | 276 | 104 | −172 | ✅ sessioon 6 −14 (müra-põrand, `40a7892c`); ülejäänu = page-panel fixed-geomeetria + kontrakt |
 | `mobile/platform-android.css` | 98 | 98 | 0 | 🔒 gate testitud (sessioon 5): 94→65→21 STRIP erinevate keep-selektorite tasemel → kõik 21 geomeetria. **Täielikult lukus.** |
 | `features/chat/themes.css` | 93 | 92 | −1 | 🔒 kontrakt-lukus (256 oraakel-muster) |
-| `features/chat/shell.css` | 191 | 85 | −106 | 🔒 inputbar Tailwind-kaskaadi-lukk (transform) |
+| `features/chat/shell.css` | 191 | 59 | −132 | 🔒 sessioon 7 müra-audit: noise=45, pärast lahutust GATE-1 RED — border-color muutused chat-dictate/listen-btn dark/night/mono teemades; kõik 38 STRIP katab keep-selectors → lukus |
 | `features/service-map/mobile.css` | 81 | 77 | −4 | 🔒 kontrakt-lukus (0 STRIP) |
 | `mobile/scroll-panels.css` | 95 | 15 | −80 | 🔒 exhausted (kolm passi: 95→71→60→15); ülejäänu geomeetria-kontrakt |
 | `mobile/invite-workspace.css` | 101 | 63 | −38 | 🔒 0 STRIP, täielikult kontrakt-lukus |
-| `features/policy/responsive.css` | 65 | 62 | −3 | 🔒 geomeetria load-bearing (GATE-1 RED kõikides teemades) |
+| `features/policy/responsive.css` | 65 | 62 | −3 | 🔒 sessioon 7 müra-audit: noise=0 (deterministlik gate), GATE-1 RED kinnitatud PÄRIS — glass-policy-scroll max-height/margin/width px-muutused kõigis 6 teemas; geomeetria-kontrakt |
 | `features/home/desktop.css` | 52 | 49 | −3 | 🔒 kontrakt-lukus (0 STRIP teises passis) |
 | `features/policy/pages.css` | 38 | 38 | 0 | 🔒 0 STRIP (190 oraakel-muster) |
 | `shared/workspace-guide.css` | 92 | 33 | −59 | ✅ kaks passi (kaskaad vabastas) |

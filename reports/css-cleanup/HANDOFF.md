@@ -26,7 +26,11 @@ ja **jälg** (register) et poleks segadust mis tehtud. Kõik `main`-il (kasutaja
 otse-push). Väikesed gate'itud commitid.
 
 ## 2. Seis praegu
-- **Platvorm: 3642 → 1215 `!important` (−2427 kampaania jooksul, sessioon 3+4+5+6 kokku −645).**
+- **Platvorm: 3642 → 1215 `!important` (−2427 kampaania jooksul). Sessioon 7: 0 uut commiti.**
+- **Sessioon 7 (2026-06-16): müra-põranda re-audit lõpetatud — 0 uut commiti:**
+  - `chat/shell.css` (59): müra 45 rakku. Pärast lahutust: border-color PÄRIS. Kinnitatult lukus.
+  - `policy/responsive.css` (62): müra 0 rakku. GATE-1 RED PÄRIS geomeetria. Kinnitatult lukus.
+  - **Järeldus: odav oraakel-korje + müra-audit täielikult ammendunud. 1215 on lõplik põhi.**
 - **Sessioon 6 (2026-06-16, Opus):**
   - ✅ **service-map/desktop.css 118→104 (−14), commit `40a7892c`.** Prior "fully locked" oli VALE.
     Müra-põranda tehnika (§4a) tõestas: GATE-1 RED oli AINULT Leaflet/map async-müra
@@ -163,22 +167,40 @@ filters-shell + controls + result-button + leaflet-shell) andis 0 müra-põranda
   `--targets <fail>`, `--out`. Diff exit 0 = identne.
 - `important-autostrip.mjs`, `theme-strip-keepasserted.mjs` — varasemad katsed (oracle on parem).
 
-## 6. JÄRGMINE SAMM (sessioon 6 uuendus)
+## 6. JÄRGMINE SAMM (sessioon 7 uuendus — 2026-06-16)
 
-**🥇 PRIORITEET 1 — MÜRA-PÕRANDA RE-AUDIT (§4a, uus võit-allikas).** Iga fail, mis prior-
-sessioon märkis "GATE-1 RED → lukus", VAJAB üle-kontrolli müra-vaba gate'iga. service-map
-tõestas, et "lukus" võis olla AINULT async-müra. Kandidaadid (prior GATE-1 RED, potentsiaalselt müra):
-- `policy/responsive.css` (62, 47 STRIP) — `.glass-policy-scroll` laius/kõrgus/margin.
-  Gate olemas: `state/policy-responsive-gate.targets.json`. **POOLELI sessioon 6 lõpus** —
-  järgmine samm: HEAD×2 diff sellel gate'il, vaata kas glass-policy-scroll on scroll-settle-müra.
-  (Hoiatus: handoff väitis "kõikides teemades" mis viitaks PÄRIS-le, aga pole müra-vaba-gate'iga
-  kinnitatud — tee seda.)
-- `chat/shell.css` (59, 38 STRIP) — `.chat-dictate-btn`/`.chat-listen-btn` `transform: none`
-  ↔ `matrix(1,0,0,1,0,0)` = IDENTITY-müra (visuaalselt identne!). Border-muutused (rgba(0,0,0,0)
-  → valge) on PÄRIS. Strateegia: keep border-selektorid (send-btn, dictate-btn, listen-btn,
-  invite-primary-btn, back-icon), jäta transform mürast välja → võib jääda strippe.
-- chat/hc + profile/hc: re-kontrollitud sessioon 6, GATE-1 RED on PÄRIS (HC kollane äär/glow
-  muutub valgeks) — needsamad EI ole müra. Lukus jääb.
+**🥇 MÜRA-PÕRANDA RE-AUDIT LÕPETATUD.** Kõik prior "GATE-1 RED" failid auditeeritud
+müra-vaba gate'iga (commit `422965eb` automaatika). Tulemused:
+
+- `policy/responsive.css` (62, 47 STRIP) — **KINNITATULT LUKUS.** Müra-põrand = 0 rakku
+  (gate täiesti deterministlik). GATE-1 RED kinnitatud PÄRIS: `.glass-policy-scroll`
+  max-height/margin-top/margin-left/width muutuvad pixel-täpselt kõigis 6 teemas
+  (nt max-height: `calc(100%+63.744px)` → `calc(100%+27.2px)`, width: `738.9px`→`696.1px`).
+  47 kandidaati = kõik geomeetria-kontrakt. Ei committi.
+- `chat/shell.css` (59, 38 STRIP) — **KINNITATULT LUKUS.** Müra-põrand = 45 rakku
+  (/vestlus gate on mürakas). Pärast müra lahutust: GATE-1 RED jääb — `.chat-dictate-btn`
+  + `.chat-listen-btn` border-color muutub `rgba(0,0,0,0)` → `rgb(255,255,255)` dark/night/mono
+  teemades. Identity-transform müra lahendatud (auto-kanoniseeritud), AGA kõik 38 STRIP
+  kandidaati on border-selektorite all → keep-selectors katavad kõik. STRIP: 0 pärast keep →
+  fail lukus. Ei committi.
+- `chat/hc` + `profile/hc` — re-kontrollitud sessioon 6, GATE-1 RED PÄRIS (HC glow/border).
+  Lukus jääb.
+
+**Järeldus: müra-põranda re-audit ammendunud. 0 uut commiti (kõik prior-RED olid PÄRIS).
+Odav oraakel-korje on lõplikult ammendunud. 1215 `!important` on praegune põhi.**
+
+**🥈 PRIORITEET 2 — raske klass (3 tüüpi):**
+
+1. **INTERAKTSIOONI-GATED pinnad** (suurim) — modal/paneel/drawer/help-listings/invite
+   selektorid renderduvad ALLES klikiga. Üks-route ega mitme-route gate ei kata neid
+   (tõestatud: workspace-guide 17/29 absent isegi 6 route'iga). **Vaja FLOW-gate'i:**
+   css-snapshot `steps:[{click:...}]` et paneel avada, SIIS strip+gate. Failid:
+   glass-subpage (ülejäänud), workspace-guide (ülejäänud), mobile/ modal-failid.
+   **FLOW-GATE INFRA VALMIS:** `css-snapshot.mjs` `steps` toetab nüüd `{eval:"<js>"}`
+   (jooksutab koodi lehe-kontekstis). Drawer avaneb event'iga — flow-gate töötab:
+   ```
+   steps:[{waitFor:".chat-inputbar"},
+          {eval:"window.dispatchEvent(new CustomEvent('sotsiaalai:toggle-conversations',{detail:{open:true}}))"},
 
 **🥈 PRIORITEET 2 — raske klass (3 tüüpi):**
 
