@@ -182,12 +182,12 @@
     .invite-list-panel,
     .invite-list-row
   ) {
-  border-width: var(--subpage-card-border-width, 1px) !important;
-  border-style: solid !important;
-  border-color: var(--subpage-card-border, rgba(126, 95, 88, 0.18)) !important;
-  background: var(--subpage-card-bg, var(--workspace-elevated-card-bg, rgba(255, 255, 255, 0.72))) !important;
-  background-image: none !important;
-  box-shadow: var(--subpage-card-shadow, var(--workspace-elevated-card-shadow, 0 10px 24px rgba(38, 24, 22, 0.12))) !important;
+  border-width: var(--subpage-card-border-width, 1px);
+  border-style: solid;
+  border-color: var(--subpage-card-border, rgba(126, 95, 88, 0.18));
+  background: var(--subpage-card-bg, var(--workspace-elevated-card-bg, rgba(255, 255, 255, 0.72)));
+  background-image: none;
+  box-shadow: var(--subpage-card-shadow, var(--workspace-elevated-card-shadow, 0 10px 24px rgba(38, 24, 22, 0.12)));
 }
 
 :root:not(.theme-light):not(.theme-mid):not(.theme-night):not(.theme-mono):not([data-contrast="hc"])
@@ -195,13 +195,13 @@
 :root.theme-night .workspace-feature-panel.glass-subpage-surface {
   --subpage-card-bg:
     linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.035)),
-    color-mix(in srgb, var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))) 64%, transparent) !important;
-  --subpage-card-bg-hover: var(--subpage-card-bg) !important;
-  --input-bg: var(--subpage-card-bg) !important;
-  --input-bg-hover: var(--subpage-card-bg-hover) !important;
-  --input-bg-focus: var(--subpage-card-bg-hover) !important;
-  --opaque-panel-bg: var(--subpage-card-bg) !important;
-  --opaque-panel-bg-hover: var(--subpage-card-bg-hover) !important;
+    color-mix(in srgb, var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))) 64%, transparent);
+  --subpage-card-bg-hover: var(--subpage-card-bg);
+  --input-bg: var(--subpage-card-bg);
+  --input-bg-hover: var(--subpage-card-bg-hover);
+  --input-bg-focus: var(--subpage-card-bg-hover);
+  --opaque-panel-bg: var(--subpage-card-bg);
+  --opaque-panel-bg-hover: var(--subpage-card-bg-hover);
 }
 
 @media (min-width: 769px) {
@@ -310,9 +310,9 @@
   }
 
   .materials-page-shell {
-    justify-content: center !important;
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
+    justify-content: center;
+    padding-top: 0;
+    padding-bottom: 0;
   }
 
   .materials-page-content.glass-subpage-surface,
@@ -330,21 +330,21 @@
   }
 
   .materials-page-content.glass-subpage-surface {
-    padding-left: 1.35rem !important;
-    padding-right: 1.35rem !important;
-    padding-bottom: 1.25rem !important;
+    padding-left: 1.35rem;
+    padding-right: 1.35rem;
+    padding-bottom: 1.25rem;
   }
 
   .invite-modal-overlay.person-invite-modal-overlay:not(.invite-modal-overlay--workspace) {
-    align-items: center !important;
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
+    align-items: center;
+    padding-top: 0;
+    padding-bottom: 0;
   }
 
   .invite-modal-content.person-invite-modal-content.glass-subpage-surface:not(.invite-modal-content--workspace) {
-    padding-left: 1.35rem !important;
-    padding-right: 1.35rem !important;
-    padding-bottom: 1.25rem !important;
+    padding-left: 1.35rem;
+    padding-right: 1.35rem;
+    padding-bottom: 1.25rem;
   }
 }
 
@@ -399,27 +399,27 @@ html[data-contrast="hc"] .glass-subpage-surface::before {
       --dashboard-info-surface-background,
       var(--glass-ring-sheen, none),
       var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25)))
-    ) !important;
-  box-shadow: var(--dashboard-info-surface-shadow, var(--glass-shell-shadow, none)) !important;
-  -webkit-backdrop-filter: blur(var(--dashboard-info-blur, 1rem)) saturate(112%) !important;
-  backdrop-filter: blur(var(--dashboard-info-blur, 1rem)) saturate(112%) !important;
+    );
+  box-shadow: var(--dashboard-info-surface-shadow, var(--glass-shell-shadow, none));
+  -webkit-backdrop-filter: blur(var(--dashboard-info-blur, 1rem)) saturate(112%);
+  backdrop-filter: blur(var(--dashboard-info-blur, 1rem)) saturate(112%);
 }
 
 .dashboard-info-panel.workspace-guide-panel.glass-subpage-surface
   > .dashboard-info-content.workspace-guide-panel-scroll {
-  padding-left: clamp(1.4rem, 3vw, 2rem) !important;
-  padding-right: clamp(1.4rem, 3vw, 2rem) !important;
+  padding-left: clamp(1.4rem, 3vw, 2rem);
+  padding-right: clamp(1.4rem, 3vw, 2rem);
   padding-top: calc(
     var(--workspace-guide-panel-pad-top, 0.6rem) +
       var(--workspace-guide-panel-overscan-top) +
       var(--dashboard-info-title-wrap-extra-top, 0px)
-  ) !important;
+  );
 }
 
 .dashboard-info-panel--with-title-metrics
   .glass-subpage-title-wrap {
   padding-top: var(--dashboard-info-title-wrap-padding-top) !important;
-  padding-bottom: var(--dashboard-info-title-wrap-padding-bottom) !important;
+  padding-bottom: var(--dashboard-info-title-wrap-padding-bottom);
 }
 
 html[data-reduce-transparency="1"] .dashboard-info-panel.workspace-guide-panel.glass-subpage-surface {
