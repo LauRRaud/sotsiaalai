@@ -72,7 +72,7 @@
 }
 
 :root.theme-mid .homepage-root .home-about-title {
-  color: #7a3a38 !important;
+  color: #7a3a38;
 }
 
 :root.theme-mid .home-scroll-cue .home-scroll-cue-mouse,
@@ -81,7 +81,7 @@
 }
 
 :root.theme-mid .home-footer-logo {
-  opacity: 0.58 !important;
+  opacity: 0.58;
 }
 
 /* ===== default/dark home overrides (extracted 1:1 from theme/dark.css) ===== */
@@ -114,7 +114,7 @@
 /* ===== theme-night home overrides (extracted 1:1 from theme/night.css) ===== */
 
 :root.theme-night .home-footer-logo {
-  opacity: 0.62 !important;
+  opacity: 0.62;
 }
 
 /* ===== theme-mono home overrides (extracted 1:1 from theme/mono.css) ===== */
@@ -142,7 +142,7 @@
 
 :root.theme-mono:not([data-contrast="hc"]) .homepage-root .home-before-links .home-quick-link,
 :root.theme-mono:not([data-contrast="hc"]) .homepage-root .home-before-links .home-quick-link svg {
-  color: var(--forest-title) !important;
+  color: var(--forest-title);
   text-shadow: 0 0 14px rgba(197, 113, 113, 0.12);
 }
 

@@ -43,8 +43,8 @@
       rgba(50, 50, 50, 0.84) 0%,
       rgba(36, 36, 36, 0.88) 54%,
       rgba(24, 24, 24, 0.94) 100%
-    ) !important;
-  border: none !important;
+    );
+  border: none;
   --pin-gloss-op: 0.08;
 }
 
