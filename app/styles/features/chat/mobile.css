@@ -115,12 +115,12 @@
     background-color: transparent !important;
     background-image: none !important;
     -webkit-backdrop-filter: none !important;
-    backdrop-filter: none !important;
+    backdrop-filter: none;
   }
 
   .chat-page-shell .chat-container[data-chat-layout="mobile"].chat-container--workspace-open {
-    padding-right: 0 !important;
-    padding-left: 0 !important;
+    padding-right: 0;
+    padding-left: 0;
   }
 
   .chat-page-shell .chat-container[data-chat-layout="mobile"] .chat-mask-tilt-fallback {
@@ -128,20 +128,20 @@
     background:
       var(--glass-ring-sheen, none),
       var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))) !important;
-    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
-    backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
-    -webkit-mask-image: var(--chat-input-hole-mask, none) !important;
-    mask-image: var(--chat-input-hole-mask, none) !important;
-    -webkit-mask-size: 100% 100% !important;
-    mask-size: 100% 100% !important;
-    -webkit-mask-repeat: no-repeat !important;
-    mask-repeat: no-repeat !important;
-    contain: none !important;
-    isolation: auto !important;
-    will-change: auto !important;
-    transform: none !important;
-    -webkit-transform: none !important;
-    backface-visibility: visible !important;
+    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem));
+    backdrop-filter: blur(var(--glass-blur-radius, 1rem));
+    -webkit-mask-image: var(--chat-input-hole-mask, none);
+    mask-image: var(--chat-input-hole-mask, none);
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    contain: none;
+    isolation: auto;
+    will-change: auto;
+    transform: none;
+    -webkit-transform: none;
+    backface-visibility: visible;
 
   }
 
@@ -284,11 +284,11 @@
     padding-bottom: max(
       0px,
       calc((var(--chat-composer-dynamic-extra, 0px) * 0.45) - 0.35rem)
-    ) !important;
+    );
     scroll-padding-bottom: max(
       0px,
       calc((var(--chat-composer-dynamic-extra, 0px) * 0.45) - 0.35rem)
-    ) !important;
+    );
   }
 
   html[data-platform="android"] .chat-input-row:not(.chat-input-row--embedded),
