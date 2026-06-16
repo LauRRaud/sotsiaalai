@@ -70,15 +70,15 @@
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .documents-workspace :is(.documents-field, .documents-dropdown-trigger, .documents-form-input, .documents-agent-textarea) {
-  background: var(--forest-input-surface) !important;
-  border-color: rgba(var(--mono-mid-rgb), 0.16) !important;
-  box-shadow: var(--mono-field-hole-shadow) !important;
-  color: var(--forest-highlight) !important;
+  background: var(--forest-input-surface);
+  border-color: rgba(var(--mono-mid-rgb), 0.16);
+  box-shadow: var(--mono-field-hole-shadow);
+  color: var(--forest-highlight);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .documents-workspace :is(.documents-field, .documents-dropdown-trigger, .documents-form-input, .documents-agent-textarea):is(:hover, :focus-visible, :focus-within, .is-open) {
-  background: var(--forest-input-surface-hover) !important;
-  box-shadow: var(--mono-field-hole-shadow-hover) !important;
+  background: var(--forest-input-surface-hover);
+  box-shadow: var(--mono-field-hole-shadow-hover);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) :is(.documents-workspace .documents-dropdown-menu, .documents-dropdown-menu.documents-dropdown-menu--portal:not(.pre-inquiry-dropdown-menu)) {
