@@ -93,7 +93,7 @@
   -webkit-text-fill-color: var(--forest-title);
 }
 :root.theme-mono:not([data-contrast="hc"]) .chat-tools-surface-popover {
-  background: var(--forest-tooltip-surface) !important;
+  background: var(--forest-tooltip-surface);
   color: var(--rail-tooltip-text, var(--subpage-card-text));
   border: 0 !important;
   box-shadow: 0 10px 22px rgba(7, 7, 7, 0.3);
@@ -103,7 +103,7 @@
 
 :root.theme-mono:not([data-contrast="hc"]) #login-modal .login-help-popover {
   background: var(--forest-tooltip-surface) !important;
-  color: var(--forest-highlight) !important;
+  color: var(--forest-highlight);
   border: 0;
   box-shadow: 0 10px 22px rgba(7, 7, 7, 0.3);
   -webkit-backdrop-filter: none;
