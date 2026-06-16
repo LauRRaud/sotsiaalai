@@ -21,7 +21,7 @@
   :root.theme-night .homepage-root .home-about-panel {
     box-shadow:
       0 0 12px rgba(190, 220, 255, 0.18),
-      0 0 24px rgba(120, 168, 230, 0.08) !important;
+      0 0 24px rgba(120, 168, 230, 0.08);
   }
 }
 
@@ -33,11 +33,11 @@
     .materials-admin-row,
     .materials-comment-box
   ) {
-  background: var(--workspace-elevated-card-bg) !important;
+  background: var(--workspace-elevated-card-bg);
   border: 0 !important;
   box-shadow: none !important;
   -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
+  backdrop-filter: none;
 }
 
 /* .invite-glow-panel.invite-list-panel and .help-listings-panel night
@@ -50,7 +50,7 @@
     .invite-modal-content,
     .materials-page-content
   ) {
-  background: var(--glass-surface-bg) !important;
+  background: var(--glass-surface-bg);
 }
 
 /* Materials page in night mode: keep blue palette but remove panel glow artifacts. */

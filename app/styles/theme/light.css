@@ -13,7 +13,7 @@
 
 :root.theme-light:not(.theme-mid) .homepage-root .right-card-primary .desc-ring-right .circular-text-line,
 :root.theme-light:not(.theme-mid) .homepage-root .centered-back-right h2 {
-  color: rgba(230, 229, 227, 0.84) !important;
+  color: rgba(230, 229, 227, 0.84);
 }
 
 :root.theme-light:not(.theme-mid) .homepage-root .centered-back-right h2 {
@@ -36,7 +36,7 @@
       0 9px 16px rgba(0, 0, 0, 0.16),
       inset 0 0 0 var(--pin-border-w) rgba(var(--light-white-rgb), 0.54),
       inset 0 1px 0 rgba(var(--light-white-rgb), 0.68),
-      inset 0 -1px 0 rgba(0, 0, 0, 0.1) !important;
+      inset 0 -1px 0 rgba(0, 0, 0, 0.1);
   }
 
   :root.theme-light:not(.theme-mid)
@@ -47,16 +47,16 @@
       0 11px 18px rgba(0, 0, 0, 0.17),
       inset 0 0 0 var(--pin-border-w) rgba(var(--light-white-rgb), 0.58),
       inset 0 1px 0 rgba(var(--light-white-rgb), 0.74),
-      inset 0 -1px 0 rgba(0, 0, 0, 0.11) !important;
+      inset 0 -1px 0 rgba(0, 0, 0, 0.11);
   }
 }
 
 /* OTP in true light theme: keep text dark on light glass surfaces. */
 :root.theme-light:not(.theme-mid) .login-modal-box.login-modal--otp .login-modal-shell {
-  background: var(--glass-modal-bg, var(--glass-surface-bg, rgba(var(--light-white-rgb), 0.52))) !important;
-  color: #1f2937 !important;
-  border: var(--glass-modal-border, none) !important;
-  box-shadow: var(--glass-modal-shadow, none) !important;
+  background: var(--glass-modal-bg, var(--glass-surface-bg, rgba(var(--light-white-rgb), 0.52)));
+  color: #1f2937;
+  border: var(--glass-modal-border, none);
+  box-shadow: var(--glass-modal-shadow, none);
 }
 
 /* OTP explanatory copy must stay dark in light mode (desktop + mobile). */
@@ -64,20 +64,20 @@
   .login-modal-box.login-modal--otp
   .login-modal-shell
   p {
-  color: #1f2937 !important;
+  color: #1f2937;
 }
 :root.theme-light .drawer-panel .drawer-chat-sidebar [data-variant="primary"] {
   -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
-  background: var(--btn-primary-bg) !important;
-  border: var(--btn-primary-border) !important;
-  box-shadow: var(--btn-primary-shadow) !important;
+  backdrop-filter: none;
+  background: var(--btn-primary-bg);
+  border: var(--btn-primary-border);
+  box-shadow: var(--btn-primary-shadow);
 }
 :root.theme-light
   .drawer-panel
   .drawer-chat-sidebar
   [data-variant="primary"]::before {
-  background: var(--btn-primary-bg-hover) !important;
+  background: var(--btn-primary-bg-hover);
 }
 
 html[data-ui-scale="mac"].theme-light,

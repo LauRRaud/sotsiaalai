@@ -63,7 +63,7 @@
     calc(100lvh + env(safe-area-inset-bottom, 0px))
   );
   z-index: 0;
-  pointer-events: none !important;
+  pointer-events: none;
   background-color: transparent;
   background-image: none;
 }
@@ -71,7 +71,7 @@
 [data-bg-layer],
 [data-bg-layer] *,
 [data-bg-layer] canvas {
-  pointer-events: none !important;
+  pointer-events: none;
 }
 [data-bg-layer] .bg-space-layer {
   z-index: 0;
@@ -164,7 +164,7 @@
 :root.theme-light:not(.theme-mid) [data-bg-layer],
 :root.theme-light:not(.theme-mid) [data-bg-layer] .bg-space-layer,
 :root.theme-light:not(.theme-mid) [data-bg-layer] .space-backdrop {
-  background: linear-gradient(180deg, #f4f2ee 0%, #e9e6df 100%) !important;
+  background: linear-gradient(180deg, #f4f2ee 0%, #e9e6df 100%);
 }
 
 :root.theme-light:not(.theme-mid) [data-bg-layer] .space-backdrop::before,
@@ -174,7 +174,7 @@
 
 html[data-reduce-motion="1"] [data-bg-layer] .bg-bends-layer,
 html[data-reduce-motion="1"] [data-bg-layer] .bg-particles-layer {
-  transition: none !important;
+  transition: none;
 }
 
 html[data-theme-switching="1"] [data-bg-layer] .bg-bends-layer {
