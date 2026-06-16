@@ -39,6 +39,15 @@ ko-lokeeritud 804 = SAMA profiil kui app/styles (WAR + surnud droppable), `:glob
 - `808b1b59`: `.surface margin-left/right: auto + justify-self/align-self: center !important` → redundantne (`.surface` kannab
   Tailwind `mx-auto`; moodul võidab niikuinii). `.surface` width/height (workspace-glass geomeetria) JÄETI (kontrakt vs glass-subpage shell).
 Gate (covision, /kovisioon, e2e, noise-floor lahutatud): GATE-1 ✓ identical (kõik selektorid × 6 teemat × 390/1920), GATE-2 0 uut.
+
+### SESSIOON 8 lisa — AUTOMATISEERIMINE: `scripts/css-cleanup/auto-loop.mjs` (`73a7a94e`)
+Orkestraator, et `!important`-sweep ei käiks ükshaaval: per fail baseline+noise → resolver-audit → konservatiivne autostrip → gate → revert-kui-punane. Üks käsk/fail.
+**⚠ KRIITILINE ÕPPETUND (parandab ka KÄSITSI-meetodit):**
+- `npm test` **exit-koodi EI saa usaldada** — projektil on püsiv baseline-kukkujate hulk (case-tasemel **14**, file-tasemel 11) → exit alati punane.
+- **Kukkuvate-FAILIDE võrdlus (`comm -13` failidel) on PUUDULIK** — strip võib lõhkuda VÄRSKE assert'i juba-kukkuvas failis (failihulk ei muutu). Tõestatud: shell.css `inline-grid !important` strip → file-set 0 uut, AGA `hcSurfaceContracts:47` grep'ib seda markerit.
+- **ÕIGE GATE-2 = kukkuvate test-CASE-nimede hulga diff** baseline'i vastu (`reports/css-cleanup/state/test-case-baseline.txt`, 14 juhtumit). Ainult päris-uus juhtum = punane. auto-loop teeb seda nüüd; **edaspidi käsitsi ka case-tasemel, mitte file-tasemel.**
+- **Allesjääv lünk:** case-gate ei näe markerit, mida juba-kukkuv kontrakt grep'ib (juhtum on punane niikuinii). Enne `--commit`: `grep tests/` selektorit; kui kontrakt viitab, jäta (nt shell.css inline-grid jäeti).
+- Piirang: gate animatsiooni-pime (ära auto-stripi box-shadow/transition glow-pindadel); vajab nähtavaid selektoreid route'il.
 - **KORDUV B1-MUSTER (oluline):** moodul-CSS layout-`!important`, mis võistleb AINULT Tailwind-utiliitidega
   (`.w-full`/`.w-screen`/`.max-w-[…]`, kõik non-important), on **REDUNDANTNE** — kihistamata moodul võidab kihistatud
   Tailwindi niikuinii (kaskaadi-kihi reegel). Resolver lipustab need "IMPORTANT-WAR" (sama-spec Tailwind), AGA see on
