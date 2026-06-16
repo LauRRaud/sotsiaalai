@@ -37,12 +37,12 @@
 }
 
 :root.theme-light:not(.theme-mid) body.homepage {
-  background: linear-gradient(180deg, #f4f2ee 0%, #e9e6df 100%) !important;
+  background: linear-gradient(180deg, #f4f2ee 0%, #e9e6df 100%);
 }
 
 :root.theme-light:not(.theme-mid) body.homepage .homepage-root {
-  background: transparent !important;
-  background-image: none !important;
+  background: transparent;
+  background-image: none;
 }
 
 /* ===== theme-mid home overrides (extracted 1:1 from theme/mid.css) ===== */
@@ -172,6 +172,6 @@
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .homepage-root .home-about-title {
-  color: var(--forest-title) !important;
-  -webkit-text-fill-color: var(--forest-title) !important;
+  color: var(--forest-title);
+  -webkit-text-fill-color: var(--forest-title);
 }
