@@ -1,18 +1,18 @@
 /* Homepage-only mobile rules. Desktop/shared homepage CSS stays in app/styles/components/home.css. */
 @media (max-width: 768px) {
   body.homepage .homepage-root {
-    height: auto !important;
-    min-height: var(--home-mobile-canvas-height, var(--glass-mobile-root-vh, 100dvh)) !important;
-    max-height: none !important;
-    overflow-x: hidden !important;
-    overflow-y: auto !important;
+    height: auto;
+    min-height: var(--home-mobile-canvas-height, var(--glass-mobile-root-vh, 100dvh));
+    max-height: none;
+    overflow-x: hidden;
+    overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior-y: contain;
   }
 
   .homepage-root .home-footer-logo-wrap {
-    margin-top: clamp(1rem, 3.4vh, 2.2rem) !important;
-    margin-bottom: max(env(safe-area-inset-bottom, 0px), 0.35rem) !important;
+    margin-top: clamp(1rem, 3.4vh, 2.2rem);
+    margin-bottom: max(env(safe-area-inset-bottom, 0px), 0.35rem);
   }
 
   .homepage-root > div > footer {
@@ -34,15 +34,15 @@
     --home-mobile-quick-gap: clamp(0.12rem, 1.35vw, 0.38rem);
     --home-mobile-quick-list-pad-top: clamp(0.92rem, 4.2vw, 1.25rem);
     --home-mobile-quick-list-pad-bottom: clamp(0.28rem, 1.6vw, 0.44rem);
-    width: 100vw !important;
+    width: 100vw;
     max-width: none !important;
-    margin-left: calc(50% - 50vw) !important;
-    margin-right: calc(50% - 50vw) !important;
-    margin-bottom: -0.85rem !important;
-    overflow-x: clip !important;
-    overflow-y: visible !important;
-    padding-inline: 0 !important;
-    padding-bottom: 0 !important;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    margin-bottom: -0.85rem;
+    overflow-x: clip;
+    overflow-y: visible;
+    padding-inline: 0;
+    padding-bottom: 0;
   }
 
   .homepage-root .home-before-carousel-arrow {
@@ -103,14 +103,14 @@
   }
 
   .homepage-root .home-before-link-list {
-    display: flex !important;
-    grid-template-columns: none !important;
-    flex-wrap: nowrap !important;
-    justify-content: flex-start !important;
-    align-items: flex-start !important;
-    gap: var(--home-mobile-quick-gap) !important;
-    overflow-x: auto !important;
-    overflow-y: hidden !important;
+    display: flex;
+    grid-template-columns: none;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: var(--home-mobile-quick-gap);
+    overflow-x: auto;
+    overflow-y: hidden;
     overscroll-behavior-x: contain;
     overscroll-behavior-y: none;
     scroll-snap-type: x mandatory;
@@ -133,7 +133,7 @@
     );
     padding: var(--home-mobile-quick-list-pad-top)
       max(1.05rem, calc(50vw - (var(--home-mobile-quick-item) / 2)))
-      var(--home-mobile-quick-list-pad-bottom) !important;
+      var(--home-mobile-quick-list-pad-bottom);
   }
 
   .homepage-root .home-before-link-list:focus-visible {
@@ -146,21 +146,21 @@
   }
 
   .homepage-root .home-before-link-item {
-    flex: 0 0 var(--home-mobile-quick-item) !important;
-    width: var(--home-mobile-quick-item) !important;
-    min-width: var(--home-mobile-quick-item) !important;
-    min-height: calc(var(--home-mobile-quick-icon-active) + clamp(2.6rem, 9vw, 3.05rem)) !important;
+    flex: 0 0 var(--home-mobile-quick-item);
+    width: var(--home-mobile-quick-item);
+    min-width: var(--home-mobile-quick-item);
+    min-height: calc(var(--home-mobile-quick-icon-active) + clamp(2.6rem, 9vw, 3.05rem));
     scroll-snap-align: center;
-    padding-bottom: 1.9rem !important;
+    padding-bottom: 1.9rem;
     opacity: 1;
     visibility: visible;
-    transform: translate3d(0, 0, 0) !important;
+    transform: translate3d(0, 0, 0);
     transition: opacity 160ms ease-out;
   }
 
   .homepage-root .home-before-link-item[data-quick-visibility="hidden"] {
     opacity: 0 !important;
-    pointer-events: none !important;
+    pointer-events: none;
   }
 
   .homepage-root
@@ -172,73 +172,73 @@
   }
 
   .homepage-root .home-before-link-item:is(:first-child, :last-child) {
-    justify-self: auto !important;
+    justify-self: auto;
   }
 
   .homepage-root .home-before-link-item .home-quick-link {
-    width: var(--home-mobile-quick-icon-active) !important;
-    height: var(--home-mobile-quick-icon-active) !important;
-    align-items: center !important;
-    justify-content: center !important;
+    width: var(--home-mobile-quick-icon-active);
+    height: var(--home-mobile-quick-icon-active);
+    align-items: center;
+    justify-content: center;
   }
 
   .homepage-root .home-before-link-item .home-quick-link svg {
-    width: var(--home-mobile-quick-icon) !important;
-    height: var(--home-mobile-quick-icon) !important;
+    width: var(--home-mobile-quick-icon);
+    height: var(--home-mobile-quick-icon);
     overflow: visible !important;
-    opacity: 0.68 !important;
-    transform: none !important;
+    opacity: 0.68;
+    transform: none;
     transform-origin: center;
     will-change: opacity, transform;
     transition:
       opacity 140ms ease-out,
-      transform 180ms cubic-bezier(0.22, 0.61, 0.36, 1) !important;
+      transform 180ms cubic-bezier(0.22, 0.61, 0.36, 1);
   }
 
   .homepage-root .home-before-link-item[data-active="true"] .home-quick-link svg {
-    opacity: 1 !important;
-    transform: scale(1.12) !important;
+    opacity: 1;
+    transform: scale(1.12);
   }
 
   .homepage-root .home-before-link-item .home-quick-label {
-    position: absolute !important;
-    top: calc(var(--home-mobile-quick-icon-active) + 0.36rem) !important;
-    left: 50% !important;
-    width: max-content !important;
-    max-width: 10.8rem !important;
-    min-height: 1.2em !important;
-    margin-top: 0 !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-    white-space: nowrap !important;
-    text-align: center !important;
-    font-size: clamp(1.46rem, 6vw, 1.68rem) !important;
-    line-height: 1.12 !important;
-    letter-spacing: 0.075em !important;
-    text-wrap: nowrap !important;
-    opacity: 0 !important;
-    animation: none !important;
-    background: none !important;
-    color: color-mix(in srgb, var(--home-link-color, var(--brand-primary, #c57171)) 82%, transparent) !important;
-    -webkit-text-fill-color: currentColor !important;
-    transform: translate3d(-50%, 0, 0) !important;
+    position: absolute;
+    top: calc(var(--home-mobile-quick-icon-active) + 0.36rem);
+    left: 50%;
+    width: max-content;
+    max-width: 10.8rem;
+    min-height: 1.2em;
+    margin-top: 0;
+    margin-left: auto;
+    margin-right: auto;
+    white-space: nowrap;
+    text-align: center;
+    font-size: clamp(1.46rem, 6vw, 1.68rem);
+    line-height: 1.12;
+    letter-spacing: 0.075em;
+    text-wrap: nowrap;
+    opacity: 0;
+    animation: none;
+    background: none;
+    color: color-mix(in srgb, var(--home-link-color, var(--brand-primary, #c57171)) 82%, transparent);
+    -webkit-text-fill-color: currentColor;
+    transform: translate3d(-50%, 0, 0);
     transform-origin: 50% 0;
     will-change: opacity;
-    transition: opacity 110ms ease-out !important;
+    transition: opacity 110ms ease-out;
   }
 
   .homepage-root .home-before-link-item .home-quick-label::after {
-    content: none !important;
+    content: none;
   }
 
   .homepage-root .home-before-link-item[data-active="true"] .home-quick-label {
-    opacity: 1 !important;
-    transform: translate3d(-50%, 0, 0) !important;
-    transition: opacity 150ms ease-out !important;
+    opacity: 1;
+    transform: translate3d(-50%, 0, 0);
+    transition: opacity 150ms ease-out;
   }
 
   .homepage-root .home-before-links + * {
-    margin-top: 0 !important;
+    margin-top: 0;
   }
 }
 
@@ -264,16 +264,16 @@
   }
 
   .homepage-root .home-about-panel {
-    height: auto !important;
+    height: auto;
     max-height: calc(
       var(--glass-mobile-root-vh, 100dvh) - var(--mobile-safe-top, env(safe-area-inset-top, 0px)) -
         var(--mobile-safe-bottom, env(safe-area-inset-bottom, 0px)) - clamp(2.4rem, 10vh, 4.6rem)
-    ) !important;
-    overflow: hidden !important;
+    );
+    overflow: hidden;
   }
 
   .homepage-root .home-about-scrollbox {
-    height: auto !important;
+    height: auto;
     max-height: min(
       var(--about-scroll-max-height, 76vh),
       calc(
@@ -282,12 +282,12 @@
           var(--mobile-safe-bottom, env(safe-area-inset-bottom, 0px)) -
           clamp(4.6rem, 13vh, 6.8rem)
       )
-    ) !important;
-    overflow-x: hidden !important;
-    overflow-y: auto !important;
-    overscroll-behavior: contain !important;
-    -webkit-overflow-scrolling: touch !important;
-    touch-action: pan-y !important;
+    );
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
   }
 }
 
@@ -296,9 +296,9 @@
     .homepage-root
     .three-d-card,
   body.homepage[data-a11y-scroll-lock="1"] .homepage-root .three-d-card {
-    opacity: 0 !important;
-    visibility: hidden !important;
-    pointer-events: none !important;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
   }
 
 }
