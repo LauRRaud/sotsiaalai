@@ -331,16 +331,16 @@
 }
 
 :root.theme-light .documents-workspace-page--library .documents-agent-composer-slot .chat-inputbar .chat-send-btn {
-  background: var(--chat-action-btn-bg-hover) !important;
-  border: var(--chat-action-btn-border) !important;
-  box-shadow: var(--chat-action-btn-shadow-focus) !important;
+  background: var(--chat-action-btn-bg-hover);
+  border: var(--chat-action-btn-border);
+  box-shadow: var(--chat-action-btn-shadow-focus);
 }
 
 .documents-agent-composer-slot .chat-inputbar:hover:not(:focus-within),
 .documents-agent-composer-slot .chat-inputbar:focus-within {
-  border: 1px solid var(--documents-agent-composer-border, var(--subpage-card-border-hover, var(--subpage-card-border))) !important;
-  background: var(--documents-agent-composer-bg-hover, var(--documents-agent-composer-bg, var(--subpage-card-bg-hover, var(--subpage-card-bg)))) !important;
-  box-shadow: var(--documents-agent-composer-shadow-hover, var(--documents-agent-composer-shadow, var(--subpage-card-shadow-hover, var(--subpage-card-shadow)))) !important;
+  border: 1px solid var(--documents-agent-composer-border, var(--subpage-card-border-hover, var(--subpage-card-border)));
+  background: var(--documents-agent-composer-bg-hover, var(--documents-agent-composer-bg, var(--subpage-card-bg-hover, var(--subpage-card-bg))));
+  box-shadow: var(--documents-agent-composer-shadow-hover, var(--documents-agent-composer-shadow, var(--subpage-card-shadow-hover, var(--subpage-card-shadow))));
 }
 
 .documents-agent-composer-slot .chat-input-field {
@@ -349,8 +349,8 @@
 }
 
 .documents-agent-composer-slot .chat-inputbar:not(:focus-within) .chat-input-field {
-  padding-top: 0.28rem !important;
-  padding-bottom: 0.12rem !important;
+  padding-top: 0.28rem;
+  padding-bottom: 0.12rem;
 }
 
 .documents-agent-glow-window,
@@ -360,7 +360,7 @@
   margin-inline: auto;
   background:
     linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.035)),
-    color-mix(in srgb, var(--glass-ring-surface-bg, rgba(0, 0, 0, 0.25)) 64%, transparent) !important;
+    color-mix(in srgb, var(--glass-ring-surface-bg, rgba(0, 0, 0, 0.25)) 64%, transparent);
   border-color: color-mix(in srgb, var(--documents-agent-thread-border, var(--subpage-card-border)) 82%, transparent);
   box-shadow:
     inset 0 0 0 1px rgba(255, 255, 255, 0.08),
@@ -376,7 +376,7 @@
 .documents-agent-glow-composer:focus-within {
   background:
     linear-gradient(145deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.052)),
-    color-mix(in srgb, var(--glass-ring-surface-bg, rgba(0, 0, 0, 0.25)) 60%, transparent) !important;
+    color-mix(in srgb, var(--glass-ring-surface-bg, rgba(0, 0, 0, 0.25)) 60%, transparent);
   box-shadow:
     inset 0 0 0 1px rgba(255, 255, 255, 0.14),
     0 6px 13px rgba(0, 0, 0, 0.14) !important;
