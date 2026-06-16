@@ -26,6 +26,14 @@ Kaustade restruktuuri-plaan (sessioon 8): [css-styles-restructure-plan.md](../cs
 (3) auditeeri 804 ko-lokeeritut (pime nurk); (4) struktuurne lõppmäng = CSS-moodulite skoopimine + `:global` koristus
 → kaskaadi-sõjad kaovad → `!important` langeb kõrvalsaadusena.
 
+**✅ B1 DEMO (2026-06-16, kasutaja andis SNAPSHOT_SESSION + e2e-konto):** auth-taga audit AVATUD.
+Resolver `.covision-glow-field` peal /kovisioon'il: **3-poolne IMPORTANT-WAR** — `ui-glow.css .ui-glow-field`
+gradient võidab enamikus teemades, `CovisionPage.module.css var(--covision-field-bg)` võidab HC-s; **15 removal-
+kandidaati** (surnud), neist mitu CovisionPage enda `!important` (hc-field-bg/none duplikaadid). Kinnitab:
+ko-lokeeritud 804 = SAMA profiil kui app/styles (WAR + surnud droppable), `:global`-reeglid võistlevad ui-glow'ga
+(moodul pole isoleeritud). Auth: `tmp-create-login-token.mjs` (e2e.call.owner) VÕI SNAPSHOT_SESSION cookie →
+`css-important-overrides.mjs --route <auth-route> --token/SNAPSHOT_SESSION`. Edasi = per-fail B1 audit fokusseeritud sessioonis.
+
 ## Lähteseis (staatiline, 2026-06-15)
 
 Kokku **3642** `!important` 87 autori-CSS-failis. Jaotus arhitektuuri-rühmade kaupa:
