@@ -29,11 +29,11 @@ otse-push). Väikesed gate'itud commitid.
   - `shared/ui-glow.css` (118) — POLIITIKA-LUKK (canonical-button-look, ÄRA PUUTU)
   - `service-map/desktop.css` (118) — position+kontrakt-lukk (keep-selectors annab 0 STRIP)
   - `mobile/platform-android.css` (98) — Android-only, gate puudub, ei saa verifitseerida
-  - `features/chat/shell.css` (85) — inputbar Tailwind-kaskaadi-lukk (transform: none)
+  - `features/chat/shell.css` (85) — Tailwind transform cascade: 64 STRIP kaskaadiga vabastatud, kuid GATE-1 RED: `.chat-listen-btn | transform: none → matrix(1,0,0,1,0,0)` dark/night/mono/hc teemades. Keep-selectors "chat-listen-btn" → 27 STRIP, kuid sama probleem. "chat-inputbar" → 0 STRIP (liiga lai). Kaudne kaskaadikoosmõju (ei ole direct transform-reegel — Tailwind võidab pärast muude `!important` eemaldust)
   - `features/service-map/mobile.css` (77) — kontrakt-lukus (0 STRIP keep-selectors'iga)
   - `mobile/scroll-panels.css` (15) — exhausted (kolm passi: 95→71→60→15); ülejäänu geomeetria-kontrakt
   - `mobile/invite-workspace.css` (63) — 0 STRIP, täielikult kontrakt-lukus
-  - `features/policy/responsive.css` (62) — geomeetria load-bearing (CHANGED kõikides teemades)
+  - `features/policy/responsive.css` (62) — geomeetria load-bearing: 47 STRIP kaskaadiga vabastatud, kuid GATE-1 RED: `.glass-policy-scroll` laius/kõrgus/margin muutub kõikides teemades ja viewport'ides. Keep-selectors geomeetria-selektoritele → 0 STRIP (kõik 62 reeglit on geomeetria-lukus)
   - `features/chat/hc.css` (29) — HC inputbar border + kontrakt-lukus (keep-selectors → 0)
   - `features/chat/mobile.css` (14) — kontrakt-lukus (pärast teist passi)
   - `features/profile/hc.css` (28) — orbit-menu kontrakt + oracle blind spot + HC bundle interferents: 23 STRIP katse GATE-1 ✓ kuid GATE-2 RED (workspaceHeaderAlignment), reverditud
@@ -149,8 +149,10 @@ capture 2× → CHANGED-lõige tühi.
 
 ## 8. SESSIOONI COMMITID (main)
 ```
-# autonoomne sessioon 4 (16.06): profile/hc.css 23-STRIP GATE-2 RED → reverditud; dok uuendatud 1306→1255
-# (ei ole uusi CSS commite; ainult HANDOFF+ledger+mälu uuendus)
+# autonoomne sessioon 4 (16.06): täisrescan — kõik 87 faili, 0 uut commiti
+# Leiud: chat/shell 64 STRIP (Tailwind transform blokeering), policy/resp 47 STRIP (geomeetria)
+# profile/hc 23 STRIP GATE-2 RED (workspaceHeaderAlignment HC bundle) → reverditud
+# Dok: 1306→1255 parandus + uued blokeeringu kirjeldused HANDOFF+ledger+mälu
 
 # autonoomne sessioon 3 (16.06): kaskaad-teised-passid + uued failid
 67c2799b home/themes 10->6 (-4) + profile/mono 4->2 (-2) kaskaad
