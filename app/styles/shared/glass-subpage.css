@@ -355,7 +355,7 @@
   }
 }
 html[data-contrast="hc"] .glass-subpage-surface::before {
-  display: none !important;
+  display: none;
 }
 
 .workspace-guide-panel.glass-subpage-surface {
