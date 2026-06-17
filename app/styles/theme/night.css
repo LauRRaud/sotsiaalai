@@ -75,3 +75,209 @@
 
 /* OTP overrides were byte-identical to the default-dark rules; consolidated
    into theme/dark.css (etapp 6c) by dropping its :not(.theme-night). */
+
+/* ===== token defs merged 1:1 from tokens/theme-night.css (session 8 consolidation) ===== */
+/* tokens/theme-night.css — night teema tokeniblokk
+ * Migreeritud siia app/styles/theme/night.css-ist (Rada B token-viilud, viil 2.3).
+ * globals.css laadib selle PÄRAST theme/night.css-i — sama :root.theme-night blokk siin
+ * asendab (mitte ei topelda) theme-faili ploki. */
+:root.theme-night {
+  --glass-surface-bg: rgba(13, 17, 24, 0.35);
+  --glass-ring-surface-bg: rgba(16, 21, 31, 0.41);
+  --glass-ring-edge-stroke-width-desktop: 1.34px;
+  --glass-ring-edge-stroke-opacity-desktop: 0.76;
+  --glass-ring-edge-stroke-blur-desktop: 0.14px;
+  --glass-ring-edge-stroke-desktop: conic-gradient(
+    from -104deg at 50% 50%,
+    rgba(214, 231, 255, 0) 0deg,
+    rgba(214, 231, 255, 0) 14deg,
+    rgba(214, 231, 255, 0.026) 26deg,
+    rgba(214, 231, 255, 0.095) 38deg,
+    rgba(214, 231, 255, 0.2) 46deg,
+    rgba(214, 231, 255, 0.34) 54deg,
+    rgba(214, 231, 255, 0.44) 60deg,
+    rgba(214, 231, 255, 0.28) 70deg,
+    rgba(214, 231, 255, 0.12) 82deg,
+    rgba(214, 231, 255, 0.03) 94deg,
+    rgba(214, 231, 255, 0) 108deg,
+    rgba(214, 231, 255, 0) 360deg
+  );
+  --glass-ring-glow-dark:
+    0 10px 18px -15px rgba(214, 231, 255, 0.18),
+    0 20px 32px -24px rgba(120, 168, 230, 0.1);
+  --home-panel-bg: rgba(12, 17, 27, 0.86);
+  --home-panel-shadow-idle:
+    0 0 12px rgba(190, 220, 255, 0.2),
+    0 0 24px rgba(120, 168, 230, 0.1);
+  --home-panel-shadow-active:
+    0 0 14px rgba(190, 220, 255, 0.24),
+    0 0 30px rgba(120, 168, 230, 0.12);
+  --home-card-glow-idle:
+    0 0 11px rgba(190, 220, 255, 0.18),
+    0 0 22px rgba(120, 168, 230, 0.09);
+  --home-card-glow-active:
+    0 0 13px rgba(190, 220, 255, 0.22),
+    0 0 28px rgba(120, 168, 230, 0.11);
+  --home-card-shadow-idle: var(--home-card-glow-idle);
+  --home-card-shadow-active: var(--home-card-glow-active);
+  --home-card-light-opacity: 0.78;
+  --home-card-dark-opacity: 0.68;
+  --home-scroll-cue-color: #c57171;
+  --glass-modal-bg: var(--glass-ring-surface-bg);
+  --chat-card-surface-night-standard-bg: radial-gradient(
+    ellipse at top,
+    rgba(33, 43, 57, 0.81) 0%,
+    rgba(14, 18, 26, 0.84) 100%
+  );
+  --chat-card-surface-night-standard-flat-bg: linear-gradient(
+    180deg,
+    rgba(29, 38, 52, 0.79) 0%,
+    rgba(15, 19, 28, 0.84) 100%
+  );
+  --workspace-elevated-card-bg:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.035)),
+    color-mix(in srgb, var(--glass-ring-surface-bg, rgba(0, 0, 0, 0.25)) 64%, transparent);
+  --workspace-elevated-card-bg-hover: var(--workspace-elevated-card-bg);
+  --workspace-elevated-card-bg-strong: var(--workspace-elevated-card-bg-hover);
+  --chat-card-surface-night-strong-bg: radial-gradient(
+    ellipse at top,
+    rgb(31, 40, 54) 0%,
+    rgb(14, 18, 26) 100%
+  );
+  --chat-card-surface-night-flat-bg: linear-gradient(
+    180deg,
+    rgb(27, 36, 49) 0%,
+    rgb(14, 19, 28) 100%
+  );
+  --chat-ui-solid-surface: rgb(18, 26, 40);
+  --chat-rail-tooltip-bg: rgb(18, 26, 40);
+  --chat-tools-panel-bg: rgb(18, 26, 40);
+  --chat-upload-picker-bg: rgb(18, 26, 40);
+  --rail-tooltip-bg: rgb(18, 26, 40);
+  --rail-tooltip-border: var(--subpage-card-border);
+  --rail-tooltip-shadow: var(--subpage-card-shadow);
+  --rail-tooltip-text: var(--subpage-card-text);
+  --chat-tools-item-hover-bg: rgba(197, 113, 113, 0.1);
+  --glass-analysis-bg: rgb(18, 26, 40);
+  --chat-analysis-preview-surface: var(--chat-card-surface-night-standard-bg);
+  --chat-analysis-preview-text: var(--subpage-card-text);
+  --chat-analysis-preview-border: 0 solid transparent;
+  --chat-analysis-preview-shadow: none;
+  --chat-analysis-preview-blur: 0px;
+  --subscription-error-color: rgba(214, 226, 245, 0.9);
+  --subpage-card-bg: var(--input-flat-bg);
+  --subpage-card-bg-hover: var(--input-flat-bg-hover);
+  --subpage-card-border: rgba(216, 226, 235, 0.12);
+  --subpage-card-border-hover: rgba(226, 232, 238, 0.18);
+  --subpage-card-shadow:
+    inset 0 1px 0 rgba(220, 236, 255, 0.05),
+    0 10px 22px rgba(0, 0, 0, 0.18),
+    0 0 22px -16px rgba(218, 226, 235, 0.14);
+  --subpage-card-shadow-hover:
+    inset 0 1px 0 rgba(220, 236, 255, 0.07),
+    0 12px 26px rgba(0, 0, 0, 0.24),
+    0 0 26px -16px rgba(226, 232, 238, 0.18);
+  --subpage-card-text: rgba(234, 238, 245, 0.94);
+  --opaque-panel-bg: var(--workspace-elevated-card-bg);
+  --opaque-panel-bg-hover: var(--workspace-elevated-card-bg);
+  --opaque-panel-border: rgba(126, 154, 196, 0.13);
+  --opaque-panel-shadow: 0 12px 26px rgba(0, 0, 0, 0.24);
+  --opaque-panel-text: rgba(234, 238, 245, 0.94);
+  --drawer-card-border: transparent;
+  --drawer-card-border-hover: transparent;
+  --drawer-card-border-active: transparent;
+  --drawer-card-bg: var(--subpage-card-bg);
+  --drawer-card-bg-hover: var(--subpage-card-bg-hover);
+  --drawer-card-bg-active: var(--subpage-card-bg-hover);
+  --drawer-card-shadow: var(--subpage-card-shadow);
+  --drawer-card-shadow-hover: var(--subpage-card-shadow-hover);
+  --drawer-card-shadow-active: var(--subpage-card-shadow-hover);
+  --drawer-delete-border: var(--opaque-panel-border);
+  --drawer-delete-bg: var(--opaque-panel-bg);
+  --drawer-delete-text: var(--opaque-panel-text);
+  --drawer-delete-shadow: 0 10px 24px rgba(4, 10, 18, 0.22);
+  --drawer-delete-border-hover: rgba(255, 120, 120, 0.52);
+  --drawer-delete-bg-hover: rgba(44, 18, 24, 0.4);
+  --drawer-delete-text-hover: rgba(255, 232, 232, 0.98);
+  --drawer-delete-shadow-hover: 0 12px 28px rgba(4, 10, 18, 0.28);
+  --btn-primary-hover-brightness: 1.038;
+  --btn-base-bg-dark: linear-gradient(
+    180deg,
+    rgba(34, 48, 68, 0.94) 0%,
+    rgba(15, 24, 38, 0.94) 100%
+  );
+  --btn-primary-bg: radial-gradient(
+      82% 66% at 50% -14%,
+      rgba(222, 236, 255, 0.108) 0%,
+      rgba(222, 236, 255, 0.048) 42%,
+      rgba(222, 236, 255, 0.016) 58%,
+      rgba(222, 236, 255, 0) 74%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(26, 35, 49, 0.92) 0%,
+      rgba(16, 25, 39, 0.94) 100%
+    );
+  --btn-primary-bg-hover: radial-gradient(
+      82% 66% at 50% -14%,
+      rgba(222, 236, 255, 0.135) 0%,
+      rgba(222, 236, 255, 0.06) 42%,
+      rgba(222, 236, 255, 0.02) 58%,
+      rgba(222, 236, 255, 0) 74%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(31, 42, 58, 0.93) 0%,
+      rgba(19, 30, 46, 0.95) 100%
+    );
+  --btn-primary-bg-active: radial-gradient(
+      82% 66% at 50% -14%,
+      rgba(222, 236, 255, 0.13) 0%,
+      rgba(222, 236, 255, 0.055) 42%,
+      rgba(222, 236, 255, 0.017) 58%,
+      rgba(222, 236, 255, 0) 74%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(28, 38, 53, 0.91) 0%,
+      rgba(18, 27, 42, 0.93) 100%
+    );
+  --btn-primary-border: 0 solid transparent;
+  --btn-primary-border-hover: 0 solid transparent;
+  --btn-primary-border-active: 0 solid transparent;
+  --btn-primary-shadow:
+    inset 0 1px 0 rgba(220, 236, 255, 0.1),
+    0 5px 12px rgba(2, 6, 16, 0.24);
+  --btn-primary-shadow-hover:
+    inset 0 1px 0 rgba(220, 236, 255, 0.12),
+    0 7px 14px rgba(2, 6, 16, 0.28);
+  --btn-primary-shadow-active:
+    inset 0 1px 0 rgba(220, 236, 255, 0.08),
+    0 4px 10px rgba(2, 6, 16, 0.22);
+  --btn-primary-shadow-focus:
+    inset 0 1px 0 rgba(220, 236, 255, 0.16),
+    0 8px 18px rgba(2, 6, 16, 0.32),
+    0 0 0 3px var(--btn-primary-focus-ring-color);
+  --btn-primary-focus-ring-color: rgba(140, 180, 235, 0.35);
+
+  --form-surface: var(--workspace-elevated-card-bg);
+  --form-surface-hover: var(--workspace-elevated-card-bg);
+  --form-surface-active: var(--form-surface-hover);
+  --input-flat-bg: var(--workspace-elevated-card-bg);
+  --input-flat-bg-hover: var(--workspace-elevated-card-bg);
+  --input-bg: var(--form-surface);
+  --input-bg-hover: var(--form-surface-hover);
+  --input-bg-focus: var(--form-surface-active);
+  --input-border: 0 solid transparent;
+  --input-shadow:
+    0 5px 14px rgba(2, 6, 16, 0.2),
+    0 10px 18px -12px rgba(220, 236, 255, 0.22),
+    0 18px 28px -24px rgba(220, 236, 255, 0.09);
+  --input-shadow-hover:
+    0 5.5px 15px rgba(2, 6, 16, 0.2),
+    0 10px 18px -11px rgba(220, 236, 255, 0.23),
+    0 18px 28px -23px rgba(220, 236, 255, 0.1);
+  --input-surface-overlay: inset 0 0 0 999px rgba(222, 236, 255, 0);
+  --input-surface-overlay-hover: inset 0 0 0 999px rgba(222, 236, 255, 0.022);
+  --input-surface-overlay-focus: inset 0 0 0 999px rgba(222, 236, 255, 0.06);
+}

@@ -1601,3 +1601,235 @@ html[data-contrast="hc"] body :is(
   background: var(--hc-panel-bg);
   box-shadow: none;
 }
+
+/* ===== token defs merged 1:1 from tokens/theme-hc.css (session 8 consolidation) ===== */
+/* tokens/theme-hc.css — hc teema tokeniblokid
+ * Migreeritud siia app/styles/theme/hc.css-ist (Rada B token-viilud, viil 2.5).
+ * globals.css laadib selle PARAST theme/hc.css-i — samad plokid siin
+ * asendavad (mitte ei topelda) theme-faili plokid. */
+
+
+html[data-contrast="hc"] {
+  --home-panel-bg: rgba(9, 18, 30, 0.86);
+  --home-card-light-opacity: 0.78;
+  --home-card-dark-opacity: 0.68;
+  --chat-card-surface-night-standard-bg: radial-gradient(
+    124% 96% at 50% 6%,
+    rgba(27, 39, 53, 0.5) 0%,
+    rgba(20, 29, 40, 0.55) 46%,
+    rgba(16, 20, 28, 0.6) 100%
+  );
+  --chat-card-surface-night-standard-flat-bg: linear-gradient(
+    180deg,
+    rgba(24, 35, 49, 0.52) 0%,
+    rgba(18, 22, 30, 0.62) 100%
+  );
+  --chat-card-surface-night-strong-bg: radial-gradient(
+    124% 96% at 50% 6%,
+    rgb(27, 39, 53) 0%,
+    rgb(20, 29, 40) 46%,
+    rgb(16, 20, 28) 100%
+  );
+  --chat-card-surface-night-flat-bg: linear-gradient(
+    180deg,
+    rgb(24, 35, 49) 0%,
+    rgb(18, 22, 30) 100%
+  );
+  --cursor-default-backup:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 14 15'%3E%3Cpath d='M 2 1 L 9 7 Q 9.5 7.4 8.7 7.8 L 4.2 9.5 Q 3.2 9.9 3.0 8.9 L 2 1 Z' fill='%23ffffff' stroke='%23f5cf5a' stroke-width='0.7' stroke-opacity='0.9' stroke-linejoin='round'/%3E%3C/svg%3E")
+      3 2,
+    auto;
+  --cursor-default:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 14 15'%3E%3Cpath d='M 2 1 L 9 7 Q 9.5 7.4 8.7 7.8 L 4.2 9.5 Q 3.2 9.9 3.0 8.9 L 2 1 Z' fill='%23ffffff' stroke='%23f5cf5a' stroke-width='0.7' stroke-opacity='0.9' stroke-linejoin='round'/%3E%3C/svg%3E")
+      3 2,
+    auto;
+  --cursor-pointer:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 14 15'%3E%3Cpath d='M 2 1 L 9 7 Q 9.5 7.4 8.7 7.8 L 4.2 9.5 Q 3.2 9.9 3.0 8.9 L 2 1 Z' fill='%23ffffff' stroke='%23f5cf5a' stroke-width='0.7' stroke-opacity='0.9' stroke-linejoin='round'/%3E%3C/svg%3E")
+      4 2,
+    pointer;
+  --hc-bg: #090a0f;
+  --hc-surface: rgba(6, 8, 12, 0.86);
+  --hc-accent: #ffea00;
+  --hc-text: var(--hc-accent);
+  --hc-muted: var(--hc-accent);
+  --hc-accent-soft: #fff48a;
+  --hc-border: rgba(255, 234, 0, 0.66);
+  --hc-border-soft: rgba(255, 234, 0, 0.9);
+  --hc-focus-ring: rgba(255, 234, 0, 0.58);
+  --hc-control-bg: var(--chat-card-surface-night-standard-bg);
+  --hc-control-bg-hover:
+    linear-gradient(180deg, rgba(255, 234, 0, 0.08) 0%, rgba(255, 234, 0, 0.035) 100%),
+    var(--chat-card-surface-night-standard-flat-bg);
+  --hc-control-bg-active:
+    linear-gradient(180deg, rgba(255, 234, 0, 0.12) 0%, rgba(255, 234, 0, 0.055) 100%),
+    var(--chat-card-surface-night-standard-flat-bg);
+  --hc-control-bg-selected: rgba(255, 234, 0, 0.14);
+  --hc-field-bg: var(--hc-control-bg);
+  --hc-field-bg-hover: var(--hc-field-bg);
+  --hc-field-bg-focus: var(--hc-field-bg);
+  --hc-panel-bg: var(--chat-card-surface-night-standard-bg);
+  --hc-panel-bg-hover: var(--hc-control-bg-hover);
+  --workspace-elevated-card-bg: var(--hc-panel-bg);
+  --workspace-elevated-card-bg-hover: var(--hc-panel-bg-hover);
+  --workspace-elevated-card-bg-strong: var(--workspace-elevated-card-bg-hover);
+  --pt-50: var(--hc-accent);
+  --pt-100: var(--hc-accent);
+  --pt-150: var(--hc-accent);
+  --pt-200: var(--hc-accent);
+  --pt-300: var(--hc-accent);
+  --pt-400: var(--hc-accent);
+  --pt-500: var(--hc-accent);
+  --pt-600: var(--hc-accent);
+  --pt-light: var(--hc-accent);
+  --pt: var(--hc-accent);
+  --pt-mid: var(--hc-accent);
+  --pt-dark: var(--hc-accent);
+  --brand-primary: var(--hc-accent);
+  --brand-accent: var(--hc-accent);
+  --link-gold: var(--hc-accent);
+  --link-gold-hover: var(--hc-accent-soft);
+  --page-bg: var(--hc-bg);
+  --page-bg-top: #1b2735;
+  --page-bg-bottom: #090a0f;
+  --page-bg-fallback: var(--hc-bg);
+  --page-bg-top-fallback: #1b2735;
+  --page-bg-bottom-fallback: #090a0f;
+  --glass-blur-radius: 1rem;
+  --glass-surface-bg: rgba(15, 14, 17, 0.35);
+  --glass-ring-surface-bg: var(--glass-surface-bg);
+  --glass-modal-bg: var(--glass-ring-surface-bg);
+  --drawer-glass-bg: var(--glass-ring-surface-bg);
+  --glass-surface-text: var(--hc-text);
+  --glass-border-color: transparent;
+  --glass-border-width: 2px;
+  --opaque-panel-bg: var(--chat-card-surface-night-standard-bg);
+  --opaque-panel-bg-hover: var(--chat-card-surface-night-standard-flat-bg);
+  --opaque-panel-shadow:
+    0 0 10px rgba(255, 234, 0, 0.08),
+    0 10px 24px rgba(0, 0, 0, 0.22);
+  --glass-modal-shadow: none;
+  --glass-shell-shadow:
+    0 0 18px rgba(255, 234, 0, 0.22),
+    0 0 34px rgba(255, 234, 0, 0.12),
+    0 12px 22px -16px rgba(255, 234, 0, 0.2);
+  --glass-ring-glow-dark:
+    0 0 16px rgba(255, 234, 0, 0.18),
+    0 0 30px rgba(255, 234, 0, 0.1),
+    0 10px 20px -16px rgba(255, 234, 0, 0.16);
+  --glass-ring-edge-stroke-width-desktop: 1.4px;
+  --glass-ring-edge-stroke-opacity-desktop: 0.7;
+  --glass-ring-edge-stroke-blur-desktop: 0.1px;
+  --glass-ring-edge-stroke-desktop:
+    conic-gradient(
+      from -104deg at 50% 50%,
+      rgba(255, 248, 186, 0) 0deg,
+      rgba(255, 248, 186, 0) 14deg,
+      rgba(255, 248, 186, 0.028) 26deg,
+      rgba(255, 248, 186, 0.09) 38deg,
+      rgba(255, 248, 186, 0.18) 46deg,
+      rgba(255, 248, 186, 0.3) 54deg,
+      rgba(255, 248, 186, 0.38) 60deg,
+      rgba(255, 248, 186, 0.25) 70deg,
+      rgba(255, 248, 186, 0.11) 82deg,
+      rgba(255, 248, 186, 0.028) 94deg,
+      rgba(255, 248, 186, 0) 108deg,
+      rgba(255, 248, 186, 0) 360deg
+    );
+  --glass-input-bg-idle: var(--hc-bg);
+  --glass-input-bg-active: var(--hc-surface);
+  --text-strong: var(--hc-text);
+  --focus-ring: var(--hc-focus-ring);
+  --chat-icon-dark: var(--hc-accent);
+  --chat-icon-light: #7a3a38;
+  --orbit-accent: var(--hc-accent);
+
+  --chat-ui-solid-surface: rgb(18, 26, 40);
+  --chat-tools-panel-bg: rgb(18, 26, 40);
+  --chat-upload-picker-bg: rgb(18, 26, 40);
+  --chat-rail-tooltip-bg: var(--chat-tools-panel-bg);
+  --subpage-card-bg: var(--chat-card-surface-night-standard-bg);
+  --subpage-card-bg-hover: var(--input-flat-bg-hover);
+  --subpage-card-border: transparent;
+  --subpage-card-border-hover: transparent;
+  --subpage-card-shadow:
+    0 0 12px rgba(255, 234, 0, 0.1),
+    0 10px 22px rgba(0, 0, 0, 0.2),
+    0 0 24px -16px rgba(255, 234, 0, 0.16);
+  --subpage-card-shadow-hover:
+    0 0 14px rgba(255, 234, 0, 0.14),
+    0 12px 26px rgba(0, 0, 0, 0.24),
+    0 0 28px -16px rgba(255, 234, 0, 0.2);
+  --subpage-card-text: var(--hc-accent);
+  --rail-tooltip-bg: var(--chat-rail-tooltip-bg);
+  --rail-tooltip-border: var(--subpage-card-border);
+  --rail-tooltip-shadow: none;
+  --rail-tooltip-text: var(--hc-accent);
+  --chat-tools-item-hover-bg: rgba(255, 234, 0, 0.14);
+  --glass-analysis-bg: rgb(8, 9, 12);
+  --panel-secondary-bg: var(--input-flat-bg);
+  --panel-secondary-border: rgba(255, 234, 0, 0.62);
+  --panel-secondary-shadow: none;
+  --panel-border-width: 2px;
+  --subpage-card-border-width: 2px;
+  --chat-invite-surface: var(--subpage-card-bg);
+  --chat-invite-surface-hover: var(--subpage-card-bg-hover);
+  --chat-invite-list-border: transparent;
+  --chat-invite-shadow: none;
+  --chat-invite-text: var(--hc-accent);
+  --drawer-card-border: rgba(255, 234, 0, 0.56);
+  --drawer-card-border-hover: rgba(255, 234, 0, 0.56);
+  --drawer-card-border-active: rgba(255, 234, 0, 0.92);
+  --drawer-card-bg: var(--chat-card-surface-night-standard-bg);
+  --drawer-card-bg-hover: var(--chat-card-surface-night-standard-flat-bg);
+  --drawer-card-bg-active: var(--chat-card-surface-night-standard-flat-bg);
+  --drawer-card-shadow:
+    0 0 12px rgba(255, 234, 0, 0.1),
+    0 10px 22px rgba(0, 0, 0, 0.2),
+    0 0 24px -16px rgba(255, 234, 0, 0.16);
+  --drawer-card-shadow-hover:
+    0 0 14px rgba(255, 234, 0, 0.14),
+    0 12px 26px rgba(0, 0, 0, 0.24),
+    0 0 28px -16px rgba(255, 234, 0, 0.2);
+  --drawer-card-shadow-active:
+    0 0 14px rgba(255, 234, 0, 0.14),
+    0 12px 26px rgba(0, 0, 0, 0.24),
+    0 0 28px -16px rgba(255, 234, 0, 0.2);
+  --drawer-delete-border: var(--opaque-panel-border, var(--subpage-card-border));
+  --drawer-delete-bg: var(--opaque-panel-bg);
+  --drawer-delete-text: var(--opaque-panel-text, var(--hc-accent));
+  --btn-base-bg-dark: var(--hc-control-bg);
+  --btn-primary-bg: var(--hc-control-bg);
+  --btn-primary-bg-hover: var(--hc-control-bg-hover);
+  --btn-primary-bg-active: var(--hc-control-bg-active);
+  --btn-primary-text: var(--hc-accent);
+  --btn-primary-border: 2px solid rgba(255, 234, 0, 0.66);
+  --btn-primary-border-hover: 2px solid rgba(255, 234, 0, 0.9);
+  --btn-primary-border-active: 2px solid rgba(255, 234, 0, 0.95);
+  --btn-primary-shadow: none;
+  --btn-primary-shadow-hover: none;
+  --btn-primary-shadow-active: none;
+  --btn-primary-focus-ring-color: var(--hc-focus-ring);
+
+  --form-surface: var(--hc-control-bg);
+  --form-surface-hover: var(--hc-control-bg-hover);
+  --form-surface-active: var(--hc-control-bg-active);
+  --input-bg: var(--hc-field-bg);
+  --input-bg-hover: var(--hc-field-bg-hover);
+  --input-bg-focus: var(--hc-field-bg-focus);
+  --input-flat-bg: var(--hc-field-bg);
+  --input-flat-bg-hover: var(--hc-field-bg-hover);
+  --input-text: var(--hc-accent);
+  --input-caret: var(--hc-accent);
+  --input-placeholder: rgba(255, 234, 0, 0.92);
+  --input-border: 2px solid rgba(255, 234, 0, 0.68);
+  --seg-card-border: rgba(255, 234, 0, 0.66);
+  --seg-card-border-width: 2px;
+  --seg-radio-border: rgba(255, 234, 0, 0.78);
+  --seg-radio-dot-bg: var(--hc-accent);
+
+  --input-shadow: none;
+  --input-shadow-hover: none;
+  --input-surface-overlay: inset 0 0 0 999px rgba(255, 255, 255, 0);
+  --input-surface-overlay-hover: inset 0 0 0 999px rgba(255, 255, 255, 0);
+  --input-surface-overlay-focus: inset 0 0 0 999px rgba(255, 255, 255, 0);
+}

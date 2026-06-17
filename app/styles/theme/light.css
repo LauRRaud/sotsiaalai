@@ -125,3 +125,264 @@ html[data-ui-scale="lg"].theme-light {
     0 0 0 3px var(--btn-primary-focus-ring-color),
     0 0 0 1px rgba(var(--light-white-rgb), 0.22);
 }
+
+/* ===== token defs merged 1:1 from tokens/theme-light.css (session 8 consolidation) ===== */
+/* tokens/theme-light.css — light teema tokeniblokk
+ * Migreeritud siia app/styles/theme/light.css-ist (Rada B token-viilud, viil 2.3).
+ * globals.css laadib selle PÄRAST theme/light.css-i — sama :root.theme-light blokk siin
+ * asendab (mitte ei topelda) theme-faili ploki. */
+:root.theme-light {
+  --glass-shell-shadow: 0 18px 40px rgba(0, 0, 0, 0.16);
+  --cursor-default-backup:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 14 15'%3E%3Cpath d='M 2 1 L 9 7 Q 9.5 7.4 8.7 7.8 L 4.2 9.5 Q 3.2 9.9 3.0 8.9 L 2 1 Z' fill='%23f2f1ee' stroke='%23888888' stroke-width='0.75' stroke-opacity='0.55' stroke-linejoin='round'/%3E%3C/svg%3E")
+      3 2,
+    auto;
+  --cursor-default:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 14 15'%3E%3Cpath d='M 2 1 L 9 7 Q 9.5 7.4 8.7 7.8 L 4.2 9.5 Q 3.2 9.9 3.0 8.9 L 2 1 Z' fill='%23f2f1ee' stroke='%23888888' stroke-width='0.75' stroke-opacity='0.55' stroke-linejoin='round'/%3E%3C/svg%3E")
+      3 2,
+    auto;
+  --cursor-pointer:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 14 15'%3E%3Cpath d='M 2 1 L 9 7 Q 9.5 7.4 8.7 7.8 L 4.2 9.5 Q 3.2 9.9 3.0 8.9 L 2 1 Z' fill='%23f2f1ee' stroke='%23888888' stroke-width='0.75' stroke-opacity='0.55' stroke-linejoin='round'/%3E%3C/svg%3E")
+      4 2,
+    pointer;
+  --click-pulse-ring-color: rgba(104, 104, 104, 0.6);
+  --glass-border-width: 2px;
+  --glass-border-color: rgba(148, 163, 184, 0.35);
+  --glass-shadow-glow:
+    0 0 0 1px var(--glow-light-ring), 0 0 6px var(--glow-light-soft),
+    0 0 12px var(--glow-light-outer);
+  --glass-shadow-strong-glow:
+    0 0 0 1px var(--glow-light-ring), 0 0 14px var(--glow-light-soft),
+    0 0 24px var(--glow-light-outer);
+  --glass-btn-bg-idle: linear-gradient(
+    130deg,
+    rgba(18, 20, 32, 0.55),
+    rgba(32, 36, 50, 0.32)
+  );
+  --glass-btn-bg-active: linear-gradient(
+    130deg,
+    rgba(18, 20, 32, 0.65),
+    rgba(32, 36, 50, 0.42)
+  );
+  --glass-input-bg-idle: rgba(18, 20, 32, 0.18);
+  --glass-input-bg-active: rgba(18, 20, 32, 0.24);
+  --glass-blur-radius: 1rem;
+  --glass-surface-bg: rgba(252, 251, 249, 0.74);
+  --glass-ring-surface-bg: rgba(251, 250, 248, 0.8);
+  --glass-surface-text: #2b2620;
+  --chat-ui-solid-surface: rgb(249, 249, 248);
+  --chat-rail-tooltip-bg: rgb(249, 249, 248);
+  --chat-tools-panel-bg: rgb(249, 249, 248);
+  --chat-upload-picker-bg: rgb(249, 249, 248);
+  --chat-invite-surface: var(--subpage-card-bg);
+  --chat-invite-surface-hover: var(--subpage-card-bg-hover);
+  --chat-invite-list-border: var(--subpage-card-border);
+  --chat-invite-shadow: var(--subpage-card-shadow);
+  --chat-invite-text: var(--subpage-card-text);
+  --glass-modal-bg: var(--glass-ring-surface-bg);
+  --glass-modal-text: var(--chat-invite-text);
+  --glass-modal-border: none;
+  --glass-modal-shadow: var(--chat-invite-shadow);
+  --rail-tooltip-bg: rgb(249, 249, 248);
+  --rail-tooltip-border: var(--chat-invite-list-border);
+  --rail-tooltip-shadow: var(--chat-invite-shadow);
+  --rail-tooltip-text: var(--chat-invite-text);
+  --chat-tools-item-hover-bg: rgba(122, 58, 56, 0.08);
+  --glass-analysis-bg: rgb(249, 249, 248);
+  --chat-analysis-preview-surface: var(--subpage-card-bg);
+  --chat-analysis-preview-text: var(--subpage-card-text);
+  --chat-analysis-preview-border: var(--subpage-card-border);
+  --chat-analysis-preview-shadow: var(--subpage-card-shadow);
+  --chat-analysis-preview-blur: 0px;
+  --glass-analysis-border: var(--opaque-panel-border);
+  --glass-analysis-shadow: var(--opaque-panel-shadow);
+  --glass-analysis-text: #1f1b16;
+  --text-strong: #222222;
+  --footer-text-muted: #d3d3d3;
+  --drawer-text-main: #f5f5f4;
+  --drawer-text-title: #fdfcf9;
+  --drawer-text-preview: rgba(245, 245, 244, 0.88);
+  --drawer-text-time: rgba(245, 245, 244, 0.72);
+  --drawer-overlay-bg: rgba(15, 23, 42, 0.08);
+  --drawer-glass-bg: var(--glass-surface-bg);
+  --drawer-card-shadow:
+    0 0 0.55rem rgba(82, 50, 46, 0.03),
+    0 0.48rem 0.95rem rgba(82, 50, 46, 0.072);
+  --drawer-card-shadow-hover:
+    0 0 0.68rem rgba(82, 50, 46, 0.038),
+    0 0.58rem 1.08rem rgba(82, 50, 46, 0.084);
+  --title-color: #7a3a38;
+  --chat-icon-color: #3b3329;
+  --chat-composer-action-icon-color: #7a3a38;
+  --link-color: #7a3a38;
+  --link-gold: #7a3a38;
+  --link-gold-hover: #7a3a38;
+  --btn-primary-bg:
+    radial-gradient(
+      82% 66% at 50% 16%,
+      rgba(253, 252, 251, 0.992) 0%,
+      rgba(252, 251, 250, 0.99) 42%,
+      rgba(251, 250, 249, 0.976) 58%,
+      rgba(249, 247, 246, 0.948) 74%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(252, 251, 250, 0.992) 0%,
+      rgba(249, 248, 247, 0.978) 100%
+    );
+  --btn-primary-bg-hover:
+    radial-gradient(
+      82% 66% at 50% 16%,
+      rgba(254, 253, 252, 0.996) 0%,
+      rgba(253, 252, 251, 0.994) 42%,
+      rgba(252, 251, 250, 0.982) 58%,
+      rgba(250, 248, 247, 0.956) 74%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(253, 252, 251, 0.994) 0%,
+      rgba(250, 249, 248, 0.982) 100%
+    );
+  --btn-primary-bg-active:
+    radial-gradient(
+      82% 66% at 50% 16%,
+      rgba(252, 251, 250, 0.968) 0%,
+      rgba(250, 249, 248, 0.934) 42%,
+      rgba(247, 246, 245, 0.892) 58%,
+      rgba(243, 242, 241, 0.854) 74%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(251, 250, 249, 0.96) 0%,
+      rgba(246, 245, 244, 0.932) 100%
+    );
+  --btn-primary-text: rgba(31, 41, 55, 0.92);
+  --btn-primary-border: 1px solid rgba(148, 163, 184, 0.08);
+  --btn-primary-border-hover: 1px solid rgba(148, 163, 184, 0.1);
+  --btn-primary-border-active: 1px solid rgba(148, 163, 184, 0.07);
+  --btn-primary-shadow: 0 4px 10px rgba(15, 23, 42, 0.1);
+  --btn-primary-shadow-hover: 0 6px 13px rgba(15, 23, 42, 0.102);
+  --btn-primary-shadow-active: 0 1px 4px rgba(15, 23, 42, 0.08);
+  --btn-primary-focus-ring-color: rgba(197, 113, 113, 0.24);
+  --btn-primary-shadow-focus:
+    0 4px 10px rgba(15, 23, 42, 0.11),
+    0 0 0 3px var(--btn-primary-focus-ring-color);
+  --btn-primary-radius: 0.95rem;
+  --input-bg: var(--subpage-card-bg);
+  --input-bg-hover: var(--subpage-card-bg-hover);
+  --input-bg-focus: var(--subpage-card-bg-hover);
+  --input-flat-bg: var(--btn-primary-bg);
+  --input-flat-bg-hover: var(--btn-primary-bg-hover);
+  --input-text: #1f2937;
+  --input-caret: #1f2937;
+  --input-border: 1px solid rgba(148, 163, 184, 0.08);
+  --input-placeholder: #374151;
+  --input-shadow: var(--subpage-card-shadow);
+  --input-shadow-hover: var(--subpage-card-shadow-hover);
+  --input-surface-overlay: inset 0 0 0 999px rgba(255, 255, 255, 0);
+  --input-surface-overlay-hover: inset 0 0 0 999px rgba(255, 255, 255, 0.065);
+  --input-surface-overlay-focus: inset 0 0 0 999px rgba(255, 255, 255, 0.078);
+  --input-radius: 0.95rem;
+  --input-disabled-opacity: 0.6;
+  --glass-modal-title-color: var(--title-color);
+  --glass-modal-title-shadow: 0 0.28rem 0.38rem rgba(0, 0, 0, 0.24);
+  --icon-btn-close-color: #7a3a38;
+  --icon-btn-close-size: 2.65rem;
+  --seg-card-bg: rgba(255, 255, 255, 0.82);
+  --seg-card-bg-hover: rgba(255, 255, 255, 0.88);
+  --seg-card-bg-selected: rgba(252, 250, 249, 0.9);
+
+  --seg-card-text: var(--text-strong);
+  --seg-card-text-hover: #8f5550;
+  --seg-card-text-selected: #9a5a55;
+  --seg-card-border: transparent;
+  --seg-card-border-width: 1px;
+  --seg-card-radius: 999px;
+  --seg-card-shadow: 0 5px 12px rgba(15, 23, 42, 0.08);
+  --seg-card-shadow-hover: 0 6px 13px rgba(15, 23, 42, 0.09);
+  --seg-card-shadow-selected: 0 6px 13px rgba(15, 23, 42, 0.09);
+  --seg-radio-bg: rgba(255, 255, 255, 0.46);
+  --seg-radio-border: rgba(122, 58, 56, 0.24);
+  --seg-radio-inner-ring: inset 0 0 0 1px rgba(0, 0, 0, 0.18);
+  --seg-radio-dot-bg: #7a3a38;
+  --seg-radio-dot-shadow: none;
+  --panel-secondary-bg: var(--btn-primary-bg);
+  --panel-secondary-border: rgba(148, 163, 184, 0.08);
+  --panel-secondary-shadow: var(--btn-primary-shadow);
+  --panel-secondary-radius: 1.1rem;
+  --subpage-card-bg:
+    radial-gradient(
+      82% 66% at 50% 16%,
+      rgba(253, 252, 251, 0.92) 0%,
+      rgba(252, 251, 250, 0.914) 42%,
+      rgba(251, 250, 249, 0.898) 58%,
+      rgba(249, 247, 246, 0.872) 74%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(252, 251, 250, 0.918) 0%,
+      rgba(249, 248, 247, 0.888) 100%
+    );
+  --subpage-card-bg-hover:
+    radial-gradient(
+      82% 66% at 50% 16%,
+      rgba(254, 253, 252, 0.944) 0%,
+      rgba(253, 252, 251, 0.938) 42%,
+      rgba(252, 251, 250, 0.918) 58%,
+      rgba(250, 248, 247, 0.888) 74%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(253, 252, 251, 0.94) 0%,
+      rgba(250, 249, 248, 0.906) 100%
+    );
+  --subpage-card-border: rgba(148, 163, 184, 0.08);
+  --subpage-card-border-hover: rgba(148, 163, 184, 0.1);
+  --subpage-card-shadow: var(--btn-primary-shadow);
+  --subpage-card-shadow-hover: var(--btn-primary-shadow-hover);
+  --subpage-card-text: #334155;
+  --opaque-panel-bg: var(--subpage-card-bg);
+  --opaque-panel-bg-hover: var(--subpage-card-bg-hover);
+  --opaque-panel-border: rgba(148, 163, 184, 0.08);
+  --opaque-panel-shadow: var(--btn-primary-shadow);
+  --opaque-panel-text: #334155;
+  --drawer-delete-border: rgba(255, 255, 255, 0.42);
+  --drawer-delete-bg: rgba(255, 255, 255, 0.48);
+  --drawer-delete-text: #334155;
+  --drawer-delete-border-hover: rgba(197, 113, 113, 0.48);
+  --drawer-delete-bg-hover: rgba(255, 250, 248, 0.62);
+  --drawer-delete-text-hover: #9a534d;
+  --drawer-delete-shadow: 0 10px 22px rgba(15, 23, 42, 0.08);
+  --drawer-delete-shadow-hover: 0 12px 26px rgba(15, 23, 42, 0.12);
+  --chat-btn-idle-light: color-mix(
+    in srgb,
+    var(--glass-surface-bg) 52%,
+    rgba(0, 0, 0, 0.44) 48%
+  );
+  --chat-btn-hover-light: color-mix(
+    in srgb,
+    var(--glass-surface-bg) 44%,
+    rgba(0, 0, 0, 0.54) 56%
+  );
+  --admin-bg: radial-gradient(
+    circle at 20% 0%,
+    rgba(15, 23, 42, 0.06),
+    transparent 60%
+  );
+  --admin-surface: #ffffff;
+  --admin-surface-2: #f5f6f8;
+  --admin-surface-3: #eef1f4;
+  --admin-border: rgba(15, 23, 42, 0.18);
+  --admin-border-strong: rgba(15, 23, 42, 0.26);
+  --admin-text: #0f172a;
+  --admin-muted: #495466;
+  --admin-accent: #b45309;
+  --admin-accent-soft: rgba(180, 83, 9, 0.18);
+  --admin-accent-cool: #0f766e;
+  --admin-accent-cool-soft: rgba(15, 118, 110, 0.16);
+  --admin-danger: #b91c1c;
+  --admin-success: #15803d;
+  --admin-shadow: 0 18px 30px rgba(15, 23, 42, 0.12);
+  --admin-shadow-soft: 0 8px 18px rgba(15, 23, 42, 0.08);
+  --subscription-error-color: #c57171;
+}
