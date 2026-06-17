@@ -27,7 +27,28 @@
 //     [--apply]   (default: dry-run, only report; --apply writes the strips)
 //     [--ledger reports/css-cleanup/state/<name>.autostrip.json]
 
-import { readFileSync, writeFileSync } from "node:fs";
+import { readFileSync, writeFileSync, readdirSync, statSync } from "node:fs";
+import path from "node:path";
+
+// Contract pre-filter: a strip can pass the render+test gate yet remove a marker
+// an ALREADY-FAILING contract test greps (the case is red either way, so the
+// test-case gate can't see it). So we refuse to strip any (selector) whose class
+// tokens appear anywhere under tests/. Conservative by design — better to skip a
+// safe strip than to silently weaken a contract. Returns a Set of class tokens.
+function testClassTokens(dir = "tests") {
+  let text = "";
+  const walk = (d) => {
+    for (const e of readdirSync(d)) {
+      const p = path.join(d, e);
+      const s = statSync(p);
+      if (s.isDirectory()) walk(p);
+      else if (/\.(m?js|jsx|ts|tsx)$/.test(e)) text += readFileSync(p, "utf8") + "\n";
+    }
+  };
+  try { walk(dir); } catch { /* no tests dir */ }
+  return text;
+}
+const classTokens = (selector) => [...selector.matchAll(/\.([A-Za-z0-9_-]+)/g)].map((m) => m[1]);
 
 function parseArgs(argv) {
   const out = { audit: null, files: [], apply: false, ledger: null };
@@ -114,7 +135,12 @@ function main() {
   // edits per file: list of {full match string} to replace with !important removed
   const editsByFile = {};
 
+  const testText = testClassTokens();
+
   for (const c of cands) {
+    // Contract pre-filter: skip if any class in the selector is named in tests/.
+    const guarded = classTokens(c.selector).find((t) => testText.includes(t));
+    if (guarded) { skips.push({ ...c, reason: `contract-referenced-class-${guarded}` }); continue; }
     const r = locate(args.files, fileText, c);
     if (r.skip) { skips.push({ ...c, reason: r.skip }); continue; }
     const stripped = r.hit.full.replace(/\s*!important/i, "");
