@@ -16,6 +16,7 @@
     "dev:no-turbo": "cross-env NODE_ENV=development next dev --webpack -p 3000",
     "portaal": "npm run dev",
     "test": "node --import ./scripts/register-node-test-loader.mjs --test \"tests/**/*.test.js\"",
+    "css:budget": "node scripts/css-cleanup/important-budget.mjs",
     "db:push:local": "dotenv -e .env.local -- prisma db push",
     "db:seed:local": "dotenv -e .env.local -- prisma db seed",
     "prisma:generate:local": "dotenv -e .env.local -- prisma generate",
