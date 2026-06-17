@@ -59,8 +59,12 @@ app/styles/
 ## 3. Faasid (igaüks gate-verifitseeritud: snapshot-diff identical + `npm test` 0 uut)
 
 ### Faas A — mehaaniline, madal risk (alusta siit)
-- **A1. Token-failide ühendamine:** merge `theme/X.css` token-defid → `tokens/theme-X.css` (üks fail/teema).
-  Puhas teksti-liigutus, computed-stiil muutumatu. Gate: snapshot identical.
+- **A1. Token-failide ühendamine: ✅ VALMIS (sessioon 8, `dcc2aac0`).** Tehtud LOADER-OHUTUS suunas:
+  `tokens/theme-X.css` token-defid liideti 1:1 → `theme/X.css` (mitte vastupidi), eraldi importid eemaldatud globals'ist,
+  6 token-faili kustutatud. Order-preserving (efektiivne bait-järjekord identne) → kaskaad muutumatu. Loaderi
+  `legacyCssBundles` `existsSync`-filter + hc/mono token-sisu nüüd bundle-sisenemispunktis (`theme/X.css`) → kontraktid näevad sama.
+  Gate: Gate-1 ✓ identical (/registreerimine+/kasutusjuhend+/hinnastus × 6 teemat, **NB staatilised route'id** — homepage müra-põrand pettis esimest gate'i), Gate-2 ✓ 0 uut. **ÕPPETUM: homepage on müra-raske (33 müra-cell'i) — gate'i staatilistel route'idel, mitte homepage'il.**
+  *(Plaan ütles algselt theme→tokens suund; loader-coupling (`register-node-test-loader.mjs` kodeerib `theme/hc.css`/`mono.css`/`tokens/theme-hc.css`/`mono` teed) tegi tokens→theme suuna ohutuks.)*
 - **A2. Import-järjekorra parandus:** `globals.css` — kõik 6 teemat üas blokk, järjekindel. Gate: identical.
 - **A3. `mobile/` → `features/` sulatus:** iga `mobile/X.css` reegel oma feature-kausta (`features/<f>/mobile.css`).
   Kaotab eraldi override-kihi. **NB:** osa mobile-reegleid on `@media`-vabad globaalsed — need lähevad

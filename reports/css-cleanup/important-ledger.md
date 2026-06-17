@@ -48,6 +48,11 @@ Orkestraator, et `!important`-sweep ei käiks ükshaaval: per fail baseline+nois
 - **ÕIGE GATE-2 = kukkuvate test-CASE-nimede hulga diff** baseline'i vastu (`reports/css-cleanup/state/test-case-baseline.txt`, 14 juhtumit). Ainult päris-uus juhtum = punane. auto-loop teeb seda nüüd; **edaspidi käsitsi ka case-tasemel, mitte file-tasemel.**
 - **Allesjääv lünk:** case-gate ei näe markerit, mida juba-kukkuv kontrakt grep'ib (juhtum on punane niikuinii). Enne `--commit`: `grep tests/` selektorit; kui kontrakt viitab, jäta (nt shell.css inline-grid jäeti).
 - Piirang: gate animatsiooni-pime (ära auto-stripi box-shadow/transition glow-pindadel); vajab nähtavaid selektoreid route'il.
+
+### SESSIOON 8 lisa — AUTONOOMNE JOOKS (kasutaja magas, "vähenda + restruktureeri")
+**`!important`-korje:** `sweep.mjs` 3 avalikul global-failil (home/desktop, glass-subpage, register; layout-propid) → **0 strippi** ("nothing droppable"). **Kinnitab empiiriliselt: ohutu autonoomne `!important`-fraktsioon on AMMENDUNUD** (avalikud failid load-bearing; auth/flow-failid autonoomselt ebausaldusväärsed — auth-expiry → 0 strip = ohutu aga tühi). Senised sessioon-8 võidud: documents/mono 6→0, mid-button 4→3, covision .page/.surface 169→163, shell chat-send-glyph 59→56. Kogu app/styles ~1209 → ~1200; ko-lokeeritud 804 enamjaolt puutumata (auth/flow-gate).
+**RESTRUKTUUR: ✅ token-failide konsolideerimine (A1, `dcc2aac0`)** — vt restruktuuri-plaan §Faas A. 6 faili −. Gate roheline (staatilised route'id).
+**Aus piir (ei riskinud magades):** edasine restruktuur (theme/ rename, mobile-fold, tokens.css/base.css merge) on **loader-coupled** (`register-node-test-loader.mjs` kodeerib `theme/hc.css`/`mono.css` + `components/documents-mode.css` teed) → vajab koordineeritud loader-muudatusi + inim-üle-vaatust. Token-migratsioon (override→token) = kaskaadi-risk. Neid EI tehtud autonoomselt.
 - **KORDUV B1-MUSTER (oluline):** moodul-CSS layout-`!important`, mis võistleb AINULT Tailwind-utiliitidega
   (`.w-full`/`.w-screen`/`.max-w-[…]`, kõik non-important), on **REDUNDANTNE** — kihistamata moodul võidab kihistatud
   Tailwindi niikuinii (kaskaadi-kihi reegel). Resolver lipustab need "IMPORTANT-WAR" (sama-spec Tailwind), AGA see on
