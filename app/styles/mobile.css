@@ -1,7 +1,7 @@
 /* Mobile overrides are split by owner. Keep import order stable; later files intentionally override earlier foundations. */
 @import url("./mobile/foundations.css");
 @import url("./mobile/touch-controls.css");
-@import url("./mobile/background-home.css");
+@import url("./features/home/background.css");
 @import url("./mobile/register.css");
 @import url("./mobile/platform-android.css");
 @import url("./mobile/accessibility-modal-fields.css");
@@ -10,7 +10,7 @@
 @import url("./mobile/accessibility-touch.css");
 @import url("./mobile/motion.css");
 @import url("./mobile/login-otp-close.css");
-@import url("./mobile/home-scroll.css");
+@import url("./features/home/home-scroll.css");
 @import url("./mobile/scroll-panels.css");
 @import url("./mobile/invite-workspace.css");
 @import url("./mobile/subpage-title-system.css");
