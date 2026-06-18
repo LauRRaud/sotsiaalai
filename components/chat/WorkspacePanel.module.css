@@ -964,7 +964,7 @@
 }
 
 :global(:root.theme-mono) .cardIcon {
-  color: var(--forest-title, #c57171);
+  color: var(--mono-title, #c57171);
 }
 
 :global(:root.theme-mono) .panel {
@@ -981,7 +981,7 @@
     0 6px 14px rgba(0, 0, 0, 0.22);
   --workspace-card-badge-tooltip-bg: rgba(18, 18, 18, 0.96);
   --workspace-card-badge-tooltip-border: rgba(230, 230, 230, 0.24);
-  --workspace-card-badge-tooltip-text: var(--forest-highlight, #c8c8c8);
+  --workspace-card-badge-tooltip-text: var(--mono-text, #c8c8c8);
   --workspace-card-badge-tooltip-shadow: 0 10px 24px rgba(0, 0, 0, 0.32);
 }
 
@@ -1042,7 +1042,7 @@
 }
 
 :global(:root.theme-mono) .cardTitle {
-  color: var(--forest-highlight, #c8c8c8);
+  color: var(--mono-text, #c8c8c8);
 }
 
 :global(html[data-contrast="hc"]) .panel {

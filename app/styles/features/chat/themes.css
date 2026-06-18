@@ -569,18 +569,17 @@
 }
 
 :root.theme-light.theme-mid .drawer-panel .cs-delete {
-  background: var(--drawer-delete-bg) !important;
-  border-color: var(--drawer-delete-border) !important;
-  color: var(--drawer-delete-text) !important;
+  background: var(--drawer-delete-bg);
+  border-color: var(--drawer-delete-border);
+  color: var(--drawer-delete-text);
   box-shadow: var(--drawer-delete-shadow) !important;
 }
 
 :root.theme-light.theme-mid .drawer-panel .cs-delete:hover,
 :root.theme-light.theme-mid .drawer-panel .cs-delete:focus-visible {
-  background: var(--drawer-delete-bg-hover, var(--drawer-delete-bg)) !important;
-  border-color: var(--drawer-delete-border-hover, var(--drawer-delete-border))
-    !important;
-  color: var(--drawer-delete-text-hover, #7a3a38) !important;
+  background: var(--drawer-delete-bg-hover, var(--drawer-delete-bg));
+  border-color: var(--drawer-delete-border-hover, var(--drawer-delete-border));
+  color: var(--drawer-delete-text-hover, #7a3a38);
   box-shadow: var(--drawer-delete-shadow-hover, var(--drawer-delete-shadow))
     !important;
 }

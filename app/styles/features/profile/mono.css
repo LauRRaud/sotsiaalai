@@ -3,10 +3,10 @@
 :root.theme-mono:not([data-contrast="hc"]):not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"]) .profile-email-dock-wrapper.profile-orbit-menu-wrapper,
 :root.theme-mono:not([data-contrast="hc"]) .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
   --orbit-accent: #c57171;
-  --orbit-mobile-accent: var(--forest-highlight);
-  --orbit-keypad-fill: var(--forest-orbit-surface);
-  --orbit-keypad-fill-item: var(--forest-orbit-surface);
-  --orbit-keypad-fill-center: var(--forest-orbit-surface);
+  --orbit-mobile-accent: var(--mono-text);
+  --orbit-keypad-fill: var(--mono-orbit-surface);
+  --orbit-keypad-fill-item: var(--mono-orbit-surface);
+  --orbit-keypad-fill-center: var(--mono-orbit-surface);
   --orbit-button-shadow:
     inset 0 0 0 1px rgba(var(--mono-mid-rgb), 0.04),
     inset 0 1px 0 rgba(var(--mono-mid-rgb), 0.03);
@@ -25,7 +25,7 @@
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .profile-email-dock-wrapper.profile-orbit-menu-wrapper :is(.profile-orbit-menu__item, .profile-orbit-stack-bubble, .profile-orbit-mobile-action).dock-item {
-  color: var(--forest-highlight);
+  color: var(--mono-text);
   background:
     radial-gradient(
       156% 112% at 50% -18%,
@@ -54,24 +54,24 @@
 
 :root.theme-mono:not([data-contrast="hc"]) .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-item-icon,
 :root.theme-mono:not([data-contrast="hc"]) .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-mobile-action.dock-item .dock-icon {
-  color: var(--forest-title, #c57171) !important;
+  color: var(--mono-title, #c57171) !important;
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-item-label,
 :root.theme-mono:not([data-contrast="hc"]) .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-mobile-action__label,
 :root.theme-mono:not([data-contrast="hc"]) .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-stack-label {
-  color: var(--forest-highlight, #c8c8c8) !important;
+  color: var(--mono-text, #c8c8c8) !important;
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-item-icon :is(svg, path, circle, rect, line, polyline, polygon),
 :root.theme-mono:not([data-contrast="hc"]) .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-mobile-action.dock-item .dock-icon :is(svg, path, circle, rect, line, polyline, polygon) {
-  color: var(--forest-title, #c57171);
-  stroke: var(--forest-title, #c57171);
+  color: var(--mono-title, #c57171);
+  stroke: var(--mono-title, #c57171);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-item-icon :is(path, circle, rect, polygon)[fill]:not([fill="none"]),
 :root.theme-mono:not([data-contrast="hc"]) .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-mobile-action.dock-item .dock-icon :is(path, circle, rect, polygon)[fill]:not([fill="none"]) {
-  fill: var(--forest-title, #c57171);
+  fill: var(--mono-title, #c57171);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-static-glow {

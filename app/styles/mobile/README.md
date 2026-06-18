@@ -4,6 +4,7 @@
 
 - `../mobile.css` is the compatibility wrapper for the old mobile monolith. It imports owner files in cascade order.
 - `chat-bootstrap.css` owns critical mobile chat composer anchoring keyed off the early `data-layout="mobile"` script; it is imported globally because it must run before route hydration.
+- `platform-android.css` is the Android-only mobile compatibility entry keyed off `data-platform="android"`. It imports feature-owned Android files such as `features/policy/android-mobile.css` and `features/profile/android-mobile.css`; keep direct rules here for shared Android platform fixes only.
 - `subpage-title-system.css` owns shared mobile header placement and title fitting: title, back button and optional info button.
 - `background-home.css` owns mobile home background behavior and reveal transitions.
 - `accessibility-modal-fields.css` owns accessibility modal fieldset spacing.

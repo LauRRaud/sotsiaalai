@@ -94,9 +94,9 @@
   html.theme-mono:not([data-contrast="hc"]) {
     --home-browser-base-bg: linear-gradient(
       180deg,
-      var(--forest-bg-top, #2f2f2f) 0%,
-      var(--forest-bg-mid, #1f1f1f) 54%,
-      var(--forest-bg-bottom, #101010) 100%
+      var(--mono-bg-top, #2f2f2f) 0%,
+      var(--mono-bg-mid, #1f1f1f) 54%,
+      var(--mono-bg-bottom, #101010) 100%
     );
   }
   html:not(.theme-light):not(.theme-mid):not(.theme-night):not(.theme-mono) {

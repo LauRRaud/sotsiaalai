@@ -134,10 +134,10 @@
   --wellbeing-dropdown-item-bg: rgb(38, 38, 38);
   --wellbeing-dropdown-item-bg-hover: rgb(48, 48, 48);
   --wellbeing-dropdown-selected-bg: rgb(10, 10, 10);
-  --wellbeing-dropdown-text: var(--forest-highlight, #f4f7ed);
-  --wellbeing-dropdown-selected-text: var(--forest-highlight, #f4f7ed);
-  --wellbeing-checkbox-border: var(--forest-highlight, #f4f7ed);
-  --wellbeing-checkbox-tick: var(--forest-highlight, #f4f7ed);
+  --wellbeing-dropdown-text: var(--mono-text, #f4f7ed);
+  --wellbeing-dropdown-selected-text: var(--mono-text, #f4f7ed);
+  --wellbeing-checkbox-border: var(--mono-text, #f4f7ed);
+  --wellbeing-checkbox-tick: var(--mono-text, #f4f7ed);
   --wellbeing-checkbox-bg-checked: rgba(232, 238, 224, 0.14);
 }
 
@@ -221,8 +221,8 @@
   --wellbeing-dropdown-item-bg: rgb(38, 38, 38);
   --wellbeing-dropdown-item-bg-hover: rgb(48, 48, 48);
   --wellbeing-dropdown-selected-bg: rgb(10, 10, 10);
-  --wellbeing-dropdown-text: var(--forest-highlight, #f4f7ed);
-  --wellbeing-dropdown-selected-text: var(--forest-highlight, #f4f7ed);
+  --wellbeing-dropdown-text: var(--mono-text, #f4f7ed);
+  --wellbeing-dropdown-selected-text: var(--mono-text, #f4f7ed);
 }
 
 :global(html[data-contrast="hc"] .documents-dropdown-menu.wellbeing-dropdown-menu) {

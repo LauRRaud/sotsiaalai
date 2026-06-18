@@ -2912,7 +2912,7 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
 
 :root.theme-mono:not([data-contrast="hc"]) .service-map-workspace {
   --service-map-popup-glass-bg: var(
-    --forest-floating-surface,
+    --mono-floating-surface,
     var(--workspace-elevated-card-bg)
   );
 }

@@ -1,10 +1,10 @@
 :root.theme-mono:not([data-contrast="hc"]) .documents-workspace {
-  --documents-heading-color: var(--forest-title);
-  --documents-accent: var(--forest-title);
+  --documents-heading-color: var(--mono-title);
+  --documents-accent: var(--mono-title);
   --documents-accent-soft: rgba(var(--mono-mid-rgb), 0.14);
   --documents-accent-border: rgba(var(--mono-light-rgb), 0.2);
-  --documents-page-text: var(--forest-highlight);
-  --documents-page-strong: var(--forest-highlight);
+  --documents-page-text: var(--mono-text);
+  --documents-page-strong: var(--mono-text);
   --documents-page-muted: rgba(var(--mono-light-rgb), 0.78);
   --documents-glass-surface: var(--glass-ring-surface-bg);
   --documents-panel-bg: var(--glass-ring-surface-bg);
@@ -17,22 +17,22 @@
   --documents-subpanel-border: rgba(var(--mono-mid-rgb), 0.1);
   --documents-content-border: rgba(var(--mono-mid-rgb), 0.1);
   --documents-muted-border: rgba(var(--mono-mid-rgb), 0.1);
-  --documents-chip-bg: var(--forest-orbit-surface);
+  --documents-chip-bg: var(--mono-orbit-surface);
   --documents-chip-border: rgba(var(--mono-mid-rgb), 0.14);
-  --documents-chip-text: var(--forest-highlight);
-  --documents-chip-text-active: var(--forest-title-soft);
+  --documents-chip-text: var(--mono-text);
+  --documents-chip-text-active: var(--mono-title-soft);
   --documents-info-bg: rgba(34, 34, 34, 0.92);
   --documents-info-border: rgba(var(--mono-mid-rgb), 0.12);
-  --documents-info-text: var(--forest-highlight);
+  --documents-info-text: var(--mono-text);
   --documents-success-bg: rgba(34, 34, 34, 0.92);
   --documents-success-border: rgba(var(--mono-mid-rgb), 0.12);
-  --documents-success-text: var(--forest-highlight);
+  --documents-success-text: var(--mono-text);
   --documents-warning-bg: rgba(34, 34, 34, 0.92);
   --documents-warning-border: rgba(var(--mono-mid-rgb), 0.12);
-  --documents-warning-text: var(--forest-highlight);
+  --documents-warning-text: var(--mono-text);
   --documents-error-bg: rgba(42, 30, 30, 0.92);
   --documents-error-border: rgba(197, 113, 113, 0.22);
-  --documents-error-text: var(--forest-title-soft);
+  --documents-error-text: var(--mono-title-soft);
   --documents-agent-stage-bg: rgba(27, 27, 27, 0.68);
   --documents-agent-stage-border: rgba(var(--mono-mid-rgb), 0.1);
   --documents-agent-thread-bg: rgba(24, 24, 24, 0.7);
@@ -41,8 +41,8 @@
   --documents-agent-composer-bg: rgba(28, 28, 28, 0.72);
   --documents-agent-composer-bg-hover: rgba(34, 34, 34, 0.76);
   --documents-agent-composer-border: rgba(var(--mono-mid-rgb), 0.12);
-  --documents-elevated-bg: var(--forest-orbit-surface);
-  --documents-elevated-bg-hover: var(--forest-orbit-surface-hover);
+  --documents-elevated-bg: var(--mono-orbit-surface);
+  --documents-elevated-bg-hover: var(--mono-orbit-surface-hover);
   --documents-elevated-border: rgba(var(--mono-mid-rgb), 0.14);
   --documents-elevated-border-hover: rgba(var(--mono-light-rgb), 0.2);
   --documents-elevated-shadow: var(--subpage-card-shadow);
@@ -55,44 +55,44 @@
   --subpage-card-border-hover: rgba(var(--mono-mid-rgb), 0.14);
   --subpage-card-shadow: var(--glass-shell-shadow);
   --subpage-card-shadow-hover: var(--glass-shell-shadow);
-  --opaque-panel-bg: var(--forest-tooltip-surface);
-  --opaque-panel-bg-hover: var(--forest-tooltip-surface-hover);
+  --opaque-panel-bg: var(--mono-tooltip-surface);
+  --opaque-panel-bg-hover: var(--mono-tooltip-surface-hover);
   --opaque-panel-border: rgba(var(--mono-mid-rgb), 0.14);
   --opaque-panel-shadow: 0 16px 32px rgba(0, 0, 0, 0.38);
-  --input-bg: var(--forest-input-surface);
-  --input-bg-hover: var(--forest-input-surface-hover);
-  --input-bg-focus: var(--forest-input-surface-hover);
-  --input-flat-bg: var(--forest-input-surface);
-  --input-flat-bg-hover: var(--forest-input-surface-hover);
+  --input-bg: var(--mono-input-surface);
+  --input-bg-hover: var(--mono-input-surface-hover);
+  --input-bg-focus: var(--mono-input-surface-hover);
+  --input-flat-bg: var(--mono-input-surface);
+  --input-flat-bg-hover: var(--mono-input-surface-hover);
   --input-border: 1px solid rgba(var(--mono-mid-rgb), 0.16);
   --input-shadow: var(--mono-field-hole-shadow);
   --input-shadow-hover: var(--mono-field-hole-shadow-hover);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .documents-workspace :is(.documents-field, .documents-dropdown-trigger, .documents-form-input, .documents-agent-textarea) {
-  background: var(--forest-input-surface);
+  background: var(--mono-input-surface);
   border-color: rgba(var(--mono-mid-rgb), 0.16);
   box-shadow: var(--mono-field-hole-shadow);
-  color: var(--forest-highlight);
+  color: var(--mono-text);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .documents-workspace :is(.documents-field, .documents-dropdown-trigger, .documents-form-input, .documents-agent-textarea):is(:hover, :focus-visible, :focus-within, .is-open) {
-  background: var(--forest-input-surface-hover);
+  background: var(--mono-input-surface-hover);
   box-shadow: var(--mono-field-hole-shadow-hover);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) :is(.documents-workspace .documents-dropdown-menu, .documents-dropdown-menu.documents-dropdown-menu--portal:not(.pre-inquiry-dropdown-menu)) {
   border: 1px solid var(--documents-dropdown-border, rgba(var(--mono-mid-rgb), 0.14));
-  background: var(--documents-dropdown-bg, var(--forest-tooltip-surface));
+  background: var(--documents-dropdown-bg, var(--mono-tooltip-surface));
   background-color: rgb(28, 28, 28);
   box-shadow: var(--documents-dropdown-shadow, 0 16px 32px rgba(0, 0, 0, 0.38));
-  color: var(--forest-highlight);
+  color: var(--mono-text);
   opacity: 1;
 }
 
 :root.theme-mono:not([data-contrast="hc"]) :is(.documents-workspace .documents-dropdown-item, .documents-dropdown-menu.documents-dropdown-menu--portal:not(.pre-inquiry-dropdown-menu) .documents-dropdown-item) {
   background: var(--documents-dropdown-item-bg, rgb(28, 28, 28));
-  color: var(--forest-highlight);
+  color: var(--mono-text);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) :is(.documents-workspace .documents-dropdown-item:hover, .documents-workspace .documents-dropdown-item:focus-visible, .documents-dropdown-menu.documents-dropdown-menu--portal:not(.pre-inquiry-dropdown-menu) .documents-dropdown-item:hover, .documents-dropdown-menu.documents-dropdown-menu--portal:not(.pre-inquiry-dropdown-menu) .documents-dropdown-item:focus-visible) {
@@ -100,6 +100,6 @@
 }
 
 :root.theme-mono:not([data-contrast="hc"]) :is(.documents-workspace .documents-dropdown-item.is-active, .documents-dropdown-menu.documents-dropdown-menu--portal:not(.pre-inquiry-dropdown-menu) .documents-dropdown-item.is-active) {
-  color: var(--forest-title-soft);
+  color: var(--mono-title-soft);
   background: rgb(36, 36, 36);
 }

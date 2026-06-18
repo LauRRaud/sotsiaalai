@@ -747,8 +747,8 @@ html[data-contrast="hc"] .documents-workspace.documents-workspace-page--library 
 }
 
 :root.theme-mono {
-  --documents-dropdown-bg: var(--forest-tooltip-surface);
-  --documents-dropdown-bg-hover: var(--forest-tooltip-surface-hover);
+  --documents-dropdown-bg: var(--mono-tooltip-surface);
+  --documents-dropdown-bg-hover: var(--mono-tooltip-surface-hover);
   --documents-dropdown-item-bg: rgb(28, 28, 28);
   --documents-dropdown-item-bg-hover: rgb(46, 46, 46);
   --documents-dropdown-border: rgba(214, 214, 214, 0.14);

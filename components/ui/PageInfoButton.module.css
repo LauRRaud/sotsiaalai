@@ -128,8 +128,8 @@
 }
 
 :global(:root.theme-mono:not([data-contrast="hc"])) .trigger {
-  --page-info-ring-color: var(--forest-title, #c57171);
-  --page-info-dot-color: var(--forest-title, #c57171);
+  --page-info-ring-color: var(--mono-title, #c57171);
+  --page-info-dot-color: var(--mono-title, #c57171);
 }
 
 :global(html[data-contrast="hc"]) .trigger {
@@ -226,7 +226,7 @@
 }
 
 :global(:root.theme-mono:not([data-contrast="hc"])) .closeButton {
-  color: var(--forest-title, #c57171);
+  color: var(--mono-title, #c57171);
 }
 
 :global(html[data-contrast="hc"]) .modalContent {

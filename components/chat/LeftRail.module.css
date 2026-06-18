@@ -165,13 +165,13 @@
 }
 
 :global(:root.theme-mono:not([data-contrast="hc"])) .iconBack :global(.back-icon-arrow) {
-  stroke: var(--forest-title, #c57171) !important;
+  stroke: var(--mono-title, #c57171) !important;
 }
 
 :global(:root.theme-mono:not([data-contrast="hc"])) .iconBack :global(.back-icon-dot) {
-  color: var(--forest-title, #c57171) !important;
-  fill: var(--forest-title, #c57171) !important;
-  stroke: var(--forest-title, #c57171) !important;
+  color: var(--mono-title, #c57171) !important;
+  fill: var(--mono-title, #c57171) !important;
+  stroke: var(--mono-title, #c57171) !important;
 }
 
 :global(:root.theme-mono:not([data-contrast="hc"])) .iconBack :global(.back-icon-dot.back-icon-dot--outline) {
@@ -180,7 +180,7 @@
 
 :global(:root.theme-mono:not([data-contrast="hc"])) .iconBtn:hover .iconBack :global(.back-icon-dot.back-icon-dot--outline),
 :global(:root.theme-mono:not([data-contrast="hc"])) .iconBtn:focus-visible .iconBack :global(.back-icon-dot.back-icon-dot--outline) {
-  fill: var(--forest-title, #c57171) !important;
+  fill: var(--mono-title, #c57171) !important;
 }
 
 @media (min-width: 769px) {

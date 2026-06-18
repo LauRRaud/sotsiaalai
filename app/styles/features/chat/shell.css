@@ -411,12 +411,12 @@ html[data-reduce-motion="1"] .chat-page-shell .chat-container.chat-container--ro
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .chat-page-shell {
-  --chat-rail-tooltip-bg: var(--forest-tooltip-surface, var(--forest-floating-surface, rgba(38, 38, 38, 0.72)));
+  --chat-rail-tooltip-bg: var(--mono-tooltip-surface, var(--mono-floating-surface, rgba(38, 38, 38, 0.72)));
   --rail-tooltip-bg: var(--chat-rail-tooltip-bg);
   --rail-tooltip-border: rgba(214, 214, 214, 0.11);
   --rail-tooltip-shadow: 0 10px 22px rgba(7, 7, 7, 0.16);
-  --chat-tools-panel-bg: var(--forest-tooltip-surface, var(--rail-tooltip-bg));
-  --chat-tools-item-hover-bg: var(--forest-tooltip-surface-hover, rgba(54, 54, 54, 0.74));
+  --chat-tools-panel-bg: var(--mono-tooltip-surface, var(--rail-tooltip-bg));
+  --chat-tools-item-hover-bg: var(--mono-tooltip-surface-hover, rgba(54, 54, 54, 0.74));
 }
 
 html[data-contrast="hc"] .chat-page-shell {

@@ -1,0 +1,183 @@
+/* Android-specific mobile profile orbit and stack menu layout. */
+
+@media (max-width: 768px) {
+  html[data-platform="android"] .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper,
+  body[data-platform="android"] .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
+    --orbit-size: min(88vw, 20.1rem) !important;
+    --orbit-item-size: clamp(4.7rem, 19.8vw, 5.75rem) !important;
+    --orbit-item-size-open: clamp(4.95rem, 21vw, 6.05rem) !important;
+    --orbit-center-size: clamp(9.8rem, 40vw, 11.2rem) !important;
+    --orbit-center-icon-size: calc(var(--orbit-center-size) * 0.435) !important;
+    margin-top: clamp(1.1rem, 4.8vw, 1.7rem) !important;
+    transform: translateY(clamp(0.16rem, 0.7vw, 0.3rem)) !important;
+  }
+
+  html[data-platform="android"] .profile-container.glass-ring .profile-mobile-action-stack,
+  body[data-platform="android"] .profile-container.glass-ring .profile-mobile-action-stack {
+    bottom: calc(env(safe-area-inset-bottom, 0px) + clamp(4rem, 11vw, 5rem)) !important;
+    gap: clamp(0.22rem, 1.2vw, 0.42rem) !important;
+  }
+
+  html[data-platform="android"] .profile-orbit-stack-list,
+  body[data-platform="android"] .profile-orbit-stack-list {
+    --stack-safe-pad-top: clamp(4.65rem, 10.5vh, 6.1rem) !important;
+    --stack-safe-pad-bottom: clamp(5.45rem, 12vh, 7.25rem) !important;
+    justify-content: flex-start !important;
+    overscroll-behavior-y: auto !important;
+    padding-top: var(--stack-safe-pad-top) !important;
+    padding-bottom: var(--stack-safe-pad-bottom) !important;
+    gap: clamp(1.84rem, 4.2vh, 2.92rem) !important;
+  }
+
+  html[data-platform="android"] .profile-orbit-stack-backdrop,
+  body[data-platform="android"] .profile-orbit-stack-backdrop {
+    background: transparent !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    align-items: center !important;
+  }
+
+  html[data-platform="android"] .profile-orbit-stack-panel,
+  body[data-platform="android"] .profile-orbit-stack-panel {
+    width: calc(
+      100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) -
+        (2 * var(--mobile-glass-card-gap, 0.35rem))
+    ) !important;
+    max-width: calc(
+      100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) -
+        (2 * var(--mobile-glass-card-gap, 0.35rem))
+    ) !important;
+    height: calc(
+      var(--glass-mobile-root-vh, 100dvh) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) -
+        (2 * var(--mobile-glass-card-gap, 0.35rem))
+    ) !important;
+    max-height: calc(
+      var(--glass-mobile-root-vh, 100dvh) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) -
+        (2 * var(--mobile-glass-card-gap, 0.35rem))
+    ) !important;
+    padding-top: 0 !important;
+    padding-right: clamp(0.8rem, 3vw, 1rem) !important;
+    padding-bottom: 0 !important;
+    padding-left: clamp(0.8rem, 3vw, 1rem) !important;
+    border-radius: var(
+      --mobile-glass-card-radius,
+      clamp(1.05rem, 3.8vw, 1.45rem)
+    ) !important;
+    background: transparent !important;
+  }
+
+  html[data-platform="android"] .profile-orbit-stack-fade,
+  body[data-platform="android"] .profile-orbit-stack-fade {
+    display: none !important;
+    opacity: 0 !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+
+  html[data-platform="android"] .profile-orbit-stack-fade--top,
+  body[data-platform="android"] .profile-orbit-stack-fade--top {
+    --profile-orbit-stack-fade-angle: 180deg;
+  }
+
+  html[data-platform="android"] .profile-orbit-stack-fade--bottom,
+  body[data-platform="android"] .profile-orbit-stack-fade--bottom {
+    --profile-orbit-stack-fade-angle: 0deg;
+  }
+
+  html[data-platform="android"] :is(.profile-orbit-stack-fade--top, .profile-orbit-stack-fade--bottom),
+  body[data-platform="android"] :is(.profile-orbit-stack-fade--top, .profile-orbit-stack-fade--bottom) {
+    background: linear-gradient(
+      var(--profile-orbit-stack-fade-angle),
+      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.46) 0%,
+      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.28) 18%,
+      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.13) 42%,
+      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.045) 68%,
+      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0) 100%
+    ) !important;
+  }
+
+  html[data-platform="android"] .profile-orbit-stack-item,
+  body[data-platform="android"] .profile-orbit-stack-item {
+    gap: clamp(0.42rem, 1.6vw, 0.68rem) !important;
+  }
+
+  html[data-platform="android"] .profile-orbit-stack-bubble.dock-item,
+  body[data-platform="android"] .profile-orbit-stack-bubble.dock-item {
+    width: clamp(5.8rem, 24.2vw, 7.1rem) !important;
+    height: clamp(5.8rem, 24.2vw, 7.1rem) !important;
+  }
+
+  html[data-platform="android"] .profile-orbit-stack-label,
+  body[data-platform="android"] .profile-orbit-stack-label {
+    max-width: min(82vw, 18.75rem) !important;
+    font-size: clamp(1.28rem, 4.8vw, 1.62rem) !important;
+    line-height: 1.1 !important;
+    letter-spacing: 0.028em !important;
+    text-wrap: balance !important;
+    white-space: normal !important;
+    overflow-wrap: break-word !important;
+    word-break: break-word !important;
+    hyphens: auto !important;
+  }
+
+  html[data-platform="android"] .profile-orbit-stack-item[data-key="my_help_requests"] .profile-orbit-stack-label,
+  html[data-platform="android"] .profile-orbit-stack-item[data-key="my_help_offers"] .profile-orbit-stack-label,
+  body[data-platform="android"] .profile-orbit-stack-item[data-key="my_help_requests"] .profile-orbit-stack-label,
+  body[data-platform="android"] .profile-orbit-stack-item[data-key="my_help_offers"] .profile-orbit-stack-label {
+    max-width: min(88vw, 19.5rem) !important;
+    font-size: clamp(1.22rem, 4.55vw, 1.5rem) !important;
+    line-height: 1.08 !important;
+    letter-spacing: 0.022em !important;
+    text-wrap: balance !important;
+    white-space: normal !important;
+    overflow-wrap: break-word !important;
+    word-break: break-word !important;
+    hyphens: auto !important;
+  }
+
+  html[data-platform="android"] .profile-container.glass-ring .profile-mobile-action-stack .profile-logout-button,
+  body[data-platform="android"] .profile-container.glass-ring .profile-mobile-action-stack .profile-logout-button {
+    height: 5.15rem !important;
+    width: 5.15rem !important;
+  }
+
+  html[data-platform="android"] .profile-container.glass-ring .profile-mobile-action-stack .profile-logout-icon,
+  body[data-platform="android"] .profile-container.glass-ring .profile-mobile-action-stack .profile-logout-icon {
+    height: 3.95rem !important;
+    width: 3.95rem !important;
+  }
+
+  .profile-container.glass-ring .profile-nav-overlay .profile-mobile-action-stack {
+    position: absolute !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: auto !important;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + clamp(4.8rem, 11vw, 5.8rem)) !important;
+    transform: none !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    text-align: center !important;
+    z-index: 95 !important;
+  }
+
+  .profile-container.glass-ring .profile-nav-overlay .profile-mobile-action-stack > * {
+    align-self: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap {
+    position: absolute !important;
+    left: 50% !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: clamp(6rem, 27vw, 7.45rem) !important;
+    transform: translateX(-50%) !important;
+    z-index: 95 !important;
+  }
+}

@@ -74,6 +74,26 @@ test("light and mid glow controls define idle transparent glow layers", () => {
   assert.match(midFieldIdleBlock[1], /rgba\(197,\s*113,\s*113,\s*0\)/);
 });
 
+test("light-mid drawer delete button only keeps important where mid shadow resets require it", () => {
+  const css = readCss("app/styles/features/chat/themes.css");
+  const idleBlock = css.match(
+    /:root\.theme-light\.theme-mid \.drawer-panel \.cs-delete\s*\{([\s\S]*?)\n\}/
+  );
+  const hoverBlock = css.match(
+    /:root\.theme-light\.theme-mid \.drawer-panel \.cs-delete:hover,[\s\S]*?:root\.theme-light\.theme-mid \.drawer-panel \.cs-delete:focus-visible\s*\{([\s\S]*?)\n\}/
+  );
+
+  assert.ok(idleBlock, "light-mid drawer delete idle block should exist");
+  assert.ok(hoverBlock, "light-mid drawer delete hover block should exist");
+
+  for (const block of [idleBlock[1], hoverBlock[1]]) {
+    assert.doesNotMatch(block, /background:[^;]+!important/);
+    assert.doesNotMatch(block, /border-color:[^;]+!important/);
+    assert.doesNotMatch(block, /color:[^;]+!important/);
+    assert.match(block, /box-shadow:[^;]+!important/);
+  }
+});
+
 test("light and mid buttons use an outer glow ring without inset double edges", () => {
   const css = readCss("app/styles/components/glass.css");
   const buttonHoverBlock = css.match(

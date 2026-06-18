@@ -122,9 +122,9 @@
 :root.theme-mono:not([data-contrast="hc"]) body.homepage,
 :root.theme-mono:not([data-contrast="hc"]) .homepage-root {
   --home-prose-color: rgba(245, 245, 245, 0.93);
-  --home-scroll-cue-color: var(--forest-title);
-  --home-title-color: var(--forest-title);
-  --home-link-color: var(--forest-title);
+  --home-scroll-cue-color: var(--mono-title);
+  --home-title-color: var(--mono-title);
+  --home-link-color: var(--mono-title);
   --home-panel-shadow-idle:
     0 0 12px rgba(230, 230, 230, 0.12),
     0 0 24px rgba(230, 230, 230, 0.06);
@@ -142,7 +142,7 @@
 
 :root.theme-mono:not([data-contrast="hc"]) .homepage-root .home-before-links .home-quick-link,
 :root.theme-mono:not([data-contrast="hc"]) .homepage-root .home-before-links .home-quick-link svg {
-  color: var(--forest-title);
+  color: var(--mono-title);
   text-shadow: 0 0 14px rgba(197, 113, 113, 0.12);
 }
 
@@ -154,17 +154,17 @@
   .home-before-contact-copy a,
   .home-before-contact-copy a:is(:hover, :focus-visible, :active)
 ) {
-  color: var(--forest-title) !important;
-  -webkit-text-fill-color: var(--forest-title) !important;
-  --link-brand-text: var(--forest-title);
-  --link-color: var(--forest-title);
-  --home-link-color: var(--forest-title);
-  --home-scroll-cue-color: var(--forest-title);
+  color: var(--mono-title) !important;
+  -webkit-text-fill-color: var(--mono-title) !important;
+  --link-brand-text: var(--mono-title);
+  --link-color: var(--mono-title);
+  --home-link-color: var(--mono-title);
+  --home-scroll-cue-color: var(--mono-title);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .homepage-root .home-before-links .home-quick-label {
-  color: var(--forest-highlight) !important;
-  -webkit-text-fill-color: var(--forest-highlight) !important;
+  color: var(--mono-text) !important;
+  -webkit-text-fill-color: var(--mono-text) !important;
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .homepage-root .home-card-face-content::before {
@@ -172,6 +172,6 @@
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .homepage-root .home-about-title {
-  color: var(--forest-title);
-  -webkit-text-fill-color: var(--forest-title);
+  color: var(--mono-title);
+  -webkit-text-fill-color: var(--mono-title);
 }

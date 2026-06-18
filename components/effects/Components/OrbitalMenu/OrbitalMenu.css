@@ -1891,8 +1891,8 @@ html[data-contrast="hc"]
     .profile-orbit-stack-bubble,
     .profile-orbit-mobile-action
   ).dock-item {
-  color: var(--forest-highlight, #c8c8c8);
-  background: var(--forest-orbit-surface) !important;
+  color: var(--mono-text, #c8c8c8);
+  background: var(--mono-orbit-surface) !important;
   box-shadow:
     0 0 18px rgba(230, 230, 230, 0.12),
     inset 0 0 0 1px rgba(230, 230, 230, 0.08),
@@ -1912,7 +1912,7 @@ html[data-contrast="hc"]
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-mobile-action.dock-item
   .dock-icon {
-  color: var(--forest-title, #c57171) !important;
+  color: var(--mono-title, #c57171) !important;
 }
 
 :root.theme-mono:not([data-contrast="hc"])
@@ -1924,7 +1924,7 @@ html[data-contrast="hc"]
 :root.theme-mono:not([data-contrast="hc"])
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-stack-label {
-  color: var(--forest-highlight, #c8c8c8) !important;
+  color: var(--mono-text, #c8c8c8) !important;
 }
 
 :root.theme-mono:not([data-contrast="hc"])
@@ -1936,8 +1936,8 @@ html[data-contrast="hc"]
   .profile-orbit-mobile-action.dock-item
   .dock-icon
   :is(svg, path, circle, rect, line, polyline, polygon) {
-  color: var(--forest-title, #c57171) !important;
-  stroke: var(--forest-title, #c57171) !important;
+  color: var(--mono-title, #c57171) !important;
+  stroke: var(--mono-title, #c57171) !important;
 }
 
 :root.theme-mono:not([data-contrast="hc"])
@@ -1949,7 +1949,7 @@ html[data-contrast="hc"]
   .profile-orbit-mobile-action.dock-item
   .dock-icon
   :is(path, circle, rect, polygon)[fill]:not([fill="none"]) {
-  fill: var(--forest-title, #c57171) !important;
+  fill: var(--mono-title, #c57171) !important;
 }
 
 :root.theme-mono:not([data-contrast="hc"])
@@ -1988,8 +1988,8 @@ html[data-contrast="hc"]
     .profile-orbit-stack-bubble,
     .profile-orbit-mobile-action
   ).dock-item:is(:hover, :focus-visible, :active, [data-orbit-mobile-active="true"]) {
-  color: var(--forest-highlight, #c8c8c8);
-  background: var(--forest-orbit-surface-hover, var(--forest-orbit-surface)) !important;
+  color: var(--mono-text, #c8c8c8);
+  background: var(--mono-orbit-surface-hover, var(--mono-orbit-surface)) !important;
 }
 
 :root.theme-mono:not([data-contrast="hc"])

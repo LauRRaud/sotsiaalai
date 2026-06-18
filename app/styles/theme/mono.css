@@ -16,9 +16,9 @@
   );
   background: linear-gradient(
     180deg,
-    var(--forest-bg-top) 0%,
-    var(--forest-bg-mid) 54%,
-    var(--forest-bg-bottom) 100%
+    var(--mono-bg-top) 0%,
+    var(--mono-bg-mid) 54%,
+    var(--mono-bg-bottom) 100%
   );
 }
 
@@ -27,10 +27,10 @@
   .guide-rich-link,
   .guide-rich-link:is(:hover, :focus-visible, :active)
 ) {
-  color: var(--forest-title) !important;
-  -webkit-text-fill-color: var(--forest-title) !important;
-  --link-brand-text: var(--forest-title);
-  --link-color: var(--forest-title);
+  color: var(--mono-title) !important;
+  -webkit-text-fill-color: var(--mono-title) !important;
+  --link-brand-text: var(--mono-title);
+  --link-color: var(--mono-title);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .homepage-root :is(.centered-back-left, .centered-back-right) .home-card-face-content::before {
@@ -55,29 +55,29 @@
 
 :root.theme-mono:not([data-contrast="hc"]) :is(.back-button, .chat-back-button, .workspace-scroll-back-button, .documents-scroll-back-button, .glass-subpage-back-button, .account-settings-back-button, .register-back-button),
 :root.theme-mono:not([data-contrast="hc"]) button:has(.back-icon-arrow) {
-  --back-arrow-color: var(--forest-title);
-  --back-dot-color: var(--forest-title);
-  color: var(--forest-title);
+  --back-arrow-color: var(--mono-title);
+  --back-dot-color: var(--mono-title);
+  color: var(--mono-title);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) :is(.back-button, .chat-back-button, .workspace-scroll-back-button, .documents-scroll-back-button, .glass-subpage-back-button, .account-settings-back-button, .register-back-button) svg,
 :root.theme-mono:not([data-contrast="hc"]) button:has(.back-icon-arrow) svg {
-  --back-arrow-color: var(--forest-title);
-  --back-dot-color: var(--forest-title);
+  --back-arrow-color: var(--mono-title);
+  --back-dot-color: var(--mono-title);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) :is(.back-button, .chat-back-button, .workspace-scroll-back-button, .documents-scroll-back-button, .glass-subpage-back-button, .account-settings-back-button, .register-back-button) :is(svg, path, circle, line, polyline),
 :root.theme-mono:not([data-contrast="hc"]) button:has(.back-icon-arrow) :is(svg, path, circle, line, polyline) {
-  color: var(--forest-title);
+  color: var(--mono-title);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .back-icon-arrow {
-  stroke: var(--forest-title);
+  stroke: var(--mono-title);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .back-icon-dot {
-  fill: var(--forest-title);
-  stroke: var(--forest-title);
+  fill: var(--mono-title);
+  stroke: var(--mono-title);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .back-icon-dot.back-icon-dot--outline {
@@ -85,15 +85,15 @@
 }
 
 :root.theme-mono:not([data-contrast="hc"]) button:is(:hover, :focus-visible) .back-icon-dot.back-icon-dot--outline {
-  fill: var(--forest-title);
+  fill: var(--mono-title);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .modal-close-btn {
-  color: var(--forest-title);
-  -webkit-text-fill-color: var(--forest-title);
+  color: var(--mono-title);
+  -webkit-text-fill-color: var(--mono-title);
 }
 :root.theme-mono:not([data-contrast="hc"]) .chat-tools-surface-popover {
-  background: var(--forest-tooltip-surface);
+  background: var(--mono-tooltip-surface);
   color: var(--rail-tooltip-text, var(--subpage-card-text));
   border: 0 !important;
   box-shadow: 0 10px 22px rgba(7, 7, 7, 0.3);
@@ -102,8 +102,8 @@
 }
 
 :root.theme-mono:not([data-contrast="hc"]) #login-modal .login-help-popover {
-  background: var(--forest-tooltip-surface) !important;
-  color: var(--forest-highlight);
+  background: var(--mono-tooltip-surface) !important;
+  color: var(--mono-text);
   border: 0;
   box-shadow: 0 10px 22px rgba(7, 7, 7, 0.3);
   -webkit-backdrop-filter: none;
@@ -111,46 +111,46 @@
 }
 
 :root.theme-mono:not([data-contrast="hc"]) #login-modal .login-help-popover .login-help-close-btn {
-  color: var(--forest-title);
-  -webkit-text-fill-color: var(--forest-title);
+  color: var(--mono-title);
+  -webkit-text-fill-color: var(--mono-title);
 }
 
 
 :root.theme-mono:not([data-contrast="hc"]) .materials-page-shell {
-  --subpage-card-bg: var(--forest-input-surface);
-  --subpage-card-bg-hover: var(--forest-input-surface-hover);
+  --subpage-card-bg: var(--mono-input-surface);
+  --subpage-card-bg-hover: var(--mono-input-surface-hover);
   --subpage-card-border: rgba(var(--mono-mid-rgb), 0.16);
   --subpage-card-border-hover: rgba(var(--mono-light-rgb), 0.2);
   --subpage-card-shadow: var(--input-shadow);
   --subpage-card-shadow-hover: var(--input-shadow-hover);
-  --panel-secondary-bg: var(--forest-input-surface);
-  --panel-secondary-bg-hover: var(--forest-input-surface-hover);
+  --panel-secondary-bg: var(--mono-input-surface);
+  --panel-secondary-bg-hover: var(--mono-input-surface-hover);
   --panel-secondary-border: rgba(var(--mono-mid-rgb), 0.12);
   --panel-secondary-shadow: var(--input-shadow);
-  --input-bg: var(--forest-input-surface);
-  --input-bg-hover: var(--forest-input-surface-hover);
-  --input-bg-focus: var(--forest-input-surface-hover);
+  --input-bg: var(--mono-input-surface);
+  --input-bg-hover: var(--mono-input-surface-hover);
+  --input-bg-focus: var(--mono-input-surface-hover);
   --input-border: 1px solid rgba(var(--mono-mid-rgb), 0.16);
   --input-shadow: var(--mono-field-hole-shadow);
   --input-shadow-hover: var(--mono-field-hole-shadow-hover);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .materials-page-shell :is(.materials-comment-box, .materials-comment-glow-field .ui-glow-control) {
-  background: var(--forest-input-surface);
+  background: var(--mono-input-surface);
   border-color: rgba(var(--mono-mid-rgb), 0.16);
   box-shadow: var(--mono-field-hole-shadow);
-  color: var(--forest-highlight);
+  color: var(--mono-text);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .workspace-dashboard-panel .materials-page-body {
-  --subpage-card-bg: var(--forest-input-surface) !important;
-  --subpage-card-bg-hover: var(--forest-input-surface-hover);
+  --subpage-card-bg: var(--mono-input-surface) !important;
+  --subpage-card-bg-hover: var(--mono-input-surface-hover);
   --subpage-card-border: rgba(var(--mono-mid-rgb), 0.16);
   --subpage-card-shadow: var(--mono-field-hole-shadow);
   --subpage-card-shadow-hover: var(--mono-field-hole-shadow-hover);
-  --input-bg: var(--forest-input-surface) !important;
-  --input-bg-hover: var(--forest-input-surface-hover);
-  --input-bg-focus: var(--forest-input-surface-hover);
+  --input-bg: var(--mono-input-surface) !important;
+  --input-bg-hover: var(--mono-input-surface-hover);
+  --input-bg-focus: var(--mono-input-surface-hover);
   --input-border: 1px solid rgba(var(--mono-mid-rgb), 0.16);
   --input-shadow: var(--mono-field-hole-shadow);
   --input-shadow-hover: var(--mono-field-hole-shadow-hover);
@@ -161,12 +161,12 @@
   .materials-comment-box,
   .materials-comment-glow-field .ui-glow-control
 ) {
-  --card-bg: var(--forest-input-surface);
-  background: var(--forest-input-surface) !important;
-  background-image: var(--forest-input-surface) !important;
+  --card-bg: var(--mono-input-surface);
+  background: var(--mono-input-surface) !important;
+  background-image: var(--mono-input-surface) !important;
   border-color: rgba(var(--mono-mid-rgb), 0.16);
   box-shadow: var(--mono-field-hole-shadow);
-  color: var(--forest-highlight);
+  color: var(--mono-text);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .workspace-dashboard-panel .materials-page-body :is(
@@ -175,45 +175,45 @@
   .materials-comment-box:is(:hover, :focus-visible, :focus-within),
   .materials-comment-glow-field .ui-glow-control:is(:hover, :focus-visible, :focus-within)
 ) {
-  --card-bg: var(--forest-input-surface-hover);
-  background: var(--forest-input-surface-hover);
-  background-image: var(--forest-input-surface-hover);
+  --card-bg: var(--mono-input-surface-hover);
+  background: var(--mono-input-surface-hover);
+  background-image: var(--mono-input-surface-hover);
   box-shadow: var(--mono-field-hole-shadow-hover);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .materials-page-shell :is(.materials-upload-choose-button, .materials-upload-submit-button, .materials-surface-button) {
-  --btn-primary-bg: var(--forest-orbit-surface);
-  --btn-primary-bg-hover: var(--forest-orbit-surface-hover);
-  --btn-primary-bg-active: var(--forest-orbit-surface);
-  --btn-primary-text: var(--forest-icon);
-  --btn-primary-text-hover: var(--forest-title-soft);
+  --btn-primary-bg: var(--mono-orbit-surface);
+  --btn-primary-bg-hover: var(--mono-orbit-surface-hover);
+  --btn-primary-bg-active: var(--mono-orbit-surface);
+  --btn-primary-text: var(--mono-icon);
+  --btn-primary-text-hover: var(--mono-title-soft);
   --btn-primary-shadow:
     inset 0 1px 0 rgba(var(--mono-mid-rgb), 0.08),
     0 5px 12px rgba(7, 7, 7, 0.24);
   --btn-primary-shadow-hover:
     inset 0 1px 0 rgba(var(--mono-mid-rgb), 0.1),
     0 7px 14px rgba(7, 7, 7, 0.28);
-  color: var(--forest-icon);
+  color: var(--mono-icon);
   background: var(--btn-primary-bg);
   box-shadow: var(--btn-primary-shadow);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .workspace-feature-panel {
-  --workspace-feature-text: var(--forest-highlight);
+  --workspace-feature-text: var(--mono-text);
   --workspace-feature-muted: rgba(var(--mono-light-rgb), 0.72);
   --workspace-feature-soft: rgba(var(--mono-mid-rgb), 0.12);
-  --workspace-feature-surface: var(--forest-input-surface);
-  --workspace-feature-surface-hover: var(--forest-input-surface-hover);
-  --workspace-feature-surface-strong: var(--forest-tooltip-surface);
-  --workspace-feature-field-bg: var(--forest-input-surface);
-  --workspace-feature-field-bg-hover: var(--forest-input-surface-hover);
-  --workspace-feature-field-text: var(--forest-highlight);
+  --workspace-feature-surface: var(--mono-input-surface);
+  --workspace-feature-surface-hover: var(--mono-input-surface-hover);
+  --workspace-feature-surface-strong: var(--mono-tooltip-surface);
+  --workspace-feature-field-bg: var(--mono-input-surface);
+  --workspace-feature-field-bg-hover: var(--mono-input-surface-hover);
+  --workspace-feature-field-text: var(--mono-text);
   --workspace-feature-field-placeholder: rgba(var(--mono-light-rgb), 0.72);
   --workspace-feature-field-border: 1px solid rgba(var(--mono-mid-rgb), 0.16);
   --workspace-feature-field-shadow: var(--mono-field-hole-shadow);
   --workspace-feature-option-bg: rgb(28, 28, 28);
-  --workspace-feature-option-text: var(--forest-highlight);
-  --workspace-feature-accent: var(--forest-title);
+  --workspace-feature-option-text: var(--mono-text);
+  --workspace-feature-accent: var(--mono-title);
   --workspace-feature-border: rgba(var(--mono-light-rgb), 0.12);
   --workspace-feature-border-strong: rgba(var(--mono-light-rgb), 0.2);
 }
@@ -221,18 +221,18 @@
 :root.theme-mono:not([data-contrast="hc"]) .workspace-feature-dropdown:not(.pre-inquiry-dropdown) .documents-dropdown-menu {
   z-index: 240;
   border: 1px solid rgba(var(--mono-mid-rgb), 0.14);
-  background: var(--forest-tooltip-surface);
+  background: var(--mono-tooltip-surface);
   background-color: rgb(28, 28, 28) !important;
   box-shadow:
     0 16px 32px rgba(0, 0, 0, 0.38),
     inset 0 0 0 1px rgba(var(--mono-mid-rgb), 0.08);
-  color: var(--forest-highlight);
+  color: var(--mono-text);
   opacity: 1 !important;
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .workspace-feature-dropdown:not(.pre-inquiry-dropdown) .documents-dropdown-item {
   background: rgb(28, 28, 28) !important;
-  color: var(--forest-highlight) !important;
+  color: var(--mono-text) !important;
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .workspace-feature-dropdown:not(.pre-inquiry-dropdown) .documents-dropdown-item:is(:hover, :focus-visible) {
@@ -241,7 +241,7 @@
 
 :root.theme-mono:not([data-contrast="hc"]) .workspace-feature-dropdown:not(.pre-inquiry-dropdown) .documents-dropdown-item.is-active {
   background: rgb(36, 36, 36);
-  color: var(--forest-title-soft);
+  color: var(--mono-title-soft);
 }
 
 
@@ -283,7 +283,7 @@
 
 :root.theme-mono:not([data-contrast="hc"]) .ui-glow-button-frame:hover:not(.ui-glow-button-frame--disabled),
 :root.theme-mono:not([data-contrast="hc"]) .ui-glow-button-frame:focus-visible {
-  background: var(--forest-floating-surface-hover, var(--btn-primary-bg-hover));
+  background: var(--mono-floating-surface-hover, var(--btn-primary-bg-hover));
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .ui-glow-button-frame:hover:not(.ui-glow-button-frame--disabled),
@@ -419,7 +419,7 @@
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .workspace-feature-panel {
-  --workspace-feature-accent: var(--forest-title);
+  --workspace-feature-accent: var(--mono-title);
   --workspace-feature-border: rgba(var(--mono-light-rgb), 0.12);
   --workspace-feature-border-strong: rgba(var(--mono-light-rgb), 0.2);
 }
@@ -455,22 +455,22 @@
     rgb(18, 18, 18) 100%
   );
   --chat-ui-solid-surface: rgb(19, 19, 19);
-  --chat-rail-tooltip-bg: var(--forest-tooltip-surface);
-  --chat-tools-panel-bg: var(--forest-tooltip-surface);
+  --chat-rail-tooltip-bg: var(--mono-tooltip-surface);
+  --chat-tools-panel-bg: var(--mono-tooltip-surface);
   --chat-upload-picker-bg: var(--chat-card-surface-strong-bg);
-  --rail-tooltip-bg: var(--forest-tooltip-surface);
-  --form-surface: var(--forest-input-surface);
-  --form-surface-hover: var(--forest-input-surface-hover);
+  --rail-tooltip-bg: var(--mono-tooltip-surface);
+  --form-surface: var(--mono-input-surface);
+  --form-surface-hover: var(--mono-input-surface-hover);
   --form-surface-active: var(--form-surface-hover);
   --input-bg: var(--form-surface);
   --input-bg-hover: var(--form-surface-hover);
   --input-bg-focus: var(--form-surface-active);
-  --input-flat-bg: var(--forest-input-surface);
-  --input-flat-bg-hover: var(--forest-input-surface-hover);
-  --btn-primary-bg: var(--forest-orbit-surface);
-  --btn-primary-bg-hover: var(--forest-orbit-surface-hover);
-  --btn-primary-bg-active: var(--forest-orbit-surface);
-  --chat-tools-item-hover-bg: var(--forest-tooltip-surface-hover);
+  --input-flat-bg: var(--mono-input-surface);
+  --input-flat-bg-hover: var(--mono-input-surface-hover);
+  --btn-primary-bg: var(--mono-orbit-surface);
+  --btn-primary-bg-hover: var(--mono-orbit-surface-hover);
+  --btn-primary-bg-active: var(--mono-orbit-surface);
+  --chat-tools-item-hover-bg: var(--mono-tooltip-surface-hover);
 }
 
 :root.theme-mono:not([data-contrast="hc"]) :is(.workspace-feature-glow-card, .workspace-feature-card, .workspace-feature-list-card, .workspace-feature-chip, .workspace-feature-toggle-row, .workspace-feature-admin-role) {
@@ -496,7 +496,7 @@
   :root.theme-mono:not([data-contrast="hc"]) .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-stack-item,
   :root.theme-mono:not([data-contrast="hc"]) .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-stack-label,
   :root.theme-mono:not([data-contrast="hc"]) .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-stack-bubble.dock-item {
-    color: var(--forest-highlight);
+    color: var(--mono-text);
   }
 }
 
@@ -507,56 +507,56 @@
  * blokk siin asendab (mitte ei topelda) theme-faili ploki. */
 :root.theme-mono:not([data-contrast="hc"]) {
   color-scheme: dark;
-  --forest-bg-top: #2f2f2f;
-  --forest-bg-mid: #1f1f1f;
-  --forest-bg-bottom: #101010;
-  --forest-accent: #868686;
-  --forest-accent-bright: #aeaeae;
-  --forest-highlight: #c8c8c8;
-  --forest-highlight-soft: #d6d6d6;
-  --forest-title: #c57171;
-  --forest-title-soft: #d28a8a;
-  --forest-icon: rgba(230, 230, 230, 0.96);
-  --forest-icon-muted: rgba(230, 230, 230, 0.76);
-  --forest-accent-soft: rgba(134, 134, 134, 0.22);
-  --forest-accent-faint: rgba(134, 134, 134, 0.1);
-  --forest-surface: rgba(46, 46, 46, 0.56);
-  --forest-surface-strong: rgba(40, 40, 40, 0.74);
-  --forest-orbit-surface:
+  --mono-bg-top: #2f2f2f;
+  --mono-bg-mid: #1f1f1f;
+  --mono-bg-bottom: #101010;
+  --mono-accent: #868686;
+  --mono-accent-bright: #aeaeae;
+  --mono-text: #c8c8c8;
+  --mono-text-soft: #d6d6d6;
+  --mono-title: #c57171;
+  --mono-title-soft: #d28a8a;
+  --mono-icon: rgba(230, 230, 230, 0.96);
+  --mono-icon-muted: rgba(230, 230, 230, 0.76);
+  --mono-accent-soft: rgba(134, 134, 134, 0.22);
+  --mono-accent-faint: rgba(134, 134, 134, 0.1);
+  --mono-surface: rgba(46, 46, 46, 0.56);
+  --mono-surface-strong: rgba(40, 40, 40, 0.74);
+  --mono-orbit-surface:
     radial-gradient(118% 102% at 50% 8%, rgba(62, 62, 62, 0.88) 0%, rgba(43, 43, 43, 0.9) 48%, rgba(25, 25, 25, 0.94) 100%),
     linear-gradient(180deg, rgba(52, 52, 52, 0.86) 0%, rgba(27, 27, 27, 0.96) 100%);
-  --forest-orbit-surface-hover:
+  --mono-orbit-surface-hover:
     radial-gradient(118% 102% at 50% 8%, rgba(71, 71, 71, 0.9) 0%, rgba(48, 48, 48, 0.92) 48%, rgba(29, 29, 29, 0.96) 100%),
     linear-gradient(180deg, rgba(58, 58, 58, 0.88) 0%, rgba(30, 30, 30, 0.98) 100%);
-  --forest-floating-surface:
+  --mono-floating-surface:
     radial-gradient(118% 102% at 50% 8%, rgba(72, 72, 72, 0.94) 0%, rgba(50, 50, 50, 0.95) 48%, rgba(30, 30, 30, 0.98) 100%),
     linear-gradient(180deg, rgba(61, 61, 61, 0.93) 0%, rgba(33, 33, 33, 0.98) 100%);
-  --forest-floating-surface-hover:
+  --mono-floating-surface-hover:
     radial-gradient(118% 102% at 50% 8%, rgba(86, 86, 86, 0.96) 0%, rgba(61, 61, 61, 0.96) 48%, rgba(36, 36, 36, 0.98) 100%),
     linear-gradient(180deg, rgba(74, 74, 74, 0.94) 0%, rgba(39, 39, 39, 0.98) 100%);
-  --forest-tooltip-surface:
+  --mono-tooltip-surface:
     linear-gradient(180deg, rgb(48, 48, 48) 0%, rgb(28, 28, 28) 100%);
-  --forest-tooltip-surface-hover:
+  --mono-tooltip-surface-hover:
     rgb(46, 46, 46);
-  --forest-input-surface:
+  --mono-input-surface:
     linear-gradient(180deg, rgba(42, 42, 42, 0.94) 0%, rgba(29, 29, 29, 0.965) 100%);
-  --forest-input-surface-hover:
+  --mono-input-surface-hover:
     linear-gradient(180deg, rgba(50, 50, 50, 0.96) 0%, rgba(34, 34, 34, 0.982) 100%);
 
-  --brand-primary: var(--forest-highlight);
-  --brand-accent: var(--forest-title);
-  --title-color: var(--forest-title);
-  --link-color: var(--forest-title);
-  --link-gold: var(--forest-title);
-  --link-gold-hover: var(--forest-title-soft);
-  --icon-btn-close-color: var(--forest-title);
-  --chat-composer-action-icon-color: var(--forest-title);
-  --chat-icon-color: var(--forest-title);
-  --chat-icon-dark: var(--forest-title);
-  --chat-icon-light: var(--forest-title);
+  --brand-primary: var(--mono-text);
+  --brand-accent: var(--mono-title);
+  --title-color: var(--mono-title);
+  --link-color: var(--mono-title);
+  --link-gold: var(--mono-title);
+  --link-gold-hover: var(--mono-title-soft);
+  --icon-btn-close-color: var(--mono-title);
+  --chat-composer-action-icon-color: var(--mono-title);
+  --chat-icon-color: var(--mono-title);
+  --chat-icon-dark: var(--mono-title);
+  --chat-icon-light: var(--mono-title);
   --click-pulse-ring-color: rgba(230, 230, 230, 0.5);
-  --profile-logout-outer-stroke: var(--forest-title);
-  --profile-logout-arrow-stroke: var(--forest-title);
+  --profile-logout-outer-stroke: var(--mono-title);
+  --profile-logout-arrow-stroke: var(--mono-title);
   --profile-logout-label: #c8c8c8;
   --profile-logout-label-light: #c8c8c8;
 
@@ -565,7 +565,7 @@
   --glass-surface-text: rgba(245, 245, 245, 0.94);
   --glass-modal-bg: var(--glass-ring-surface-bg);
   --glass-modal-text: var(--glass-surface-text);
-  --glass-modal-title-color: var(--forest-title);
+  --glass-modal-title-color: var(--mono-title);
   --glass-ring-edge-stroke-width-desktop: 1.36px;
   --glass-ring-edge-stroke-opacity-desktop: 0.82;
   --glass-ring-edge-stroke-blur-desktop: 0.12px;
@@ -591,9 +591,9 @@
 
   --home-panel-bg: var(--glass-ring-surface-bg);
   --home-prose-color: rgba(245, 245, 245, 0.93);
-  --home-title-color: var(--forest-title);
-  --home-link-color: var(--forest-title);
-  --home-scroll-cue-color: var(--forest-title);
+  --home-title-color: var(--mono-title);
+  --home-link-color: var(--mono-title);
+  --home-scroll-cue-color: var(--mono-title);
   --home-panel-shadow-idle:
     0 0 12px rgba(230, 230, 230, 0.12),
     0 0 24px rgba(230, 230, 230, 0.06);
@@ -635,25 +635,25 @@
     rgb(18, 18, 18) 100%
   );
   --chat-ui-solid-surface: rgb(19, 19, 19);
-  --chat-rail-tooltip-bg: var(--forest-tooltip-surface);
-  --chat-tools-panel-bg: var(--forest-tooltip-surface);
+  --chat-rail-tooltip-bg: var(--mono-tooltip-surface);
+  --chat-tools-panel-bg: var(--mono-tooltip-surface);
   --chat-upload-picker-bg: var(--chat-card-surface-strong-bg);
-  --rail-tooltip-bg: var(--forest-tooltip-surface);
+  --rail-tooltip-bg: var(--mono-tooltip-surface);
   --rail-tooltip-border: rgba(214, 214, 214, 0.11);
   --rail-tooltip-shadow: var(--subpage-card-shadow);
   --rail-tooltip-text: var(--subpage-card-text);
-  --chat-tools-item-hover-bg: var(--forest-tooltip-surface-hover);
+  --chat-tools-item-hover-bg: var(--mono-tooltip-surface-hover);
 
-  --form-surface: var(--forest-input-surface);
-  --form-surface-hover: var(--forest-input-surface-hover);
+  --form-surface: var(--mono-input-surface);
+  --form-surface-hover: var(--mono-input-surface-hover);
   --form-surface-active: var(--form-surface-hover);
   --input-bg: var(--form-surface);
   --input-bg-hover: var(--form-surface-hover);
   --input-bg-focus: var(--form-surface-active);
-  --input-flat-bg: var(--forest-input-surface);
-  --input-flat-bg-hover: var(--forest-input-surface-hover);
+  --input-flat-bg: var(--mono-input-surface);
+  --input-flat-bg-hover: var(--mono-input-surface-hover);
   --input-text: rgba(245, 245, 245, 0.95);
-  --input-caret: var(--forest-icon);
+  --input-caret: var(--mono-icon);
   --input-placeholder: rgba(245, 245, 245, 0.88);
   --input-border: 1px solid rgba(214, 214, 214, 0.16);
   --input-shadow:
@@ -681,11 +681,11 @@
     0 18px 24px -18px rgba(230, 230, 230, 0.26);
 
   --btn-primary-hover-brightness: 1.035;
-  --btn-primary-bg: var(--forest-orbit-surface);
-  --btn-primary-bg-hover: var(--forest-floating-surface-hover);
-  --btn-primary-bg-active: var(--forest-orbit-surface);
-  --btn-primary-text: var(--forest-icon);
-  --btn-primary-text-hover: var(--forest-title-soft);
+  --btn-primary-bg: var(--mono-orbit-surface);
+  --btn-primary-bg-hover: var(--mono-floating-surface-hover);
+  --btn-primary-bg-active: var(--mono-orbit-surface);
+  --btn-primary-text: var(--mono-icon);
+  --btn-primary-text-hover: var(--mono-title-soft);
   --btn-primary-border: 0 solid transparent;
   --btn-primary-border-hover: 0 solid transparent;
   --btn-primary-border-active: 0 solid transparent;
@@ -708,8 +708,8 @@
   --seg-card-bg-hover: var(--form-surface-hover);
   --seg-card-bg-selected: var(--form-surface-hover);
   --seg-card-text: rgba(245, 245, 245, 0.95);
-  --seg-card-text-hover: var(--forest-title-soft);
-  --seg-card-text-selected: var(--forest-title-soft);
+  --seg-card-text-hover: var(--mono-title-soft);
+  --seg-card-text-selected: var(--mono-title-soft);
   --seg-card-border: transparent;
   --seg-card-shadow: var(--input-shadow);
   --seg-card-shadow-hover: var(--input-shadow-hover);
@@ -717,7 +717,7 @@
   --seg-radio-bg: rgba(38, 38, 38, 0.5);
   --seg-radio-border: rgba(214, 214, 214, 0.22);
   --seg-radio-inner-ring: inset 0 0 0 1px rgba(214, 214, 214, 0.12);
-  --seg-radio-dot-bg: var(--forest-icon);
+  --seg-radio-dot-bg: var(--mono-icon);
   --seg-radio-dot-shadow: 0 0 8px rgba(119, 119, 119, 0.24);
 
   --subpage-card-bg: var(--input-flat-bg);
@@ -743,14 +743,14 @@
   --panel-secondary-shadow: var(--subpage-card-shadow);
   --drawer-delete-border: var(--opaque-panel-border);
   --drawer-delete-bg: var(--opaque-panel-bg);
-  --drawer-delete-text: var(--forest-icon);
+  --drawer-delete-text: var(--mono-icon);
   --drawer-delete-border-hover: rgba(230, 230, 230, 0.24);
   --drawer-delete-bg-hover: rgba(42, 42, 42, 0.58);
-  --drawer-delete-text-hover: var(--forest-icon);
-  --drawer-title-text: var(--forest-title);
+  --drawer-delete-text-hover: var(--mono-icon);
+  --drawer-title-text: var(--mono-title);
   --drawer-preview-text: rgba(245, 245, 245, 0.86);
   --drawer-time-text: rgba(230, 230, 230, 0.74);
-  --checkbox-accent: var(--forest-icon);
+  --checkbox-accent: var(--mono-icon);
   --checkbox-border: rgba(230, 230, 230, 0.58);
   --checkbox-focus: rgba(230, 230, 230, 0.28);
   --subscription-error-color: rgba(235, 235, 235, 0.9);

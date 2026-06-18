@@ -1,0 +1,30 @@
+/* Android-specific mobile policy typography and scroll spacing. */
+
+@media (max-width: 768px) {
+  html[data-platform="android"] .policy-section-heading,
+  body[data-platform="android"] .policy-section-heading {
+    max-width: min(100%, 21rem);
+    overflow-wrap: normal;
+    word-break: keep-all;
+    hyphens: auto;
+    text-wrap: balance;
+    font-size: clamp(1.58rem, 5.4vw, 1.84rem) !important;
+    line-height: 1.14 !important;
+    letter-spacing: 0.015em !important;
+  }
+
+  html[data-platform="android"] .policy-section-body,
+  body[data-platform="android"] .policy-section-body {
+    max-width: min(100%, 34ch);
+    line-height: 1.66 !important;
+    letter-spacing: 0.015em !important;
+    font-size: clamp(1.12rem, 4.18vw, 1.28rem) !important;
+    overflow-wrap: break-word;
+  }
+
+  html[data-platform="android"] .policy-page-scroll,
+  body[data-platform="android"] .policy-page-scroll {
+    padding-left: clamp(0.12rem, 0.8vw, 0.32rem) !important;
+    padding-right: clamp(0.12rem, 0.8vw, 0.32rem) !important;
+  }
+}

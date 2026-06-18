@@ -1165,7 +1165,7 @@ export default function LoginModal({
       ? "radial-gradient(122% 122% at 26% 22%, rgba(255, 255, 255, 0.34) 0%, rgba(255, 255, 255, 0.15) 26%, rgba(255, 255, 255, 0.04) 46%, rgba(255, 255, 255, 0) 60%), radial-gradient(102% 102% at 76% 80%, rgba(164, 112, 104, 0.085) 0%, rgba(164, 112, 104, 0.03) 34%, rgba(164, 112, 104, 0) 62%), linear-gradient(155deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.11) 42%, rgba(255, 255, 255, 0.06) 100%), rgba(255, 255, 255, 0.085)"
       : "radial-gradient(120% 120% at 18% 16%, rgba(255, 255, 255, 0.995) 0%, rgba(255, 255, 255, 0.28) 62%), radial-gradient(120% 120% at 86% 90%, rgba(0, 0, 0, 0.045) 0%, rgba(0, 0, 0, 0) 64%), linear-gradient(145deg, rgba(255, 255, 255, 0.76) 0%, rgba(255, 255, 255, 0.5) 55%, rgba(255, 255, 255, 0.34) 100%)"
     : isMonoTheme
-      ? "var(--forest-orbit-surface, radial-gradient(118% 102% at 50% 8%, rgba(62, 62, 62, 0.88) 0%, rgba(43, 43, 43, 0.9) 48%, rgba(25, 25, 25, 0.94) 100%), linear-gradient(180deg, rgba(52, 52, 52, 0.86) 0%, rgba(27, 27, 27, 0.96) 100%))"
+      ? "var(--mono-orbit-surface, radial-gradient(118% 102% at 50% 8%, rgba(62, 62, 62, 0.88) 0%, rgba(43, 43, 43, 0.9) 48%, rgba(25, 25, 25, 0.94) 100%), linear-gradient(180deg, rgba(52, 52, 52, 0.86) 0%, rgba(27, 27, 27, 0.96) 100%))"
     : isNightTheme
       ? "radial-gradient(138% 124% at 28% 18%, rgba(255, 255, 255, 0.095) 0%, rgba(220, 236, 255, 0.05) 20%, rgba(170, 206, 255, 0.018) 34%, rgba(170, 206, 255, 0) 56%), linear-gradient(168deg, rgba(72, 91, 118, 0.2) 0%, rgba(38, 48, 64, 0.16) 46%, rgba(16, 22, 32, 0.12) 100%), rgba(12, 18, 28, 0.18)"
       : "radial-gradient(136% 122% at 28% 18%, rgba(255, 255, 255, 0.08) 0%, rgba(232, 240, 255, 0.04) 20%, rgba(194, 214, 255, 0.014) 34%, rgba(194, 214, 255, 0) 56%), linear-gradient(168deg, rgba(68, 78, 98, 0.17) 0%, rgba(36, 42, 54, 0.135) 46%, rgba(14, 19, 26, 0.11) 100%), rgba(11, 15, 22, 0.16)";
@@ -1564,7 +1564,7 @@ export default function LoginModal({
       "--otp-copy-text": isMidTheme
         ? "#4a3833"
         : isMonoTheme
-          ? "var(--forest-highlight, #c8c8c8)"
+          ? "var(--mono-text, #c8c8c8)"
         : isNightTheme
           ? "#e6eefb"
         : isLightTheme
@@ -1573,7 +1573,7 @@ export default function LoginModal({
       "--otp-copy-strong": isMidTheme
         ? "#3f2f2b"
         : isMonoTheme
-          ? "var(--forest-icon, #e6e6e6)"
+          ? "var(--mono-icon, #e6e6e6)"
         : isNightTheme
           ? "#f3f7ff"
         : isLightTheme
@@ -1582,7 +1582,7 @@ export default function LoginModal({
       "--otp-input-text": isMidTheme
         ? "#4a3833"
         : isMonoTheme
-          ? "var(--forest-icon, #e6e6e6)"
+          ? "var(--mono-icon, #e6e6e6)"
         : isNightTheme
           ? "#e6eefb"
         : isLightTheme
@@ -1600,7 +1600,7 @@ export default function LoginModal({
       "--otp-input-caret": isMidTheme
         ? "#4a3833"
         : isMonoTheme
-          ? "var(--forest-icon, #e6e6e6)"
+          ? "var(--mono-icon, #e6e6e6)"
         : isNightTheme
           ? "#e6eefb"
         : isLightTheme
@@ -1609,7 +1609,7 @@ export default function LoginModal({
       "--otp-check-shape": isMidTheme
         ? "#4a3833"
         : isMonoTheme
-          ? "var(--forest-icon, #e6e6e6)"
+          ? "var(--mono-icon, #e6e6e6)"
         : isNightTheme
           ? "#e6eefb"
         : isLightTheme
@@ -1619,7 +1619,7 @@ export default function LoginModal({
       "--otp-check-text": isMidTheme
         ? "#4a3833"
         : isMonoTheme
-          ? "var(--forest-highlight, #c8c8c8)"
+          ? "var(--mono-text, #c8c8c8)"
         : isNightTheme
           ? "#e6eefb"
         : isLightTheme
@@ -1629,9 +1629,9 @@ export default function LoginModal({
         "--otp-panel-bg": "var(--glass-ring-surface-bg, rgba(20, 20, 20, 0.62))",
         "--otp-panel-border": "rgba(214, 214, 214, 0.11)",
         "--otp-panel-shadow": "0 12px 26px rgba(7, 7, 7, 0.24)",
-        "--otp-input-bg": "var(--forest-input-surface, linear-gradient(180deg, rgba(42, 42, 42, 0.94) 0%, rgba(29, 29, 29, 0.965) 100%))",
+        "--otp-input-bg": "var(--mono-input-surface, linear-gradient(180deg, rgba(42, 42, 42, 0.94) 0%, rgba(29, 29, 29, 0.965) 100%))",
         "--otp-input-border": "rgba(214, 214, 214, 0.16)",
-        "--otp-accent": "var(--forest-title, #c57171)"
+        "--otp-accent": "var(--mono-title, #c57171)"
       } : {}),
       "--pin-key-backdrop-filter": pinKeyBackdropFilter,
       "--pin-key-sheen-bg": pinKeySheenBackground,
@@ -1847,7 +1847,7 @@ export default function LoginModal({
                 digit: key
               });
               return <button key={key + String(idx)} type="button" className={["login-keypad-btn", "no-click-pulse", "relative", "grid", "place-items-center", "!w-[var(--pin-btn)]", "!h-[var(--pin-btn)]", "rounded-full", "overflow-hidden", "border-0", "appearance-none", "[-webkit-appearance:none]", "text-[1.6rem]", "max-md:text-[2.02rem]", "font-[360]", "tracking-[0.01em]", "[font-variant-numeric:tabular-nums]", "select-none", "[text-rendering:geometricPrecision]", "[-webkit-font-smoothing:antialiased]", "cursor-pointer", "transition-[transform,background,box-shadow,filter]", "duration-[140ms]", "ease-[cubic-bezier(0.2,1,0.3,1)]", "focus-visible:outline-none", "focus-visible:shadow-[0_0_0_3px_rgba(197,113,113,0.18),0_12px_20px_rgba(0,0,0,0.12)]", "disabled:shadow-none", "disabled:cursor-default", "after:content-['']", "after:absolute", "after:inset-0", "after:rounded-full", "after:pointer-events-none", "after:[background:var(--pin-gloss-bg)]", "after:opacity-[var(--pin-gloss-op)]"].filter(Boolean).join(" ")} style={{
-                color: isLightTheme ? "rgba(31, 41, 55, 0.92)" : isMonoTheme ? "var(--forest-icon, rgba(230, 230, 230, 0.96))" : "rgba(255, 255, 255, 0.95)",
+                color: isLightTheme ? "rgba(31, 41, 55, 0.92)" : isMonoTheme ? "var(--mono-icon, rgba(230, 230, 230, 0.96))" : "rgba(255, 255, 255, 0.95)",
                 background: pinKeyBackground,
                 boxShadow: pinKeyBoxShadow,
                 "--pin-gloss-op": pinGlossOpacityButton,

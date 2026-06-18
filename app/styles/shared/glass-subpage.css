@@ -160,8 +160,8 @@
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .glass-subpage-surface {
-  --subpage-card-bg: var(--forest-input-surface);
-  --subpage-card-bg-hover: var(--forest-input-surface-hover);
+  --subpage-card-bg: var(--mono-input-surface);
+  --subpage-card-bg-hover: var(--mono-input-surface-hover);
   --subpage-card-border: rgba(214, 214, 214, 0.16);
   --subpage-card-border-hover: rgba(230, 230, 230, 0.2);
   --subpage-card-shadow: var(--input-shadow);
