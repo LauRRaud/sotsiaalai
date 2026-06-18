@@ -96,6 +96,10 @@
   pointer-events: auto;
 }
 
+.item.tooltipAnchor {
+  pointer-events: none;
+}
+
 .item:focus-visible {
   outline: 2px solid rgba(255, 255, 255, 0.14);
   outline-offset: 3px;

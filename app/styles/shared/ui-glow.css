@@ -144,8 +144,8 @@
   display: block !important;
 }
 
-:root.theme-light .ui-glow-button-frame,
-:root.theme-mid .ui-glow-button-frame {
+:root.theme-light .ui-glow-button-frame:not(.profile-orbit-menu__center):not(.profile-orbit-edge-glow),
+:root.theme-mid .ui-glow-button-frame:not(.profile-orbit-menu__center):not(.profile-orbit-edge-glow) {
   box-shadow:
     var(--btn-primary-shadow),
     0 0 0 1px rgba(122, 58, 56, 0),
@@ -155,7 +155,7 @@
 }
 
 /* Orbit edge-glow buttons (.profile-orbit-edge-glow) are surfaceless / edge-only
-   by design and own their hover box-shadow in OrbitalMenu.css; exclude them so
+   by design and own their box-shadow in OrbitalMenu.css; exclude them so
    this primary-button hover fill does not pop a surface on them (visible in mid,
    where the orbit button has no resting fill). Real CTAs still fill on hover. */
 :root.theme-light .ui-glow-button-frame:hover:not(.ui-glow-button-frame--disabled):not(.profile-orbit-edge-glow),

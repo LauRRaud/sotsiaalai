@@ -284,25 +284,19 @@
 }
 
 @media (min-width: 769px) {
-  .surface.surface > :global(.workspace-guide-panel-scroll) {
-    margin-top: calc(
-      0px - var(--workspace-guide-panel-pad-top, 0.6rem) -
-        var(--workspace-guide-panel-overscan-top, 0px) - 0.75rem
-    ) !important;
-  }
-
-  .surface.surface :global(.workspace-scroll-back-button) {
-    top: calc(
-      var(--workspace-guide-panel-overscan-top, 0px) +
-        var(--workspace-subpage-back-top, 0.55rem) + 0.75rem
-    ) !important;
-  }
-
-  .surface.surface :global(.dashboard-info-trigger-corner) {
-    top: calc(
-      var(--workspace-guide-panel-overscan-top, 0px) +
-        var(--workspace-subpage-back-top, 0.55rem) + 1.175rem
-    ) !important;
+  .surface.surface.surface {
+    --wellbeing-desktop-panel-pad-top: clamp(0.18rem, 0.65vh, 0.42rem);
+    --wellbeing-desktop-guide-overscan-top: clamp(1.6rem, 4.8vh, 2.4rem);
+    --wellbeing-desktop-control-left: calc(0.55rem - var(--workspace-guide-panel-pad-x, 1.1rem));
+    --wellbeing-desktop-control-top: calc(
+      0.55rem - var(--wellbeing-desktop-guide-overscan-top) -
+        var(--wellbeing-desktop-panel-pad-top)
+    );
+    --workspace-guide-panel-overscan-top: var(--wellbeing-desktop-guide-overscan-top);
+    --workspace-subpage-back-left: var(--wellbeing-desktop-control-left);
+    --workspace-subpage-back-top: var(--wellbeing-desktop-control-top);
+    --workspace-subpage-title-margin-bottom: clamp(0.18rem, 0.9vh, 0.42rem);
+    padding-top: var(--wellbeing-desktop-panel-pad-top) !important;
   }
 }
 
