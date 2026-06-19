@@ -1,0 +1,138 @@
+/* Home-only mobile background geometry, browser chrome and about-panel stability. */
+
+@media (max-width: 768px) {
+  [data-bg-layer][data-page="home"] {
+    overflow: hidden;
+  }
+  [data-bg-layer][data-page="home"],
+  [data-bg-layer][data-page="home"] .bg-space-layer,
+  [data-bg-layer][data-page="home"] .space-backdrop {
+    will-change: auto;
+    transform: none;
+    -webkit-transform: none;
+    backface-visibility: visible;
+
+  }
+  [data-bg-layer][data-page="home"] {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: auto;
+    height: calc(
+      var(--home-mobile-canvas-height, var(--glass-mobile-root-vh, 100dvh)) +
+        env(safe-area-inset-bottom, 0px)
+    );
+    min-height: calc(
+      var(--home-mobile-canvas-height, var(--glass-mobile-root-vh, 100dvh)) +
+        env(safe-area-inset-bottom, 0px)
+    );
+  }
+  html.theme-light {
+    --home-browser-base-bg: linear-gradient(180deg, #f4f2ee 0%, #e9e6df 100%);
+  }
+  html.theme-mid {
+    --home-browser-base-bg: linear-gradient(
+      180deg,
+      var(--mid-bg-top) 0%,
+      var(--mid-bg-mid) 58%,
+      var(--mid-bg-bottom) 100%
+    );
+  }
+  html.theme-night {
+    --home-browser-base-bg: radial-gradient(
+      ellipse at top,
+      #1b2735 0%,
+      #090a0f 100%
+    );
+  }
+  html.theme-mono:not([data-contrast="hc"]) {
+    --home-browser-base-bg: linear-gradient(
+      180deg,
+      var(--mono-bg-top, #2f2f2f) 0%,
+      var(--mono-bg-mid, #1f1f1f) 54%,
+      var(--mono-bg-bottom, #101010) 100%
+    );
+  }
+  html:not(.theme-light):not(.theme-mid):not(.theme-night):not(.theme-mono) {
+    --home-browser-base-bg: radial-gradient(
+      ellipse at top,
+      #2b3037 0%,
+      #111418 100%
+    );
+  }
+  @supports selector(html:has([data-bg-layer][data-page="home"])) {
+    html.theme-light:has(
+        [data-bg-layer][data-page="home"]
+      ),
+    html.theme-light:has(
+        [data-bg-layer][data-page="home"]
+      )
+      body.app-root {
+      background: var(--home-browser-base-bg);
+    }
+    html.theme-mid:has(
+        [data-bg-layer][data-page="home"]
+      ),
+    html.theme-mid:has(
+        [data-bg-layer][data-page="home"]
+      )
+      body.app-root {
+      background: var(--home-browser-base-bg);
+    }
+    html.theme-night:has(
+        [data-bg-layer][data-page="home"]
+      ),
+    html.theme-night:has(
+        [data-bg-layer][data-page="home"]
+      )
+      body.app-root {
+      background: var(--home-browser-base-bg);
+    }
+    html.theme-mono:not([data-contrast="hc"]):has(
+        [data-bg-layer][data-page="home"]
+      ),
+    html.theme-mono:not([data-contrast="hc"]):has(
+        [data-bg-layer][data-page="home"]
+      )
+      body.app-root,
+    html:not(.theme-light):not(.theme-mid):not(.theme-night):not(.theme-mono):has(
+        [data-bg-layer][data-page="home"]
+      ),
+    html:not(.theme-light):not(.theme-mid):not(.theme-night):not(.theme-mono):has(
+        [data-bg-layer][data-page="home"]
+      )
+      body.app-root {
+      background: var(--home-browser-base-bg);
+    }
+  }
+  [data-bg-layer][data-page="home"] .bg-space-layer,
+  [data-bg-layer][data-page="home"] .space-backdrop {
+    top: 0;
+    bottom: auto;
+    height: 100%;
+    min-height: 100%;
+  }
+  [data-bg-layer][data-page="home"] .bg-space-layer,
+  [data-bg-layer][data-page="home"] .space-backdrop {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+  .homepage-root .home-about-panel,
+  .homepage-root .home-about-scrollbox,
+  .homepage-root .home-about-scrollbox > * {
+    contain: none;
+    will-change: auto;
+    transform: none;
+    -webkit-transform: none;
+    backface-visibility: visible !important;
+
+  }
+  [data-bg-layer][data-page="home"][data-mobile-bends="pending"] .bg-bends-layer {
+    opacity: var(--saai-bends-opacity, 1) !important;
+    visibility: visible;
+  }
+
+}

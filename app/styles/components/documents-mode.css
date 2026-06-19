@@ -1,4 +1,8 @@
 /*
- * Compatibility aggregator retained while documents CSS ownership reports are
- * still referenced. Split files are now imported by route owners.
+ * Test/compatibility bundle for the ownership-split documents styles.
+ * Runtime routes import app/styles/features/documents/index.css directly.
  */
+@import url("../features/documents/mobile.css");
+@import url("../features/documents/workspace.css");
+@import url("../features/documents/ui.css");
+@import url("../features/documents/mono.css");

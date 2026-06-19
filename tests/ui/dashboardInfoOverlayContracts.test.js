@@ -56,7 +56,10 @@ test("dashboard info overlay uses the same close button system as the conversati
   assert.match(helpersCoreCss, /\.dashboard-info-panel\.workspace-guide-panel\.glass-subpage-surface\s*>\s*\.dashboard-info-content\.workspace-guide-panel-scroll\s*\{[\s\S]*?padding-top:\s*calc\([\s\S]*?var\(--workspace-guide-panel-pad-top,\s*0\.6rem\)[\s\S]*?var\(--workspace-guide-panel-overscan-top\)[\s\S]*?\)\s*!important;/);
   assert.match(helpersCoreCss, /var\(--dashboard-info-title-wrap-extra-top,\s*0px\)/);
   assert.match(helpersCoreCss, /\.dashboard-info-panel--with-title-metrics[\s\S]*?\.glass-subpage-title-wrap[\s\S]*?padding-top:\s*var\(--dashboard-info-title-wrap-padding-top\)\s*!important;/);
-  assert.match(mobileCss, /\.dashboard-info-panel--with-title-metrics[\s\S]*?\.glass-subpage-title-wrap[\s\S]*?padding-top:\s*var\(--dashboard-info-title-wrap-padding-top\)\s*!important;/);
+  assert.match(
+    mobileCss,
+    /:is\([\s\S]*?\.workspace-scroll-surface,[\s\S]*?\)\s*:is\(\.glass-subpage-title-wrap,\s*\.policy-mobile-title-wrap\)\s*\{[\s\S]*?padding-top:\s*calc\([\s\S]*?var\(--mobile-header-title-top\)/
+  );
   assert.match(sharedStyle, /drawer-close-btn--chat/);
   assert.match(drawer, /chatDrawerCloseButtonClassName/);
 });

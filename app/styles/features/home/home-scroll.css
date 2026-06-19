@@ -1,37 +1,4 @@
-/* Mobile profile stack fades, home about text and direct scroll helpers. */
-
-@media (max-width: 768px) {
-  .profile-orbit-stack-fade {
-    display: none !important;
-    opacity: 0 !important;
-  }
-
-  .profile-orbit-stack-panel::before,
-  .profile-orbit-stack-panel::after,
-  html[data-platform="android"] .profile-orbit-stack-panel::before,
-  html[data-platform="android"] .profile-orbit-stack-panel::after,
-  body[data-platform="android"] .profile-orbit-stack-panel::before,
-  body[data-platform="android"] .profile-orbit-stack-panel::after {
-    content: none;
-    position: absolute;
-    left: 0;
-    right: 0;
-    pointer-events: none;
-    z-index: 6;
-  }
-
-  .profile-orbit-stack-panel::before,
-  html[data-platform="android"] .profile-orbit-stack-panel::before,
-  body[data-platform="android"] .profile-orbit-stack-panel::before {
-    top: 0;
-  }
-
-  .profile-orbit-stack-panel::after,
-  html[data-platform="android"] .profile-orbit-stack-panel::after,
-  body[data-platform="android"] .profile-orbit-stack-panel::after {
-    bottom: 0;
-  }
-}
+/* Home-route mobile reading and scroll-cue styles. */
 
 @media (max-width: 768px) {
   .homepage-root .home-about-scrollbox,
@@ -49,10 +16,6 @@
   .homepage-root .home-about-scrollbox .home-about-features-link-row {
     text-align: center;
   }
-}
-
-.direct-scroll-surface {
-  padding-top: 0 !important;
 }
 
 @keyframes home-scroll-blink {

@@ -1,3 +1,4 @@
+import "../styles/features/register/index.css";
 import { Suspense } from "react";
 import { cookies } from "next/headers";
 import RegistreeriminePageClient from "@/components/pages/RegistreeriminePageClient";

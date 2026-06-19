@@ -2,7 +2,6 @@
  * consolidated 1:1 INTO theme/X.css (session 8, restructure A1) — the former
  * tokens/theme-X.css split files were removed. See css-styles-restructure-plan.md. */
 @import url("./tokens.css");
-@import url("./tokens/base.css");
 @import url("./theme/light.css");
 @import url("./theme/mid.css");
 @import url("./theme/dark.css");

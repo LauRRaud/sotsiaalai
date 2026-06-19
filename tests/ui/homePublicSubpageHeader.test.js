@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
+import { readCssBundle } from "../helpers/cssSourceBundle.mjs";
 
 
 function read(path) {
@@ -34,7 +35,7 @@ test("home quick links route to the checked public glass subpages", () => {
 
 test("subscription page uses the shared subpage back button class on mobile", () => {
   const subscription = read("components/alalehed/TellimusBody.jsx");
-  const mobileHeaderCss = read("app/styles/mobile/subpage-title-system.css");
+  const mobileHeaderCss = readCssBundle("app/styles/mobile/subpage-title-system.css");
 
   assert.match(
     subscription,

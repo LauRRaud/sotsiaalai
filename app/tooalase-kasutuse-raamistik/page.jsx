@@ -1,3 +1,4 @@
+import "../styles/features/framework/mobile-surfaces.css";
 import { cookies } from "next/headers";
 import TooalaseRaamistikuBody from "@/components/alalehed/TooalaseRaamistikuBody";
 import { loadFrameworkDocument } from "@/lib/frameworkDocument";

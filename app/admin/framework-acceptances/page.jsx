@@ -1,3 +1,4 @@
+import "../../styles/features/framework/mobile-surfaces.css";
 import "../../styles/features/documents/index.css";
 import { redirect } from "next/navigation";
 import Link from "next/link";

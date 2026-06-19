@@ -13,7 +13,8 @@ test("workspace admin role selector persists through profile view-role API", () 
   assert.match(source, /onRoleChanged=\{handleDashboardRoleChanged\}/);
   assert.match(source, /createPortal\(roleMenu, roleMenuPortalTarget\)/);
   assert.match(source, /setRoleMenuPortalTarget\(document\.body\)/);
-  assert.match(source, /const roleMenu = isAdmin \? \([\s\S]*?className=\{styles\.roleMenu\}/);
+  assert.match(source, /const showRoleMenu = isAdmin && activeEmbeddedFeature !== "journey"/);
+  assert.match(source, /const roleMenu = showRoleMenu \? \([\s\S]*?className=\{styles\.roleMenu\}/);
   assert.match(source, /\{visible && roleMenuPortalTarget && roleMenu[\s\S]*?\? createPortal\(roleMenu, roleMenuPortalTarget\)[\s\S]*?: null\}[\s\S]*?<section/);
   assert.match(source, /<GlassSubpageHeader[\s\S]*?>\s*\{text\(t, "chat\.workspace\.title", "Töölau[dt]"\)\}/);
   assert.doesNotMatch(source, /rightSlot=\{isAdmin \? \(/);

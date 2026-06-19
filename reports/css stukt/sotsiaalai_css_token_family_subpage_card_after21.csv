@@ -1,0 +1,160 @@
+family,token,tier,file,line,value
+subpage-card,--subpage-card-bg,feature-direct-definition,app/styles/features/chat/hc.css,339,"rgba(14, 20, 32, 0.98)"
+subpage-card,--subpage-card-bg,feature-direct-definition,app/styles/features/documents/mono.css,52,var(--documents-card-bg)
+subpage-card,--subpage-card-bg,feature-direct-definition,app/styles/features/documents/ui.css,843,var(--documents-surface-panel-bg)
+subpage-card,--subpage-card-bg,feature-direct-definition,app/styles/features/documents/workspace.css,25,var(--documents-card-bg)
+subpage-card,--subpage-card-bg,feature-direct-definition,app/styles/features/documents/workspace.css,377,var(--documents-surface-panel-bg)
+subpage-card,--subpage-card-bg,feature-direct-definition,app/styles/features/documents/workspace.css,408,var(--documents-surface-panel-bg)
+subpage-card,--subpage-card-bg,feature-direct-definition,app/styles/features/documents/workspace.css,440,var(--documents-surface-panel-bg)
+subpage-card,--subpage-card-bg,feature-direct-definition,app/styles/features/documents/workspace.css,485,var(--documents-surface-panel-bg)
+subpage-card,--subpage-card-bg,feature-direct-definition,app/styles/features/documents/workspace.css,560,var(--documents-surface-panel-bg)
+subpage-card,--subpage-card-bg,feature-direct-definition,app/styles/features/documents/workspace.css,580,var(--documents-glass-surface)
+subpage-card,--subpage-card-bg,feature-direct-definition,app/styles/features/documents/workspace.css,605,var(--documents-glass-surface)
+subpage-card,--subpage-card-bg,feature-direct-definition,app/styles/features/service-map/desktop/base.css,602,var(--workspace-elevated-card-bg)
+subpage-card,--subpage-card-bg,shared-primitive,app/styles/mobile/foundations.css,9,var(--btn-primary-bg)
+subpage-card,--subpage-card-bg,shared-primitive,app/styles/mobile/foundations.css,26,"var( --mid-pill-surface-bg, var(--input-flat-bg, var(--input-bg)) )"
+subpage-card,--subpage-card-bg,shared-primitive,app/styles/mobile/modal-surfaces/form-theme.css,5,var(--btn-primary-bg)
+subpage-card,--subpage-card-bg,shared-primitive,app/styles/mobile/modal-surfaces/form-theme.css,20,"radial-gradient( 92% 88% at 50% 16%, rgba(249, 241, 238, 0.56) 0%, rgba(242, 232, 228, 0.48) 42%, rgba(233, 221, 216, 0.42) 100% ), linear-gradient( 180deg, rgba(244, 235, 231, 0.36) 0%, rgba(236, 226, 222, 0.3) 100% )"
+subpage-card,--subpage-card-bg,shared-primitive,app/styles/mobile/scroll-panels/glass-card.css,69,var(--mobile-common-glass-surface-bg)
+subpage-card,--subpage-card-bg,shared-primitive,app/styles/shared/glass-subpage.css,91,"color-mix( in srgb, var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))) 74%, rgba(255, 255, 255, 0.1) )"
+subpage-card,--subpage-card-bg,shared-primitive,app/styles/shared/glass-subpage.css,131,var(--btn-primary-bg)
+subpage-card,--subpage-card-bg,shared-primitive,app/styles/shared/glass-subpage.css,147,var(--mid-unified-surface-bg)
+subpage-card,--subpage-card-bg,shared-primitive,app/styles/shared/glass-subpage.css,163,var(--mono-input-surface)
+subpage-card,--subpage-card-bg,shared-primitive,app/styles/shared/glass-subpage.css,196,"linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.035)), color-mix(in srgb, var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))) 64%, transparent)"
+subpage-card,--subpage-card-bg,theme-override,app/styles/theme/dark.css,58,var(--input-flat-bg)
+subpage-card,--subpage-card-bg,theme-override,app/styles/theme/dark.css,194,var(--workspace-elevated-card-bg)
+subpage-card,--subpage-card-bg,theme-override,app/styles/theme/hc.css,67,var(--workspace-elevated-card-bg)
+subpage-card,--subpage-card-bg,theme-override,app/styles/theme/hc.css,1750,var(--chat-card-surface-night-standard-bg)
+subpage-card,--subpage-card-bg,theme-override,app/styles/theme/light.css,313,"radial-gradient( 82% 66% at 50% 16%, rgba(253, 252, 251, 0.92) 0%, rgba(252, 251, 250, 0.914) 42%, rgba(251, 250, 249, 0.898) 58%, rgba(249, 247, 246, 0.872) 74% ), linear-gradient( 180deg, rgba(252, 251, 250, 0.918) 0%, rgba(249, 248, 247, 0.888) 100% )"
+subpage-card,--subpage-card-bg,theme-override,app/styles/theme/mid.css,587,"radial-gradient( 92% 88% at 50% 16%, rgba(249, 241, 238, 0.48) 0%, rgba(242, 232, 228, 0.4) 42%, rgba(233, 221, 216, 0.34) 100% ), linear-gradient( 180deg, rgba(244, 235, 231, 0.28) 0%, rgba(236, 226, 222, 0.22) 100% )"
+subpage-card,--subpage-card-bg,theme-override,app/styles/theme/mono.css,120,var(--mono-input-surface)
+subpage-card,--subpage-card-bg,theme-override,app/styles/theme/mono.css,146,var(--mono-input-surface) !important
+subpage-card,--subpage-card-bg,theme-override,app/styles/theme/mono.css,723,var(--input-flat-bg)
+subpage-card,--subpage-card-bg,theme-override,app/styles/theme/night.css,58,var(--workspace-elevated-card-bg)
+subpage-card,--subpage-card-bg,theme-override,app/styles/theme/night.css,168,var(--input-flat-bg)
+subpage-card,--subpage-card-bg,canonical-default,app/styles/tokens.css,215,var(--input-flat-bg)
+subpage-card,--subpage-card-bg-hover,feature-direct-definition,app/styles/features/chat/hc.css,340,"rgba(14, 20, 32, 0.98)"
+subpage-card,--subpage-card-bg-hover,feature-direct-definition,app/styles/features/documents/mono.css,53,var(--documents-card-bg)
+subpage-card,--subpage-card-bg-hover,feature-direct-definition,app/styles/features/documents/ui.css,844,var(--documents-surface-panel-bg)
+subpage-card,--subpage-card-bg-hover,feature-direct-definition,app/styles/features/documents/workspace.css,26,"color-mix(in srgb, var(--documents-glass-surface) 100%, transparent)"
+subpage-card,--subpage-card-bg-hover,feature-direct-definition,app/styles/features/documents/workspace.css,378,var(--subpage-card-bg)
+subpage-card,--subpage-card-bg-hover,feature-direct-definition,app/styles/features/documents/workspace.css,409,"color-mix(in srgb, var(--documents-surface-panel-bg) 96%, transparent)"
+subpage-card,--subpage-card-bg-hover,feature-direct-definition,app/styles/features/documents/workspace.css,441,"color-mix(in srgb, var(--documents-surface-panel-bg) 96%, transparent)"
+subpage-card,--subpage-card-bg-hover,feature-direct-definition,app/styles/features/documents/workspace.css,486,var(--subpage-card-bg)
+subpage-card,--subpage-card-bg-hover,feature-direct-definition,app/styles/features/documents/workspace.css,561,var(--subpage-card-bg)
+subpage-card,--subpage-card-bg-hover,feature-direct-definition,app/styles/features/documents/workspace.css,581,var(--documents-glass-surface)
+subpage-card,--subpage-card-bg-hover,feature-direct-definition,app/styles/features/documents/workspace.css,606,var(--documents-glass-surface)
+subpage-card,--subpage-card-bg-hover,feature-direct-definition,app/styles/features/service-map/desktop/base.css,603,var(--workspace-elevated-card-bg-hover)
+subpage-card,--subpage-card-bg-hover,shared-primitive,app/styles/mobile/foundations.css,10,var(--btn-primary-bg-hover)
+subpage-card,--subpage-card-bg-hover,shared-primitive,app/styles/mobile/foundations.css,30,"var( --mid-pill-surface-bg-hover, var(--input-flat-bg-hover, var(--input-bg-hover)) )"
+subpage-card,--subpage-card-bg-hover,shared-primitive,app/styles/mobile/modal-surfaces/form-theme.css,6,var(--btn-primary-bg-hover)
+subpage-card,--subpage-card-bg-hover,shared-primitive,app/styles/mobile/modal-surfaces/form-theme.css,32,"radial-gradient( 92% 88% at 50% 16%, rgba(247, 239, 236, 0.54) 0%, rgba(240, 230, 226, 0.46) 44%, rgba(232, 221, 216, 0.4) 100% ), linear-gradient( 180deg, rgba(241, 232, 228, 0.34) 0%, rgba(233, 223, 219, 0.3) 100% )"
+subpage-card,--subpage-card-bg-hover,shared-primitive,app/styles/mobile/scroll-panels/glass-card.css,70,var(--mobile-common-glass-surface-bg)
+subpage-card,--subpage-card-bg-hover,shared-primitive,app/styles/shared/glass-subpage.css,96,"color-mix( in srgb, var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))) 68%, rgba(255, 255, 255, 0.14) )"
+subpage-card,--subpage-card-bg-hover,shared-primitive,app/styles/shared/glass-subpage.css,132,var(--btn-primary-bg-hover)
+subpage-card,--subpage-card-bg-hover,shared-primitive,app/styles/shared/glass-subpage.css,148,var(--mid-unified-surface-bg-hover)
+subpage-card,--subpage-card-bg-hover,shared-primitive,app/styles/shared/glass-subpage.css,164,var(--mono-input-surface-hover)
+subpage-card,--subpage-card-bg-hover,shared-primitive,app/styles/shared/glass-subpage.css,199,var(--subpage-card-bg)
+subpage-card,--subpage-card-bg-hover,theme-override,app/styles/theme/dark.css,59,var(--input-flat-bg-hover)
+subpage-card,--subpage-card-bg-hover,theme-override,app/styles/theme/dark.css,195,var(--workspace-elevated-card-bg-hover)
+subpage-card,--subpage-card-bg-hover,theme-override,app/styles/theme/hc.css,68,var(--workspace-elevated-card-bg-hover)
+subpage-card,--subpage-card-bg-hover,theme-override,app/styles/theme/hc.css,1751,var(--input-flat-bg-hover)
+subpage-card,--subpage-card-bg-hover,theme-override,app/styles/theme/light.css,326,"radial-gradient( 82% 66% at 50% 16%, rgba(254, 253, 252, 0.944) 0%, rgba(253, 252, 251, 0.938) 42%, rgba(252, 251, 250, 0.918) 58%, rgba(250, 248, 247, 0.888) 74% ), linear-gradient( 180deg, rgba(253, 252, 251, 0.94) 0%, rgba(250, 249, 248, 0.906) 100% )"
+subpage-card,--subpage-card-bg-hover,theme-override,app/styles/theme/mid.css,599,"radial-gradient( 92% 88% at 50% 16%, rgba(246, 238, 235, 0.43) 0%, rgba(239, 229, 225, 0.36) 44%, rgba(231, 220, 215, 0.3) 100% ), linear-gradient( 180deg, rgba(240, 231, 227, 0.24) 0%, rgba(232, 222, 218, 0.2) 100% )"
+subpage-card,--subpage-card-bg-hover,theme-override,app/styles/theme/mono.css,121,var(--mono-input-surface-hover)
+subpage-card,--subpage-card-bg-hover,theme-override,app/styles/theme/mono.css,147,var(--mono-input-surface-hover)
+subpage-card,--subpage-card-bg-hover,theme-override,app/styles/theme/mono.css,724,var(--input-flat-bg-hover)
+subpage-card,--subpage-card-bg-hover,theme-override,app/styles/theme/night.css,59,var(--workspace-elevated-card-bg-hover)
+subpage-card,--subpage-card-bg-hover,theme-override,app/styles/theme/night.css,169,var(--input-flat-bg-hover)
+subpage-card,--subpage-card-bg-hover,canonical-default,app/styles/tokens.css,216,var(--input-flat-bg-hover)
+subpage-card,--subpage-card-border,feature-direct-definition,app/styles/features/chat/hc.css,341,"rgba(var(--hc-accent-rgb), 0.56)"
+subpage-card,--subpage-card-border,feature-direct-definition,app/styles/features/documents/mono.css,54,var(--documents-card-border)
+subpage-card,--subpage-card-border,feature-direct-definition,app/styles/features/documents/workspace.css,27,var(--documents-card-border)
+subpage-card,--subpage-card-border,feature-direct-definition,app/styles/features/documents/workspace.css,487,var(--documents-card-border)
+subpage-card,--subpage-card-border,shared-primitive,app/styles/mobile/foundations.css,34,"var(--mid-pill-surface-border, transparent)"
+subpage-card,--subpage-card-border,shared-primitive,app/styles/mobile/modal-surfaces/form-theme.css,7,"rgba(255, 255, 255, 0.5)"
+subpage-card,--subpage-card-border,shared-primitive,app/styles/mobile/modal-surfaces/form-theme.css,44,transparent
+subpage-card,--subpage-card-border,shared-primitive,app/styles/shared/glass-subpage.css,133,"rgba(148, 163, 184, 0.1)"
+subpage-card,--subpage-card-border,shared-primitive,app/styles/shared/glass-subpage.css,149,"rgba(126, 95, 88, 0.16)"
+subpage-card,--subpage-card-border,shared-primitive,app/styles/shared/glass-subpage.css,165,"rgba(214, 214, 214, 0.16)"
+subpage-card,--subpage-card-border,theme-override,app/styles/theme/dark.css,60,"rgba(248, 253, 255, 0.08)"
+subpage-card,--subpage-card-border,theme-override,app/styles/theme/hc.css,1246,"rgba(var(--hc-accent-rgb), 0.66)"
+subpage-card,--subpage-card-border,theme-override,app/styles/theme/hc.css,1752,transparent
+subpage-card,--subpage-card-border,theme-override,app/styles/theme/light.css,339,"rgba(148, 163, 184, 0.08)"
+subpage-card,--subpage-card-border,theme-override,app/styles/theme/mid.css,611,transparent
+subpage-card,--subpage-card-border,theme-override,app/styles/theme/mono.css,122,"rgba(var(--mono-mid-rgb), 0.16)"
+subpage-card,--subpage-card-border,theme-override,app/styles/theme/mono.css,148,"rgba(var(--mono-mid-rgb), 0.16)"
+subpage-card,--subpage-card-border,theme-override,app/styles/theme/mono.css,725,"rgba(214, 214, 214, 0.09)"
+subpage-card,--subpage-card-border,theme-override,app/styles/theme/night.css,170,"rgba(216, 226, 235, 0.12)"
+subpage-card,--subpage-card-border,canonical-default,app/styles/tokens.css,217,transparent
+subpage-card,--subpage-card-border-hover,feature-direct-definition,app/styles/features/chat/hc.css,342,"rgba(var(--hc-accent-rgb), 0.9)"
+subpage-card,--subpage-card-border-hover,feature-direct-definition,app/styles/features/documents/mono.css,55,"rgba(var(--mono-mid-rgb), 0.14)"
+subpage-card,--subpage-card-border-hover,feature-direct-definition,app/styles/features/documents/workspace.css,28,var(--documents-card-border)
+subpage-card,--subpage-card-border-hover,feature-direct-definition,app/styles/features/documents/workspace.css,488,"rgba(255, 255, 255, 0.08)"
+subpage-card,--subpage-card-border-hover,shared-primitive,app/styles/mobile/foundations.css,35,"var( --mid-pill-surface-border-hover, transparent )"
+subpage-card,--subpage-card-border-hover,shared-primitive,app/styles/mobile/modal-surfaces/form-theme.css,8,"rgba(255, 255, 255, 0.58)"
+subpage-card,--subpage-card-border-hover,shared-primitive,app/styles/mobile/modal-surfaces/form-theme.css,45,transparent
+subpage-card,--subpage-card-border-hover,shared-primitive,app/styles/shared/glass-subpage.css,134,"rgba(148, 163, 184, 0.14)"
+subpage-card,--subpage-card-border-hover,shared-primitive,app/styles/shared/glass-subpage.css,150,"rgba(126, 95, 88, 0.2)"
+subpage-card,--subpage-card-border-hover,shared-primitive,app/styles/shared/glass-subpage.css,166,"rgba(230, 230, 230, 0.2)"
+subpage-card,--subpage-card-border-hover,theme-override,app/styles/theme/dark.css,61,"rgba(248, 253, 255, 0.14)"
+subpage-card,--subpage-card-border-hover,theme-override,app/styles/theme/hc.css,1247,"rgba(var(--hc-accent-rgb), 0.9)"
+subpage-card,--subpage-card-border-hover,theme-override,app/styles/theme/hc.css,1753,transparent
+subpage-card,--subpage-card-border-hover,theme-override,app/styles/theme/light.css,340,"rgba(148, 163, 184, 0.1)"
+subpage-card,--subpage-card-border-hover,theme-override,app/styles/theme/mid.css,613,transparent
+subpage-card,--subpage-card-border-hover,theme-override,app/styles/theme/mono.css,123,"rgba(var(--mono-light-rgb), 0.2)"
+subpage-card,--subpage-card-border-hover,theme-override,app/styles/theme/mono.css,726,"rgba(214, 214, 214, 0.15)"
+subpage-card,--subpage-card-border-hover,theme-override,app/styles/theme/night.css,171,"rgba(226, 232, 238, 0.18)"
+subpage-card,--subpage-card-border-hover,canonical-default,app/styles/tokens.css,218,transparent
+subpage-card,--subpage-card-border-width,theme-override,app/styles/theme/hc.css,1773,2px
+subpage-card,--subpage-card-border-width,theme-override,app/styles/theme/mid.css,612,0px
+subpage-card,--subpage-card-radius,canonical-default,app/styles/tokens.css,221,1.1rem
+subpage-card,--subpage-card-shadow,feature-direct-definition,app/styles/features/chat/hc.css,343,none
+subpage-card,--subpage-card-shadow,feature-direct-definition,app/styles/features/documents/mono.css,56,var(--glass-shell-shadow)
+subpage-card,--subpage-card-shadow,feature-direct-definition,app/styles/features/documents/workspace.css,29,var(--documents-soft-shadow)
+subpage-card,--subpage-card-shadow,feature-direct-definition,app/styles/features/documents/workspace.css,489,var(--documents-soft-shadow)
+subpage-card,--subpage-card-shadow,shared-primitive,app/styles/mobile/foundations.css,39,"var( --mid-pill-surface-shadow, var(--input-shadow) )"
+subpage-card,--subpage-card-shadow,shared-primitive,app/styles/mobile/interaction-surfaces.css,31,none
+subpage-card,--subpage-card-shadow,shared-primitive,app/styles/mobile/modal-surfaces/form-theme.css,9,none
+subpage-card,--subpage-card-shadow,shared-primitive,app/styles/mobile/modal-surfaces/form-theme.css,46,none
+subpage-card,--subpage-card-shadow,shared-primitive,app/styles/shared/glass-subpage.css,135,var(--btn-primary-shadow)
+subpage-card,--subpage-card-shadow,shared-primitive,app/styles/shared/glass-subpage.css,151,var(--mid-unified-surface-shadow)
+subpage-card,--subpage-card-shadow,shared-primitive,app/styles/shared/glass-subpage.css,167,var(--input-shadow)
+subpage-card,--subpage-card-shadow,shared-primitive,app/styles/shared/workspace-guide.css,124,none
+subpage-card,--subpage-card-shadow,theme-override,app/styles/theme/dark.css,62,"inset 0 1px 0 rgba(var(--dark-white-rgb), 0.04), 0 8px 18px rgba(var(--dark-black-rgb), 0.14), 0 0 18px -14px rgba(248, 253, 255, 0.22)"
+subpage-card,--subpage-card-shadow,theme-override,app/styles/theme/hc.css,1754,"0 0 12px rgba(255, 234, 0, 0.1), 0 10px 22px rgba(0, 0, 0, 0.2), 0 0 24px -16px rgba(255, 234, 0, 0.16)"
+subpage-card,--subpage-card-shadow,theme-override,app/styles/theme/light.css,341,var(--btn-primary-shadow)
+subpage-card,--subpage-card-shadow,theme-override,app/styles/theme/mid.css,614,var(--btn-primary-shadow)
+subpage-card,--subpage-card-shadow,theme-override,app/styles/theme/mono.css,124,var(--input-shadow)
+subpage-card,--subpage-card-shadow,theme-override,app/styles/theme/mono.css,149,var(--mono-field-hole-shadow)
+subpage-card,--subpage-card-shadow,theme-override,app/styles/theme/mono.css,727,"inset 0 1px 0 rgba(214, 214, 214, 0.046), 0 10px 22px rgba(7, 7, 7, 0.2), 0 0 22px -16px rgba(84, 84, 84, 0.18)"
+subpage-card,--subpage-card-shadow,theme-override,app/styles/theme/night.css,172,"inset 0 1px 0 rgba(220, 236, 255, 0.05), 0 10px 22px rgba(0, 0, 0, 0.18), 0 0 22px -16px rgba(218, 226, 235, 0.14)"
+subpage-card,--subpage-card-shadow,canonical-default,app/styles/tokens.css,219,"0 10px 24px rgba(0, 0, 0, 0.16)"
+subpage-card,--subpage-card-shadow-hover,feature-direct-definition,app/styles/features/chat/hc.css,344,none
+subpage-card,--subpage-card-shadow-hover,feature-direct-definition,app/styles/features/documents/mono.css,57,var(--glass-shell-shadow)
+subpage-card,--subpage-card-shadow-hover,feature-direct-definition,app/styles/features/documents/workspace.css,30,var(--documents-soft-shadow)
+subpage-card,--subpage-card-shadow-hover,feature-direct-definition,app/styles/features/documents/workspace.css,490,var(--documents-strong-shadow)
+subpage-card,--subpage-card-shadow-hover,shared-primitive,app/styles/mobile/foundations.css,43,"var( --mid-pill-surface-shadow-hover, var(--input-shadow-hover) )"
+subpage-card,--subpage-card-shadow-hover,shared-primitive,app/styles/mobile/interaction-surfaces.css,32,none
+subpage-card,--subpage-card-shadow-hover,shared-primitive,app/styles/mobile/modal-surfaces/form-theme.css,10,none
+subpage-card,--subpage-card-shadow-hover,shared-primitive,app/styles/mobile/modal-surfaces/form-theme.css,47,none
+subpage-card,--subpage-card-shadow-hover,shared-primitive,app/styles/shared/glass-subpage.css,136,var(--btn-primary-shadow-hover)
+subpage-card,--subpage-card-shadow-hover,shared-primitive,app/styles/shared/glass-subpage.css,152,var(--mid-unified-surface-shadow-hover)
+subpage-card,--subpage-card-shadow-hover,shared-primitive,app/styles/shared/glass-subpage.css,168,var(--input-shadow-hover)
+subpage-card,--subpage-card-shadow-hover,theme-override,app/styles/theme/dark.css,66,"inset 0 1px 0 rgba(var(--dark-white-rgb), 0.06), 0 10px 22px rgba(var(--dark-black-rgb), 0.2), 0 0 24px -14px rgba(248, 253, 255, 0.28)"
+subpage-card,--subpage-card-shadow-hover,theme-override,app/styles/theme/hc.css,1758,"0 0 14px rgba(255, 234, 0, 0.14), 0 12px 26px rgba(0, 0, 0, 0.24), 0 0 28px -16px rgba(255, 234, 0, 0.2)"
+subpage-card,--subpage-card-shadow-hover,theme-override,app/styles/theme/light.css,342,var(--btn-primary-shadow-hover)
+subpage-card,--subpage-card-shadow-hover,theme-override,app/styles/theme/mid.css,615,var(--btn-primary-shadow-hover)
+subpage-card,--subpage-card-shadow-hover,theme-override,app/styles/theme/mono.css,125,var(--input-shadow-hover)
+subpage-card,--subpage-card-shadow-hover,theme-override,app/styles/theme/mono.css,150,var(--mono-field-hole-shadow-hover)
+subpage-card,--subpage-card-shadow-hover,theme-override,app/styles/theme/mono.css,731,"inset 0 1px 0 rgba(214, 214, 214, 0.06), 0 12px 26px rgba(7, 7, 7, 0.24), 0 0 26px -16px rgba(84, 84, 84, 0.22)"
+subpage-card,--subpage-card-shadow-hover,theme-override,app/styles/theme/night.css,176,"inset 0 1px 0 rgba(220, 236, 255, 0.07), 0 12px 26px rgba(0, 0, 0, 0.24), 0 0 26px -16px rgba(226, 232, 238, 0.18)"
+subpage-card,--subpage-card-shadow-hover,canonical-default,app/styles/tokens.css,220,"0 14px 28px rgba(0, 0, 0, 0.2)"
+subpage-card,--subpage-card-text,feature-direct-definition,app/styles/features/documents/workspace.css,31,var(--documents-page-text)
+subpage-card,--subpage-card-text,theme-override,app/styles/theme/dark.css,70,var(--pt-120)
+subpage-card,--subpage-card-text,theme-override,app/styles/theme/hc.css,1762,var(--hc-accent)
+subpage-card,--subpage-card-text,theme-override,app/styles/theme/light.css,343,#334155
+subpage-card,--subpage-card-text,theme-override,app/styles/theme/mid.css,616,#2f3a4a
+subpage-card,--subpage-card-text,theme-override,app/styles/theme/mono.css,735,"rgba(245, 245, 245, 0.94)"
+subpage-card,--subpage-card-text,theme-override,app/styles/theme/night.css,180,"rgba(234, 238, 245, 0.94)"
+subpage-card,--subpage-card-text,canonical-default,app/styles/tokens.css,222,"var( --glass-modal-text, var(--glass-surface-text, #f2f2f2) )"

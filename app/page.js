@@ -1,3 +1,4 @@
+import "./styles/features/login/index.css";
 import "./styles/features/home/index.css";
 import { cookies } from "next/headers";
 import HomePage from "@/components/HomePage";

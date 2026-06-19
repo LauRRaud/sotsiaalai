@@ -1,5 +1,7 @@
 "use client";
 
+import "../styles/features/login/index.css";
+
 import { useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";

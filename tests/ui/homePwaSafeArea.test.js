@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
 import { readMobileCssBundle } from "../helpers/mobileCssBundle.mjs";
+import { readCssSourceBundle } from "../helpers/cssSourceBundle.mjs";
 
 
 function read(path) {
@@ -11,7 +12,10 @@ function read(path) {
 test("mobile layout no longer ships standalone/fullscreen PWA CSS overrides", () => {
   const mobileCss = readMobileCssBundle();
   const mobileIndexCss = read("app/styles/mobile/index.css");
-  const mobileBackgroundCss = read("app/styles/features/home/background.css");
+  const sharedMobileBackgroundCss = readCssSourceBundle("app/styles/mobile.css");
+  const homeCss = readCssSourceBundle("app/styles/features/home/index.css");
+  const homeMobileFoundationsCss = readCssSourceBundle("app/styles/features/home/mobile-foundations.css");
+  const mobileBackgroundCss = `${sharedMobileBackgroundCss}\n${homeCss}`;
   const mobileChatBootstrapCss = read("app/styles/mobile/chat-bootstrap.css");
   const mobileFoundationsCss = read("app/styles/mobile/foundations.css");
   const mobilePolicyScrollCss = read("app/styles/features/policy/mobile.css");
@@ -31,33 +35,34 @@ test("mobile layout no longer ships standalone/fullscreen PWA CSS overrides", ()
     baseBackgroundsCss,
     mobileBackgroundCss,
     mobileFoundationsCss,
+    homeCss,
     mobilePolicyScrollCss,
     mobileModalSurfaceCss,
     mobileChatLayoutCss
   ].join("\n");
 
   assert.match(
-    mobileCss,
+    homeMobileFoundationsCss,
     /body\.homepage,[\s\S]*?html\[data-initial-page="home"\] body\.app-root\s*\{[\s\S]*?--home-mobile-canvas-height:\s*calc\([\s\S]*?var\(--glass-mobile-root-vh,\s*100dvh\)[\s\S]*?\+ var\(--home-mobile-safe-bottom\)[\s\S]*?\);[\s\S]*?overflow-y:\s*auto;[\s\S]*?height:\s*auto;[\s\S]*?min-height:\s*var\(--home-mobile-canvas-height\);/,
     "homepage body should own mobile scrolling so footer content remains reachable"
   );
   assert.match(
-    mobileCss,
+    homeMobileFoundationsCss,
     /\.homepage-root\s*\{[\s\S]*?height:\s*auto;[\s\S]*?min-height:\s*var\(--home-mobile-canvas-height,\s*var\(--glass-mobile-root-vh,\s*100dvh\)\);[\s\S]*?overflow-y:\s*visible;/,
     "homepage root should not create a competing inner scroll container"
   );
   assert.match(
-    mobileFoundationsCss,
+    homeMobileFoundationsCss,
     /@supports \(height:\s*100lvh\)[\s\S]*?body\.homepage,[\s\S]*?html\[data-initial-page="home"\] body\.app-root\s*\{[\s\S]*?--home-mobile-stable-vh:\s*max\(var\(--glass-mobile-root-vh,\s*100dvh\),\s*100lvh\);[\s\S]*?--home-mobile-canvas-height:\s*calc\([\s\S]*?var\(--home-mobile-stable-vh\)[\s\S]*?\+ var\(--home-mobile-safe-bottom\)[\s\S]*?\);/,
     "homepage mobile background should keep a stable large-viewport floor behind browser chrome"
   );
   assert.match(
-    mobileCss,
+    homeCss,
     /\.homepage-root \.home-hero-section\s*\{[\s\S]*?min-height:\s*auto;/,
     "mobile homepage hero should not push the cards downward in PWA mode"
   );
   assert.match(
-    mobileCss,
+    homeCss,
     /\.home-hero-shell\s*\{[\s\S]*?position:\s*relative;[\s\S]*?transform:\s*translateY\(-0\.75rem\);/,
     "mobile homepage hero should keep the cards in their original upper position"
   );
@@ -80,11 +85,11 @@ test("mobile layout no longer ships standalone/fullscreen PWA CSS overrides", ()
   );
   assert.match(
     mobileBackgroundCss,
-    /\[data-bg-layer\]\[data-page="subpage"\]\[data-mobile-bends="pending"\] \.bg-bends-layer\s*\{[\s\S]*?opacity:\s*var\(--saai-bends-opacity,\s*1\)\s*!important;[\s\S]*?visibility:\s*visible\s*!important;/
+    /\[data-bg-layer\]\[data-page="subpage"\]\[data-mobile-bends="pending"\] \.bg-bends-layer\s*\{[\s\S]*?opacity:\s*var\(--saai-bends-opacity,\s*1\);[\s\S]*?visibility:\s*visible;/
   );
   assert.match(
     mobileBackgroundCss,
-    /\[data-bg-layer\]\[data-page="home"\]\[data-mobile-bends="pending"\] \.bg-bends-layer\s*\{[\s\S]*?opacity:\s*var\(--saai-bends-opacity,\s*1\)\s*!important;[\s\S]*?visibility:\s*visible\s*!important;/
+    /\[data-bg-layer\]\[data-page="home"\]\[data-mobile-bends="pending"\] \.bg-bends-layer\s*\{[\s\S]*?opacity:\s*var\(--saai-bends-opacity,\s*1\)\s*!important;[\s\S]*?visibility:\s*visible;/
   );
   assert.doesNotMatch(
     mobileBackgroundCss,
@@ -174,5 +179,5 @@ test("mobile layout no longer ships standalone/fullscreen PWA CSS overrides", ()
     mobileFoundationsCss,
     /:is\([\s\S]*?\.particles-container[\s\S]*?\)\s*\{[\s\S]*?height:\s*100%\s*!important;/
   );
-  assert.doesNotMatch(mobileCss, /--home-safe-area-bg/);
+  assert.doesNotMatch(`${mobileCss}\n${homeCss}`, /--home-safe-area-bg/);
 });

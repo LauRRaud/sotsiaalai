@@ -1,0 +1,103 @@
+/* Shared mobile tap feedback, glass effects and base page geometry. */
+
+@media (max-width: 768px) {
+  :where(
+      a,
+      button,
+      [role="button"],
+      input,
+      textarea,
+      select,
+      summary,
+      label
+    ) {
+    -webkit-tap-highlight-color: transparent;
+    tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  :root.theme-light,
+  :root:not(.theme-light) {
+    --glass-shell-shadow: none;
+    --glass-modal-shadow: none;
+  }
+
+  .glass-ring,
+  .mobile-keep-desktop-glass-cards {
+    box-shadow: none !important;
+    filter: none;
+    --glass-shell-shadow: none;
+    --glass-modal-shadow: none;
+    --subpage-card-shadow: none;
+    --subpage-card-shadow-hover: none;
+    --panel-secondary-shadow: none;
+  }
+
+  .glass-ring::before {
+    opacity: 0 !important;
+    filter: none;
+  }
+
+  .glass-field-hole-surface {
+    isolation: isolate;
+  }
+
+  .glass-field-hole-surface > .glass-hole-mask-layer {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    border-radius: inherit;
+  }
+
+  .glass-field-hole-surface
+    > :not(.glass-hole-mask-layer):not(.modal-close-btn):not(.back-button) {
+    position: relative;
+    z-index: 1;
+  }
+
+  html,
+  body {
+    overscroll-behavior: auto;
+    min-height: var(--glass-mobile-root-vh, 100dvh);
+  }
+
+  main#main {
+    align-items: stretch;
+  }
+  .main-content {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(1.2rem, 4vw, 1.8rem);
+    padding: calc(env(safe-area-inset-top, 0px) + 2.6rem)
+      clamp(1rem, 4vw, 1.5rem) clamp(2rem, 8vw, 2.9rem);
+    padding-bottom: clamp(5rem, 12vw, 7rem);
+    min-height: auto;
+  }
+  .side {
+    min-height: auto;
+    width: 100%;
+    padding: 1rem 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .click-pulse-cursor {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  :is(button.button, a.button)[data-variant="primary"] {
+    transition: none;
+    --btn-primary-bg-active: var(--btn-primary-bg);
+    --btn-primary-shadow-active: var(--btn-primary-shadow);
+    --btn-primary-border-active: var(--btn-primary-border);
+  }
+
+  :is(button.button, a.button)[data-variant="primary"]:active::before {
+    opacity: 0 !important;
+  }
+}

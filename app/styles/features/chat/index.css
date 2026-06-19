@@ -6,7 +6,11 @@
    out-rank shell.css regardless of order. focus.css is an extra imported
    only by /vestlus. chat-bootstrap.css intentionally stays in globals.css
    (must load before hydration, see mobile/README.md). */
+@import url("../../shared/mobile-workspace-scroll-adapters.css");
 @import url("./mobile.css");
+@import url("./mobile-topnav.css");
+@import url("./analysis-touch-controls.css");
+@import url("./workspace-dashboard-cards.css");
 @import url("./shell.css");
 @import url("./themes.css");
 @import url("./mono.css");

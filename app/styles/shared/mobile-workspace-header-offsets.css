@@ -1,0 +1,67 @@
+/* Route-imported mobile header offsets for workspace-family panels.
+   Shared mobile/subpage-header/layout.css and title-fit.css stay global; these
+   feature-family variables load only on routes that render workspace panels. */
+
+@media (max-width: 768px) {
+  .workspace-dashboard-panel,
+  .workspace-dashboard-panel .workspace-guide-panel-scroll,
+  .workspace-feature-panel.workspace-scroll-surface,
+  .workspace-feature-panel.workspace-scroll-surface .workspace-guide-panel-scroll,
+  .wellbeing-page-surface,
+  .wellbeing-page-surface .workspace-guide-panel-scroll {
+    --mobile-header-back-left: calc(env(safe-area-inset-left, 0px) + 0.82rem);
+    --mobile-header-info-right: calc(env(safe-area-inset-right, 0px) + 0.55rem);
+    --mobile-header-title-top: 1.94rem;
+    --mobile-header-title-bottom: 0.1rem;
+    --mobile-header-wrap-correction: -0.18rem;
+    --mobile-header-control-top: calc(
+        var(--glass-ring-pad-top, 0px) +
+        var(--workspace-guide-panel-overscan-top, 0px) +
+        var(--mobile-header-back-top) - 0.74rem
+    );
+    --mobile-header-control-info-top: calc(
+      var(--glass-ring-pad-top, 0px) +
+        var(--workspace-guide-panel-overscan-top, 0px) +
+        var(--mobile-header-info-top) - 0.74rem
+    );
+  }
+
+  :is(.workspace-dashboard-panel, .workspace-feature-panel.workspace-scroll-surface, .wellbeing-page-surface)
+    :is(.glass-subpage-title, .subpage-mobile-title, .policy-mobile-title, .glass-page-title) {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  .workspace-dashboard-panel,
+  .workspace-dashboard-panel .workspace-guide-panel-scroll {
+    --mobile-header-back-left: calc(env(safe-area-inset-left, 0px) + 0.04rem);
+    --mobile-header-info-right: calc(env(safe-area-inset-right, 0px) + 0.98rem);
+    --mobile-header-title-top: 1.72rem;
+    --mobile-header-control-top: calc(
+        var(--glass-ring-pad-top, 0px) +
+        var(--workspace-guide-panel-overscan-top, 0px) +
+        var(--mobile-header-back-top) - 1.79rem
+    );
+    --mobile-header-control-info-top: calc(
+      var(--glass-ring-pad-top, 0px) +
+        var(--workspace-guide-panel-overscan-top, 0px) +
+        var(--mobile-header-info-top) - 1.69rem
+    );
+  }
+
+  .workspace-feature-panel.workspace-scroll-surface.wellbeing-page-surface,
+  .workspace-feature-panel.workspace-scroll-surface.wellbeing-page-surface
+    .workspace-guide-panel-scroll {
+    --mobile-header-info-right: calc(env(safe-area-inset-right, 0px) + 1.76rem);
+    --mobile-header-control-top: calc(
+        var(--glass-ring-pad-top, 0px) +
+        var(--workspace-guide-panel-overscan-top, 0px) +
+        var(--mobile-header-back-top) - 0.74rem
+    );
+    --mobile-header-control-info-top: calc(
+      var(--glass-ring-pad-top, 0px) +
+        var(--workspace-guide-panel-overscan-top, 0px) +
+        var(--mobile-header-info-top) - 0.64rem
+    );
+  }
+}

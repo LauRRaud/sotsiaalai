@@ -1,0 +1,32 @@
+/* Policy mobile header offsets. Route-imported through features/policy/index.css. */
+
+@media (max-width: 768px) {
+  .policy-scroll-page-scroller {
+    --mobile-header-title-top: 0.7rem;
+    --mobile-header-title-bottom: 0.1rem;
+    --mobile-header-wrap-correction: -0.18rem;
+    --mobile-header-control-top: calc(
+      var(--policy-scroll-edge-pad-top, 0px) +
+        var(--policy-scroll-overscan-top, 0px) - 0.9rem
+    );
+    --mobile-header-control-info-top: calc(
+      var(--policy-scroll-edge-pad-top, 0px) +
+        var(--policy-scroll-overscan-top, 0px) - 0.625rem
+    );
+  }
+
+  .policy-scroll-page-scroller {
+    --mobile-header-back-left: calc(env(safe-area-inset-left, 0px) - 0.38rem);
+    --mobile-header-title-top: 1.94rem;
+    --mobile-header-control-top: calc(
+      var(--policy-scroll-edge-pad-top, 0px) +
+        var(--policy-scroll-overscan-top, 0px) +
+        var(--mobile-header-back-top) - 0.74rem
+    );
+    --mobile-header-control-info-top: calc(
+      var(--policy-scroll-edge-pad-top, 0px) +
+        var(--policy-scroll-overscan-top, 0px) +
+        var(--mobile-header-info-top) - 0.74rem
+    );
+  }
+}

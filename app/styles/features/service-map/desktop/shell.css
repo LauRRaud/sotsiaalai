@@ -1,0 +1,265 @@
+.service-map-page-panel.service-map-page-panel {
+  --service-map-empty-bg: transparent;
+  --service-map-map-bg: #eef0ef;
+  --service-map-map-radius: 1.08rem;
+  --service-map-safe-area-bg: #10151d;
+  position: fixed;
+  inset: 0;
+  z-index: 21;
+  width: auto;
+  min-width: 0;
+  max-width: none !important;
+  height: auto;
+  max-height: none;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  color: var(--workspace-feature-text, var(--glass-surface-text, #f2f2f2));
+  box-shadow: none;
+  padding: 0;
+  overflow: hidden;
+  scrollbar-gutter: auto;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+:root.service-map-page-active,
+body.service-map-page-active {
+  background-color: var(--service-map-safe-area-bg, #10151d);
+}
+
+:root.theme-light.service-map-page-active,
+:root.theme-light body.service-map-page-active {
+  --service-map-safe-area-bg: #f4f2ee;
+}
+
+:root.theme-mid.service-map-page-active,
+:root.theme-mid body.service-map-page-active {
+  --service-map-safe-area-bg: #d7c6c0;
+}
+
+:root.theme-night.service-map-page-active,
+:root.theme-night body.service-map-page-active {
+  --service-map-safe-area-bg: #0e1420;
+}
+
+html[data-contrast="hc"].service-map-page-active,
+html[data-contrast="hc"] body.service-map-page-active {
+  --service-map-safe-area-bg: #000;
+}
+
+:root:not(.theme-light) .service-map-page-panel.service-map-page-panel {
+  --service-map-empty-bg: transparent;
+}
+
+:root.theme-night .service-map-page-panel.service-map-page-panel {
+  --service-map-empty-bg: transparent;
+}
+
+:root.theme-mid .service-map-page-panel.service-map-page-panel {
+  --service-map-empty-bg: transparent;
+}
+
+:root.theme-light:not(.theme-mid) .service-map-page-panel.service-map-page-panel {
+  --service-map-empty-bg: transparent;
+}
+
+.service-map-page-header {
+  display: none;
+}
+
+.service-map-page-content {
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  padding: 0;
+}
+
+.service-map-workspace {
+  --service-map-glass-bg: var(
+    --glass-ring-surface-bg,
+    var(
+      --glass-surface-bg,
+      rgba(0, 0, 0, 0.25)
+    )
+  );
+  --service-map-panel-glass-bg: var(
+    --service-map-glass-bg
+  );
+  --service-map-panel-glass-overlay-bg: transparent;
+  --service-map-control-glass-bg: var(
+    --subpage-card-bg,
+    var(--service-map-glass-bg)
+  );
+  --service-map-control-glass-bg-hover: var(
+    --subpage-card-bg-hover,
+    var(--service-map-control-glass-bg)
+  );
+  --service-map-popup-glass-bg: var(
+    --opaque-panel-bg,
+    var(
+      --workspace-feature-surface-strong,
+      var(--subpage-card-bg, rgba(0, 0, 0, 0.25))
+    )
+  );
+  --service-map-glass-shadow: var(
+    --glass-shell-shadow,
+    var(--workspace-feature-shadow, 0 18px 38px rgba(2, 6, 14, 0.24))
+  );
+  --service-map-panel-shadow: var(--service-map-glass-shadow);
+  --service-map-glass-border: color-mix(
+    in srgb,
+    var(--workspace-feature-text, #f2f2f2) 14%,
+    transparent
+  );
+  --service-map-glass-blur: var(--glass-modal-blur, var(--glass-blur-radius, 1rem));
+  --service-map-control-shadow: var(--btn-primary-shadow);
+  --service-map-control-shadow-hover: var(--btn-primary-shadow-hover);
+  --service-map-panel-top: 0.7rem;
+  --service-map-panel-height: 7.83rem;
+  --service-map-map-panel-gap: 0.6rem;
+  --service-map-map-top: calc(var(--service-map-panel-top) + var(--service-map-panel-height) + var(--service-map-map-panel-gap));
+  --service-map-map-bottom-gap: 0.85rem;
+  --service-map-map-max-height: 48rem;
+  --service-map-results-row-height: 3.24rem;
+  --service-map-summary-row-height: 3.24rem;
+  position: relative;
+  min-height: 100%;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  isolation: isolate;
+  overscroll-behavior: none;
+  border-radius: inherit;
+  background: transparent;
+}
+
+:root:not(.theme-light) .service-map-workspace {
+  background: transparent;
+}
+
+.service-map-workspace--toolbar-feedback {
+  --service-map-map-bottom-gap: 1.15rem;
+  --service-map-map-max-height: 48rem;
+}
+
+.service-map-workspace--toolbar-feedback .service-map-workspace__filters-shell {
+  --service-map-toolbar-control-size: 3.76rem;
+  --service-map-toolbar-control-top: 0.25rem;
+  --service-map-toolbar-back-hit-size: var(--service-map-toolbar-control-size);
+  --service-map-toolbar-icon-edge-gap: 0.28rem;
+  --service-map-toolbar-icon-inner-nudge: 0.26rem;
+  --service-map-toolbar-side-reserve: 3.42rem;
+  align-items: flex-start;
+  padding-bottom: 0.38rem;
+  padding-left: 0.86rem;
+  padding-right: 0.86rem;
+  width: min(calc(100vw - 2rem), 66rem);
+  max-width: calc(100vw - 2rem);
+}
+
+.service-map-workspace--toolbar-feedback .service-map-workspace__info.service-map-workspace__info {
+  position: absolute;
+  top: calc(var(--service-map-toolbar-control-top) + ((var(--service-map-toolbar-control-size) - var(--service-map-toolbar-back-hit-size)) / 2)) !important;
+  right: calc(var(--service-map-toolbar-icon-edge-gap) + var(--service-map-toolbar-icon-inner-nudge)) !important;
+  left: auto;
+  width: var(--service-map-toolbar-back-hit-size);
+  height: var(--service-map-toolbar-back-hit-size);
+  min-width: var(--service-map-toolbar-back-hit-size);
+  min-height: var(--service-map-toolbar-back-hit-size);
+  flex: 0 0 auto;
+  align-self: flex-start;
+  margin-top: 0;
+  transform: none;
+}
+
+.service-map-workspace--toolbar-feedback .service-map-workspace__info.service-map-workspace__info svg {
+  width: var(--service-map-toolbar-back-hit-size) !important;
+  height: var(--service-map-toolbar-back-hit-size) !important;
+}
+
+.service-map-workspace__map {
+  position: absolute;
+  top: var(--service-map-map-top);
+  left: 50%;
+  z-index: 1;
+  width: min(calc(100vw - 4rem), 100rem);
+  height: min(
+    calc(100dvh - var(--service-map-map-top) - var(--service-map-map-bottom-gap)),
+    var(--service-map-map-max-height)
+  );
+  min-height: min(24rem, calc(100dvh - var(--service-map-map-top) - var(--service-map-map-bottom-gap)));
+  border: 0 !important;
+  border-radius: var(--service-map-map-radius);
+  box-shadow: none !important;
+  overflow: hidden;
+  transform: translateX(-50%);
+}
+
+.service-map-workspace__filters,
+.service-map-workspace__role,
+.service-map-workspace__status {
+  position: absolute;
+  z-index: 410;
+}
+
+.service-map-workspace__filters {
+  top: var(--service-map-panel-top);
+  left: 50%;
+  z-index: 430;
+  display: grid;
+  justify-items: center;
+  width: fit-content;
+  max-width: calc(100vw - 2rem);
+  transform: translateX(-50%);
+}
+
+.service-map-workspace__filters--collapsed {
+  left: 50%;
+  width: min(calc(100vw - 2rem), 54rem);
+  justify-items: end;
+  pointer-events: auto;
+  transform: translateX(-50%);
+}
+
+.service-map-workspace__filters-shell {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.12rem;
+  width: auto;
+  max-width: 100%;
+  min-height: 4.25rem;
+  border: 0 !important;
+  border-radius: 1.18rem;
+  background:
+    var(--glass-ring-sheen, none),
+    var(--service-map-panel-glass-bg);
+  color: var(--workspace-feature-text);
+  padding: 0.56rem 0.5rem 0.66rem 0.28rem;
+  box-shadow: var(--service-map-panel-shadow) !important;
+  backdrop-filter: blur(var(--service-map-glass-blur)) !important;
+  -webkit-backdrop-filter: blur(var(--service-map-glass-blur)) !important;
+  isolation: isolate;
+  overflow: visible;
+  transition:
+    box-shadow 120ms ease;
+}
+
+html[data-theme-switching="1"] .service-map-workspace__filters-shell,
+html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
+  transition: none !important;
+}
+
+.service-map-workspace__filters-shell::before {
+  content: none;
+}
+
+.service-map-workspace__filters--collapsed .service-map-workspace__filters-shell {
+  width: 3.85rem;
+  min-height: 3.85rem;
+  border-radius: 999px;
+  padding: 0;
+  opacity: 0;
+  pointer-events: none;
+}

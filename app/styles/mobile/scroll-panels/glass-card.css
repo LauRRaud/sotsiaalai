@@ -1,0 +1,112 @@
+/* Shared mobile glass-card sizing, surface and full-panel header contract. */
+
+@media (max-width: 768px) {
+  :root {
+    --mobile-common-glass-surface-bg: var(
+      --glass-surface-bg,
+      var(--glass-ring-surface-bg, rgba(0, 0, 0, 0.25))
+    );
+  }
+
+  :is(
+      .glass-ring,
+      .subscription-modal-content,
+      .help-listings-modal-content,
+      .selected-listing-modal-content,
+      .glass-mobile-card
+    ) {
+    --mobile-glass-card-gap: clamp(0.32rem, 1.35vw, 0.4rem);
+    --mobile-glass-card-radius: clamp(1.05rem, 3.8vw, 1.45rem);
+    box-sizing: border-box;
+    width: calc(
+      100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) -
+        (var(--mobile-glass-card-gap) * 2)
+    );
+    inline-size: calc(
+      100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) -
+        (var(--mobile-glass-card-gap) * 2)
+    );
+    min-width: calc(
+      100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) -
+        (var(--mobile-glass-card-gap) * 2)
+    );
+    max-width: calc(
+      100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) -
+        (var(--mobile-glass-card-gap) * 2)
+    );
+    height: calc(
+      var(--glass-mobile-root-vh, 100dvh) - var(--mobile-safe-top, env(safe-area-inset-top, 0px)) -
+        var(--mobile-safe-bottom, env(safe-area-inset-bottom, 0px)) -
+        (var(--mobile-glass-card-gap) * 2)
+    );
+    min-height: calc(
+      var(--glass-mobile-root-vh, 100dvh) - var(--mobile-safe-top, env(safe-area-inset-top, 0px)) -
+        var(--mobile-safe-bottom, env(safe-area-inset-bottom, 0px)) -
+        (var(--mobile-glass-card-gap) * 2)
+    );
+    max-height: calc(
+      var(--glass-mobile-root-vh, 100dvh) - var(--mobile-safe-top, env(safe-area-inset-top, 0px)) -
+        var(--mobile-safe-bottom, env(safe-area-inset-bottom, 0px)) -
+        (var(--mobile-glass-card-gap) * 2)
+    );
+    margin-top: calc(var(--mobile-safe-top, env(safe-area-inset-top, 0px)) + var(--mobile-glass-card-gap));
+    margin-right: max(var(--mobile-glass-card-gap), env(safe-area-inset-right, 0px));
+    margin-bottom: calc(var(--mobile-safe-bottom, env(safe-area-inset-bottom, 0px)) + var(--mobile-glass-card-gap));
+    margin-left: max(var(--mobile-glass-card-gap), env(safe-area-inset-left, 0px));
+    border-radius: var(--mobile-glass-card-radius);
+    overflow: hidden;
+  }
+
+  :is(
+      .glass-ring:not(.profile-container),
+      .glass-subpage-surface:not(.rag-admin-shell-card),
+      .workspace-guide-panel.glass-subpage-surface,
+      .subscription-modal-content,
+      .help-listings-modal-content,
+      .selected-listing-modal-content,
+      .glass-mobile-card
+    ) {
+    --subpage-card-bg: var(--mobile-common-glass-surface-bg);
+    --subpage-card-bg-hover: var(--mobile-common-glass-surface-bg);
+    --input-bg: var(--mobile-common-glass-surface-bg);
+    --input-bg-hover: var(--mobile-common-glass-surface-bg);
+    --input-bg-focus: var(--mobile-common-glass-surface-bg);
+    --opaque-panel-bg: var(--mobile-common-glass-surface-bg);
+    --opaque-panel-bg-hover: var(--mobile-common-glass-surface-bg);
+    background: var(--mobile-common-glass-surface-bg);
+    border: 0 !important;
+    box-shadow: var(--glass-shell-shadow, none) !important;
+    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem));
+    backdrop-filter: blur(var(--glass-blur-radius, 1rem));
+  }
+
+  .glass-mobile-card {
+    --glass-mobile-vh: var(--glass-mobile-root-vh, 100dvh);
+    --glass-mobile-safe-top: var(--mobile-safe-top, env(safe-area-inset-top, 0px));
+    --glass-mobile-safe-bottom: var(--mobile-safe-bottom, env(safe-area-inset-bottom, 0px));
+    max-width: none;
+    padding-right: var(
+      --glass-ring-pad-x,
+      clamp(calc(1.8 * var(--base-rem)), 5vw, calc(3.2 * var(--base-rem)))
+    );
+    padding-left: var(
+      --glass-ring-pad-x,
+      clamp(calc(1.8 * var(--base-rem)), 5vw, calc(3.2 * var(--base-rem)))
+    );
+    padding-top: var(
+      --glass-ring-pad-top,
+      clamp(calc(0.4 * var(--base-rem)), 1.4vh, calc(1.1 * var(--base-rem)))
+    );
+    padding-bottom: calc(var(--glass-mobile-safe-bottom) + 0.9rem);
+  }
+
+  .glass-full-panel-mobile-header {
+    --glass-ring-pad-top: calc(
+      clamp(calc(0.4 * var(--base-rem)), 1.4vh, calc(1.1 * var(--base-rem))) +
+        0.18rem
+    );
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+}

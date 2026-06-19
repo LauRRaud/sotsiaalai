@@ -26,6 +26,7 @@
   --wellbeing-checkbox-border: color-mix(in srgb, var(--title-color, #c57171) 76%, transparent);
   --wellbeing-checkbox-tick: var(--title-color, #c57171);
   --wellbeing-primary-button-text: #243244;
+  --wellbeing-btn-primary-text: var(--wellbeing-primary-button-text);
   --wellbeing-secondary-button-text: var(--wellbeing-strong-text);
   --wellbeing-disabled-button-text: color-mix(in srgb, var(--wellbeing-strong-text) 58%, transparent);
   --wellbeing-focus-ring: var(--btn-primary-focus-ring-color, rgba(197, 113, 113, 0.28));
@@ -35,7 +36,7 @@
   --wellbeing-overview-demand-bg: color-mix(in srgb, #e7b85f 18%, var(--wellbeing-card-bg));
   --wellbeing-overview-resource-bg: color-mix(in srgb, #5eb2a4 18%, var(--wellbeing-card-bg));
   --wellbeing-overview-risk-bg: color-mix(in srgb, #d56969 18%, var(--wellbeing-card-bg));
-  --btn-primary-text: var(--wellbeing-primary-button-text);
+  --btn-primary-text: var(--wellbeing-btn-primary-text);
   color: var(--wellbeing-text);
   font-size: var(--wellbeing-base-font-size);
   line-height: 1.45;
@@ -166,7 +167,8 @@
   --wellbeing-primary-button-text: var(--hc-accent, #ffea00);
   --wellbeing-secondary-button-text: var(--hc-accent, #ffea00);
   --wellbeing-disabled-button-text: var(--hc-accent, #ffea00);
-  --btn-primary-text: var(--hc-accent, #ffea00);
+  --wellbeing-btn-primary-text: var(--hc-accent, #ffea00);
+  --btn-primary-text: var(--wellbeing-btn-primary-text);
 }
 
 :global(.documents-dropdown-menu.wellbeing-dropdown-menu) {
@@ -286,17 +288,27 @@
 @media (min-width: 769px) {
   .surface.surface.surface {
     --wellbeing-desktop-panel-pad-top: clamp(0.18rem, 0.65vh, 0.42rem);
-    --wellbeing-desktop-guide-overscan-top: clamp(1.6rem, 4.8vh, 2.4rem);
-    --wellbeing-desktop-control-left: calc(0.55rem - var(--workspace-guide-panel-pad-x, 1.1rem));
-    --wellbeing-desktop-control-top: calc(
-      0.55rem - var(--wellbeing-desktop-guide-overscan-top) -
-        var(--wellbeing-desktop-panel-pad-top)
-    );
-    --workspace-guide-panel-overscan-top: var(--wellbeing-desktop-guide-overscan-top);
-    --workspace-subpage-back-left: var(--wellbeing-desktop-control-left);
-    --workspace-subpage-back-top: var(--wellbeing-desktop-control-top);
+    --workspace-guide-panel-overscan-top: 0px;
+    --workspace-subpage-back-left: 0.55rem;
+    --workspace-subpage-back-top: 0.75rem;
+    --workspace-subpage-header-margin-bottom: 0.35rem;
+    --workspace-subpage-title-margin-top: clamp(2.15rem, 5.4vh, 3.25rem);
     --workspace-subpage-title-margin-bottom: clamp(0.18rem, 0.9vh, 0.42rem);
     padding-top: var(--wellbeing-desktop-panel-pad-top) !important;
+  }
+
+  .surface.surface > .dashboardBody.dashboardBody {
+    --workspace-subpage-back-left: calc(0.55rem - var(--workspace-guide-panel-pad-x, 1.1rem));
+    --workspace-subpage-back-top: calc(
+      0.55rem - var(--workspace-guide-panel-overscan-top, 0px) -
+        var(--wellbeing-desktop-panel-pad-top)
+    );
+  }
+
+  .surface.surface > :global(.workspace-guide-panel-scroll):not(.dashboardBody) {
+    --workspace-subpage-title-margin-top: calc(
+      clamp(2.15rem, 5.4vh, 3.25rem) - var(--wellbeing-desktop-panel-pad-top)
+    );
   }
 }
 

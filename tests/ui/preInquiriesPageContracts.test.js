@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import assert from "node:assert/strict";
 import test from "node:test";
+import { readCssSourceBundle } from "../helpers/cssSourceBundle.mjs";
 import { readServiceMapCssBundle } from "../helpers/serviceMapCssBundle.mjs";
 
 function read(path) {
@@ -178,7 +179,7 @@ test("workspace feature pages are anchored to the viewport", () => {
 });
 
 test("workspace feature panels keep a stable desktop footprint across role views", () => {
-  const css = read("app/styles/utilities/helpers.css");
+  const css = readCssSourceBundle("app/styles/utilities/helpers.css");
   const source = read("components/workspace/WorkspaceFeaturePage.jsx");
 
   assert.match(
@@ -204,7 +205,7 @@ test("workspace feature panels keep a stable desktop footprint across role views
 });
 
 test("workspace-launched feature pages keep their scroll content unmasked", () => {
-  const css = read("app/styles/utilities/helpers.css");
+  const css = readCssSourceBundle("app/styles/utilities/helpers.css");
 
   assert.match(
     css,
@@ -222,11 +223,11 @@ test("workspace-launched feature pages keep their scroll content unmasked", () =
 
 test("workspace feature pages use the same desktop width as help listings", () => {
   const source = read("components/workspace/WorkspaceFeaturePage.jsx");
-  const css = read("app/styles/utilities/helpers.css");
+  const css = readCssSourceBundle("app/styles/utilities/helpers.css");
   const covisionSource = read("components/covision/CovisionPage.jsx");
   const materialsSource = read("components/materials/MaterialsPage.jsx");
   const helpListingsSource = read("components/chat/HelpListingsPanel.jsx");
-  const chatFocusCss = read("app/styles/components/chat-focus.css");
+  const chatFocusCss = readCssSourceBundle("app/styles/components/chat-focus.css");
 
   assert.match(helpListingsSource, /help-listings-modal-content--workspace/);
   assert.match(chatFocusCss, /help-listings-workspace-inline-size/);

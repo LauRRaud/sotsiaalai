@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
+import { readCssSourceBundle } from "../helpers/cssSourceBundle.mjs";
 import { readMobileCssBundle } from "../helpers/mobileCssBundle.mjs";
 
 
@@ -9,9 +10,9 @@ function read(path) {
 }
 
 test("documents and agent pages use a shared mobile glass-panel system", () => {
-  const css = read("app/styles/components/documents-mode.css");
+  const css = readCssSourceBundle("app/styles/components/documents-mode.css");
   const mobileCss = readMobileCssBundle();
-  const helpersCss = read("app/styles/utilities/helpers.css");
+  const helpersCss = readCssSourceBundle("app/styles/utilities/helpers.css");
   const documentsSource = read("components/documents/DocumentsPage.jsx");
   const agentSource = read("components/agent/AgentModePage.jsx");
 
@@ -77,7 +78,7 @@ test("short workspace feature pages keep content pinned under the header", () =>
 });
 
 test("documents mobile controls stretch instead of keeping desktop fixed widths", () => {
-  const css = read("app/styles/components/documents-mode.css");
+  const css = readCssSourceBundle("app/styles/components/documents-mode.css");
 
   assert.match(
     css,
@@ -101,7 +102,7 @@ test("viewport setter updates the shared mobile glass height variable", () => {
 });
 
 test("documents and agent glass panels use the shared borderless surface", () => {
-  const css = read("app/styles/components/documents-mode.css");
+  const css = readCssSourceBundle("app/styles/components/documents-mode.css");
 
   assert.match(
     css,
@@ -121,7 +122,11 @@ test("documents and agent glass panels use the shared borderless surface", () =>
   );
   assert.match(
     css,
-    /\.documents-workspace-page--library\s*\{[\s\S]*?--subpage-card-bg:\s*var\(--documents-glass-surface\)[\s\S]*?--subpage-card-bg-hover:\s*var\(--documents-glass-surface\)/
+    /\.documents-workspace-page--library\s*\{[\s\S]*?--documents-subpage-card-bg:\s*var\(--documents-glass-surface\)[\s\S]*?--documents-subpage-card-bg-hover:\s*var\(--documents-glass-surface\)/
+  );
+  assert.match(
+    css,
+    /\.documents-workspace\s*\{[\s\S]*?--subpage-card-bg:\s*var\(--documents-subpage-card-bg\)[\s\S]*?--subpage-card-bg-hover:\s*var\(--documents-subpage-card-bg-hover\)/
   );
   assert.match(
     css,
@@ -141,7 +146,7 @@ test("documents and agent glass panels use the shared borderless surface", () =>
 });
 
 test("dokreziim conversation glow shadows stay close to the element", () => {
-  const css = read("app/styles/components/documents-mode.css");
+  const css = `${readCssSourceBundle("app/styles/components/documents-mode.css")}\n${readCssSourceBundle("app/styles/features/documents/agent.css")}`;
 
   assert.match(
     css,

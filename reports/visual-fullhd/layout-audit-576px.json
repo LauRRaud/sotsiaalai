@@ -1,0 +1,78 @@
+{
+  "generatedAt": "2026-06-19T07:58:05.503Z",
+  "viewport": {
+    "width": 1920,
+    "height": 1080,
+    "deviceScaleFactor": 1
+  },
+  "inviteAudit": {
+    "viewport": {
+      "innerWidth": 1920,
+      "innerHeight": 1080,
+      "devicePixelRatio": 1,
+      "visualScale": 1
+    },
+    "rootFontSize": "16px",
+    "surface": {
+      "left": 571.19,
+      "right": 1407.02,
+      "width": 835.83,
+      "maxWidth": "100%",
+      "marginLeft": "0px",
+      "marginRight": "0px"
+    },
+    "form": {
+      "left": 701.09,
+      "right": 1277.09,
+      "width": 576,
+      "maxWidth": "576px",
+      "marginLeft": "129.906px",
+      "marginRight": "129.906px"
+    },
+    "list": {
+      "left": 701.09,
+      "right": 1277.09,
+      "width": 576,
+      "maxWidth": "576px",
+      "marginLeft": "129.906px",
+      "marginRight": "129.906px"
+    },
+    "scroll": {
+      "clientWidth": 1920,
+      "scrollWidth": 1920
+    }
+  },
+  "offersAudit": {
+    "viewport": {
+      "innerWidth": 1920,
+      "innerHeight": 1080,
+      "devicePixelRatio": 1,
+      "visualScale": 1
+    },
+    "rootFontSize": "16px",
+    "surface": {
+      "left": 571.19,
+      "right": 1407.02,
+      "width": 835.83,
+      "maxWidth": "100%",
+      "marginLeft": "0px",
+      "marginRight": "0px"
+    },
+    "panel": {
+      "left": 701.09,
+      "right": 1277.09,
+      "width": 576,
+      "maxWidth": "576px",
+      "marginLeft": "129.906px",
+      "marginRight": "129.906px"
+    },
+    "scroll": {
+      "clientWidth": 1920,
+      "scrollWidth": 1920
+    }
+  },
+  "screenshots": {
+    "inviteShot": "C:\\Users\\rauds\\Desktop\\SotsiaalAI\\reports\\visual-fullhd\\grupivestlus-1920x1080-576px.png",
+    "offersShot": "C:\\Users\\rauds\\Desktop\\SotsiaalAI\\reports\\visual-fullhd\\abipakkumised-1920x1080-576px.png"
+  }
+}

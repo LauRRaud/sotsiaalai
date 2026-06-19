@@ -1,0 +1,37 @@
+SotsiaalAI CSS etapp 13q — staatiline kontroll
+
+Kontrolli tüüp: tekstiline patchi koostamise kontroll, mitte reaalne repo-käivitus.
+
+Põhjus:
+- aktiivses tööruumis ei ole projekti repot;
+- 13p patch ei ole siin rakendatavas tööpuus olemas;
+- seetõttu ei saa siin ausalt väita `git apply --check: OK` ega `npm run css:tokens:check: OK`.
+
+Lähteandmed:
+- 13p raport: form-control feature-direct-definition 18 → 8;
+- 13p raport: form-control feature-bridge 37 → 47;
+- 13p raport: !important 2025 → 2025;
+- 13p-järgne audit: allesolevad direct definitsioonid:
+  - app/styles/features/service-map/desktop/base.css: 7
+  - app/styles/features/service-map/desktop/pre-inquiry-agent.css: 1
+
+Patchi tekstiline kontroll:
+- muudetud failid: 2
+- uued form-control direct väärtused: 0
+- uued `!important`: 0
+- eemaldatavad direct definitsioonid: 8
+- lisatavad bridge definitsioonid: 8
+- visuaalsed lõppväärtused: säilitatud alias-tokenites
+
+Päris repos käivitada:
+
+git apply --check sotsiaalai-css-cleanup-35-service-map-form-control-bridge.patch
+git apply sotsiaalai-css-cleanup-35-service-map-form-control-bridge.patch
+npm run css:tokens
+npm run css:tokens:check
+
+Oodatav tulemus:
+- Form-control feature direct definitions: 0
+- Form-control feature bridge definitions: 55
+- Form-control other definitions: 0
+- Project CSS !important count: 2025

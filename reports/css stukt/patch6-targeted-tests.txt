@@ -1,0 +1,106 @@
+TAP version 13
+# Subtest: high contrast mobile chat top nav icons stay background-free
+ok 1 - high contrast mobile chat top nav icons stay background-free
+  ---
+  duration_ms: 15.830892
+  type: 'test'
+  ...
+# Subtest: mobile chat top nav keeps the active label under the focused icon
+ok 2 - mobile chat top nav keeps the active label under the focused icon
+  ---
+  duration_ms: 7.838758
+  type: 'test'
+  ...
+# Subtest: mobile chat top nav activates button taps from the swipe surface
+ok 3 - mobile chat top nav activates button taps from the swipe surface
+  ---
+  duration_ms: 1.488756
+  type: 'test'
+  ...
+# Subtest: home public subpages keep the shared mobile glass card gap
+ok 4 - home public subpages keep the shared mobile glass card gap
+  ---
+  duration_ms: 10.646406
+  type: 'test'
+  ...
+# Subtest: home quick links route to the checked public glass subpages
+ok 5 - home quick links route to the checked public glass subpages
+  ---
+  duration_ms: 2.083133
+  type: 'test'
+  ...
+# Subtest: subscription page uses the shared subpage back button class on mobile
+ok 6 - subscription page uses the shared subpage back button class on mobile
+  ---
+  duration_ms: 7.184323
+  type: 'test'
+  ...
+# Subtest: subscription page does not add a desktop-only header offset
+ok 7 - subscription page does not add a desktop-only header offset
+  ---
+  duration_ms: 0.831891
+  type: 'test'
+  ...
+# Subtest: home mobile scroll CSS stays home-owned
+ok 8 - home mobile scroll CSS stays home-owned
+  ---
+  duration_ms: 20.127602
+  type: 'test'
+  ...
+# Subtest: shared and profile mobile rules live beside their owners
+ok 9 - shared and profile mobile rules live beside their owners
+  ---
+  duration_ms: 6.539549
+  type: 'test'
+  ...
+# Subtest: policy tall and admin mobile header rules are route-owned
+ok 10 - policy tall and admin mobile header rules are route-owned
+  ---
+  duration_ms: 55.24145
+  type: 'test'
+  ...
+# Subtest: mobile glass panels do not inherit desktop shell shadows
+ok 11 - mobile glass panels do not inherit desktop shell shadows
+  ---
+  duration_ms: 8.702503
+  type: 'test'
+  ...
+# Subtest: mobile top navigation title is large enough to match subpage headings
+ok 12 - mobile top navigation title is large enough to match subpage headings
+  ---
+  duration_ms: 39.380787
+  type: 'test'
+  ...
+# Subtest: mobile title, back and info placement is centralized without PWA-only offsets
+ok 13 - mobile title, back and info placement is centralized without PWA-only offsets
+  ---
+  duration_ms: 20.298394
+  type: 'test'
+  ...
+# Subtest: admin RAG and framework acceptance pages expose mobile header hooks
+ok 14 - admin RAG and framework acceptance pages expose mobile header hooks
+  ---
+  duration_ms: 1.506365
+  type: 'test'
+  ...
+# Subtest: policy pages use the scroll-surface back header pattern
+ok 15 - policy pages use the scroll-surface back header pattern
+  ---
+  duration_ms: 18.55547
+  type: 'test'
+  ...
+# Subtest: policy desktop pages use the workspace panel scroll geometry
+ok 16 - policy desktop pages use the workspace panel scroll geometry
+  ---
+  duration_ms: 1.682893
+  type: 'test'
+  ...
+1..16
+# tests 16
+# suites 0
+# pass 16
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 402.385762

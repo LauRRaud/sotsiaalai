@@ -1,0 +1,17 @@
+CSS token audit
+  CSS files: 156
+  Tokens: 1119
+  Definitions: 4231
+  Usages: 5921
+  Multi-value token collisions: 619
+  Undefined usages: 95
+  Defined but unused: 259
+  Subpage-card definitions: 141
+  Subpage-card feature direct definitions: 16
+  Subpage-card feature bridge definitions: 7
+  Subpage-card other definitions: 0
+git apply --check: OK
+Missing local CSS imports: 0
+CSS import cycles: 0
+CSS brace-balance errors: 0
+Documents workspace non-bridge --subpage-card definitions: 0 []

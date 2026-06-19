@@ -1,3 +1,4 @@
+import "../styles/features/login/index.css";
 import { cookies } from "next/headers";
 import UuendaPinBody from "@/components/alalehed/UuendaPinBody";
 import { getLocaleFromCookies, getMessagesSync } from "@/lib/i18n";

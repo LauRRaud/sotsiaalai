@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import assert from "node:assert/strict";
 import test from "node:test";
+import { readCssSourceBundle } from "../helpers/cssSourceBundle.mjs";
 import { readServiceMapCssBundle } from "../helpers/serviceMapCssBundle.mjs";
 
 function read(path) {
@@ -107,7 +108,7 @@ test("service map popup glass is applied on the wrapper immediately", () => {
   assert.match(css, /:root\.theme-light:not\(\.theme-mid\) \.service-map-workspace\s*\{[\s\S]*?--service-map-popup-glass-bg:\s*rgb\(255,\s*255,\s*255\)/);
   assert.match(css, /:root\.theme-mid \.service-map-workspace\s*\{[\s\S]*?--service-map-popup-glass-bg:\s*rgb\(242,\s*232,\s*228\)/);
   assert.match(css, /:root\.theme-night \.service-map-workspace\s*\{[\s\S]*?--service-map-popup-glass-bg:\s*var\(\s*--chat-card-surface-night-standard-flat-bg,/);
-  assert.match(css, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) \.service-map-workspace\s*\{[\s\S]*?--service-map-popup-glass-bg:\s*var\(\s*--forest-floating-surface,/);
+  assert.match(css, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) \.service-map-workspace\s*\{[\s\S]*?--service-map-popup-glass-bg:\s*var\(\s*--mono-floating-surface,/);
   assert.doesNotMatch(css, /rgb\(17,\s*24,\s*39\)/);
   assert.doesNotMatch(css, /theme-mid[\s\S]{0,120}rgba\(242,\s*232,\s*228,\s*0\./);
   assert.match(
@@ -158,7 +159,7 @@ test("service map close button and toolbar controls keep the intended brand/cont
 
 test("service map toolbar controls inherit shared glow and option-card interaction contracts", () => {
   const css = readServiceMapCssBundle();
-  const glassCss = read("app/styles/components/glass.css");
+  const glassCss = readCssSourceBundle("app/styles/components/glass.css");
   const typeCardBlock = cssBlock(css, ".service-map-toolbar__type-card");
 
   assert.match(css, /--service-map-control-shadow:\s*var\(--btn-primary-shadow\)/);
@@ -216,7 +217,7 @@ test("service map back button uses desktop toolbar panel and mobile page anchor"
   );
   assert.match(
     css,
-    /:is\([\s\S]*?\.service-map-workspace[\s\S]*?\)\s*:is\([\s\S]*?\.service-map-workspace__back[\s\S]*?\)\s*\{[\s\S]*?left:\s*var\(--mobile-header-back-left\)\s*!important;[\s\S]*?top:\s*calc\([\s\S]*?var\(--mobile-header-control-top\)[\s\S]*?var\(--mobile-header-browser-y-offset,\s*0rem\)[\s\S]*?var\(--mobile-header-pwa-y-offset,\s*0rem\)[\s\S]*?\)\s*!important;/
+    /:is\(\.service-map-page-panel,\s*\.service-map-workspace\) \.service-map-workspace__back\s*\{[\s\S]*?left:\s*var\(--mobile-header-back-left\)\s*!important;[\s\S]*?top:\s*calc\([\s\S]*?var\(--mobile-header-control-top\)[\s\S]*?var\(--mobile-header-browser-y-offset,\s*0rem\)[\s\S]*?var\(--mobile-header-pwa-y-offset,\s*0rem\)[\s\S]*?\)\s*!important;/
   );
   assert.match(
     css,

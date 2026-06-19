@@ -1,4 +1,6 @@
-/* Shared invite and person-invite modal styles. */
+/* Shared invite and person-invite modal styles.
+   Mobile invite rules are route-owned through this component entrypoint. */
+@import url("../features/invite/mobile.css");
 
 .invite-modal-overlay.person-invite-modal-overlay {
   display: grid;

@@ -1,0 +1,11 @@
+git apply --check: OK
+Missing local CSS imports: 0
+CSS import cycles: 0
+CSS brace-balance errors: 0
+Bad use client directive files: 0
+Project CSS !important count: 2025
+Btn-primary feature direct definitions: 2
+Btn-primary feature bridge definitions: 76
+Documents ui direct --btn-primary definitions: 0
+Documents ui bridge --btn-primary definitions: 10
+npm run css:tokens:check: OK

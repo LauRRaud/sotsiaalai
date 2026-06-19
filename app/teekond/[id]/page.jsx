@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+import "../../styles/features/journey/index.css";
 import JourneyDetail from "@/components/journey/JourneyDetail";
 import { getLocaleFromCookies, getMessagesSync } from "@/lib/i18n";
 import { buildLocalizedMetadata } from "@/lib/metadata";

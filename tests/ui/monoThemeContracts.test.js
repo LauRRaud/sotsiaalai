@@ -124,7 +124,7 @@ test("mono theme renders black and gray glass, icons, controls and home/about to
   assert.match(darkTheme, /:root:not\(\.theme-light\):not\(\.theme-mid\):not\(\.theme-night\):not\(\.theme-mono\):not\(\[data-contrast="hc"\]\)[\s\S]*?\.chat-tools-menu/);
   assert.match(mono, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) \.chat-tools-menu \.chat-tools-item\s*\{[\s\S]*?color:\s*var\(--mono-text\) !important;/);
   assert.match(mono, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) \.chat-tools-menu \.chat-tools-item :is\(svg, path, circle, rect, line, polyline, polygon\)\s*\{[\s\S]*?stroke:\s*var\(--mono-title\) !important;/);
-  assert.match(mono, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) body \.chat-inputbar \.chat-send-btn[\s\S]*?--btn-primary-bg:\s*var\(--mono-orbit-surface\) !important/);
+  assert.match(mono, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) body \.chat-inputbar \.chat-send-btn[\s\S]*?--chat-btn-primary-bg:\s*var\(--mono-orbit-surface\);[\s\S]*?--btn-primary-bg:\s*var\(--chat-btn-primary-bg\) !important/);
   assert.match(mono, /--home-title-color:\s*var\(--mono-title\)/);
   assert.match(mono, /--home-scroll-cue-color:\s*var\(--mono-title\)/);
   assert.match(darkTheme, /:root:not\(\.theme-light\):not\(\.theme-mid\):not\(\.theme-night\):not\(\.theme-mono\):not\(\[data-contrast="hc"\]\)[\s\S]*?\.materials-surface-button/);
@@ -200,7 +200,12 @@ test("app code no longer carries legacy forest theme tokens", () => {
     "app/styles/features/chat/mono.css",
     "app/styles/features/documents/mono.css",
     "app/styles/features/home/themes.css",
-    "app/styles/features/home/background.css",
+    "app/styles/mobile/background-layer.css",
+    "app/styles/features/home/background-mobile.css",
+    "app/styles/mobile/interaction-surfaces.css",
+    "app/styles/features/home/cards-mobile.css",
+    "app/styles/mobile/content-surfaces.css",
+    "app/styles/features/home/circular-text-mobile.css",
     "app/styles/features/profile/mono.css",
     "app/styles/features/service-map/desktop.css",
     "app/styles/features/documents/workspace.css",

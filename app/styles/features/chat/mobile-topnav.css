@@ -1,0 +1,16 @@
+/* Chat mobile top navigation title typography. Route-imported through features/chat/index.css. */
+
+@media (max-width: 768px) {
+  .chat-mobile-topnav .mobile-shared-topnav-title {
+    color: var(--title-color, var(--brand-primary, #c57171));
+    font-family:
+      var(--font-aino),
+      Arial,
+      sans-serif !important;
+    font-size: clamp(1.36rem, 5.5vw, 1.54rem) !important;
+    font-weight: 450;
+    line-height: var(--mobile-header-title-line-height);
+    letter-spacing: var(--mobile-header-title-tracking);
+    text-shadow: none !important;
+  }
+}

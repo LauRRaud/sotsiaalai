@@ -1,0 +1,10 @@
+git apply --check: OK
+Missing local CSS imports: 0
+CSS import cycles: 0
+CSS brace-balance errors: 0
+Bad use client directive files: 0
+Project CSS !important count: 2025
+Subpage-card feature direct definitions: 2
+Subpage-card feature bridge definitions: 21
+Chat hc direct --subpage-card definitions: 0
+Chat hc bridge --subpage-card definitions: 6

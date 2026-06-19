@@ -46,6 +46,13 @@
   .invite-modal-content--workspace.workspace-guide-panel.glass-subpage-surface
     > .invite-modal-scroll.workspace-guide-panel-scroll {
     flex: 1 1 auto !important;
+    align-self: stretch;
+    box-sizing: border-box;
+    width: auto;
+    inline-size: auto;
+    max-width: none;
+    margin-right: 0;
+    margin-left: 0;
     min-height: 0;
     overflow: visible !important;
     scrollbar-gutter: auto;
@@ -68,13 +75,15 @@
     --mid-shell-soft-shadow: none;
     width: 100%;
     inline-size: 100%;
-    min-width: 0;
+    min-width: 0 !important;
+    min-inline-size: 0 !important;
     max-width: 100%;
     height: auto;
     min-height: 0;
     max-height: none;
     block-size: auto;
     max-block-size: none;
+    flex-basis: 100% !important;
     margin: 0 auto;
     padding: 0 !important;
     overflow: visible;
@@ -152,19 +161,6 @@
     display: none !important;
     content: none;
     opacity: 0;
-  }
-
-  .workspace-dashboard-panel .workspace-feature-embedded :is(
-    .help-listings-body,
-    .help-listings-panel,
-    .invite-modal-scroll,
-    .invite-list-panel
-  ) {
-    width: 100%;
-    max-width: 100%;
-    min-width: 0;
-    padding-left: 0;
-    padding-right: 0;
   }
 
   .workspace-dashboard-panel .workspace-feature-embedded .invite-list-panel {

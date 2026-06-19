@@ -1,0 +1,29 @@
+.leaflet-control-attribution {
+  font-family: var(--font-aino), system-ui, sans-serif;
+  font-size: 0.7rem;
+}
+
+.service-map-leaflet .leaflet-bottom.leaflet-right {
+  right: 0.55rem;
+  bottom: 0.08rem;
+}
+
+.service-map-leaflet .leaflet-control-attribution {
+  max-width: min(18rem, calc(100vw - 1.8rem));
+  margin-bottom: 0.1rem;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: var(--title-color, var(--brand-primary, #c57171)) !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+:root.theme-mid .service-map-leaflet .leaflet-control-attribution {
+  color: var(--home-link-color, var(--title-color, var(--brand-primary, #c57171))) !important;
+  text-shadow: none;
+}
+
+.service-map-leaflet .leaflet-control-attribution a {
+  color: inherit !important;
+}

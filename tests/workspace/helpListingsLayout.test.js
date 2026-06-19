@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
+import { readCssSourceBundle } from "../helpers/cssSourceBundle.mjs";
 import { readMobileCssBundle } from "../helpers/mobileCssBundle.mjs";
 
 
@@ -13,7 +14,7 @@ test("workspace-launched help listings render inside the workspace panel", () =>
   const chatBodySource = readSource("components/alalehed/ChatBody.jsx");
   const chatBodyViewSource = readSource("components/alalehed/chat/ChatBodyView.jsx");
   const finalCssSource = readMobileCssBundle();
-  const helpersCssSource = readSource("app/styles/utilities/helpers.css");
+  const helpersCssSource = readCssSourceBundle("app/styles/utilities/helpers.css");
 
   assert.match(chatBodySource, /workspaceListingsPanelNode/);
   assert.match(chatBodySource, /workspaceListingsPanelMeta/);
@@ -27,12 +28,17 @@ test("workspace-launched help listings render inside the workspace panel", () =>
   assert.match(componentSource, /help-listings-modal-content--embedded/);
   assert.match(componentSource, /<div className="workspace-feature-embedded">/);
   assert.match(componentSource, /isWorkspaceReturn/);
-  assert.match(componentSource, /workspaceGuidePanelClassName/);
+  assert.match(componentSource, /isWorkspaceSubpageReturn\s*=\s*isWorkspaceReturn\s*&&\s*!embedded/);
+  assert.match(componentSource, /workspaceReturnSurfaceClassName\s*=\s*embedded[\s\S]*?\?\s*glassSubpageSurfaceScopeClassName[\s\S]*?:\s*workspaceGuidePanelClassName/);
   assert.match(componentSource, /workspaceGuidePanelScrollClassName/);
   assert.match(componentSource, /min-\[769px\]:!min-h-0/);
+  assert.match(componentSource, /helpListingsPanelWidthClassName[\s\S]*?max-w-\[36rem\]/);
+  assert.match(componentSource, /helpListingsPanelWidthClassName[\s\S]*?self-center/);
+  assert.match(componentSource, /help-listings-panel \$\{helpListingsPanelWidthClassName\}/);
   assert.match(componentSource, /const standaloneMobileSurfaceClassName = isWorkspaceReturn\s*\?\s*""\s*:/);
   assert.match(componentSource, /help-listings-modal-overlay--workspace/);
   assert.match(componentSource, /help-listings-modal-content--workspace/);
+  assert.match(componentSource, /isWorkspaceSubpageReturn\s*\?\s*"help-listings-modal-content--workspace "/);
   assert.doesNotMatch(componentSource, /workspace-guide-panel--route-enter/);
   assert.doesNotMatch(componentSource, /workspace-guide-panel--collapse/);
   assert.match(finalCssSource, /\.workspace-dashboard-panel \.workspace-feature-embedded > :is\(/);
@@ -51,12 +57,20 @@ test("workspace-launched help listings render inside the workspace panel", () =>
     helpersCssSource,
     /\.workspace-dashboard-panel \.workspace-feature-embedded > :is\([\s\S]*?\.help-listings-modal-content--embedded,[\s\S]*?\.invite-modal-content--embedded[\s\S]*?\)\.workspace-guide-panel\.glass-subpage-surface::before,[\s\S]*?display:\s*none\s*!important;/
   );
+  assert.doesNotMatch(helpersCssSource, /\.workspace-dashboard-panel \.workspace-feature-embedded \.help-listings-panel\s*\{[^}]*\bwidth\s*:/);
+  assert.doesNotMatch(helpersCssSource, /\.workspace-dashboard-panel \.workspace-feature-embedded \.help-listings-body\s*\{[^}]*\bwidth\s*:/);
+  assert.doesNotMatch(finalCssSource, /\.workspace-dashboard-panel \.workspace-feature-embedded \.help-listings-panel\s*\{[^}]*\bwidth\s*:/);
+  assert.doesNotMatch(finalCssSource, /\.workspace-dashboard-panel \.workspace-feature-embedded \.help-listings-body\s*\{[^}]*\bwidth\s*:/);
+  assert.match(finalCssSource, /\.workspace-dashboard-panel \.workspace-feature-embedded > :is\([\s\S]*?\.help-listings-modal-content--embedded,[\s\S]*?\.invite-modal-content--embedded[\s\S]*?\)\s*\{[\s\S]*?min-inline-size:\s*0\s*!important;[\s\S]*?flex:\s*0 0 100%;/);
 
   const workspacePanelCss = readSource("components/chat/WorkspacePanel.module.css");
   assert.match(
     workspacePanelCss,
     /\.embeddedContent\s*\{[\s\S]*?width:\s*min\(100%,\s*clamp\(38rem,\s*76vw,\s*56rem\)\);[\s\S]*?flex-direction:\s*column;/
   );
+  assert.match(workspacePanelCss, /workspace-feature-embedded > \.invite-modal-content--embedded\)[\s\S]*?min-inline-size:\s*0\s*!important;[\s\S]*?flex:\s*0 0 100%;/);
+  assert.doesNotMatch(workspacePanelCss, /\.panel :global\(\.workspace-feature-embedded \.help-listings-panel\)\s*\{[^}]*\bwidth\s*:/);
+  assert.doesNotMatch(workspacePanelCss, /\.panel :global\(\.workspace-feature-embedded \.help-listings-body\)\s*\{[^}]*\bwidth\s*:/);
   assert.match(workspacePanelCss, /\.panel :global\(\.workspace-feature-embedded \.help-listings-panel\),[\s\S]*?background:\s*transparent\s*!important;/);
   assert.match(workspacePanelCss, /\.panel :global\(\.workspace-feature-embedded \.help-listings-panel\),[\s\S]*?border-width:\s*var\(--subpage-card-border-width,[\s\S]*?background:\s*var\(--subpage-card-bg,/);
   assert.match(workspacePanelCss, /\.panel :global\(\.workspace-feature-embedded \.workspace-feature-card\),[\s\S]*?box-shadow:\s*none\s*!important;/);
@@ -66,7 +80,7 @@ test("workspace-launched invite renders inside the workspace panel", () => {
   const componentSource = readSource("components/invite/InviteModal.jsx");
   const workspaceSource = readSource("components/chat/WorkspacePanel.jsx");
   const finalCssSource = readMobileCssBundle();
-  const helpersCssSource = readSource("app/styles/utilities/helpers.css");
+  const helpersCssSource = readCssSourceBundle("app/styles/utilities/helpers.css");
 
   assert.match(workspaceSource, /"__invite":\s*"invite"/);
   assert.match(workspaceSource, /setActiveEmbeddedFeature\("invite"\)/);
@@ -77,13 +91,17 @@ test("workspace-launched invite renders inside the workspace panel", () => {
   assert.match(componentSource, /invite-modal-content--embedded/);
   assert.match(componentSource, /<div className="workspace-feature-embedded">/);
   assert.match(componentSource, /isWorkspaceReturn/);
-  assert.match(componentSource, /workspaceGuidePanelClassName/);
+  assert.match(componentSource, /isWorkspaceSubpageReturn\s*=\s*isWorkspaceReturn\s*&&\s*!embedded\s*&&\s*openSource\s*!==\s*"workspace"/);
+  assert.match(componentSource, /workspaceReturnSurfaceClassName\s*=\s*embedded[\s\S]*?\?\s*glassSubpageSurfaceScopeClassName[\s\S]*?:\s*workspaceGuidePanelClassName/);
   assert.match(componentSource, /workspaceGuidePanelScrollClassName/);
   assert.match(componentSource, /const standaloneMobileSurfaceClassName = isWorkspaceReturn\s*\?\s*""\s*:/);
   assert.match(componentSource, /invite-modal-overlay--workspace/);
   assert.match(componentSource, /invite-modal-content--workspace/);
+  assert.match(componentSource, /isWorkspaceSubpageReturn\s*\?\s*"invite-modal-content--workspace "/);
   assert.match(componentSource, /inviteListCardClassName[\s\S]*?mt-\[1\.45rem\]/);
   assert.match(componentSource, /inviteListCardClassName[\s\S]*?mx-auto w-full max-w-\[36rem\]/);
+  assert.match(componentSource, /inviteModalBodyClassName[\s\S]*?items-center/);
+  assert.match(componentSource, /inviteListCardClassName[\s\S]*?self-center/);
   assert.match(componentSource, /inviteListCardClassName[\s\S]*?max-\[768px\]:max-w-\[23rem\]/);
   assert.match(componentSource, /invites\.length === 0[\s\S]*?min-h-\[12rem\]/);
   assert.match(componentSource, /invites\.length === 0[\s\S]*?max-\[768px\]:min-h-\[10\.5rem\]/);
@@ -91,10 +109,20 @@ test("workspace-launched invite renders inside the workspace panel", () => {
   assert.match(finalCssSource, /--glass-modal-shadow:\s*none\s*!important;/);
   assert.match(finalCssSource, /-webkit-mask-image:\s*none\s*!important;/);
   assert.match(finalCssSource, /\.workspace-dashboard-panel \.workspace-feature-embedded :is\([\s\S]*?\.invite-list-panel,[\s\S]*?\.invite-list-row[\s\S]*?\)\s*\{[\s\S]*?background:\s*transparent\s*!important;[\s\S]*?box-shadow:\s*none\s*!important;/);
+  assert.doesNotMatch(helpersCssSource, /\.workspace-dashboard-panel \.workspace-feature-embedded \.invite-list-panel\s*\{[^}]*\bwidth\s*:/);
+  assert.doesNotMatch(helpersCssSource, /\.workspace-dashboard-panel \.workspace-feature-embedded \.invite-modal-scroll\s*\{[^}]*\bwidth\s*:/);
+  assert.doesNotMatch(finalCssSource, /\.workspace-dashboard-panel \.workspace-feature-embedded \.invite-list-panel\s*\{[^}]*\bwidth\s*:/);
+  assert.doesNotMatch(finalCssSource, /\.workspace-dashboard-panel \.workspace-feature-embedded \.invite-modal-scroll\s*\{[^}]*\bwidth\s*:/);
+  assert.match(finalCssSource, /\.workspace-dashboard-panel \.workspace-feature-embedded > :is\([\s\S]*?\.help-listings-modal-content--embedded,[\s\S]*?\.invite-modal-content--embedded[\s\S]*?\)\s*\{[\s\S]*?min-inline-size:\s*0\s*!important;[\s\S]*?flex:\s*0 0 100%;/);
   assert.match(
     helpersCssSource,
     /\.workspace-dashboard-panel \.workspace-feature-embedded[\s\S]*?:is\(\.invite-glow-panel,\s*\.invite-list-panel\)[\s\S]*?> \[class\*="edgeLight"\][\s\S]*?display:\s*none\s*!important;/
   );
+  const workspacePanelCss = readSource("components/chat/WorkspacePanel.module.css");
+  assert.match(workspacePanelCss, /workspace-feature-embedded > \.invite-modal-content--embedded\)[\s\S]*?min-inline-size:\s*0\s*!important;[\s\S]*?flex:\s*0 0 100%;/);
+  assert.doesNotMatch(workspacePanelCss, /\.panel :global\(\.workspace-feature-embedded \.invite-list-panel\)\s*\{[^}]*\bwidth\s*:/);
+  assert.doesNotMatch(workspacePanelCss, /\.panel :global\(\.workspace-feature-embedded \.invite-modal-scroll\)\s*\{[^}]*\bwidth\s*:/);
+  assert.doesNotMatch(workspacePanelCss, /\.invite-modal-content--embedded \.invite-modal-scroll\.workspace-guide-panel-scroll\)\s*\{[^}]*\bwidth\s*:/);
   assert.doesNotMatch(componentSource, /--invite-workspace-measured-height/);
 });
 

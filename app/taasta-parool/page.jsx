@@ -1,3 +1,4 @@
+import "../styles/features/auth-forms/form-theme.css";
 import { cookies } from "next/headers";
 import UnustasinParooliBody from "@/components/alalehed/UnustasinParooliBody";
 import { getLocaleFromCookies, getMessagesSync } from "@/lib/i18n";

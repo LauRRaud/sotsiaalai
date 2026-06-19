@@ -1,6 +1,14 @@
 /* Mobile spacing for accessibility modal fieldsets. */
 
 @media (max-width: 768px) {
+  .a11y-screenprofile-option--bottom {
+    flex-basis: 100% !important;
+    max-width: max-content !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    justify-content: center !important;
+  }
+
   .a11y-language-fieldset--single {
     padding-bottom: 6.9rem;
   }

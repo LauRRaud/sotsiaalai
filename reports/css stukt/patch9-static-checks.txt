@@ -1,0 +1,19 @@
+Etapp 11 static checks
+======================
+
+Patch apply check against clean after-08 tree: OK
+
+Route source-CSS estimates compared with after-08:
+- app/page.js: 392103 -> 384920 (-7183) import_errors 0
+- app/vestlus/page.js: 741020 -> 742255 (+1235) import_errors 0
+- app/ruum/page.js: 367361 -> 368596 (+1235) import_errors 0
+- app/kasutustingimused/page.js: 392497 -> 385314 (-7183) import_errors 0
+- app/tooheaolu/page.jsx: 351292 -> 344109 (-7183) import_errors 0
+- app/teenusekaart/page.jsx: 667778 -> 660595 (-7183) import_errors 0
+- app/documents/page.js: 437069 -> 429886 (-7183) import_errors 0
+- bundle app/styles/mobile.css: 71828 -> 64645 (-7183)
+- bundle app/styles/components/invite-modal.css: 1566 -> 9984 (+8418)
+
+CSS parse errors: 0
+Brace-balance errors: 0
+!important count: 1995 -> 1995 (+0)

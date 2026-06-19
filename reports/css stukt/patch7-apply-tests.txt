@@ -1,0 +1,160 @@
+TAP version 13
+# Subtest: home mobile scroll CSS stays home-owned
+ok 1 - home mobile scroll CSS stays home-owned
+  ---
+  duration_ms: 13.283545
+  type: 'test'
+  ...
+# Subtest: shared and profile mobile rules live beside their owners
+ok 2 - shared and profile mobile rules live beside their owners
+  ---
+  duration_ms: 6.318828
+  type: 'test'
+  ...
+# Subtest: policy tall and admin mobile header rules are route-owned
+ok 3 - policy tall and admin mobile header rules are route-owned
+  ---
+  duration_ms: 23.710636
+  type: 'test'
+  ...
+# Subtest: mobile title, back and info placement is centralized without PWA-only offsets
+ok 4 - mobile title, back and info placement is centralized without PWA-only offsets
+  ---
+  duration_ms: 42.616137
+  type: 'test'
+  ...
+# Subtest: admin RAG and framework acceptance pages expose mobile header hooks
+ok 5 - admin RAG and framework acceptance pages expose mobile header hooks
+  ---
+  duration_ms: 18.96705
+  type: 'test'
+  ...
+# Subtest: service map Leaflet markers do not inherit the default div icon plate
+ok 6 - service map Leaflet markers do not inherit the default div icon plate
+  ---
+  duration_ms: 17.608937
+  type: 'test'
+  ...
+# Subtest: service map Leaflet groups entries that share one coordinate
+ok 7 - service map Leaflet groups entries that share one coordinate
+  ---
+  duration_ms: 10.805137
+  type: 'test'
+  ...
+# Subtest: service map markers use flat 2D drop-shaped icon backgrounds
+ok 8 - service map markers use flat 2D drop-shaped icon backgrounds
+  ---
+  duration_ms: 11.399436
+  type: 'test'
+  ...
+# Subtest: service map popup glass is applied on the wrapper immediately
+ok 9 - service map popup glass is applied on the wrapper immediately
+  ---
+  duration_ms: 10.53097
+  type: 'test'
+  ...
+# Subtest: service map close button and toolbar controls keep the intended brand/control surfaces
+ok 10 - service map close button and toolbar controls keep the intended brand/control surfaces
+  ---
+  duration_ms: 3.926824
+  type: 'test'
+  ...
+# Subtest: service map toolbar controls inherit shared glow and option-card interaction contracts
+ok 11 - service map toolbar controls inherit shared glow and option-card interaction contracts
+  ---
+  duration_ms: 6.107981
+  type: 'test'
+  ...
+# Subtest: service map back button uses desktop toolbar panel and mobile page anchor
+ok 12 - service map back button uses desktop toolbar panel and mobile page anchor
+  ---
+  duration_ms: 7.416388
+  type: 'test'
+  ...
+# Subtest: workspace dashboard back button keeps the same shared page anchor
+ok 13 - workspace dashboard back button keeps the same shared page anchor
+  ---
+  duration_ms: 1.096743
+  type: 'test'
+  ...
+# Subtest: service map multi-line mobile toolbar stays compact and gives provider tab enough width
+ok 14 - service map multi-line mobile toolbar stays compact and gives provider tab enough width
+  ---
+  duration_ms: 7.027082
+  type: 'test'
+  ...
+# Subtest: service map result cards use toolbar control styling without shadows
+ok 15 - service map result cards use toolbar control styling without shadows
+  ---
+  duration_ms: 5.96274
+  type: 'test'
+  ...
+# Subtest: service map mobile route keeps the glass page panel, removes particles, and lets the map fill the panel
+ok 16 - service map mobile route keeps the glass page panel, removes particles, and lets the map fill the panel
+  ---
+  duration_ms: 16.156708
+  type: 'test'
+  ...
+# Subtest: service map clears its global page-active state before delayed back navigation
+ok 17 - service map clears its global page-active state before delayed back navigation
+  ---
+  duration_ms: 5.752375
+  type: 'test'
+  ...
+# Subtest: service map mobile inputs keep 16px text to avoid browser focus zoom
+ok 18 - service map mobile inputs keep 16px text to avoid browser focus zoom
+  ---
+  duration_ms: 3.91704
+  type: 'test'
+  ...
+# Subtest: service map results do not force oversized panel bottom padding
+ok 19 - service map results do not force oversized panel bottom padding
+  ---
+  duration_ms: 10.579309
+  type: 'test'
+  ...
+# Subtest: service map popup and desktop one-line toolbar preserve glass and back alignment
+ok 20 - service map popup and desktop one-line toolbar preserve glass and back alignment
+  ---
+  duration_ms: 9.466458
+  type: 'test'
+  ...
+# Subtest: service map mobile map edge does not expose a blue Leaflet fallback seam
+ok 21 - service map mobile map edge does not expose a blue Leaflet fallback seam
+  ---
+  duration_ms: 2.407187
+  type: 'test'
+  ...
+# Subtest: service map legend stays left on desktop and uses the lower right mobile corner without attribution
+ok 22 - service map legend stays left on desktop and uses the lower right mobile corner without attribution
+  ---
+  duration_ms: 2.317957
+  type: 'test'
+  ...
+# Subtest: service map toolbar uses flat glass while map canvas stays edge-free
+ok 23 - service map toolbar uses flat glass while map canvas stays edge-free
+  ---
+  duration_ms: 2.530539
+  type: 'test'
+  ...
+# Subtest: service map filter panel uses shared glass background in standard themes, while high contrast remains black
+ok 24 - service map filter panel uses shared glass background in standard themes, while high contrast remains black
+  ---
+  duration_ms: 2.343356
+  type: 'test'
+  ...
+# Subtest: workspace service map card renders its icon inline without a late-loading mask asset
+ok 25 - workspace service map card renders its icon inline without a late-loading mask asset
+  ---
+  duration_ms: 8.552076
+  type: 'test'
+  ...
+1..25
+# tests 25
+# suites 0
+# pass 25
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 450.234214

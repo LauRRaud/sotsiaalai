@@ -1,0 +1,10 @@
+family,token,tier,file,line,value
+form-control,--input-bg,feature-bridge,app/styles/features/service-map/desktop/base.css,630,var(--service-map-input-bg)
+form-control,--input-bg-hover,feature-bridge,app/styles/features/service-map/desktop/base.css,631,var(--service-map-input-bg-hover)
+form-control,--input-bg-focus,feature-bridge,app/styles/features/service-map/desktop/base.css,632,var(--service-map-input-bg-focus)
+form-control,--input-flat-bg,feature-bridge,app/styles/features/service-map/desktop/base.css,633,var(--service-map-input-flat-bg)
+form-control,--input-flat-bg-hover,feature-bridge,app/styles/features/service-map/desktop/base.css,634,var(--service-map-input-flat-bg-hover)
+form-control,--input-text,feature-bridge,app/styles/features/service-map/desktop/base.css,635,var(--service-map-input-text)
+form-control,--input-placeholder,feature-bridge,app/styles/features/service-map/desktop/base.css,636,var(--service-map-input-placeholder)
+form-control,--input-text,feature-bridge,app/styles/features/service-map/desktop/pre-inquiry-agent.css,8,var(--service-map-input-text)
+form-control,--input-placeholder,feature-bridge,app/styles/features/service-map/desktop/pre-inquiry-agent.css,9,var(--service-map-input-placeholder)

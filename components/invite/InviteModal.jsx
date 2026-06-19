@@ -117,6 +117,7 @@ export default function InviteModal({ embedded = false, onBack = null, hideHeade
   const sendLabel = formatSentenceCase(t("invite.send"));
   const sponsoredSelected = paymentMode === "SPONSORED_BY_HOST";
   const isWorkspaceReturn = embedded || openSource === "workspace";
+  const isWorkspaceSubpageReturn = isWorkspaceReturn && !embedded && openSource !== "workspace";
   const inviteDesktopSizeClassName = isWorkspaceReturn
     ? "min-[769px]:!min-h-0"
     : "!h-[min(calc(100dvh-1.25rem),clamp(36rem,82vh,52rem))] !min-h-0 !max-h-[calc(100dvh-1.25rem)]";
@@ -129,8 +130,11 @@ export default function InviteModal({ embedded = false, onBack = null, hideHeade
       "max-[768px]:px-[var(--glass-ring-pad-x,clamp(calc(1.8*var(--base-rem)),5vw,calc(3.2*var(--base-rem))))] " +
       "max-[768px]:pt-[var(--glass-ring-pad-top,clamp(calc(0.4*var(--base-rem)),1.4vh,calc(1.1*var(--base-rem))))] " +
       "max-[768px]:pb-[calc(env(safe-area-inset-bottom,0px)+0.9rem)]";
+  const workspaceReturnSurfaceClassName = embedded
+    ? glassSubpageSurfaceScopeClassName
+    : workspaceGuidePanelClassName;
   const inviteModalContentClassName =
-    `invite-modal-content person-invite-modal-content mobile-keep-desktop-glass-cards mx-auto ${isWorkspaceReturn ? workspaceGuidePanelClassName : "glass-subpage-surface !w-[min(calc(100vw-2rem),clamp(36rem,76vw,48rem))] !max-w-[min(calc(100vw-2rem),clamp(36rem,76vw,48rem))]"} relative !max-h-none !overflow-hidden ` +
+    `invite-modal-content person-invite-modal-content mobile-keep-desktop-glass-cards mx-auto ${isWorkspaceReturn ? workspaceReturnSurfaceClassName : "glass-subpage-surface !w-[min(calc(100vw-2rem),clamp(36rem,76vw,48rem))] !max-w-[min(calc(100vw-2rem),clamp(36rem,76vw,48rem))]"} relative !max-h-none !overflow-hidden ` +
     `!flex min-h-0 ${inviteDesktopSizeClassName} !flex-col overscroll-contain [-webkit-overflow-scrolling:touch] ` +
     `${isWorkspaceReturn ? "" : "pt-[0.35rem] !pb-[1rem]"} text-[1.12rem] leading-[1.35] tracking-[0.03rem] max-[768px]:text-[1.18rem] max-[768px]:leading-[1.4] ` +
     `[--glass-modal-bg:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] ` +
@@ -138,12 +142,12 @@ export default function InviteModal({ embedded = false, onBack = null, hideHeade
     `[border:none] [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] shadow-[var(--glass-shell-shadow,none)] ` +
     `${isWorkspaceReturn ? "" : glassSubpageSurfaceScopeClassName} ` +
     `${standaloneMobileSurfaceClassName} ` +
-    `${isWorkspaceReturn ? "invite-modal-content--workspace " : ""}` +
+    `${isWorkspaceSubpageReturn ? "invite-modal-content--workspace " : ""}` +
     `${embedded ? "invite-modal-content--embedded " : ""}` +
     `${closing ? `pointer-events-none ${isWorkspaceReturn ? "" : "motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]"}` : ""}`;
   const inviteModalBodyClassName =
-    `${isWorkspaceReturn ? workspaceGuidePanelScrollClassName : glassSubpageContentWideClassName} invite-modal-scroll flex min-h-0 flex-1 flex-col gap-[1.14rem] overflow-x-hidden overflow-y-visible overscroll-contain ${isWorkspaceReturn ? "" : "px-[0.78rem] pt-[0.98rem] pb-[0.5rem]"} max-[768px]:gap-[1.05rem] max-[768px]:px-[0.05rem]`;
-  const inviteFormClassName = `mx-auto grid w-full max-w-[36rem] gap-[1.08rem] max-[768px]:max-w-[23rem] max-[768px]:gap-[1rem] ${
+    `${isWorkspaceReturn ? workspaceGuidePanelScrollClassName : glassSubpageContentWideClassName} invite-modal-scroll flex min-h-0 flex-1 flex-col items-center gap-[1.14rem] overflow-x-hidden overflow-y-visible overscroll-contain ${isWorkspaceReturn ? "" : "px-[0.78rem] pt-[0.98rem] pb-[0.5rem]"} max-[768px]:gap-[1.05rem] max-[768px]:px-[0.05rem]`;
+  const inviteFormClassName = `mx-auto grid w-full max-w-[36rem] self-center gap-[1.08rem] max-[768px]:max-w-[23rem] max-[768px]:gap-[1rem] ${
     sponsoredSelected ? "pb-[1.6rem] max-[768px]:pb-[1.25rem]" : ""
   }`;
   const inviteFieldWrapClassName =
@@ -224,7 +228,7 @@ export default function InviteModal({ embedded = false, onBack = null, hideHeade
     "light:border-[rgba(88,148,118,0.18)] light:bg-[rgba(247,252,249,0.94)] light:text-[#4d7b67] " +
     "[.theme-mid_&]:border-[rgba(100,136,114,0.2)] [.theme-mid_&]:bg-[rgba(246,250,247,0.9)] [.theme-mid_&]:text-[#537563]";
   const inviteListCardClassName =
-    `${sponsoredSelected ? "mt-[1.25rem] max-[768px]:mt-[0.9rem]" : "mt-[1.45rem] max-[768px]:mt-[1rem]"} mx-auto w-full max-w-[36rem] max-[768px]:max-w-[23rem] rounded-[1rem] px-[0.92rem] py-[0.82rem] max-[768px]:px-[0.86rem] max-[768px]:py-[0.78rem] text-[color:var(--pt-120)] ` +
+    `${sponsoredSelected ? "mt-[1.25rem] max-[768px]:mt-[0.9rem]" : "mt-[1.45rem] max-[768px]:mt-[1rem]"} mx-auto w-full max-w-[36rem] self-center max-[768px]:max-w-[23rem] rounded-[1rem] px-[0.92rem] py-[0.82rem] max-[768px]:px-[0.86rem] max-[768px]:py-[0.78rem] text-[color:var(--pt-120)] ` +
     "[color:var(--subpage-card-text)] shadow-[var(--subpage-card-shadow)]";
   const inviteListRowClassName =
     `invite-list-row grid grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,0.8fr)_auto] items-center gap-[0.75rem] ` +

@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
+import { readCssSourceBundle } from "../helpers/cssSourceBundle.mjs";
 import { readServiceMapCssBundle } from "../helpers/serviceMapCssBundle.mjs";
 import { readMobileCssBundle } from "../helpers/mobileCssBundle.mjs";
 
@@ -17,7 +18,7 @@ test("workspace dashboard mobile back icon is not offset from the shared chat ba
   const glassPageStylesSource = readSource("components/ui/glassPageStyles.js");
   const workspacePanelCss = readSource("components/chat/WorkspacePanel.module.css");
   const mobileCss = readMobileCssBundle();
-  const mobileHeaderCss = readSource("app/styles/mobile/subpage-title-system.css");
+  const mobileHeaderCss = readCssSourceBundle("app/styles/mobile/subpage-title-system.css");
 
   assert.match(
     workspaceSource,
@@ -122,7 +123,7 @@ test("workspace dashboard mobile back icon is not offset from the shared chat ba
 test("shared subpage header keeps back icons in the scroll flow by default", () => {
   const headerSource = readSource("components/ui/GlassSubpageHeader.jsx");
   const anchorSelectorSource = headerSource.match(/const BACK_ANCHOR_SELECTOR = \[[\s\S]*?\]\.join/)?.[0] || "";
-  const glassStyles = readSource("app/styles/components/glass.css");
+  const glassStyles = readCssSourceBundle("app/styles/components/glass.css");
 
   assert.match(headerSource, /const BACK_ANCHOR_SELECTOR = \[/);
   assert.match(headerSource, /\.materials-page-content/);

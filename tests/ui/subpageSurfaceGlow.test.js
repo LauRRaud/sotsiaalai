@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 import { readServiceMapCssBundle } from "../helpers/serviceMapCssBundle.mjs";
 import { readMobileCssBundle } from "../helpers/mobileCssBundle.mjs";
+import { readCssSourceBundle } from "../helpers/cssSourceBundle.mjs";
 
 
 function read(path) {
@@ -17,8 +18,8 @@ function cssBlock(source, selector) {
 
 test("workspace subpage surfaces reuse the shared glass shell edge shine", () => {
   const stylesSource = read("components/ui/glassPageStyles.js");
-  const helpersCss = read("app/styles/utilities/helpers.css");
-  const glassCss = read("app/styles/components/glass.css");
+  const helpersCss = readCssSourceBundle("app/styles/utilities/helpers.css");
+  const glassCss = readCssSourceBundle("app/styles/components/glass.css");
   const covisionSource = read("components/covision/CovisionPage.jsx");
   const inviteSource = read("components/invite/InviteModal.jsx");
   const materialsSource = read("components/materials/MaterialsPage.jsx");
@@ -34,7 +35,9 @@ test("workspace subpage surfaces reuse the shared glass shell edge shine", () =>
   assert.match(stylesSource, /workspaceGuidePanelClassName\s*=[\s\S]*?workspace-guide-panel[\s\S]*?glass-subpage-surface/);
   assert.match(stylesSource, /workspaceGuidePanelScrollClassName\s*=[\s\S]*?workspace-guide-panel-scroll[\s\S]*?overflow-y-auto/);
   assert.match(covisionSource, /covision-page-surface[\s\S]*?\$\{workspaceGuidePanelClassName\}/);
-  assert.match(inviteSource, /invite-modal-content[\s\S]*?workspaceGuidePanelClassName/);
+  assert.match(inviteSource, /workspaceReturnSurfaceClassName\s*=\s*embedded[\s\S]*?\?\s*glassSubpageSurfaceScopeClassName[\s\S]*?:\s*workspaceGuidePanelClassName/);
+  assert.match(inviteSource, /invite-modal-content[\s\S]*?workspaceReturnSurfaceClassName/);
+  assert.match(inviteSource, /isWorkspaceSubpageReturn\s*=\s*isWorkspaceReturn\s*&&\s*!embedded/);
   assert.match(inviteSource, /invite-modal-content[\s\S]*?glassSubpageSurfaceScopeClassName/);
   assert.match(inviteSource, /workspaceGuidePanelScrollClassName[\s\S]*?invite-modal-scroll/);
   assert.match(workspaceFeatureSource, /workspace-feature-panel[\s\S]*?overflow-hidden/);
@@ -91,7 +94,7 @@ test("workspace subpage surfaces reuse the shared glass shell edge shine", () =>
   );
   assert.match(
     helpersCss,
-    /:root\.theme-mono:not\(\[data-contrast="hc"\]\) \.glass-subpage-surface\s*\{[\s\S]*?--subpage-card-bg:\s*var\(--forest-input-surface\)/
+    /:root\.theme-mono:not\(\[data-contrast="hc"\]\) \.glass-subpage-surface\s*\{[\s\S]*?--subpage-card-bg:\s*var\(--mono-input-surface\)/
   );
   assert.match(
     helpersCss,
@@ -131,6 +134,8 @@ test("invite modal form controls align to the invite list panel width", () => {
     inviteSource,
     /inviteListCardClassName\s*=[\s\S]*?max-w-\[36rem\][\s\S]*?max-\[768px\]:max-w-\[23rem\]/
   );
+  assert.match(inviteSource, /inviteModalBodyClassName[\s\S]*?items-center/);
+  assert.match(inviteSource, /inviteFormClassName[\s\S]*?self-center/);
   assert.doesNotMatch(inviteSource, /useGlassFieldHoleMask/);
   assert.doesNotMatch(inviteSource, /maskRootReady/);
   assert.doesNotMatch(inviteSource, /contentRef=\{setModalContentRef\}/);

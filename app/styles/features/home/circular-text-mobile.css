@@ -1,0 +1,19 @@
+/* Mobile typography and visibility for the home circular rings. */
+
+@media (max-width: 768px) {
+  .circular-text-line {
+    font-size: clamp(30px, 10.4vw, 50px);
+    letter-spacing: 0.12em;
+    animation: none;
+  }
+  .word1,
+  .word2,
+  .word3 {
+    opacity: 1;
+    animation: none;
+  }
+  .circular-text-svg.circular-ring {
+    opacity: 1;
+    visibility: visible;
+  }
+}

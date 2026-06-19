@@ -1,16 +1,30 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import { readFileSync } from "node:fs";
 import test from "node:test";
 import { readMobileCssBundle } from "../helpers/mobileCssBundle.mjs";
+import { readCssSourceBundle } from "../helpers/cssSourceBundle.mjs";
+import { readServiceMapCssBundle } from "../helpers/serviceMapCssBundle.mjs";
 
 function read(path) {
   return readFileSync(new URL(`../../${path}`, import.meta.url), "utf8");
 }
 
-test("mobile title, back and info placement is centralized without PWA-only offsets", () => {
+function readRaw(path) {
+  return readFile(new URL(`../../${path}`, import.meta.url), "utf8");
+}
+
+test("mobile title, back and info placement is centralized without PWA-only offsets", async () => {
   const globalsCss = read("app/styles/globals.css");
   const mobileIndexCss = read("app/styles/mobile/index.css");
-  const headerCss = read("app/styles/mobile/subpage-title-system.css");
+  const headerCss = readCssSourceBundle("app/styles/mobile/subpage-title-system.css");
+  const workspaceHeaderCss = read(
+    "app/styles/shared/mobile-workspace-header-offsets.css"
+  );
+  const documentsCss = await readRaw("app/styles/features/documents/index.css");
+  const policyCss = readCssSourceBundle("app/styles/features/policy/index.css");
+  const documentsAdminHeaderCss = read("app/styles/features/documents/admin-mobile-header.css");
+  const serviceMapCss = readServiceMapCssBundle();
   const scrollPanelsCss = read("app/styles/mobile/scroll-panels.css");
   const mobileCss = readMobileCssBundle();
   const workspacePanelCss = read("components/chat/WorkspacePanel.module.css");
@@ -22,28 +36,29 @@ test("mobile title, back and info placement is centralized without PWA-only offs
   assert.match(headerCss, /--mobile-header-title-top:\s*1\.76rem;/);
   assert.match(headerCss, /--mobile-header-browser-y-offset:\s*0rem;/);
   assert.match(headerCss, /--mobile-header-pwa-y-offset:\s*0rem;/);
+  assert.doesNotMatch(headerCss, /\.wellbeing-page-surface/);
   assert.match(
-    headerCss,
+    workspaceHeaderCss,
     /\.workspace-dashboard-panel,[\s\S]*?\.workspace-feature-panel\.workspace-scroll-surface,[\s\S]*?\.wellbeing-page-surface \.workspace-guide-panel-scroll\s*\{[\s\S]*?--mobile-header-back-left:[\s\S]*?0\.82rem[\s\S]*?--mobile-header-info-right:[\s\S]*?0\.55rem[\s\S]*?--mobile-header-title-top:\s*1\.94rem;[\s\S]*?--mobile-header-control-top:\s*calc\([\s\S]*?- 0\.74rem/
   );
   assert.match(
-    headerCss,
+    workspaceHeaderCss,
     /\.wellbeing-page-surface,[\s\S]*?\.wellbeing-page-surface \.workspace-guide-panel-scroll\s*\{[\s\S]*?--mobile-header-control-top:\s*calc\([\s\S]*?- 0\.74rem/
   );
   assert.match(
-    headerCss,
+    workspaceHeaderCss,
     /\.workspace-feature-panel\.workspace-scroll-surface\.wellbeing-page-surface,[\s\S]*?\.workspace-guide-panel-scroll\s*\{[\s\S]*?--mobile-header-info-right:\s*calc\(env\(safe-area-inset-right,\s*0px\) \+ 1\.76rem\);[\s\S]*?- 0\.64rem/
   );
   assert.match(
-    headerCss,
+    workspaceHeaderCss,
     /\.workspace-dashboard-panel,[\s\S]*?\.workspace-dashboard-panel \.workspace-guide-panel-scroll\s*\{[\s\S]*?--mobile-header-back-left:\s*calc\(env\(safe-area-inset-left,\s*0px\) \+ 0\.04rem\);[\s\S]*?--mobile-header-info-right:\s*calc\(env\(safe-area-inset-right,\s*0px\) \+ 0\.98rem\);[\s\S]*?--mobile-header-title-top:\s*1\.72rem;[\s\S]*?- 1\.69rem/
   );
   assert.match(
-    headerCss,
+    policyCss,
     /\.policy-scroll-page-scroller\s*\{[\s\S]*?--mobile-header-back-left:\s*calc\(env\(safe-area-inset-left,\s*0px\) - 0\.38rem\);[\s\S]*?--mobile-header-title-top:\s*1\.94rem;[\s\S]*?--mobile-header-control-top:\s*calc\([\s\S]*?var\(--policy-scroll-edge-pad-top,\s*0px\)[\s\S]*?var\(--policy-scroll-overscan-top,\s*0px\)[\s\S]*?var\(--mobile-header-back-top\) - 0\.74rem/
   );
   assert.match(
-    headerCss,
+    workspaceHeaderCss,
     /:is\(\.workspace-dashboard-panel,\s*\.workspace-feature-panel\.workspace-scroll-surface,\s*\.wellbeing-page-surface\)[\s\S]*?:is\(\.glass-subpage-title,[\s\S]*?\.glass-page-title\)\s*\{[\s\S]*?margin-top:\s*0\s*!important;[\s\S]*?margin-bottom:\s*0\s*!important;/
   );
   assert.match(
@@ -56,19 +71,26 @@ test("mobile title, back and info placement is centralized without PWA-only offs
   );
   assert.match(
     headerCss,
-    /:is\(\.dashboard-info-trigger-corner,\s*\.service-map-workspace__info\)\s*\{[\s\S]*?top:\s*calc\([\s\S]*?var\(--mobile-header-control-info-top\)[\s\S]*?var\(--mobile-header-browser-y-offset,\s*0rem\)[\s\S]*?var\(--mobile-header-pwa-y-offset,\s*0rem\)[\s\S]*?\)\s*!important;/
+    /\.dashboard-info-trigger-corner\s*\{[\s\S]*?top:\s*calc\([\s\S]*?var\(--mobile-header-control-info-top\)[\s\S]*?var\(--mobile-header-browser-y-offset,\s*0rem\)[\s\S]*?var\(--mobile-header-pwa-y-offset,\s*0rem\)[\s\S]*?\)/
   );
+  assert.match(
+    serviceMapCss,
+    /:is\(\.service-map-page-panel,\s*\.service-map-workspace\) \.service-map-workspace__info\s*\{[\s\S]*?top:\s*calc\([\s\S]*?var\(--mobile-header-control-info-top\)[\s\S]*?var\(--mobile-header-browser-y-offset,\s*0rem\)[\s\S]*?var\(--mobile-header-pwa-y-offset,\s*0rem\)[\s\S]*?\)\s*!important;/
+  );
+  assert.doesNotMatch(headerCss, /\.service-map-workspace__info/);
   assert.match(
     workspacePanelCss,
     /\.backButton\s*\{[\s\S]*?top:\s*calc\([\s\S]*?var\(--mobile-header-control-top,\s*0\.05rem\)[\s\S]*?var\(--mobile-header-browser-y-offset,\s*0rem\)[\s\S]*?var\(--mobile-header-pwa-y-offset,\s*0rem\)[\s\S]*?\)\s*!important;/
   );
-  assert.match(headerCss, /\.rag-admin-shell-card\s*\{[\s\S]*?padding-top:\s*calc\(var\(--mobile-header-title-top\) \+ 2\.65rem\)\s*!important;/);
-  assert.doesNotMatch(headerCss, /\.rag-admin-shell-card[\s\S]*?backdrop-filter:\s*none\s*!important;/);
-  assert.doesNotMatch(headerCss, /\.rag-admin-page-shell[\s\S]*?backdrop-filter:\s*none\s*!important;/);
+  assert.doesNotMatch(headerCss, /\.rag-admin-shell-card/);
+  assert.match(documentsCss, /@import url\("\.\/admin-mobile-header\.css"\);/);
+  assert.match(documentsAdminHeaderCss, /\.rag-admin-shell-card\s*\{[\s\S]*?padding-top:\s*calc\(var\(--mobile-header-title-top\) \+ 2\.65rem\)\s*!important;/);
+  assert.doesNotMatch(documentsAdminHeaderCss, /\.rag-admin-shell-card[\s\S]*?backdrop-filter:\s*none\s*!important;/);
+  assert.doesNotMatch(documentsAdminHeaderCss, /\.rag-admin-page-shell[\s\S]*?backdrop-filter:\s*none\s*!important;/);
   assert.match(scrollPanelsCss, /\.glass-subpage-surface:not\(\.rag-admin-shell-card\)/);
   assert.doesNotMatch(scrollPanelsCss, /^\s*\.glass-subpage-surface,\s*$/m);
-  assert.match(headerCss, /\.rag-admin-shell-card \.rag-admin-shell-back\s*\{[\s\S]*?position:\s*absolute\s*!important;[\s\S]*?top:\s*calc\(/);
-  assert.match(headerCss, /\.admin-framework-acceptances-page\s*\{[\s\S]*?padding-top:\s*calc\(var\(--mobile-header-title-top\) \+ 2\.9rem\)\s*!important;/);
+  assert.match(documentsAdminHeaderCss, /\.rag-admin-shell-card \.rag-admin-shell-back\s*\{[\s\S]*?position:\s*absolute\s*!important;[\s\S]*?top:\s*calc\(/);
+  assert.match(documentsAdminHeaderCss, /\.admin-framework-acceptances-page\s*\{[\s\S]*?padding-top:\s*calc\(var\(--mobile-header-title-top\) \+ 2\.9rem\)\s*!important;/);
   assert.doesNotMatch(headerCss, /data-display-mode="browser"[\s\S]*?--mobile-header-browser-y-offset/);
   assert.doesNotMatch(headerCss, /data-display-mode="standalone"[\s\S]*?--mobile-header-pwa-y-offset/);
   assert.doesNotMatch(mobileCss, /--workspace-pwa-(?:header|back)-lift/);

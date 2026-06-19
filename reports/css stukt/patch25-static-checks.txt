@@ -1,0 +1,11 @@
+git apply --check: OK
+missing_imports: 0
+import_cycles: 0
+brace_balance_errors: 0
+important_count: 2025
+subpage_card_feature_direct_definitions: 0
+subpage_card_feature_bridge_definitions: 23
+subpage_card_other_definitions: 0
+service_map_direct_subpage_card_definitions: 0
+service_map_bridge_subpage_card_definitions: 2
+tokens_mentions_service_map_alias: True

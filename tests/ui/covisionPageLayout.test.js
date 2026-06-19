@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import assert from "node:assert/strict";
 import test from "node:test";
+import { readCssSourceBundle } from "../helpers/cssSourceBundle.mjs";
 
 function read(path) {
   return readFileSync(new URL(`../../${path}`, import.meta.url), "utf8");
@@ -30,7 +31,7 @@ test("covision overview uses the shared workspace feature panel footprint", () =
 test("covision page uses the shared workspace subpage header spacing", () => {
   const source = read("components/covision/CovisionPage.jsx");
   const glassPageStyles = read("components/ui/glassPageStyles.js");
-  const helpersCss = read("app/styles/utilities/helpers.css");
+  const helpersCss = readCssSourceBundle("app/styles/utilities/helpers.css");
 
   assert.doesNotMatch(source, /compact-workspace-subpage-title/);
   assert.match(

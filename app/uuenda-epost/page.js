@@ -1,3 +1,4 @@
+import "../styles/features/login/index.css";
 import { cookies } from "next/headers";
 import UuendaEpostiBody from "@/components/alalehed/UuendaEpostiBody";
 import { getLocaleFromCookies, getMessagesSync } from "@/lib/i18n";

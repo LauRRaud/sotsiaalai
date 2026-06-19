@@ -1,0 +1,44 @@
+/* Shared mobile BackgroundLayer reveal and subpage transition contract. */
+
+:root {
+  --mobile-background-reveal-duration: 900ms;
+}
+
+[data-bg-layer][data-mobile-bends="ready"] .bg-bends-layer,
+[data-bg-layer] .bg-particles-layer[data-mobile-visible="ready"] {
+  transition-duration: var(--mobile-background-reveal-duration), 0s !important;
+}
+
+@media (max-width: 768px) {
+  [data-bg-layer] .bg-bends-layer {
+    top: 0;
+    right: 0;
+    bottom: auto;
+    left: 0;
+    height: 100%;
+    min-height: 100%;
+    max-height: none;
+    will-change: auto;
+    transform: none;
+    -webkit-transform: none;
+    backface-visibility: visible;
+
+  }
+  [data-bg-layer] .bg-bends-layer {
+    transition-duration: 4000ms, 0s;
+  }
+
+  [data-bg-layer][data-page="subpage"] .bg-bends-layer {
+    transition-duration: 0s, 0s !important;
+  }
+
+  [data-bg-layer][data-page="subpage"][data-mobile-bends="pending"] .bg-bends-layer {
+    opacity: var(--saai-bends-opacity, 1);
+    visibility: visible;
+  }
+
+
+  [data-bg-layer] .bg-particles-layer {
+    transition-duration: 4500ms, 0s;
+  }
+}

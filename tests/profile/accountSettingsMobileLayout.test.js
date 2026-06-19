@@ -1,13 +1,14 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
+import { readCssSourceBundle } from "../helpers/cssSourceBundle.mjs";
 
 function read(path) {
   return readFileSync(new URL(`../../${path}`, import.meta.url), "utf8");
 }
 
 test("account settings modal uses full mobile card height instead of desktop ring height", () => {
-  const css = read("app/styles/mobile/subpage-title-system.css");
+  const css = readCssSourceBundle("app/styles/features/profile/index.css");
   const source = read("components/alalehed/ProfiilBody.jsx");
 
   assert.match(source, /account-settings-modal-content[\s\S]*?!h-\[var\(--ring-diameter/);

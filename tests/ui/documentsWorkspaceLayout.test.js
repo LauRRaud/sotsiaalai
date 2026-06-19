@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
+import { readCssSourceBundle } from "../helpers/cssSourceBundle.mjs";
 import { readMobileCssBundle } from "../helpers/mobileCssBundle.mjs";
 
 
@@ -8,9 +9,17 @@ function read(path) {
   return readFileSync(new URL(`../../${path}`, import.meta.url), "utf8");
 }
 
+function readDocumentsCssBundle() {
+  return [
+    "app/styles/features/documents/index.css",
+    "app/styles/features/documents/library.css",
+    "app/styles/features/documents/agent.css",
+  ].map(readCssSourceBundle).join("\n");
+}
+
 test("documents workspace routes keep the outer page fixed and scroll inside the glass panel", () => {
-  const css = read("app/styles/utilities/helpers.css");
-  const documentsCss = read("app/styles/components/documents-mode.css");
+  const css = readCssSourceBundle("app/styles/utilities/helpers.css");
+  const documentsCss = readDocumentsCssBundle();
 
   assert.match(
     documentsCss,
@@ -46,32 +55,32 @@ test("documents workspace routes keep the outer page fixed and scroll inside the
   );
   assert.match(
     documentsCss,
-    /\.documents-workspace-page--library :is\([\s\S]*?\.documents-grid\.workspace-guide-panel-scroll,[\s\S]*?\.documents-page-shell\.workspace-guide-panel-scroll[\s\S]*?\)\s*\{[\s\S]*?--workspace-guide-panel-overscan-top:\s*clamp\(1\.6rem,\s*4\.8vh,\s*2\.4rem\);[\s\S]*?--workspace-guide-panel-overscan-bottom:\s*clamp\(1\.05rem,\s*2\.4vh,\s*1\.45rem\);[\s\S]*?scrollbar-gutter:\s*auto\s*!important;/
+    /\.documents-workspace-page--library \.documents-page-shell\.workspace-guide-panel-scroll\s*\{[\s\S]*?align-content:\s*start;/
   );
   assert.match(
     documentsCss,
-    /\.documents-workspace-page--library :is\([\s\S]*?height:\s*calc\([\s\S]*?100% \+ var\(--workspace-guide-panel-pad-top,\s*0\.6rem\) \+[\s\S]*?var\(--workspace-guide-panel-overscan-top\) \+[\s\S]*?var\(--workspace-guide-panel-overscan-bottom\)[\s\S]*?\)\s*!important;/
+    /\.documents-workspace-page--library \.documents-page-shell\.workspace-guide-panel-scroll > \*\s*\{[\s\S]*?position:\s*relative;[\s\S]*?z-index:\s*1;/
   );
   assert.match(
     documentsCss,
-    /\.documents-workspace-page--library :is\([\s\S]*?margin-top:\s*calc\([\s\S]*?0px - var\(--workspace-guide-panel-pad-top,\s*0\.6rem\) -[\s\S]*?var\(--workspace-guide-panel-overscan-top\)[\s\S]*?\)\s*!important;/
+    /\.documents-workspace-shell--embedded > \.documents-grid\.workspace-guide-panel-scroll\s*\{[\s\S]*?overflow:\s*visible\s*!important;[\s\S]*?padding-top:\s*0;/
   );
   assert.match(
     documentsCss,
-    /\.documents-workspace-page--library :is\([\s\S]*?padding-top:\s*calc\([\s\S]*?var\(--workspace-guide-panel-pad-top,\s*0\.6rem\) \+[\s\S]*?var\(--workspace-guide-panel-overscan-top\)[\s\S]*?\)\s*!important;/
+    /\.documents-workspace-shell--embedded > \.documents-grid\.workspace-guide-panel-scroll\s*\{[\s\S]*?padding-bottom:\s*clamp\(0\.55rem,\s*1\.6vh,\s*0\.9rem\);/
   );
   assert.match(
     documentsCss,
-    /@media \(max-width:\s*768px\)[\s\S]*?\.documents-workspace-page--library :is\([\s\S]*?padding-bottom:\s*0\s*!important;/
+    /@media \(max-width:\s*768px\)[\s\S]*?\.documents-workspace-page--documents,\s*\n\s*\.documents-workspace-page--agent\s*\{[\s\S]*?padding:\s*[\s\S]*?calc\(env\(safe-area-inset-bottom,\s*0px\) \+ var\(--documents-mobile-panel-gap\)\)/
   );
 });
 
 test("documents and dokreziim hero controls use the shared glass subpage header", () => {
   const documentsSource = read("components/documents/DocumentsPage.jsx");
   const agentSource = read("components/agent/AgentModePage.jsx");
-  const css = read("app/styles/utilities/helpers.css");
-  const glassCss = read("app/styles/components/glass.css");
-  const documentsCss = read("app/styles/components/documents-mode.css");
+  const css = readCssSourceBundle("app/styles/utilities/helpers.css");
+  const glassCss = readCssSourceBundle("app/styles/components/glass.css");
+  const documentsCss = readDocumentsCssBundle();
   const mobileCss = readMobileCssBundle();
 
   assert.match(documentsSource, /<GlassSubpageHeader[\s\S]*?onBack=\{handleBack\}[\s\S]*?backAriaLabel=\{t\("buttons\.back"\)\}/);
@@ -97,7 +106,7 @@ test("documents and dokreziim hero controls use the shared glass subpage header"
   assert.doesNotMatch(mobileCss, /documents-workspace-page--library/);
   assert.match(
     mobileCss,
-    /:is\(\s*\.glass-subpage-title-wrap\s*\)\s*\{[\s\S]*?padding-top:\s*calc\(var\(--mobile-safe-top,\s*env\(safe-area-inset-top,\s*0px\)\) \+ 1\.18rem\)\s*!important;/
+    /--mobile-header-title-top:\s*1\.76rem;[\s\S]*?:is\([\s\S]*?\.documents-workspace-shell,[\s\S]*?\)\s*:is\(\.glass-subpage-title-wrap,\s*\.policy-mobile-title-wrap\)\s*\{[\s\S]*?padding-top:\s*calc\([\s\S]*?var\(--mobile-header-title-top\)[\s\S]*?var\(--mobile-header-browser-y-offset,\s*0rem\)[\s\S]*?var\(--mobile-header-pwa-y-offset,\s*0rem\)[\s\S]*?\);/
   );
   assert.doesNotMatch(
     mobileCss,
@@ -115,9 +124,9 @@ test("documents and dokreziim hero controls use the shared glass subpage header"
   );
   assert.match(
     mobileCss,
-    /\.workspace-scroll-surface \.workspace-scroll-back-button\s*\{[\s\S]*?top:\s*0\.2rem\s*!important;/
+    /:is\([\s\S]*?\.workspace-scroll-surface,[\s\S]*?\)\s*:is\([\s\S]*?\.workspace-scroll-back-button,[\s\S]*?\)\s*\{[\s\S]*?top:\s*calc\([\s\S]*?var\(--mobile-header-control-top\)[\s\S]*?var\(--mobile-header-browser-y-offset,\s*0rem\)[\s\S]*?var\(--mobile-header-pwa-y-offset,\s*0rem\)[\s\S]*?\);/
   );
-  assert.match(mobileCss, /\.policy-mobile-title--static\s*\{[\s\S]*?white-space:\s*normal\s*!important;[\s\S]*?text-wrap:\s*balance\s*!important;/);
+  assert.match(mobileCss, /:is\(\s*\.subpage-mobile-title,\s*\.policy-mobile-title\s*\)\s*\{[\s\S]*?white-space:\s*normal;[\s\S]*?text-wrap:\s*balance;/);
   assert.match(documentsCss, /\.documents-workspace-shell\s*\{[\s\S]*?padding:\s*0;/);
   assert.doesNotMatch(documentsSource, /documents-page-shell-title-row|documents-mobile-title/);
   assert.doesNotMatch(agentSource, /documents-page-shell-title-row|agent-mobile-title/);

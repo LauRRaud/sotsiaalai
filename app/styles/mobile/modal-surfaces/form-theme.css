@@ -1,0 +1,49 @@
+/* Shared mobile glass/card tone tokens used by cross-feature modal and card surfaces. */
+
+@media (max-width: 768px) {
+  :root.theme-light:not(.theme-mid) .mobile-keep-desktop-glass-cards {
+    --subpage-card-bg: var(--btn-primary-bg);
+    --subpage-card-bg-hover: var(--btn-primary-bg-hover);
+    --subpage-card-border: rgba(255, 255, 255, 0.5);
+    --subpage-card-border-hover: rgba(255, 255, 255, 0.58);
+    --subpage-card-shadow: none;
+    --subpage-card-shadow-hover: none;
+  }
+
+  :root.theme-mid .mobile-keep-desktop-glass-cards {
+    --glass-surface-bg: rgba(253, 249, 247, 0.36);
+    --glass-ring-surface-bg: rgba(251, 245, 242, 0.4);
+    --glass-modal-bg: var(--glass-ring-surface-bg);
+    --panel-secondary-bg: var(--btn-primary-bg);
+    --panel-secondary-border: transparent;
+    --panel-secondary-shadow: none;
+    --subpage-card-bg:
+      radial-gradient(
+        92% 88% at 50% 16%,
+        rgba(249, 241, 238, 0.56) 0%,
+        rgba(242, 232, 228, 0.48) 42%,
+        rgba(233, 221, 216, 0.42) 100%
+      ),
+      linear-gradient(
+        180deg,
+        rgba(244, 235, 231, 0.36) 0%,
+        rgba(236, 226, 222, 0.3) 100%
+      );
+    --subpage-card-bg-hover:
+      radial-gradient(
+        92% 88% at 50% 16%,
+        rgba(247, 239, 236, 0.54) 0%,
+        rgba(240, 230, 226, 0.46) 44%,
+        rgba(232, 221, 216, 0.4) 100%
+      ),
+      linear-gradient(
+        180deg,
+        rgba(241, 232, 228, 0.34) 0%,
+        rgba(233, 223, 219, 0.3) 100%
+      );
+    --subpage-card-border: transparent;
+    --subpage-card-border-hover: transparent;
+    --subpage-card-shadow: none;
+    --subpage-card-shadow-hover: none;
+  }
+}

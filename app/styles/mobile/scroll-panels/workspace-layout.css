@@ -1,0 +1,55 @@
+/* Shared workspace-like mobile panel layout for generic glass subpage panels. */
+
+@media (max-width: 768px) {
+  :is(
+      .workspace-guide-panel.glass-subpage-surface
+    ) {
+    --workspace-mobile-panel-gap: var(--mobile-glass-card-gap);
+    --glass-ring-pad-x: clamp(0.78rem, 3vw, 0.94rem);
+    --glass-ring-pad-top: clamp(
+      calc(0.4 * var(--base-rem, 16px)),
+      1.4vh,
+      calc(1.1 * var(--base-rem, 16px))
+    );
+    width: calc(
+      100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) -
+        (var(--workspace-mobile-panel-gap) * 2)
+    );
+    inline-size: calc(
+      100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) -
+        (var(--workspace-mobile-panel-gap) * 2)
+    );
+    min-width: calc(
+      100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) -
+        (var(--workspace-mobile-panel-gap) * 2)
+    );
+    max-width: calc(
+      100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) -
+        (var(--workspace-mobile-panel-gap) * 2)
+    );
+    height: calc(
+      var(--glass-mobile-root-vh, 100dvh) - var(--mobile-safe-top, env(safe-area-inset-top, 0px)) -
+        var(--mobile-safe-bottom, env(safe-area-inset-bottom, 0px)) -
+        (var(--workspace-mobile-panel-gap) * 2)
+    );
+    min-height: calc(
+      var(--glass-mobile-root-vh, 100dvh) - var(--mobile-safe-top, env(safe-area-inset-top, 0px)) -
+        var(--mobile-safe-bottom, env(safe-area-inset-bottom, 0px)) -
+        (var(--workspace-mobile-panel-gap) * 2)
+    );
+    max-height: calc(
+      var(--glass-mobile-root-vh, 100dvh) - var(--mobile-safe-top, env(safe-area-inset-top, 0px)) -
+        var(--mobile-safe-bottom, env(safe-area-inset-bottom, 0px)) -
+        (var(--workspace-mobile-panel-gap) * 2)
+    );
+    margin-top: calc(var(--mobile-safe-top, env(safe-area-inset-top, 0px)) + var(--workspace-mobile-panel-gap));
+    margin-right: max(var(--workspace-mobile-panel-gap), env(safe-area-inset-right, 0px));
+    margin-bottom: calc(var(--mobile-safe-bottom, env(safe-area-inset-bottom, 0px)) + var(--workspace-mobile-panel-gap));
+    margin-left: max(var(--workspace-mobile-panel-gap), env(safe-area-inset-left, 0px));
+    border-radius: var(--mobile-glass-card-radius);
+    padding:
+      var(--glass-ring-pad-top)
+      var(--glass-ring-pad-x)
+      calc(var(--mobile-safe-bottom, env(safe-area-inset-bottom, 0px)) + 0.9rem);
+  }
+}

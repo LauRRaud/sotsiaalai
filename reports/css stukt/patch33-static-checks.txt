@@ -1,0 +1,11 @@
+git apply --check: OK
+Missing local CSS imports: 0
+CSS import cycles: 0
+CSS brace-balance errors: 0
+Project CSS !important count: 2025
+Form-control feature direct definitions: 18
+Form-control feature bridge definitions: 37
+Form-control other definitions: 0
+Chat hc direct form-control definitions: 0
+Chat hc bridge form-control definitions: 9
+npm run css:tokens:check: OK

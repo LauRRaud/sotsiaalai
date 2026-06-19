@@ -88,17 +88,17 @@ test("workspace dashboard card icons keep a consistent visible stroke weight", (
   );
   const css = readFileSync(new URL("../../components/chat/WorkspacePanel.module.css", import.meta.url), "utf8");
 
-  assert.match(dashboardIconSource, /<Route className=\{styles\.journeyInlineIcon\} strokeWidth=\{1\.55\}/);
-  assert.match(dashboardIconSource, /<Mail className=\{styles\.mailboxInlineIcon\} strokeWidth=\{1\.55\}/);
-  assert.match(dashboardIconSource, /type === "compose"[\s\S]*?strokeWidth="1\.55"[\s\S]*?strokeWidth="1\.55"/);
-  assert.match(dashboardIconSource, /type === "pre-inquiry"[\s\S]*?stroke="currentColor" strokeWidth="1\.55"/);
-  assert.match(dashboardIconSource, /type === "map"[\s\S]*?<svg className=\{styles\.serviceMapInlineIcon\}[\s\S]*?stroke="currentColor" strokeWidth="1\.55"/);
-  assert.match(dashboardIconSource, /type === "document"[\s\S]*?strokeWidth="1\.55"[\s\S]*?strokeWidth="1\.55"[\s\S]*?strokeWidth="1\.55"/);
-  assert.match(dashboardIconSource, /type === "materials"[\s\S]*?strokeWidth="1\.55"[\s\S]*?strokeWidth="1\.55"[\s\S]*?strokeWidth="1\.55"/);
-  assert.match(dashboardIconSource, /<AddPersonIcon strokeColor="currentColor" strokeWidth=\{1\.55\}/);
+  assert.match(dashboardIconSource, /<Route className=\{styles\.journeyInlineIcon\} strokeWidth=\{3\}/);
+  assert.match(dashboardIconSource, /<Mail className=\{styles\.mailboxInlineIcon\} strokeWidth=\{3\}/);
+  assert.match(dashboardIconSource, /type === "compose"[\s\S]*?strokeWidth="3"[\s\S]*?strokeWidth="3"/);
+  assert.match(dashboardIconSource, /type === "pre-inquiry"[\s\S]*?stroke="currentColor"[\s\r\n ]+strokeWidth="3"/);
+  assert.match(dashboardIconSource, /type === "map"[\s\S]*?<svg className=\{styles\.serviceMapInlineIcon\}[\s\S]*?stroke="currentColor"[\s\r\n ]+strokeWidth="3"/);
+  assert.match(dashboardIconSource, /type === "document"[\s\S]*?strokeWidth="3"[\s\S]*?strokeWidth="3"[\s\S]*?strokeWidth="2\.1"/);
+  assert.match(dashboardIconSource, /type === "materials"[\s\S]*?strokeWidth="3"[\s\S]*?strokeWidth="3"[\s\S]*?strokeWidth="2\.1"/);
+  assert.match(dashboardIconSource, /<AddPersonIcon strokeColor="currentColor" strokeWidth=\{3\}/);
   assert.match(css, /vector-effect:\s*non-scaling-stroke/);
   assert.doesNotMatch(dashboardIconSource, /serviceMapLogoMaskId|serviceMapCutoutMaskId|fill="currentColor" mask/);
-  assert.doesNotMatch(dashboardIconSource, /strokeWidth=\{1\.72\}|strokeWidth=\{1\.62\}|strokeWidth="1\.65"|strokeWidth="1\.6"|strokeWidth="1\.48"|strokeWidth="1\.42"/);
+  assert.doesNotMatch(dashboardIconSource, /strokeWidth=\{1\.72\}|strokeWidth=\{1\.62\}|strokeWidth=\{1\.55\}|strokeWidth="1\.65"|strokeWidth="1\.6"|strokeWidth="1\.55"|strokeWidth="1\.48"|strokeWidth="1\.42"/);
 });
 
 test("workspace panel renders badge as visual chrome with accessible card label", () => {

@@ -1,0 +1,22 @@
+/* Final mobile shadow suppression for shared glass panel surfaces. */
+
+@media (max-width: 768px) {
+  html[data-layout="mobile"].theme-mid body[data-layout="mobile"]
+    .glass-ring.glass-ring--desktop-stable,
+  html[data-layout="mobile"].theme-light body[data-layout="mobile"]
+    .glass-ring.glass-ring--desktop-stable,
+  html[data-layout="mobile"].theme-night body[data-layout="mobile"]
+    .glass-ring.glass-ring--desktop-stable,
+  html[data-layout="mobile"].theme-mono body[data-layout="mobile"]
+    .glass-ring.glass-ring--desktop-stable,
+  html[data-layout="mobile"] body[data-layout="mobile"]
+    .glass-ring.glass-ring--desktop-stable,
+  .glass-ring,
+  .glass-subpage-surface,
+  .mobile-keep-desktop-glass-cards {
+    --glass-shell-shadow: none !important;
+    --glass-modal-shadow: none !important;
+    --mid-shell-soft-shadow: none;
+    box-shadow: none;
+  }
+}

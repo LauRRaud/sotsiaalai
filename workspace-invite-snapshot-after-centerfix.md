@@ -1,0 +1,5 @@
+- generic [active] [ref=e1]:
+  - main [ref=e4]:
+    - region "Vestluse sisu" [ref=e8]:
+      - region "Grupivestlus" [ref=e9]
+  - alert [ref=e36]

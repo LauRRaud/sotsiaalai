@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
+import { readCssSourceBundle } from "../helpers/cssSourceBundle.mjs";
 import { readMobileCssBundle } from "../helpers/mobileCssBundle.mjs";
 
 
@@ -10,6 +11,7 @@ function read(path) {
 
 test("workspace feature pages keep mobile safe areas without browser-mode layout forks", () => {
   const mobileCss = readMobileCssBundle();
+  const helpListingsCss = readCssSourceBundle("app/styles/components/workspace-help-listings.css");
   const viewportSetter = read("components/ViewportLayoutSetter.jsx");
   const backgroundLayer = read("components/backgrounds/BackgroundLayer.jsx");
   const particles = read("components/backgrounds/Particles.jsx");
@@ -85,8 +87,8 @@ test("workspace feature pages keep mobile safe areas without browser-mode layout
     /\.workspace-scroll-surface\.workspace-guide-panel > \.workspace-guide-panel-scroll\s*\{[\s\S]*?padding-bottom:\s*0\s*!important;/
   );
   assert.match(
-    mobileCss,
-    /\.help-listings-modal-content\s*\{[\s\S]*?padding-top:\s*calc\([\s\S]*?var\(--mobile-safe-top,\s*env\(safe-area-inset-top,\s*0px\)\)[\s\S]*?var\(--glass-ring-pad-top/
+    helpListingsCss,
+    /:is\([\s\S]*?\.help-listings-modal-content[\s\S]*?\)\s*\{[\s\S]*?height:\s*calc\([\s\S]*?var\(--glass-mobile-root-vh,\s*100dvh\)[\s\S]*?env\(safe-area-inset-top,\s*0px\)[\s\S]*?env\(safe-area-inset-bottom,\s*0px\)/
   );
   assert.match(
     mobileCss,

@@ -1,3 +1,10 @@
+@import url("./touch-controls.css");
+@import url("./modal-surfaces.css");
+@import url("./form-theme.css");
+@import url("../../shared/mobile-workspace-scroll-adapters.css");
+
+@import url("./workspace-scroll.css");
+
 /* Invite modal and embedded workspace panel layout carried from the legacy mobile bundle. */
 
 @media (max-width: 768px) {
@@ -73,14 +80,15 @@
   --mid-shell-soft-shadow: none;
   width: 100%;
   inline-size: 100%;
-  min-width: 0;
+  min-width: 0 !important;
+  min-inline-size: 0 !important;
   max-width: 100%;
   height: auto;
   min-height: 0;
   max-height: none;
   block-size: auto;
   max-block-size: none;
-  flex: 0 0 auto;
+  flex: 0 0 100%;
   margin-inline: auto;
   padding: 0 !important;
   overflow: visible;
@@ -106,19 +114,6 @@
   box-shadow: none !important;
   -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;
-}
-
-.workspace-dashboard-panel .workspace-feature-embedded :is(
-  .help-listings-body,
-  .help-listings-panel,
-  .invite-modal-scroll,
-  .invite-list-panel
-) {
-  width: 100% !important;
-  max-width: 100% !important;
-  min-width: 0 !important;
-  padding-left: 0 !important;
-  padding-right: 0 !important;
 }
 
 .workspace-dashboard-panel .workspace-feature-embedded :is(
@@ -157,15 +152,6 @@
   display: none !important;
   content: none !important;
   opacity: 0 !important;
-}
-
-.workspace-dashboard-panel .workspace-feature-embedded :is(
-  .help-listings-modal-content--embedded .help-listings-body,
-  .invite-modal-content--embedded .invite-modal-scroll
-) {
-  width: 100% !important;
-  max-width: 100% !important;
-  min-width: 0 !important;
 }
 
 .workspace-dashboard-panel .workspace-feature-embedded :is(

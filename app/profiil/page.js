@@ -1,3 +1,4 @@
+import "../styles/features/login/index.css";
 import "../styles/features/profile/index.css";
 import { cookies, headers } from "next/headers";
 import { getLocaleFromCookies, getMessagesSync } from "@/lib/i18n";

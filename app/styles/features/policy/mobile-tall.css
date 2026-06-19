@@ -1,0 +1,30 @@
+/* Policy-only mobile tall scroll clearance.
+   Route-imported through features/policy/index.css; it must not live in the global mobile cascade. */
+
+@media (max-width: 768px) {
+  html[data-layout="mobile"] body[data-layout="mobile"]
+    .policy-scroll-page-ring.policy-mobile-tall {
+    --policy-scroll-overscan-bottom: calc(
+      env(safe-area-inset-bottom, 0px) + clamp(2.1rem, 6vh, 3.4rem)
+    ) !important;
+    padding-bottom: 0 !important;
+  }
+
+  html[data-layout="mobile"] body[data-layout="mobile"]
+    .policy-scroll-page-ring.policy-mobile-tall
+    .policy-scroll-page-scroller {
+    padding-bottom: var(--policy-scroll-overscan-bottom) !important;
+    scroll-padding-bottom: calc(var(--policy-scroll-overscan-bottom) + 1.25rem) !important;
+    mask-image: none !important;
+    -webkit-mask-image: none !important;
+  }
+
+  html[data-layout="mobile"] body[data-layout="mobile"]
+    .policy-scroll-page-ring.policy-mobile-tall::before,
+  html[data-layout="mobile"] body[data-layout="mobile"]
+    .policy-scroll-page-ring.policy-mobile-tall::after {
+    content: none !important;
+    display: none !important;
+    opacity: 0 !important;
+  }
+}

@@ -1,0 +1,134 @@
+/* Shared mobile header layout: title wrap, back button and optional info trigger. */
+
+@media (max-width: 768px) {
+  :is(
+      .glass-ring,
+      .direct-scroll-surface,
+      .workspace-scroll-surface,
+      .workspace-dashboard-panel,
+      .service-map-page-panel,
+      .service-map-workspace,
+      .workspace-guide-panel,
+      .workspace-feature-panel,
+      .documents-workspace-shell,
+      .materials-page-content,
+      .covision-page-surface,
+      .subscription-modal-content,
+      .account-settings-modal-content,
+      .help-listings-modal-content,
+      .selected-listing-modal-content,
+      .invite-modal-content,
+      .policy-scroll-page-ring,
+      .policy-scroll-page-scroller
+    )
+    .glass-subpage-header {
+    margin-top: var(--mobile-header-wrap-correction);
+  }
+
+  :is(
+      .glass-ring,
+      .direct-scroll-surface,
+      .workspace-scroll-surface,
+      .workspace-dashboard-panel,
+      .service-map-page-panel,
+      .service-map-workspace,
+      .workspace-guide-panel,
+      .workspace-feature-panel,
+      .documents-workspace-shell,
+      .materials-page-content,
+      .covision-page-surface,
+      .subscription-modal-content,
+      .account-settings-modal-content,
+      .help-listings-modal-content,
+      .selected-listing-modal-content,
+      .invite-modal-content,
+      .policy-scroll-page-ring,
+      .policy-scroll-page-scroller
+    )
+    :is(.glass-subpage-title-wrap, .policy-mobile-title-wrap) {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    margin-right: 0;
+    margin-left: 0;
+    padding-top: calc(
+      var(--mobile-header-title-top) +
+        var(--mobile-header-browser-y-offset, 0rem) +
+        var(--mobile-header-pwa-y-offset, 0rem)
+    );
+    padding-right: var(--mobile-header-title-inline-reserve);
+    padding-bottom: var(--mobile-header-title-bottom);
+    padding-left: var(--mobile-header-title-inline-reserve);
+  }
+
+  :is(.glass-ring, .subscription-modal-content, .account-settings-modal-content)
+    > :is(.glass-subpage-title-wrap, .policy-mobile-title-wrap) {
+    margin-top: 0.18rem;
+  }
+
+  :is(
+      .glass-ring,
+      .direct-scroll-surface,
+      .workspace-scroll-surface,
+      .workspace-dashboard-panel,
+      .service-map-page-panel,
+      .service-map-workspace,
+      .workspace-guide-panel,
+      .workspace-feature-panel,
+      .documents-workspace-shell,
+      .materials-page-content,
+      .covision-page-surface,
+      .subscription-modal-content,
+      .account-settings-modal-content,
+      .help-listings-modal-content,
+      .selected-listing-modal-content,
+      .invite-modal-content,
+      .policy-scroll-page-ring,
+      .policy-scroll-page-scroller
+    )
+    :is(
+      .glass-subpage-back-button,
+      .workspace-scroll-back-button,
+      .documents-scroll-back-button,
+      .account-settings-back-button,
+      .scroll-reactive-back
+    ) {
+    position: absolute;
+    left: var(--mobile-header-back-left) !important;
+    top: calc(
+      var(--mobile-header-control-top) +
+        var(--mobile-header-browser-y-offset, 0rem) +
+        var(--mobile-header-pwa-y-offset, 0rem)
+    );
+    right: auto;
+    bottom: auto;
+    margin-left: 0;
+    transform: none;
+  }
+
+  :is(
+      .workspace-dashboard-panel,
+      .service-map-page-panel,
+      .service-map-workspace,
+      .direct-scroll-surface,
+      .workspace-scroll-surface,
+      .workspace-guide-panel,
+      .workspace-feature-panel,
+      .documents-workspace-shell,
+      .materials-page-content,
+      .covision-page-surface,
+      .help-listings-modal-content,
+      .selected-listing-modal-content,
+      .invite-modal-content
+    )
+    .dashboard-info-trigger-corner {
+    position: absolute;
+    right: var(--mobile-header-info-right);
+    top: calc(
+      var(--mobile-header-control-info-top) +
+        var(--mobile-header-browser-y-offset, 0rem) +
+        var(--mobile-header-pwa-y-offset, 0rem)
+    );
+    z-index: 35;
+  }
+}

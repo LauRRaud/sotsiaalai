@@ -141,13 +141,14 @@
   width: 100% !important;
   inline-size: 100% !important;
   max-width: 100% !important;
-  min-width: 0;
+  min-width: 0 !important;
+  min-inline-size: 0 !important;
   height: auto !important;
   min-height: 0 !important;
   max-height: none !important;
   block-size: auto !important;
   max-block-size: none !important;
-  flex: 0 0 auto;
+  flex: 0 0 100%;
   margin-right: auto;
   margin-left: auto;
   overflow-x: hidden !important;
@@ -186,18 +187,6 @@
   box-shadow: none !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
-}
-
-.panel :global(.workspace-feature-embedded .help-listings-body),
-.panel :global(.workspace-feature-embedded .help-listings-panel),
-.panel :global(.workspace-feature-embedded .invite-modal-scroll),
-.panel :global(.workspace-feature-embedded .invite-list-panel) {
-  width: 100% !important;
-  max-width: 100% !important;
-  min-width: 0 !important;
-  flex: 0 0 auto !important;
-  padding-right: 0 !important;
-  padding-left: 0 !important;
 }
 
 .panel :global(.workspace-feature-embedded .invite-list-panel) {
@@ -260,8 +249,7 @@
   padding-top: 0 !important;
 }
 
-.panel :global(.help-listings-modal-content--embedded .help-listings-scroll.workspace-guide-panel-scroll),
-.panel :global(.invite-modal-content--embedded .invite-modal-scroll.workspace-guide-panel-scroll) {
+.panel :global(.help-listings-modal-content--embedded .help-listings-scroll.workspace-guide-panel-scroll) {
   width: 100% !important;
   max-width: 100% !important;
   min-width: 0;

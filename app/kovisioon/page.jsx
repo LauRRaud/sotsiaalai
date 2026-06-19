@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import "../styles/features/documents/index.css";
+import "../styles/features/covision/index.css";
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authConfig } from "@/auth";

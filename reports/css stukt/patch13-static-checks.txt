@@ -1,0 +1,8 @@
+git apply --check: OK
+CSS files under app/styles: 135
+Missing local CSS imports: 0
+CSS import cycles: 0
+CSS brace-balance errors: 0
+Bad use client directive files: 0
+!important count all CSS: 2020
+!important count app/styles CSS: 1224

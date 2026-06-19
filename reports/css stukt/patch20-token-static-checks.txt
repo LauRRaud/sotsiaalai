@@ -1,0 +1,14 @@
+git apply --check: OK
+package.json parse: OK
+node scripts/css-cleanup/style-token-audit.mjs: OK
+
+CSS token audit
+  CSS files: 156
+  Tokens: 1112
+  Definitions: 4224
+  Usages: 5914
+  Multi-value token collisions: 615
+  Undefined usages: 95
+  Defined but unused: 259
+  JSON: reports/css-token-audit.json
+  CSV: reports/css-token-collisions.csv

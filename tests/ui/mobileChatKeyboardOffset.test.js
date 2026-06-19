@@ -102,7 +102,9 @@ test("mobile chat header does not ship standalone display-mode layout overrides"
   assert.match(viewportSetter, /setAttribute\("data-display-mode",\s*mode\)/);
   assert.doesNotMatch(viewportSetter, /sessionStorage\.setItem\(DISPLAY_MODE_STORAGE_KEY,\s*mode\)/);
   assert.doesNotMatch(viewportSetter, /data-display-mode-sticky|DISPLAY_MODE_STORAGE_KEY/);
-  assert.match(chatTopNav, /--chat-mobile-topnav-safe-top/);
+  assert.match(chatTopNav, /const navRailStyle =/);
+  assert.match(chatTopNav, /top:\s*"calc\(var\(--mobile-safe-top,\s*env\(safe-area-inset-top,0px\)\) \+ 0\.08rem\)"/);
+  assert.doesNotMatch(chatTopNav, /--chat-mobile-topnav-safe-top/);
   assert.doesNotMatch(mobileCss, /data-display-mode="standalone"[\s\S]*?chat-page-shell/);
   assert.doesNotMatch(mobileCss, /data-display-mode="fullscreen"[\s\S]*?chat-page-shell/);
   assert.match(

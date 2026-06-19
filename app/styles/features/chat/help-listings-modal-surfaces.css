@@ -1,0 +1,45 @@
+/* Help listings mobile modal surface rules. Route-owned by the chat workspace. */
+@import url("../../shared/mobile-modal-surfaces.css");
+
+@media (max-width: 768px) {
+  .help-listings-body,
+  .help-listings-modal-content .glass-subpage-header,
+  .help-listings-modal-content
+    :is(.help-listings-panel, .help-listings-item-card) {
+    max-width: none;
+  }
+
+  .help-listings-modal-content .help-listings-panel {
+    background:
+      linear-gradient(
+        145deg,
+        rgba(255, 255, 255, 0.08),
+        rgba(255, 255, 255, 0.035)
+      ),
+      color-mix(
+        in srgb,
+        var(--glass-ring-surface-bg, rgba(0, 0, 0, 0.25)) 64%,
+        transparent
+      );
+    border-color: transparent;
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+      0 10px 24px rgba(0, 0, 0, 0.08);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    padding: 0.28rem;
+  }
+
+  html[data-contrast="hc"] .help-listings-modal-content .help-listings-panel {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: inset 0 0 0 1.5px var(--hc-accent, #ffea00);
+  }
+
+  .help-listings-modal-content .help-listings-item-card {
+    width: 100%;
+    border-radius: 1rem;
+    padding: 0.9rem;
+    box-shadow: none;
+  }
+}

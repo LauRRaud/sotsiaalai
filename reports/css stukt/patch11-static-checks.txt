@@ -1,0 +1,31 @@
+SotsiaalAI CSS cleanup 11c static checks
+========================================
+
+git diff --check:
+OK
+
+git apply --check against after-10 tree:
+OK
+
+CSS parse + import check:
+CSS files: 119
+CSS parse errors: 0
+CSS @imports: 116
+Missing local CSS @imports: 0
+
+!important count (app/styles only):
+after-10: 1199
+after-11c: 1199
+
+Route CSS byte delta (normalized source, selected routes):
+global: 342074 -> 340921 (-1153)
+/: 382885 -> 381732 (-1153)
+/vestlus: 742396 -> 746884 (+4488)
+/ruum: 366561 -> 370917 (+4356)
+/documents: 427851 -> 432206 (+4355)
+/dokreziim: 553593 -> 558014 (+4421)
+/teenusekaart: 660736 -> 665157 (+4421)
+/tooheaolu: 343547 -> 347902 (+4355)
+/materjalid: 342074 -> 346494 (+4420)
+/kovisioon: 420428 -> 424911 (+4483)
+/teekond/[id]: 342074 -> 346523 (+4449)

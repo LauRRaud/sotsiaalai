@@ -1,0 +1,73 @@
+/* Chat analysis segmented-control touch feedback. */
+
+@media (hover: none) and (pointer: coarse) {
+  .chat-analysis-overlay [data-control-type] {
+    --seg-card-bg-selected: var(--seg-card-bg);
+    --seg-card-bg-active: var(--seg-card-bg);
+    --seg-card-shadow-selected: var(
+      --seg-card-shadow-hover,
+      var(--seg-card-shadow)
+    );
+    --seg-card-shadow-active: var(--seg-card-shadow);
+    --seg-card-border-selected: var(
+      --seg-card-border-hover,
+      var(--seg-card-border)
+    );
+    --seg-card-border-active: var(--seg-card-border);
+  }
+
+  :is(
+      .chat-analysis-overlay [data-control-type][data-checked="true"],
+      .chat-analysis-overlay .chat-analysis-toggle-btn[data-control-type][data-checked="true"]:is(:hover, :focus-visible, :active)
+    ) {
+    background: var(--seg-card-bg-selected, var(--seg-card-bg)) !important;
+    border-color: var(--seg-card-border-selected, var(--seg-card-border)) !important;
+    box-shadow: var(--seg-card-shadow-selected, var(--seg-card-shadow)) !important;
+    color: var(--seg-card-text-selected, var(--seg-card-text)) !important;
+  }
+
+  .chat-analysis-overlay [data-control-type][data-checked="true"]::before {
+    opacity: 1 !important;
+  }
+
+  .chat-analysis-overlay [data-control-type] {
+    --seg-card-bg-hover: var(--seg-card-bg);
+    --seg-card-shadow-hover: var(--seg-card-shadow);
+    --seg-card-border-hover: var(--seg-card-border);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .chat-analysis-overlay :is(button.button, a.button)[data-variant="primary"] {
+    --chat-btn-primary-bg-active: var(--btn-primary-bg-hover);
+    --btn-primary-bg-active: var(--chat-btn-primary-bg-active);
+    --chat-btn-primary-shadow-active: var(--btn-primary-shadow-hover);
+    --btn-primary-shadow-active: var(--chat-btn-primary-shadow-active);
+    --chat-btn-primary-border-active: var(
+      --btn-primary-border-hover,
+      var(--btn-primary-border)
+    );
+    --btn-primary-border-active: var(--chat-btn-primary-border-active);
+  }
+
+  .chat-analysis-overlay .chat-analysis-toggle-btn[data-control-type]::before,
+  .chat-analysis-overlay .chat-analysis-action-btn.button[data-variant="primary"]::before {
+    transition-property: opacity !important;
+    transition-duration: 560ms !important;
+    transition-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1) !important;
+  }
+
+  .chat-analysis-overlay .chat-analysis-toggle-btn[data-control-type],
+  .chat-analysis-overlay .chat-analysis-action-btn.button[data-variant="primary"] {
+    transition-property: background, border-color, box-shadow, color, opacity !important;
+    transition-duration: 560ms !important;
+    transition-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1) !important;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .chat-analysis-overlay .chat-analysis-action-btn.button[data-variant="primary"]:active,
+  .chat-analysis-overlay .chat-analysis-action-btn.button[data-variant="primary"]:active::before,
+  .chat-analysis-overlay .chat-analysis-toggle-btn[data-control-type]:active,
+  .chat-analysis-overlay .chat-analysis-toggle-btn[data-control-type]:active::before {
+    animation: none !important;
+  }
+}

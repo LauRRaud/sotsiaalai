@@ -1,0 +1,13 @@
+/* Framework acceptance mobile surface rules. Route-owned through documents/admin CSS. */
+
+@media (max-width: 768px) {
+  .framework-page-shell .framework-body {
+    width: min(100%, 27.8rem);
+    max-width: 27.8rem;
+  }
+
+  .framework-page-shell .framework-intro-card,
+  .framework-page-shell .framework-document-card {
+    box-shadow: none;
+  }
+}

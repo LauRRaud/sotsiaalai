@@ -1,0 +1,7 @@
+git apply --check: OK
+Missing local CSS imports: 0
+CSS import cycles: 0
+CSS brace-balance errors: 0
+!important count after patch 19: 2025
+Workspace shadow/header global leaks: 0 []
+Route-imported shared workspace CSS imports missing: []

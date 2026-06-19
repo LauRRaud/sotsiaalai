@@ -5,7 +5,9 @@
    mono.css (theme-mono overrides) used to be the last documents import.
    agent.css and library.css are extras imported only by the routes that
    need them. */
+@import url("../../shared/mobile-workspace-scroll-adapters.css");
 @import url("./mobile.css");
+@import url("./admin-mobile-header.css");
 @import url("./workspace.css");
 @import url("./ui.css");
 @import url("./mono.css");

@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
 import { readMobileCssBundle } from "../helpers/mobileCssBundle.mjs";
+import { readCssSourceBundle } from "../helpers/cssSourceBundle.mjs";
 
 
 function read(path) {
@@ -13,8 +14,8 @@ test("policy pages use the scroll-surface back header pattern", () => {
   const terms = read("components/alalehed/KasutustingimusedBody.jsx");
   const privacy = read("components/alalehed/PrivaatsusBody.jsx");
   const mobileCss = readMobileCssBundle();
-  const policyMobileCss = read("app/styles/features/policy/mobile.css");
-  const mobileHeaderCss = read("app/styles/mobile/subpage-title-system.css");
+  const policyMobileCss = readCssSourceBundle("app/styles/features/policy/index.css");
+  const mobileHeaderCss = readCssSourceBundle("app/styles/mobile/subpage-title-system.css");
 
   for (const source of [guide, terms, privacy]) {
     assert.match(source, /workspaceGuidePanelClassName/);
@@ -76,7 +77,7 @@ test("policy pages use the scroll-surface back header pattern", () => {
     /:is\([\s\S]*?\.direct-scroll-surface,[\s\S]*?\.subscription-modal-content,[\s\S]*?\.policy-scroll-page-ring,[\s\S]*?\.workspace-guide-panel[\s\S]*?\)\s*:is\(\.glass-subpage-title-wrap,\s*\.policy-mobile-title-wrap\)\s*\{[\s\S]*?padding-top:\s*calc\([\s\S]*?var\(--mobile-header-title-top\)[\s\S]*?var\(--mobile-header-browser-y-offset,\s*0rem\)[\s\S]*?\)\s*!important;/
   );
   assert.match(
-    mobileHeaderCss,
+    policyMobileCss,
     /\.policy-scroll-page-scroller\s*\{[\s\S]*?--mobile-header-back-left:\s*calc\(env\(safe-area-inset-left,\s*0px\) - 0\.38rem\);[\s\S]*?--mobile-header-title-top:\s*1\.94rem;[\s\S]*?--mobile-header-control-top:\s*calc\([\s\S]*?var\(--policy-scroll-edge-pad-top,\s*0px\)[\s\S]*?var\(--policy-scroll-overscan-top,\s*0px\)[\s\S]*?var\(--mobile-header-back-top\) - 0\.74rem[\s\S]*?\);/
   );
   assert.match(

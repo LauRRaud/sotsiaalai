@@ -1,0 +1,81 @@
+@media (max-width: 1180px) {
+  .service-map-workspace {
+    --service-map-panel-height: 11.18rem;
+  }
+
+  .service-map-workspace__map {
+    width: min(calc(100vw - 4rem), 72rem);
+  }
+
+  .service-map-workspace__filters {
+    --service-map-panel-top: 0.72rem;
+    --service-map-results-row-height: 3.1rem;
+    --service-map-summary-row-height: 3.1rem;
+    top: var(--service-map-panel-top);
+    width: min(calc(100vw - 2rem), 66rem);
+    max-width: calc(100vw - 2rem);
+  }
+
+  .service-map-workspace__filters-shell {
+    grid-template-columns: 1fr;
+    align-items: center;
+    justify-content: center;
+    gap: 0.86rem;
+    width: min(calc(100vw - 2rem), 30rem);
+  }
+
+  .service-map-toolbar__identity {
+    position: absolute;
+    top: 0.56rem;
+    left: 0.28rem;
+  }
+
+  .service-map-workspace--toolbar-feedback .service-map-toolbar__body {
+    display: flex;
+    flex-wrap: wrap;
+    justify-items: center;
+    justify-content: center;
+    gap: 0.62rem;
+    width: 100%;
+    padding-inline: var(--service-map-toolbar-side-reserve, 3.42rem);
+  }
+
+  .service-map-toolbar__resultsblock {
+    grid-column: 1 / -1;
+    transform: none;
+  }
+
+  .service-map-toolbar__fields,
+  .service-map-toolbar__types {
+    justify-self: center;
+    flex: 0 0 auto;
+  }
+
+  .service-map-workspace__role {
+    right: 0.78rem;
+    bottom: 0.78rem;
+    left: auto;
+    width: auto;
+  }
+
+  .workspace-feature-admin-role--floating {
+    top: calc(env(safe-area-inset-top, 0px) + 0.42rem);
+    right: calc(env(safe-area-inset-right, 0px) + clamp(0.52rem, 2vw, 0.72rem));
+  }
+
+  .workspace-feature-admin-role--floating .workspace-role-cycle-button {
+    width: 2.26rem;
+    height: 2.26rem;
+    min-width: 2.26rem;
+    font-size: 0.9rem;
+  }
+
+  .service-map-toolbar__results {
+    max-height: 3.1rem;
+  }
+
+  .service-map-workspace--toolbar-feedback .service-map-toolbar__results {
+    grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr));
+    max-height: min(10.95rem, calc(100dvh - 14rem));
+  }
+}

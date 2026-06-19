@@ -1,0 +1,26 @@
+/* Invite modal mobile surface rules. Route-owned through components/invite-modal.css. */
+@import url("../../shared/mobile-modal-surfaces.css");
+
+@media (max-width: 768px) {
+  .invite-modal-overlay.person-invite-modal-overlay {
+    background: transparent;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none;
+  }
+
+  .invite-modal-content.person-invite-modal-content {
+    --glass-ring-pad-x: clamp(1.15rem, 3.4vw, 1.85rem);
+  }
+
+  :root.theme-light:not(.theme-mid) .invite-modal-content {
+    color: var(--text-strong, #1f2937);
+  }
+
+  .invite-modal-content .invite-modal-scroll {
+    gap: clamp(1rem, 2.6vh, 1.4rem);
+    padding-top: 0.75rem;
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 0.8rem);
+    padding-left: clamp(0.2rem, 1.1vw, 0.42rem);
+    padding-right: clamp(0.2rem, 1.1vw, 0.42rem);
+  }
+}

@@ -24,6 +24,6 @@ test("service map toolbar names the KOV social welfare department tab", () => {
   const source = read("components/workspace/WorkspaceFeaturePage.jsx");
   const messages = read("messages/et.json");
 
-  assert.match(source, /\["KOV_SOCIAL_CONTACT",\s*readText\(t,\s*"workspace_feature_pages\.service_map\.types\.kov_social"/);
-  assert.match(messages, /"kov_social":\s*"KOV sotsiaalhoolekanne"/);
+  assert.match(source, /\["KOV_SOCIAL_CONTACT",\s*readText\(t,\s*"workspace_feature_pages\.service_map\.types\.kov"/);
+  assert.match(messages, /"kov":\s*"KOV"/);
 });

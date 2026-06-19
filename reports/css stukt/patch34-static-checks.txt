@@ -1,0 +1,13 @@
+git apply --check: OK
+Missing local CSS imports: 0
+CSS import cycles: 0
+CSS brace-balance errors: 0
+Project CSS !important count: 2025
+Form-control feature direct definitions: 8
+Form-control feature bridge definitions: 47
+Form-control other definitions: 0
+Documents ui/mono direct form-control definitions: 0
+Documents ui/mono bridge form-control definitions: 17
+Remaining direct owners:
+  app/styles/features/service-map/desktop/base.css: 7
+  app/styles/features/service-map/desktop/pre-inquiry-agent.css: 1

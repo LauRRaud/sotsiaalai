@@ -1,0 +1,5 @@
+/* Register route mobile entrypoint. Route-imported by /registreerimine. */
+@import url("./form-theme.css");
+@import url("./touch-controls.css");
+@import url("./coarse-pointer.css");
+@import url("./mobile.css");

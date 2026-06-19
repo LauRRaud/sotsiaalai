@@ -776,8 +776,7 @@ html[data-contrast="hc"] body .chat-inputbar .chat-listen-btn:active {
 }
 
 html[data-contrast="hc"] body .chat-inputbar .chat-send-btn.invite-primary-btn {
-  --btn-primary-bg:
-    radial-gradient(
+  --chat-btn-primary-bg: radial-gradient(
       82% 66% at 50% -14%,
       rgba(222, 236, 255, 0.108) 0%,
       rgba(222, 236, 255, 0.048) 42%,
@@ -789,8 +788,8 @@ html[data-contrast="hc"] body .chat-inputbar .chat-send-btn.invite-primary-btn {
       rgba(26, 35, 49, 0.92) 0%,
       rgba(16, 25, 39, 0.94) 100%
     );
-  --btn-primary-bg-hover:
-    linear-gradient(
+  --btn-primary-bg: var(--chat-btn-primary-bg);
+  --chat-btn-primary-bg-hover: linear-gradient(
       0deg,
       rgba(255, 234, 0, 0.045) 0%,
       rgba(255, 234, 0, 0.045) 100%
@@ -807,8 +806,8 @@ html[data-contrast="hc"] body .chat-inputbar .chat-send-btn.invite-primary-btn {
       rgba(31, 42, 58, 0.93) 0%,
       rgba(19, 30, 46, 0.95) 100%
     );
-  --btn-primary-bg-active:
-    linear-gradient(
+  --btn-primary-bg-hover: var(--chat-btn-primary-bg-hover);
+  --chat-btn-primary-bg-active: linear-gradient(
       0deg,
       rgba(255, 234, 0, 0.065) 0%,
       rgba(255, 234, 0, 0.065) 100%
@@ -825,24 +824,30 @@ html[data-contrast="hc"] body .chat-inputbar .chat-send-btn.invite-primary-btn {
       rgba(28, 38, 53, 0.91) 0%,
       rgba(18, 27, 42, 0.93) 100%
     );
-  --btn-primary-border: 2px solid rgba(255, 234, 0, 0.66);
-  --btn-primary-border-hover: 2px solid rgba(255, 234, 0, 0.9);
-  --btn-primary-border-active: 2px solid rgba(255, 234, 0, 0.95);
-  --btn-primary-shadow:
-    inset 0 1px 0 rgba(220, 236, 255, 0.1),
+  --btn-primary-bg-active: var(--chat-btn-primary-bg-active);
+  --chat-btn-primary-border: 2px solid rgba(255, 234, 0, 0.66);
+  --btn-primary-border: var(--chat-btn-primary-border);
+  --chat-btn-primary-border-hover: 2px solid rgba(255, 234, 0, 0.9);
+  --btn-primary-border-hover: var(--chat-btn-primary-border-hover);
+  --chat-btn-primary-border-active: 2px solid rgba(255, 234, 0, 0.95);
+  --btn-primary-border-active: var(--chat-btn-primary-border-active);
+  --chat-btn-primary-shadow: inset 0 1px 0 rgba(220, 236, 255, 0.1),
     0 5px 12px rgba(2, 6, 16, 0.24);
-  --btn-primary-shadow-hover:
-    inset 0 1px 0 rgba(220, 236, 255, 0.12),
+  --btn-primary-shadow: var(--chat-btn-primary-shadow);
+  --chat-btn-primary-shadow-hover: inset 0 1px 0 rgba(220, 236, 255, 0.12),
     0 7px 14px rgba(2, 6, 16, 0.28);
-  --btn-primary-shadow-active:
-    inset 0 1px 0 rgba(220, 236, 255, 0.08),
+  --btn-primary-shadow-hover: var(--chat-btn-primary-shadow-hover);
+  --chat-btn-primary-shadow-active: inset 0 1px 0 rgba(220, 236, 255, 0.08),
     0 4px 10px rgba(2, 6, 16, 0.22);
-  --btn-primary-shadow-focus:
-    inset 0 1px 0 rgba(220, 236, 255, 0.16),
+  --btn-primary-shadow-active: var(--chat-btn-primary-shadow-active);
+  --chat-btn-primary-shadow-focus: inset 0 1px 0 rgba(220, 236, 255, 0.16),
     0 8px 18px rgba(2, 6, 16, 0.32),
     0 0 0 3px rgba(255, 234, 0, 0.42);
-  --btn-primary-focus-ring-color: rgba(255, 234, 0, 0.42);
-  --btn-primary-text: var(--hc-accent, #ffea00);
+  --btn-primary-shadow-focus: var(--chat-btn-primary-shadow-focus);
+  --chat-btn-primary-focus-ring-color: rgba(255, 234, 0, 0.42);
+  --btn-primary-focus-ring-color: var(--chat-btn-primary-focus-ring-color);
+  --chat-btn-primary-text: var(--hc-accent, #ffea00);
+  --btn-primary-text: var(--chat-btn-primary-text);
   background: transparent;
   box-shadow: none;
   -webkit-backdrop-filter: none;
@@ -851,15 +856,21 @@ html[data-contrast="hc"] body .chat-inputbar .chat-send-btn.invite-primary-btn {
 
 html[data-contrast="hc"] body .chat-inputbar .chat-send-btn.invite-primary-btn:hover,
 html[data-contrast="hc"] body .chat-inputbar .chat-send-btn.invite-primary-btn:focus-visible {
-  --btn-primary-bg: var(--btn-primary-bg-hover);
-  --btn-primary-border: var(--btn-primary-border-hover);
-  --btn-primary-shadow: var(--btn-primary-shadow-hover);
+  --chat-btn-primary-bg: var(--btn-primary-bg-hover);
+  --btn-primary-bg: var(--chat-btn-primary-bg);
+  --chat-btn-primary-border: var(--btn-primary-border-hover);
+  --btn-primary-border: var(--chat-btn-primary-border);
+  --chat-btn-primary-shadow: var(--btn-primary-shadow-hover);
+  --btn-primary-shadow: var(--chat-btn-primary-shadow);
 }
 
 html[data-contrast="hc"] body .chat-inputbar .chat-send-btn.invite-primary-btn:active {
-  --btn-primary-bg: var(--btn-primary-bg-active);
-  --btn-primary-border: var(--btn-primary-border-active, var(--btn-primary-border));
-  --btn-primary-shadow: var(--btn-primary-shadow-active);
+  --chat-btn-primary-bg: var(--btn-primary-bg-active);
+  --btn-primary-bg: var(--chat-btn-primary-bg);
+  --chat-btn-primary-border: var(--btn-primary-border-active, var(--btn-primary-border));
+  --btn-primary-border: var(--chat-btn-primary-border);
+  --chat-btn-primary-shadow: var(--btn-primary-shadow-active);
+  --btn-primary-shadow: var(--chat-btn-primary-shadow);
 }
 
 html[data-contrast="hc"] body .chat-analysis-panel-card .chat-analysis-action-btn {

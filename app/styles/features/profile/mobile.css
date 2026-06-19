@@ -1,5 +1,38 @@
 /* Mobile profile orbit and stack menu layout. */
 
+@media (max-width: 768px) {
+  .profile-orbit-stack-fade {
+    display: none !important;
+    opacity: 0 !important;
+  }
+
+  .profile-orbit-stack-panel::before,
+  .profile-orbit-stack-panel::after,
+  html[data-platform="android"] .profile-orbit-stack-panel::before,
+  html[data-platform="android"] .profile-orbit-stack-panel::after,
+  body[data-platform="android"] .profile-orbit-stack-panel::before,
+  body[data-platform="android"] .profile-orbit-stack-panel::after {
+    content: none;
+    position: absolute;
+    left: 0;
+    right: 0;
+    pointer-events: none;
+    z-index: 6;
+  }
+
+  .profile-orbit-stack-panel::before,
+  html[data-platform="android"] .profile-orbit-stack-panel::before,
+  body[data-platform="android"] .profile-orbit-stack-panel::before {
+    top: 0;
+  }
+
+  .profile-orbit-stack-panel::after,
+  html[data-platform="android"] .profile-orbit-stack-panel::after,
+  body[data-platform="android"] .profile-orbit-stack-panel::after {
+    bottom: 0;
+  }
+}
+
 @media (max-width: 640px) {
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
     --orbit-size: min(92vw, 22.5rem);

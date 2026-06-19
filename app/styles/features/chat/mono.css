@@ -256,8 +256,10 @@
 :root.theme-mono:not([data-contrast="hc"]) body .chat-inputbar:focus-within .chat-send-btn,
 :root.theme-mono:not([data-contrast="hc"]) body .chat-inputbar .chat-send-btn:hover,
 :root.theme-mono:not([data-contrast="hc"]) body .chat-inputbar .chat-send-btn:focus-visible {
-  --btn-primary-bg: var(--mono-orbit-surface) !important;
-  --btn-primary-bg-hover: var(--mono-orbit-surface-hover);
+  --chat-btn-primary-bg: var(--mono-orbit-surface);
+  --btn-primary-bg: var(--chat-btn-primary-bg) !important;
+  --chat-btn-primary-bg-hover: var(--mono-orbit-surface-hover);
+  --btn-primary-bg-hover: var(--chat-btn-primary-bg-hover);
   color: var(--mono-icon);
   background: var(--btn-primary-bg);
   box-shadow: var(--btn-primary-shadow);

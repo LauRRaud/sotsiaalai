@@ -1,0 +1,4 @@
+/* LoginModal mobile entrypoint. Import only on routes that render LoginModal. */
+@import url("../auth-forms/form-theme.css");
+@import url("./mobile.css");
+@import url("./otp-close.css");

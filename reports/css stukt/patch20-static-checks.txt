@@ -1,0 +1,8 @@
+Missing local CSS imports: 0
+CSS import cycles: 0
+CSS brace-balance errors: 0
+Project CSS !important count after patch 19: 2025
+Global mobile files: 24
+Global mobile bytes: 34820
+Global mobile !important: 48
+Global mobile feature-named selectors: 105

@@ -1,0 +1,9 @@
+git apply --check: OK
+Missing local CSS imports: 0 []
+CSS import cycles: 0
+CSS brace-balance errors: 0 []
+Project CSS !important count: 2025
+Btn-primary feature direct definitions: 23
+Btn-primary feature bridge definitions: 55
+Btn-primary other definitions: 0
+Chat direct --btn-primary definitions: 0

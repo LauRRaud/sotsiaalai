@@ -24,31 +24,39 @@ test("wellbeing dashboard uses the same desktop panel sizing and title spacing t
   );
   assert.match(
     css,
-    /--wellbeing-desktop-control-left:\s*calc\(0\.55rem - var\(--workspace-guide-panel-pad-x,\s*1\.1rem\)\);/
+    /--workspace-guide-panel-overscan-top:\s*0px;/
   );
   assert.match(
     css,
-    /--wellbeing-desktop-guide-overscan-top:\s*clamp\(1\.6rem,\s*4\.8vh,\s*2\.4rem\);/
+    /--workspace-subpage-back-left:\s*0\.55rem;/
   );
   assert.match(
     css,
-    /--wellbeing-desktop-control-top:\s*calc\([\s\S]*?0\.55rem - var\(--wellbeing-desktop-guide-overscan-top\) -[\s\S]*?var\(--wellbeing-desktop-panel-pad-top\)[\s\S]*?\);/
+    /--workspace-subpage-back-top:\s*0\.75rem;/
   );
   assert.match(
     css,
-    /--workspace-guide-panel-overscan-top:\s*var\(--wellbeing-desktop-guide-overscan-top\);/
+    /\.surface\.surface\.surface\s*\{[\s\S]*?--workspace-subpage-back-top:\s*0\.75rem;/
   );
   assert.match(
     css,
-    /--workspace-subpage-back-left:\s*var\(--wellbeing-desktop-control-left\);/
+    /\.surface\.surface > \.dashboardBody\.dashboardBody\s*\{[\s\S]*?--workspace-subpage-back-left:\s*calc\(0\.55rem - var\(--workspace-guide-panel-pad-x,\s*1\.1rem\)\);/
   );
   assert.match(
     css,
-    /--workspace-subpage-back-top:\s*var\(--wellbeing-desktop-control-top\);/
+    /\.surface\.surface > \.dashboardBody\.dashboardBody\s*\{[\s\S]*?--workspace-subpage-back-top:\s*calc\([\s\S]*?0\.55rem - var\(--workspace-guide-panel-overscan-top,\s*0px\) -[\s\S]*?var\(--wellbeing-desktop-panel-pad-top\)[\s\S]*?\);/
   );
   assert.match(
     css,
-    /\.surface\.surface\.surface\s*\{[\s\S]*?--workspace-subpage-back-top:\s*var\(--wellbeing-desktop-control-top\);/
+    /\.surface\.surface > :global\(\.workspace-guide-panel-scroll\):not\(\.dashboardBody\)\s*\{[\s\S]*?--workspace-subpage-title-margin-top:\s*calc\([\s\S]*?clamp\(2\.15rem,\s*5\.4vh,\s*3\.25rem\) - var\(--wellbeing-desktop-panel-pad-top\)[\s\S]*?\);/
+  );
+  assert.match(
+    css,
+    /--workspace-subpage-header-margin-bottom:\s*0\.35rem;/
+  );
+  assert.match(
+    css,
+    /--workspace-subpage-title-margin-top:\s*clamp\(2\.15rem,\s*5\.4vh,\s*3\.25rem\);/
   );
   assert.match(
     css,

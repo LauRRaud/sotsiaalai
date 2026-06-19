@@ -1,0 +1,7 @@
+Patch 12 static checks
+======================
+git apply --check: OK
+CSS brace-balance errors: 0
+Missing local CSS imports: 0
+CSS import cycles: 0
+!important count after patch 12: 1995

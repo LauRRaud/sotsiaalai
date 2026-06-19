@@ -1,0 +1,8 @@
+/* Shared mobile fullscreen page-shell reset for route-owned modal-like pages. */
+
+@media (max-width: 768px) {
+  .subscription-page-shell,
+  .materials-page-shell {
+    padding: 0 !important;
+  }
+}

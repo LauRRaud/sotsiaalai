@@ -1,0 +1,64 @@
+TAP version 13
+# Subtest: home mobile scroll CSS stays home-owned
+ok 1 - home mobile scroll CSS stays home-owned
+  ---
+  duration_ms: 10.905549
+  type: 'test'
+  ...
+# Subtest: shared and profile mobile rules live beside their owners
+ok 2 - shared and profile mobile rules live beside their owners
+  ---
+  duration_ms: 4.911236
+  type: 'test'
+  ...
+# Subtest: policy tall and admin mobile header rules are route-owned
+ok 3 - policy tall and admin mobile header rules are route-owned
+  ---
+  duration_ms: 11.542651
+  type: 'test'
+  ...
+# Subtest: mobile glass panels do not inherit desktop shell shadows
+ok 4 - mobile glass panels do not inherit desktop shell shadows
+  ---
+  duration_ms: 4.300858
+  type: 'test'
+  ...
+# Subtest: mobile top navigation title is large enough to match subpage headings
+ok 5 - mobile top navigation title is large enough to match subpage headings
+  ---
+  duration_ms: 0.855029
+  type: 'test'
+  ...
+# Subtest: mobile title, back and info placement is centralized without PWA-only offsets
+ok 6 - mobile title, back and info placement is centralized without PWA-only offsets
+  ---
+  duration_ms: 35.090362
+  type: 'test'
+  ...
+# Subtest: admin RAG and framework acceptance pages expose mobile header hooks
+ok 7 - admin RAG and framework acceptance pages expose mobile header hooks
+  ---
+  duration_ms: 1.333925
+  type: 'test'
+  ...
+# Subtest: policy pages use the scroll-surface back header pattern
+ok 8 - policy pages use the scroll-surface back header pattern
+  ---
+  duration_ms: 14.124137
+  type: 'test'
+  ...
+# Subtest: policy desktop pages use the workspace panel scroll geometry
+ok 9 - policy desktop pages use the workspace panel scroll geometry
+  ---
+  duration_ms: 1.687568
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 239.717782

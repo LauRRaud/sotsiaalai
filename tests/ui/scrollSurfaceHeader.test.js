@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
+import { readCssSourceBundle } from "../helpers/cssSourceBundle.mjs";
 import { readMobileCssBundle } from "../helpers/mobileCssBundle.mjs";
 
 
@@ -17,8 +18,9 @@ test("workspace and framework scroll pages keep the back button inside the scrol
   const pricing = read("components/alalehed/HinnastusBody.jsx");
   const author = read("components/alalehed/AutoriltBody.jsx");
   const invite = read("components/invite/InviteModal.jsx");
-  const helpersCss = read("app/styles/utilities/helpers.css");
+  const helpersCss = readCssSourceBundle("app/styles/utilities/helpers.css");
   const mobileCss = readMobileCssBundle();
+  const inviteCss = readCssSourceBundle("app/styles/components/invite-modal.css");
 
   for (const source of [materials, covision]) {
     assert.match(source, /workspace-scroll-surface/);
@@ -52,24 +54,27 @@ test("workspace and framework scroll pages keep the back button inside the scrol
   assert.doesNotMatch(invite, /invite-modal-content--workspace workspace-scroll-surface/);
   assert.match(invite, /!overflow-hidden/);
   assert.match(
-    mobileCss,
-    /\.invite-modal-content--workspace\.workspace-guide-panel\.glass-subpage-surface\s*\{[\s\S]*?overflow-y:\s*hidden\s*!important;/
+    inviteCss,
+    /\.invite-modal-content--workspace\.workspace-guide-panel\.glass-subpage-surface\s*\{[\s\S]*?overflow-y:\s*hidden;/
   );
   assert.match(
-    mobileCss,
+    inviteCss,
     /\.invite-modal-content--workspace\.workspace-guide-panel\.glass-subpage-surface[\s\S]*?> \.invite-modal-scroll\.workspace-guide-panel-scroll\s*\{[\s\S]*?flex:\s*1 1 auto\s*!important;[\s\S]*?overflow:\s*visible\s*!important;/
   );
   assert.match(
-    mobileCss,
+    inviteCss,
+    /\.invite-modal-content--workspace\.workspace-guide-panel\.glass-subpage-surface[\s\S]*?> \.invite-modal-scroll\.workspace-guide-panel-scroll\s*\{[\s\S]*?align-self:\s*stretch;[\s\S]*?width:\s*auto;[\s\S]*?max-width:\s*none;/
+  );
+  assert.match(
+    inviteCss,
     /\.invite-modal-content--workspace\.workspace-guide-panel\.glass-subpage-surface[\s\S]*?\.invite-list-panel\s*\{[\s\S]*?overflow-y:\s*auto\s*!important;/
   );
 
   assert.match(mobileCss, /\.direct-scroll-surface\s*\{[\s\S]*?padding-top:\s*0\s*!important;/);
-  assert.match(mobileCss, /\.direct-scroll-surface\s*\{[\s\S]*?--direct-scroll-surface-header-offset:\s*0px;/);
 
   assert.match(
     mobileCss,
-    /@media \(max-width:\s*768px\)[\s\S]*?\.workspace-scroll-surface \.workspace-scroll-back-button\s*\{[\s\S]*?left:\s*calc\(env\(safe-area-inset-left,\s*0px\) \+ 0\.04rem\)\s*!important;[\s\S]*?\}/
+    /--mobile-header-back-left:\s*calc\(env\(safe-area-inset-left,\s*0px\) \+ 0\.04rem\);/
   );
   assert.doesNotMatch(
     mobileCss,
@@ -77,10 +82,10 @@ test("workspace and framework scroll pages keep the back button inside the scrol
   );
   assert.match(
     mobileCss,
-    /\.workspace-scroll-surface \.workspace-scroll-back-button\s*\{[\s\S]*?top:\s*0\.2rem\s*!important;/
+    /:is\([\s\S]*?\.direct-scroll-surface,[\s\S]*?\.workspace-scroll-surface,[\s\S]*?\.workspace-guide-panel[\s\S]*?\)\s*:is\([\s\S]*?\.workspace-scroll-back-button[\s\S]*?\)\s*\{[\s\S]*?left:\s*var\(--mobile-header-back-left\)\s*!important;[\s\S]*?top:\s*calc\([\s\S]*?var\(--mobile-header-control-top\)[\s\S]*?var\(--mobile-header-browser-y-offset,\s*0rem\)[\s\S]*?\)/
   );
   assert.match(
     mobileCss,
-    /:is\([\s\S]*?\.direct-scroll-surface,[\s\S]*?\.documents-workspace-shell\.workspace-guide-panel,[\s\S]*?\.materials-page-content\.workspace-guide-panel,[\s\S]*?\.covision-page-surface\.workspace-guide-panel,[\s\S]*?\.workspace-feature-panel\.workspace-guide-panel[\s\S]*?\)\s*\.glass-subpage-title-wrap\s*\{[\s\S]*?padding-top:\s*calc\(var\(--mobile-common-title-top\) \+ 0\.396rem\)\s*!important;/
+    /:is\([\s\S]*?\.direct-scroll-surface,[\s\S]*?\.documents-workspace-shell,[\s\S]*?\.materials-page-content,[\s\S]*?\.covision-page-surface,[\s\S]*?\.workspace-feature-panel[\s\S]*?\)\s*:is\(\.glass-subpage-title-wrap,\s*\.policy-mobile-title-wrap\)\s*\{[\s\S]*?padding-top:\s*calc\([\s\S]*?var\(--mobile-header-title-top\)[\s\S]*?var\(--mobile-header-browser-y-offset,\s*0rem\)[\s\S]*?\)/
   );
 });

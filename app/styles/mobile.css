@@ -1,17 +1,12 @@
 /* Mobile overrides are split by owner. Keep import order stable; later files intentionally override earlier foundations. */
 @import url("./mobile/foundations.css");
 @import url("./mobile/touch-controls.css");
-@import url("./features/home/background.css");
-@import url("./features/register/mobile.css");
-@import url("./mobile/platform-android.css");
+@import url("./mobile/background-layer.css");
+@import url("./mobile/interaction-surfaces.css");
+@import url("./mobile/content-surfaces.css");
 @import url("./features/accessibility/fields.css");
-@import url("./features/login/mobile.css");
 @import url("./mobile/modal-surfaces.css");
 @import url("./features/accessibility/touch.css");
-@import url("./mobile/motion.css");
-@import url("./features/login/otp-close.css");
-@import url("./features/home/home-scroll.css");
 @import url("./mobile/scroll-panels.css");
-@import url("./features/invite/mobile.css");
 @import url("./mobile/subpage-title-system.css");
 @import url("./mobile/panel-surfaces.css");

@@ -1,0 +1,10 @@
+/* Subscription-page modal surface rules. Route-imported by /tellimus. */
+@import url("../../shared/mobile-fullscreen-page-shell.css");
+
+@import url("../../shared/mobile-modal-surfaces.css");
+
+@media (max-width: 768px) {
+  .subscription-content {
+    max-width: none;
+  }
+}

@@ -1,0 +1,8 @@
+git apply --check: OK
+Missing local CSS imports: 0
+CSS import cycles: 0
+CSS brace-balance errors: 0
+Documents ui/mono direct --subpage-card definitions: 0 []
+Subpage-card feature direct definitions: 8
+Subpage-card feature bridge definitions: 15
+Project CSS !important count: 2025

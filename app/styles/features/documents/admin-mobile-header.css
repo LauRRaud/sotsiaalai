@@ -1,0 +1,33 @@
+/* Admin/RAG mobile header placement.
+   Route-imported with the documents vertical because every admin/RAG page that uses these classes imports features/documents/index.css. */
+
+@media (max-width: 768px) {
+  .rag-admin-shell-card {
+    --mobile-header-title-top: 0.98rem;
+    --mobile-header-control-top: -0.62rem;
+    padding-top: calc(var(--mobile-header-title-top) + 2.65rem) !important;
+  }
+
+  .rag-admin-shell-card .rag-admin-shell-back {
+    position: absolute !important;
+    left: var(--mobile-header-back-left);
+    top: calc(
+      var(--mobile-header-control-top) +
+        var(--mobile-header-browser-y-offset, 0rem) +
+        var(--mobile-header-pwa-y-offset, 0rem)
+    );
+    right: auto;
+    bottom: auto;
+    margin-left: 0;
+    transform: none;
+  }
+
+  .rag-admin-shell-card .rag-admin-shell-title {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .admin-framework-acceptances-page {
+    padding-top: calc(var(--mobile-header-title-top) + 2.9rem) !important;
+  }
+}

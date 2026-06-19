@@ -1,3 +1,5 @@
+import "../styles/features/login/index.css";
+import "../styles/features/subscription/index.css";
 import { Suspense } from "react";
 import { cookies } from "next/headers";
 import TellimusBody from "@/components/alalehed/TellimusBody";

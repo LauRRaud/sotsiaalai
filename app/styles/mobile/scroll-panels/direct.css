@@ -1,0 +1,5 @@
+/* Direct mobile scroll-surface primitive used by public subpage bodies. */
+
+.direct-scroll-surface {
+  padding-top: 0 !important;
+}

@@ -1,0 +1,80 @@
+/* Home-only mobile document, browser chrome and card-size foundations.
+   Route-imported by app/page.js through features/home/index.css. */
+
+@media (max-width: 768px) {
+  body.homepage,
+  html[data-initial-page="home"] body.app-root {
+    --home-mobile-safe-bottom: env(safe-area-inset-bottom, 0px);
+    --home-mobile-canvas-height: calc(
+      var(--glass-mobile-root-vh, 100dvh) + var(--home-mobile-safe-bottom)
+    );
+    --home-mobile-bg-height: calc(
+      var(--home-mobile-canvas-height) + var(--home-mobile-safe-bottom)
+    );
+    position: relative;
+    isolation: isolate;
+    background: var(--home-browser-base-bg, #0d111b);
+    background-repeat: no-repeat;
+    background-size: 100% max(100%, var(--home-mobile-bg-height));
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: auto;
+    min-height: var(--home-mobile-canvas-height);
+    overscroll-behavior-x: none;
+    overscroll-behavior-y: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  @supports (height: 100lvh) {
+    body.homepage,
+    html[data-initial-page="home"] body.app-root {
+      --home-mobile-stable-vh: max(var(--glass-mobile-root-vh, 100dvh), 100lvh);
+      --home-mobile-canvas-height: calc(
+        var(--home-mobile-stable-vh) + var(--home-mobile-safe-bottom)
+      );
+      --home-mobile-bg-height: calc(
+        var(--home-mobile-stable-vh) + var(--home-mobile-safe-bottom) +
+          var(--home-mobile-safe-bottom)
+      );
+    }
+  }
+
+  html[data-initial-page="home"] {
+    background: var(--home-browser-base-bg, var(--app-chrome-bg-image, var(--app-chrome-bg, #10151d)));
+    background-repeat: no-repeat;
+    background-size: 100%
+      max(
+        100%,
+        calc(var(--glass-mobile-root-vh, 100dvh) + env(safe-area-inset-bottom, 0px))
+      );
+  }
+
+  @supports (height: 100lvh) {
+    html[data-initial-page="home"] {
+      background-size: 100%
+        max(100%, calc(100lvh + env(safe-area-inset-bottom, 0px)));
+    }
+  }
+
+  .homepage-root {
+    height: auto;
+    min-height: var(--home-mobile-canvas-height, var(--glass-mobile-root-vh, 100dvh));
+    overflow-y: visible;
+    overflow-x: hidden;
+    overscroll-behavior-y: auto;
+    overscroll-behavior-x: none;
+    touch-action: pan-y;
+    scrollbar-width: none;
+  }
+
+  .homepage-root::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --card-size: clamp(11.875rem, 76vw, 16.625rem);
+  }
+}

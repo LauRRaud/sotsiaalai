@@ -1,0 +1,14 @@
+git apply --check: OK
+Missing local CSS imports: 0
+CSS import cycles: 0
+CSS brace-balance errors: 0
+Project CSS !important count: 2025
+Btn-primary feature direct definitions: 0
+Btn-primary feature bridge definitions: 78
+Btn-primary legacy shared definitions: 6
+Btn-primary other definitions: 0
+Subpage-card feature direct definitions: 0
+Subpage-card feature bridge definitions: 23
+Wellbeing btn-primary records:
+  line 39: feature-bridge --btn-primary-text = var(--wellbeing-btn-primary-text)
+  line 171: feature-bridge --btn-primary-text = var(--wellbeing-btn-primary-text)

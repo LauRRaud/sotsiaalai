@@ -1,0 +1,44 @@
+/* Password and email/PIN update mobile mid-theme field tone. Route-imported by auth form pages. */
+
+@media (max-width: 768px) {
+  :root.theme-mid :is(.update-pin-content, .update-email-content, .reset-password-content)
+    :is(
+      input:not([type="button"]):not([type="submit"]):not([type="reset"]):not(
+          [type="checkbox"]
+        ):not([type="radio"]):not([type="file"]):not([type="hidden"]),
+      select,
+      textarea
+    ) {
+    appearance: none;
+    -webkit-appearance: none;
+    background: var(--input-bg, var(--subpage-card-bg));
+    border: var(--input-border, var(--subpage-card-border, 0 solid transparent));
+    box-shadow: var(
+      --input-shadow-composite,
+      var(--input-shadow, var(--subpage-card-shadow))
+    );
+    color: var(--input-text, var(--subpage-card-text));
+    opacity: 1 !important;
+  }
+
+  :root.theme-mid :is(.update-pin-content, .update-email-content, .reset-password-content)
+    :is(
+      input:not([type="button"]):not([type="submit"]):not([type="reset"]):not(
+          [type="checkbox"]
+        ):not([type="radio"]):not([type="file"]):not([type="hidden"]),
+      select,
+      textarea
+    ):is(:hover, :focus, :focus-visible, :active) {
+    background: var(
+      --input-bg-focus,
+      var(--input-bg-hover, var(--subpage-card-bg-hover, var(--subpage-card-bg)))
+    );
+    box-shadow: var(
+      --input-shadow-focus-composite,
+      var(
+        --input-shadow-hover-composite,
+        var(--input-shadow-hover, var(--subpage-card-shadow-hover, var(--subpage-card-shadow)))
+      )
+    );
+  }
+}

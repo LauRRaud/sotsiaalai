@@ -1,13 +1,14 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
+import { readCssSourceBundle } from "../helpers/cssSourceBundle.mjs";
 
 function read(path) {
   return readFileSync(new URL(`../../${path}`, import.meta.url), "utf8");
 }
 
 test("high contrast mobile chat top nav icons stay background-free", () => {
-  const css = read("app/styles/theme/hc.css");
+  const css = readCssSourceBundle("app/styles/features/chat/index.css");
 
   // The topnav button is now made background-free by a direct positive rule
   // (background/background-image/box-shadow reset on the button itself), not by
@@ -22,7 +23,7 @@ test("high contrast mobile chat top nav icons stay background-free", () => {
 
 test("mobile chat top nav keeps the active label under the focused icon", () => {
   const source = read("components/alalehed/chat/view/ChatMobileTopNav.jsx");
-  const headerCss = read("app/styles/mobile/subpage-title-system.css");
+  const chatCss = readCssSourceBundle("app/styles/features/chat/index.css");
 
   assert.match(source, /"--chat-mobile-topnav-button-size":\s*"clamp/);
   assert.match(source, /"--chat-mobile-topnav-label-top":\s*"4\./);
@@ -39,8 +40,8 @@ test("mobile chat top nav keeps the active label under the focused icon", () => 
     /absolute inset-x-0 top-\[calc\(var\(--mobile-safe-top/
   );
   assert.match(
-    headerCss,
-    /\.chat-mobile-topnav \.mobile-shared-topnav-title\s*\{[\s\S]*?font-size:\s*clamp\(1\.16rem,\s*4\.65vw,\s*1\.34rem\)\s*!important;/
+    chatCss,
+    /\.chat-mobile-topnav \.mobile-shared-topnav-title\s*\{[\s\S]*?font-size:\s*clamp\(1\.36rem,\s*5\.5vw,\s*1\.54rem\)\s*!important;/
   );
 });
 

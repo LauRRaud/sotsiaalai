@@ -10,7 +10,6 @@ import Panel from "@/components/ui/Panel";
 import {
   glassSubpageCardInteractiveClassName,
   glassSubpageContentWideClassName,
-  glassSubpagePanelWideClassName,
   glassSubpageSurfaceScopeClassName,
   workspaceGuidePanelClassName,
   workspaceGuidePanelScrollClassName
@@ -53,6 +52,7 @@ export default function HelpListingsPanel({
   );
   const hasDetail = Boolean(detailNode);
   const isWorkspaceReturn = embedded || Boolean(onBackToWorkspace);
+  const isWorkspaceSubpageReturn = isWorkspaceReturn && !embedded;
   const [workspaceModalHeight, setWorkspaceModalHeight] = useState(null);
   const helpListingsDesktopSizeClassName = isWorkspaceReturn
     ? "min-[769px]:!min-h-0"
@@ -74,8 +74,11 @@ export default function HelpListingsPanel({
       "max-[768px]:px-[var(--glass-ring-pad-x,clamp(calc(1.8*var(--base-rem)),5vw,calc(3.2*var(--base-rem))))] " +
       "max-[768px]:pt-[var(--glass-ring-pad-top,clamp(calc(0.4*var(--base-rem)),1.4vh,calc(1.1*var(--base-rem))))] " +
       "max-[768px]:pb-[calc(env(safe-area-inset-bottom,0px)+0.9rem)]";
+  const workspaceReturnSurfaceClassName = embedded
+    ? glassSubpageSurfaceScopeClassName
+    : workspaceGuidePanelClassName;
   const helpListingsContentClassName =
-    `help-listings-modal-content mx-auto ${isWorkspaceReturn ? workspaceGuidePanelClassName : "glass-subpage-surface !w-[min(100%,76vw)] !max-w-[clamp(36rem,76vw,54rem)]"} ` +
+    `help-listings-modal-content mx-auto ${isWorkspaceReturn ? workspaceReturnSurfaceClassName : "glass-subpage-surface !w-[min(100%,76vw)] !max-w-[clamp(36rem,76vw,54rem)]"} ` +
     `relative !flex min-h-0 ${helpListingsDesktopSizeClassName} !flex-col overflow-x-hidden !overflow-hidden ${isWorkspaceReturn ? "" : "pt-[0.35rem] !pb-[1rem]"} text-[1.08rem] ` +
     `[--glass-modal-bg:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] ` +
     `[--glass-modal-border:none] [--glass-modal-shadow:var(--glass-shell-shadow,none)] ` +
@@ -84,11 +87,13 @@ export default function HelpListingsPanel({
     `leading-[1.35] tracking-[0.024rem] mobile-keep-desktop-glass-cards ` +
     `max-[768px]:[--glass-ring-pad-x:clamp(0.78rem,3vw,0.94rem)] ` +
     `${standaloneMobileSurfaceClassName} ` +
-    `${isWorkspaceReturn ? "help-listings-modal-content--workspace " : ""}` +
+    `${isWorkspaceSubpageReturn ? "help-listings-modal-content--workspace " : ""}` +
     `${embedded ? "help-listings-modal-content--embedded " : ""}` +
     `${isClosing ? `${isWorkspaceReturn ? "" : tiltAnimationClassName} pointer-events-none` : ""}`;
   const listingsPanelClassName =
     "mt-0";
+  const helpListingsPanelWidthClassName =
+    "mx-auto w-full max-w-[36rem] self-center max-[768px]:max-w-[23rem]";
   const listingsScrollClassName =
     `help-listings-scroll ${isWorkspaceReturn ? workspaceGuidePanelScrollClassName : "min-h-0 flex-1 overflow-y-auto overflow-x-hidden overscroll-contain [scrollbar-width:thin] px-[0.16rem] pt-[0.92rem] pb-[0.62rem] pr-[0.32rem] max-[768px]:px-[0.24rem] max-[768px]:pt-[0.82rem] max-[768px]:pb-[0.58rem] max-[768px]:pr-[0.24rem]"}`;
 
@@ -218,11 +223,11 @@ export default function HelpListingsPanel({
           </p>
         </div>
 
-        <div className={`help-listings-body ${glassSubpageContentWideClassName} flex min-h-0 flex-1 flex-col gap-[0.55rem] overflow-visible px-[0.9rem] pt-[0.12rem] pb-[1.25rem] max-[768px]:gap-[0.5rem] max-[768px]:px-[0.48rem] max-[768px]:pt-[0.1rem] max-[768px]:pb-[1.08rem]`}>
+        <div className={`help-listings-body ${glassSubpageContentWideClassName} flex min-h-0 flex-1 flex-col items-center gap-[0.55rem] overflow-visible px-[0.9rem] pt-[0.12rem] pb-[1.25rem] max-[768px]:gap-[0.5rem] max-[768px]:px-[0.48rem] max-[768px]:pt-[0.1rem] max-[768px]:pb-[1.08rem]`}>
           <Panel
             variant="subpage"
             padding="sm"
-            className={`help-listings-panel ${glassSubpagePanelWideClassName} ${listingsPanelClassName} relative flex min-h-0 flex-1 flex-col !max-h-none !overflow-hidden !p-[0.62rem] max-[768px]:!p-[0.28rem]`}
+            className={`help-listings-panel ${helpListingsPanelWidthClassName} ${listingsPanelClassName} relative flex min-h-0 flex-1 flex-col !max-h-none !overflow-hidden !p-[0.62rem] max-[768px]:!p-[0.28rem]`}
           >
             {loading ? <div className="px-2 py-4 text-[0.98rem] opacity-80">{ui.loading}</div> : null}
             {!loading && error ? <div className="px-2 py-4 text-[0.98rem] text-[#d68580] [.theme-night_&]:text-[rgba(226,182,180,0.96)]">{error}</div> : null}

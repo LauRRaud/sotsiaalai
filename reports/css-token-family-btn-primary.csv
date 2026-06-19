@@ -1,0 +1,311 @@
+family,token,tier,file,line,value
+btn-primary,--btn-primary-active-brightness,canonical-default,app/styles/tokens.css,122,0.99
+btn-primary,--btn-primary-bg,feature-bridge,app/styles/features/chat/hc.css,187,var(--chat-btn-primary-bg)
+btn-primary,--btn-primary-bg,feature-bridge,app/styles/features/chat/hc.css,384,var(--chat-btn-primary-bg)
+btn-primary,--btn-primary-bg,feature-bridge,app/styles/features/chat/mono.css,260,var(--chat-btn-primary-bg) !important
+btn-primary,--btn-primary-bg,feature-bridge,app/styles/features/chat/shell.css,791,var(--chat-btn-primary-bg)
+btn-primary,--btn-primary-bg,feature-bridge,app/styles/features/chat/shell.css,860,var(--chat-btn-primary-bg)
+btn-primary,--btn-primary-bg,feature-bridge,app/styles/features/chat/shell.css,869,var(--chat-btn-primary-bg)
+btn-primary,--btn-primary-bg,feature-bridge,app/styles/features/chat/themes.css,624,var(--chat-btn-primary-bg)
+btn-primary,--btn-primary-bg,feature-bridge,app/styles/features/documents/ui.css,614,var(--documents-btn-primary-bg)
+btn-primary,--btn-primary-bg,legacy-shared-feature,app/styles/shared/register.css,243,"rgba(255, 234, 0, 0.1)"
+btn-primary,--btn-primary-bg,shared-primitive,app/styles/shared/ui-glow.css,592,"rgba(255, 234, 0, 0.1) !important"
+btn-primary,--btn-primary-bg,theme-override,app/styles/theme/dark.css,77,"radial-gradient( 82% 66% at 50% -14%, rgba(var(--dark-white-rgb), 0.118) 0%, rgba(var(--dark-white-rgb), 0.048) 42%, rgba(var(--dark-white-rgb), 0.015) 58%, rgba(var(--dark-white-rgb), 0) 74% ), linear-gradient( 180deg, rgba(40, 44, 53, 0.92) 0%, rgba(25, 29, 37, 0.94) 100% )"
+btn-primary,--btn-primary-bg,theme-override,app/styles/theme/dark.css,168,"radial-gradient( ellipse at top, rgba(46, 52, 62, 0.64) 0%, rgba(23, 27, 34, 0.76) 100% )"
+btn-primary,--btn-primary-bg,theme-override,app/styles/theme/dark.css,218,"radial-gradient( 82% 66% at 50% -14%, rgba(var(--dark-white-rgb), 0.11) 0%, rgba(var(--dark-white-rgb), 0.045) 42%, rgba(var(--dark-white-rgb), 0.014) 58%, rgba(var(--dark-white-rgb), 0) 74% ), linear-gradient( 180deg, rgba(38, 42, 50, 0.92) 0%, rgba(23, 26, 34, 0.94) 100% )"
+btn-primary,--btn-primary-bg,theme-override,app/styles/theme/hc.css,435,"radial-gradient( 82% 66% at 50% -14%, rgba(222, 236, 255, 0.108) 0%, rgba(222, 236, 255, 0.048) 42%, rgba(222, 236, 255, 0.016) 58%, rgba(222, 236, 255, 0) 74% ), linear-gradient( 180deg, rgba(26, 35, 49, 0.92) 0%, rgba(16, 25, 39, 0.94) 100% )"
+btn-primary,--btn-primary-bg,theme-override,app/styles/theme/hc.css,655,"radial-gradient( 82% 66% at 50% -14%, rgba(222, 236, 255, 0.108) 0%, rgba(222, 236, 255, 0.048) 42%, rgba(222, 236, 255, 0.016) 58%, rgba(222, 236, 255, 0) 74% ), linear-gradient( 180deg, rgba(26, 35, 49, 0.92) 0%, rgba(16, 25, 39, 0.94) 100% )"
+btn-primary,--btn-primary-bg,theme-override,app/styles/theme/hc.css,799,"rgba(var(--hc-accent-rgb), 0.1)"
+btn-primary,--btn-primary-bg,theme-override,app/styles/theme/hc.css,867,"rgba(9, 14, 24, 0.74)"
+btn-primary,--btn-primary-bg,theme-override,app/styles/theme/hc.css,936,"rgba(9, 14, 24, 0.74)"
+btn-primary,--btn-primary-bg,theme-override,app/styles/theme/hc.css,1077,"radial-gradient( 82% 66% at 50% -14%, rgba(222, 236, 255, 0.108) 0%, rgba(222, 236, 255, 0.048) 42%, rgba(222, 236, 255, 0.016) 58%, rgba(222, 236, 255, 0) 74% ), linear-gradient( 180deg, rgba(26, 35, 49, 0.92) 0%, rgba(16, 25, 39, 0.94) 100% )"
+btn-primary,--btn-primary-bg,theme-override,app/styles/theme/hc.css,1232,var(--hc-control-bg)
+btn-primary,--btn-primary-bg,theme-override,app/styles/theme/hc.css,1418,transparent
+btn-primary,--btn-primary-bg,theme-override,app/styles/theme/hc.css,1515,"rgba(var(--hc-accent-rgb), 0.1)"
+btn-primary,--btn-primary-bg,theme-override,app/styles/theme/hc.css,1539,"rgba(var(--hc-accent-rgb), 0.1)"
+btn-primary,--btn-primary-bg,theme-override,app/styles/theme/hc.css,1801,var(--hc-control-bg)
+btn-primary,--btn-primary-bg,theme-override,app/styles/theme/light.css,220,"radial-gradient( 82% 66% at 50% 16%, rgba(253, 252, 251, 0.992) 0%, rgba(252, 251, 250, 0.99) 42%, rgba(251, 250, 249, 0.976) 58%, rgba(249, 247, 246, 0.948) 74% ), linear-gradient( 180deg, rgba(252, 251, 250, 0.992) 0%, rgba(249, 248, 247, 0.978) 100% )"
+btn-primary,--btn-primary-bg,theme-override,app/styles/theme/mid.css,535,var(--mid-unified-surface-bg)
+btn-primary,--btn-primary-bg,theme-override,app/styles/theme/mono.css,185,var(--mono-orbit-surface)
+btn-primary,--btn-primary-bg,theme-override,app/styles/theme/mono.css,470,var(--mono-orbit-surface)
+btn-primary,--btn-primary-bg,theme-override,app/styles/theme/mono.css,684,var(--mono-orbit-surface)
+btn-primary,--btn-primary-bg,theme-override,app/styles/theme/night.css,209,"radial-gradient( 82% 66% at 50% -14%, rgba(222, 236, 255, 0.108) 0%, rgba(222, 236, 255, 0.048) 42%, rgba(222, 236, 255, 0.016) 58%, rgba(222, 236, 255, 0) 74% ), linear-gradient( 180deg, rgba(26, 35, 49, 0.92) 0%, rgba(16, 25, 39, 0.94) 100% )"
+btn-primary,--btn-primary-bg,canonical-default,app/styles/tokens.css,57,"radial-gradient( 84% 72% at 50% -6%, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.022) 40%, rgba(255, 255, 255, 0.008) 56%, rgba(255, 255, 255, 0.0025) 70%, rgba(255, 255, 255, 0.0012) 82%, rgba(255, 255, 255, 0) 92% ), linear-gradient( 180deg, rgba(32, 34, 40, 0.9) 0%, rgba(18, 20, 25, 0.94) 100% )"
+btn-primary,--btn-primary-bg,feature-bridge,components/covision/CovisionPage.module.css,227,var(--covision-btn-primary-bg)
+btn-primary,--btn-primary-bg,shared-primitive,components/ui/BorderGlow.module.css,292,"rgba(255, 234, 0, 0.1) !important"
+btn-primary,--btn-primary-bg-active,feature-bridge,app/styles/features/chat/analysis-touch-controls.css,42,var(--chat-btn-primary-bg-active)
+btn-primary,--btn-primary-bg-active,feature-bridge,app/styles/features/chat/hc.css,223,var(--chat-btn-primary-bg-active)
+btn-primary,--btn-primary-bg-active,feature-bridge,app/styles/features/chat/hc.css,420,var(--chat-btn-primary-bg-active)
+btn-primary,--btn-primary-bg-active,feature-bridge,app/styles/features/chat/shell.css,827,var(--chat-btn-primary-bg-active)
+btn-primary,--btn-primary-bg-active,feature-bridge,app/styles/features/chat/themes.css,636,var(--chat-btn-primary-bg-active)
+btn-primary,--btn-primary-bg-active,feature-bridge,app/styles/features/documents/ui.css,616,var(--documents-btn-primary-bg-active)
+btn-primary,--btn-primary-bg-active,shared-primitive,app/styles/mobile/interaction-surfaces.css,95,var(--btn-primary-bg)
+btn-primary,--btn-primary-bg-active,legacy-shared-feature,app/styles/shared/register.css,101,var(--btn-primary-bg)
+btn-primary,--btn-primary-bg-active,legacy-shared-feature,app/styles/shared/register.css,245,"rgba(255, 234, 0, 0.14)"
+btn-primary,--btn-primary-bg-active,shared-primitive,app/styles/shared/ui-glow.css,594,"rgba(255, 234, 0, 0.14) !important"
+btn-primary,--btn-primary-bg-active,theme-override,app/styles/theme/dark.css,101,"radial-gradient( 82% 66% at 50% -14%, rgba(var(--dark-white-rgb), 0.09) 0%, rgba(var(--dark-white-rgb), 0.038) 42%, rgba(var(--dark-white-rgb), 0.012) 58%, rgba(var(--dark-white-rgb), 0) 74% ), linear-gradient( 180deg, rgba(31, 35, 44, 0.91) 0%, rgba(18, 21, 28, 0.93) 100% )"
+btn-primary,--btn-primary-bg-active,theme-override,app/styles/theme/dark.css,178,"radial-gradient( ellipse at top, rgba(42, 48, 58, 0.66) 0%, rgba(20, 24, 31, 0.78) 100% )"
+btn-primary,--btn-primary-bg-active,theme-override,app/styles/theme/dark.css,242,"radial-gradient( 82% 66% at 50% -14%, rgba(var(--dark-white-rgb), 0.09) 0%, rgba(var(--dark-white-rgb), 0.038) 42%, rgba(var(--dark-white-rgb), 0.012) 58%, rgba(var(--dark-white-rgb), 0) 74% ), linear-gradient( 180deg, rgba(31, 35, 44, 0.91) 0%, rgba(18, 21, 28, 0.93) 100% )"
+btn-primary,--btn-primary-bg-active,theme-override,app/styles/theme/hc.css,466,"linear-gradient( 0deg, rgba(var(--hc-accent-rgb), 0.07) 0%, rgba(var(--hc-accent-rgb), 0.07) 100% ), radial-gradient( 82% 66% at 50% -14%, rgba(222, 236, 255, 0.13) 0%, rgba(222, 236, 255, 0.055) 42%, rgba(222, 236, 255, 0.017) 58%, rgba(222, 236, 255, 0) 74% ), linear-gradient( 180deg, rgba(28, 38, 53, 0.91) 0%, rgba(18, 27, 42, 0.93) 100% )"
+btn-primary,--btn-primary-bg-active,theme-override,app/styles/theme/hc.css,686,"linear-gradient( 0deg, rgba(var(--hc-accent-rgb), 0.07) 0%, rgba(var(--hc-accent-rgb), 0.07) 100% ), radial-gradient( 82% 66% at 50% -14%, rgba(222, 236, 255, 0.13) 0%, rgba(222, 236, 255, 0.055) 42%, rgba(222, 236, 255, 0.017) 58%, rgba(222, 236, 255, 0) 74% ), linear-gradient( 180deg, rgba(28, 38, 53, 0.91) 0%, rgba(18, 27, 42, 0.93) 100% )"
+btn-primary,--btn-primary-bg-active,theme-override,app/styles/theme/hc.css,801,"rgba(var(--hc-accent-rgb), 0.14)"
+btn-primary,--btn-primary-bg-active,theme-override,app/styles/theme/hc.css,869,"rgba(var(--hc-accent-rgb), 0.22)"
+btn-primary,--btn-primary-bg-active,theme-override,app/styles/theme/hc.css,938,"rgba(var(--hc-accent-rgb), 0.14)"
+btn-primary,--btn-primary-bg-active,theme-override,app/styles/theme/hc.css,1103,"radial-gradient( 82% 66% at 50% -14%, rgba(222, 236, 255, 0.13) 0%, rgba(222, 236, 255, 0.055) 42%, rgba(222, 236, 255, 0.017) 58%, rgba(222, 236, 255, 0) 74% ), linear-gradient( 180deg, rgba(28, 38, 53, 0.91) 0%, rgba(18, 27, 42, 0.93) 100% )"
+btn-primary,--btn-primary-bg-active,theme-override,app/styles/theme/hc.css,1234,var(--hc-control-bg-active)
+btn-primary,--btn-primary-bg-active,theme-override,app/styles/theme/hc.css,1420,transparent
+btn-primary,--btn-primary-bg-active,theme-override,app/styles/theme/hc.css,1517,"rgba(var(--hc-accent-rgb), 0.14)"
+btn-primary,--btn-primary-bg-active,theme-override,app/styles/theme/hc.css,1541,"rgba(var(--hc-accent-rgb), 0.14)"
+btn-primary,--btn-primary-bg-active,theme-override,app/styles/theme/hc.css,1803,var(--hc-control-bg-active)
+btn-primary,--btn-primary-bg-active,theme-override,app/styles/theme/light.css,246,"radial-gradient( 82% 66% at 50% 16%, rgba(252, 251, 250, 0.968) 0%, rgba(250, 249, 248, 0.934) 42%, rgba(247, 246, 245, 0.892) 58%, rgba(243, 242, 241, 0.854) 74% ), linear-gradient( 180deg, rgba(251, 250, 249, 0.96) 0%, rgba(246, 245, 244, 0.932) 100% )"
+btn-primary,--btn-primary-bg-active,theme-override,app/styles/theme/mid.css,537,var(--mid-unified-surface-bg-active)
+btn-primary,--btn-primary-bg-active,theme-override,app/styles/theme/mono.css,187,var(--mono-orbit-surface)
+btn-primary,--btn-primary-bg-active,theme-override,app/styles/theme/mono.css,472,var(--mono-orbit-surface)
+btn-primary,--btn-primary-bg-active,theme-override,app/styles/theme/mono.css,686,var(--mono-orbit-surface)
+btn-primary,--btn-primary-bg-active,theme-override,app/styles/theme/night.css,233,"radial-gradient( 82% 66% at 50% -14%, rgba(222, 236, 255, 0.13) 0%, rgba(222, 236, 255, 0.055) 42%, rgba(222, 236, 255, 0.017) 58%, rgba(222, 236, 255, 0) 74% ), linear-gradient( 180deg, rgba(28, 38, 53, 0.91) 0%, rgba(18, 27, 42, 0.93) 100% )"
+btn-primary,--btn-primary-bg-active,canonical-default,app/styles/tokens.css,85,"radial-gradient( 84% 72% at 50% -6%, rgba(255, 255, 255, 0.036) 0%, rgba(255, 255, 255, 0.015) 40%, rgba(255, 255, 255, 0.006) 56%, rgba(255, 255, 255, 0.002) 70%, rgba(255, 255, 255, 0.001) 82%, rgba(255, 255, 255, 0) 92% ), linear-gradient( 180deg, rgba(26, 28, 33, 0.9) 0%, rgba(14, 16, 20, 0.95) 100% )"
+btn-primary,--btn-primary-bg-active,feature-bridge,components/covision/CovisionPage.module.css,229,var(--covision-btn-primary-bg-active)
+btn-primary,--btn-primary-bg-active,shared-primitive,components/ui/BorderGlow.module.css,294,"rgba(255, 234, 0, 0.14) !important"
+btn-primary,--btn-primary-bg-hover,feature-bridge,app/styles/features/chat/hc.css,205,var(--chat-btn-primary-bg-hover)
+btn-primary,--btn-primary-bg-hover,feature-bridge,app/styles/features/chat/hc.css,402,var(--chat-btn-primary-bg-hover)
+btn-primary,--btn-primary-bg-hover,feature-bridge,app/styles/features/chat/mono.css,262,var(--chat-btn-primary-bg-hover)
+btn-primary,--btn-primary-bg-hover,feature-bridge,app/styles/features/chat/shell.css,809,var(--chat-btn-primary-bg-hover)
+btn-primary,--btn-primary-bg-hover,feature-bridge,app/styles/features/chat/themes.css,630,var(--chat-btn-primary-bg-hover)
+btn-primary,--btn-primary-bg-hover,feature-bridge,app/styles/features/documents/ui.css,615,var(--documents-btn-primary-bg-hover)
+btn-primary,--btn-primary-bg-hover,legacy-shared-feature,app/styles/shared/register.css,244,"rgba(255, 234, 0, 0.12)"
+btn-primary,--btn-primary-bg-hover,shared-primitive,app/styles/shared/ui-glow.css,593,"rgba(255, 234, 0, 0.12) !important"
+btn-primary,--btn-primary-bg-hover,theme-override,app/styles/theme/dark.css,89,"radial-gradient( 82% 66% at 50% -14%, rgba(var(--dark-white-rgb), 0.14) 0%, rgba(var(--dark-white-rgb), 0.058) 42%, rgba(var(--dark-white-rgb), 0.018) 58%, rgba(var(--dark-white-rgb), 0) 74% ), linear-gradient( 180deg, rgba(44, 48, 58, 0.94) 0%, rgba(27, 31, 39, 0.96) 100% )"
+btn-primary,--btn-primary-bg-hover,theme-override,app/styles/theme/dark.css,173,"radial-gradient( ellipse at top, rgba(50, 56, 67, 0.7) 0%, rgba(25, 30, 37, 0.8) 100% )"
+btn-primary,--btn-primary-bg-hover,theme-override,app/styles/theme/dark.css,230,"radial-gradient( 82% 66% at 50% -14%, rgba(var(--dark-white-rgb), 0.14) 0%, rgba(var(--dark-white-rgb), 0.058) 42%, rgba(var(--dark-white-rgb), 0.018) 58%, rgba(var(--dark-white-rgb), 0) 74% ), linear-gradient( 180deg, rgba(44, 48, 58, 0.94) 0%, rgba(27, 31, 39, 0.96) 100% )"
+btn-primary,--btn-primary-bg-hover,theme-override,app/styles/theme/hc.css,448,"linear-gradient( 0deg, rgba(var(--hc-accent-rgb), 0.045) 0%, rgba(var(--hc-accent-rgb), 0.045) 100% ), radial-gradient( 82% 66% at 50% -14%, rgba(222, 236, 255, 0.135) 0%, rgba(222, 236, 255, 0.06) 42%, rgba(222, 236, 255, 0.02) 58%, rgba(222, 236, 255, 0) 74% ), linear-gradient( 180deg, rgba(31, 42, 58, 0.93) 0%, rgba(19, 30, 46, 0.95) 100% )"
+btn-primary,--btn-primary-bg-hover,theme-override,app/styles/theme/hc.css,668,"linear-gradient( 0deg, rgba(var(--hc-accent-rgb), 0.045) 0%, rgba(var(--hc-accent-rgb), 0.045) 100% ), radial-gradient( 82% 66% at 50% -14%, rgba(222, 236, 255, 0.135) 0%, rgba(222, 236, 255, 0.06) 42%, rgba(222, 236, 255, 0.02) 58%, rgba(222, 236, 255, 0) 74% ), linear-gradient( 180deg, rgba(31, 42, 58, 0.93) 0%, rgba(19, 30, 46, 0.95) 100% )"
+btn-primary,--btn-primary-bg-hover,theme-override,app/styles/theme/hc.css,800,"rgba(var(--hc-accent-rgb), 0.12)"
+btn-primary,--btn-primary-bg-hover,theme-override,app/styles/theme/hc.css,868,"rgba(var(--hc-accent-rgb), 0.18)"
+btn-primary,--btn-primary-bg-hover,theme-override,app/styles/theme/hc.css,937,"rgba(var(--hc-accent-rgb), 0.14)"
+btn-primary,--btn-primary-bg-hover,theme-override,app/styles/theme/hc.css,1090,"radial-gradient( 82% 66% at 50% -14%, rgba(222, 236, 255, 0.135) 0%, rgba(222, 236, 255, 0.06) 42%, rgba(222, 236, 255, 0.02) 58%, rgba(222, 236, 255, 0) 74% ), linear-gradient( 180deg, rgba(31, 42, 58, 0.93) 0%, rgba(19, 30, 46, 0.95) 100% )"
+btn-primary,--btn-primary-bg-hover,theme-override,app/styles/theme/hc.css,1233,var(--hc-control-bg-hover)
+btn-primary,--btn-primary-bg-hover,theme-override,app/styles/theme/hc.css,1419,transparent
+btn-primary,--btn-primary-bg-hover,theme-override,app/styles/theme/hc.css,1516,"rgba(var(--hc-accent-rgb), 0.12)"
+btn-primary,--btn-primary-bg-hover,theme-override,app/styles/theme/hc.css,1540,"rgba(var(--hc-accent-rgb), 0.12)"
+btn-primary,--btn-primary-bg-hover,theme-override,app/styles/theme/hc.css,1802,var(--hc-control-bg-hover)
+btn-primary,--btn-primary-bg-hover,theme-override,app/styles/theme/light.css,106,"radial-gradient( 82% 66% at 50% 16%, rgba(var(--light-white-rgb), 1) 0%, rgba(var(--light-white-rgb), 1) 42%, rgba(var(--light-white-rgb), 0.99) 58%, rgba(253, 251, 250, 0.97) 74% ), linear-gradient( 180deg, rgba(var(--light-white-rgb), 1) 0%, rgba(254, 252, 251, 0.985) 100% )"
+btn-primary,--btn-primary-bg-hover,theme-override,app/styles/theme/light.css,233,"radial-gradient( 82% 66% at 50% 16%, rgba(254, 253, 252, 0.996) 0%, rgba(253, 252, 251, 0.994) 42%, rgba(252, 251, 250, 0.982) 58%, rgba(250, 248, 247, 0.956) 74% ), linear-gradient( 180deg, rgba(253, 252, 251, 0.994) 0%, rgba(250, 249, 248, 0.982) 100% )"
+btn-primary,--btn-primary-bg-hover,theme-override,app/styles/theme/mid.css,536,var(--mid-unified-surface-bg-hover)
+btn-primary,--btn-primary-bg-hover,theme-override,app/styles/theme/mono.css,186,var(--mono-orbit-surface-hover)
+btn-primary,--btn-primary-bg-hover,theme-override,app/styles/theme/mono.css,471,var(--mono-orbit-surface-hover)
+btn-primary,--btn-primary-bg-hover,theme-override,app/styles/theme/mono.css,685,var(--mono-floating-surface-hover)
+btn-primary,--btn-primary-bg-hover,theme-override,app/styles/theme/night.css,221,"radial-gradient( 82% 66% at 50% -14%, rgba(222, 236, 255, 0.135) 0%, rgba(222, 236, 255, 0.06) 42%, rgba(222, 236, 255, 0.02) 58%, rgba(222, 236, 255, 0) 74% ), linear-gradient( 180deg, rgba(31, 42, 58, 0.93) 0%, rgba(19, 30, 46, 0.95) 100% )"
+btn-primary,--btn-primary-bg-hover,canonical-default,app/styles/tokens.css,71,"radial-gradient( 84% 72% at 50% -6%, rgba(255, 255, 255, 0.058) 0%, rgba(255, 255, 255, 0.025) 40%, rgba(255, 255, 255, 0.009) 56%, rgba(255, 255, 255, 0.003) 70%, rgba(255, 255, 255, 0.001) 82%, rgba(255, 255, 255, 0) 92% ), linear-gradient( 180deg, rgba(34, 36, 42, 0.92) 0%, rgba(19, 21, 26, 0.96) 100% )"
+btn-primary,--btn-primary-bg-hover,feature-bridge,components/covision/CovisionPage.module.css,228,var(--covision-btn-primary-bg-hover)
+btn-primary,--btn-primary-bg-hover,shared-primitive,components/ui/BorderGlow.module.css,293,"rgba(255, 234, 0, 0.12) !important"
+btn-primary,--btn-primary-border,feature-bridge,app/styles/features/chat/hc.css,168,var(--chat-btn-primary-border)
+btn-primary,--btn-primary-border,feature-bridge,app/styles/features/chat/hc.css,365,var(--chat-btn-primary-border)
+btn-primary,--btn-primary-border,feature-bridge,app/styles/features/chat/shell.css,829,var(--chat-btn-primary-border)
+btn-primary,--btn-primary-border,feature-bridge,app/styles/features/chat/shell.css,862,var(--chat-btn-primary-border)
+btn-primary,--btn-primary-border,feature-bridge,app/styles/features/chat/shell.css,871,var(--chat-btn-primary-border)
+btn-primary,--btn-primary-border,feature-bridge,app/styles/features/chat/themes.css,638,var(--chat-btn-primary-border)
+btn-primary,--btn-primary-border,feature-bridge,app/styles/features/documents/ui.css,610,var(--documents-btn-primary-border)
+btn-primary,--btn-primary-border,theme-override,app/styles/theme/dark.css,113,0 solid transparent
+btn-primary,--btn-primary-border,theme-override,app/styles/theme/dark.css,183,0 solid transparent
+btn-primary,--btn-primary-border,theme-override,app/styles/theme/dark.css,254,0 solid transparent
+btn-primary,--btn-primary-border,theme-override,app/styles/theme/hc.css,136,"2px solid rgba(var(--hc-accent-rgb), 0.72)"
+btn-primary,--btn-primary-border,theme-override,app/styles/theme/hc.css,431,"2px solid rgba(var(--hc-accent-rgb), 0.66)"
+btn-primary,--btn-primary-border,theme-override,app/styles/theme/hc.css,651,"2px solid rgba(var(--hc-accent-rgb), 0.66)"
+btn-primary,--btn-primary-border,theme-override,app/styles/theme/hc.css,863,"2px solid rgba(var(--hc-accent-rgb), 0.66)"
+btn-primary,--btn-primary-border,theme-override,app/styles/theme/hc.css,1073,"2px solid rgba(var(--hc-accent-rgb), 0.66)"
+btn-primary,--btn-primary-border,theme-override,app/styles/theme/hc.css,1218,"2px solid rgba(var(--hc-accent-rgb), 0.66)"
+btn-primary,--btn-primary-border,theme-override,app/styles/theme/hc.css,1235,"2px solid rgba(var(--hc-accent-rgb), 0.66)"
+btn-primary,--btn-primary-border,theme-override,app/styles/theme/hc.css,1421,"2px solid rgba(var(--hc-accent-rgb), 0.66)"
+btn-primary,--btn-primary-border,theme-override,app/styles/theme/hc.css,1459,"2px solid rgba(var(--hc-accent-rgb), 0.72)"
+btn-primary,--btn-primary-border,theme-override,app/styles/theme/hc.css,1805,"2px solid rgba(255, 234, 0, 0.66)"
+btn-primary,--btn-primary-border,theme-override,app/styles/theme/light.css,103,0 solid transparent
+btn-primary,--btn-primary-border,theme-override,app/styles/theme/light.css,260,"1px solid rgba(148, 163, 184, 0.08)"
+btn-primary,--btn-primary-border,theme-override,app/styles/theme/mid.css,354,0 solid transparent
+btn-primary,--btn-primary-border,theme-override,app/styles/theme/mid.css,539,transparent
+btn-primary,--btn-primary-border,theme-override,app/styles/theme/mono.css,689,0 solid transparent
+btn-primary,--btn-primary-border,theme-override,app/styles/theme/night.css,245,0 solid transparent
+btn-primary,--btn-primary-border,canonical-default,app/styles/tokens.css,100,"1px solid rgba(255, 255, 255, 0.1)"
+btn-primary,--btn-primary-border,feature-bridge,components/covision/CovisionPage.module.css,230,var(--covision-btn-primary-border)
+btn-primary,--btn-primary-border-active,feature-bridge,app/styles/features/chat/analysis-touch-controls.css,49,var(--chat-btn-primary-border-active)
+btn-primary,--btn-primary-border-active,feature-bridge,app/styles/features/chat/hc.css,172,var(--chat-btn-primary-border-active)
+btn-primary,--btn-primary-border-active,feature-bridge,app/styles/features/chat/hc.css,369,var(--chat-btn-primary-border-active)
+btn-primary,--btn-primary-border-active,feature-bridge,app/styles/features/chat/shell.css,833,var(--chat-btn-primary-border-active)
+btn-primary,--btn-primary-border-active,feature-bridge,app/styles/features/chat/themes.css,642,var(--chat-btn-primary-border-active)
+btn-primary,--btn-primary-border-active,feature-bridge,app/styles/features/documents/ui.css,612,var(--documents-btn-primary-border-active)
+btn-primary,--btn-primary-border-active,shared-primitive,app/styles/mobile/interaction-surfaces.css,97,var(--btn-primary-border)
+btn-primary,--btn-primary-border-active,legacy-shared-feature,app/styles/shared/register.css,103,"var( --btn-primary-border-hover, var(--btn-primary-border) )"
+btn-primary,--btn-primary-border-active,theme-override,app/styles/theme/dark.css,115,0 solid transparent
+btn-primary,--btn-primary-border-active,theme-override,app/styles/theme/dark.css,185,0 solid transparent
+btn-primary,--btn-primary-border-active,theme-override,app/styles/theme/dark.css,256,0 solid transparent
+btn-primary,--btn-primary-border-active,theme-override,app/styles/theme/hc.css,138,"2px solid rgba(var(--hc-accent-rgb), 0.96)"
+btn-primary,--btn-primary-border-active,theme-override,app/styles/theme/hc.css,433,"2px solid rgba(var(--hc-accent-rgb), 0.95)"
+btn-primary,--btn-primary-border-active,theme-override,app/styles/theme/hc.css,653,"2px solid rgba(var(--hc-accent-rgb), 0.95)"
+btn-primary,--btn-primary-border-active,theme-override,app/styles/theme/hc.css,865,"2px solid rgba(var(--hc-accent-rgb), 0.95)"
+btn-primary,--btn-primary-border-active,theme-override,app/styles/theme/hc.css,1075,"2px solid rgba(var(--hc-accent-rgb), 0.95)"
+btn-primary,--btn-primary-border-active,theme-override,app/styles/theme/hc.css,1220,"2px solid rgba(var(--hc-accent-rgb), 0.95)"
+btn-primary,--btn-primary-border-active,theme-override,app/styles/theme/hc.css,1237,"2px solid rgba(var(--hc-accent-rgb), 0.95)"
+btn-primary,--btn-primary-border-active,theme-override,app/styles/theme/hc.css,1423,"2px solid rgba(var(--hc-accent-rgb), 0.95)"
+btn-primary,--btn-primary-border-active,theme-override,app/styles/theme/hc.css,1461,"2px solid rgba(var(--hc-accent-rgb), 1)"
+btn-primary,--btn-primary-border-active,theme-override,app/styles/theme/hc.css,1807,"2px solid rgba(255, 234, 0, 0.95)"
+btn-primary,--btn-primary-border-active,theme-override,app/styles/theme/light.css,105,0 solid transparent
+btn-primary,--btn-primary-border-active,theme-override,app/styles/theme/light.css,262,"1px solid rgba(148, 163, 184, 0.07)"
+btn-primary,--btn-primary-border-active,theme-override,app/styles/theme/mid.css,356,0 solid transparent
+btn-primary,--btn-primary-border-active,theme-override,app/styles/theme/mid.css,541,transparent
+btn-primary,--btn-primary-border-active,theme-override,app/styles/theme/mono.css,691,0 solid transparent
+btn-primary,--btn-primary-border-active,theme-override,app/styles/theme/night.css,247,0 solid transparent
+btn-primary,--btn-primary-border-active,canonical-default,app/styles/tokens.css,102,"1px solid rgba(255, 255, 255, 0.12)"
+btn-primary,--btn-primary-border-active,feature-bridge,components/covision/CovisionPage.module.css,232,var(--covision-btn-primary-border-active)
+btn-primary,--btn-primary-border-hover,feature-bridge,app/styles/features/chat/hc.css,170,var(--chat-btn-primary-border-hover)
+btn-primary,--btn-primary-border-hover,feature-bridge,app/styles/features/chat/hc.css,367,var(--chat-btn-primary-border-hover)
+btn-primary,--btn-primary-border-hover,feature-bridge,app/styles/features/chat/shell.css,831,var(--chat-btn-primary-border-hover)
+btn-primary,--btn-primary-border-hover,feature-bridge,app/styles/features/chat/themes.css,640,var(--chat-btn-primary-border-hover)
+btn-primary,--btn-primary-border-hover,feature-bridge,app/styles/features/documents/ui.css,611,var(--documents-btn-primary-border-hover)
+btn-primary,--btn-primary-border-hover,theme-override,app/styles/theme/dark.css,114,0 solid transparent
+btn-primary,--btn-primary-border-hover,theme-override,app/styles/theme/dark.css,184,0 solid transparent
+btn-primary,--btn-primary-border-hover,theme-override,app/styles/theme/dark.css,255,0 solid transparent
+btn-primary,--btn-primary-border-hover,theme-override,app/styles/theme/hc.css,137,"2px solid rgba(var(--hc-accent-rgb), 0.92)"
+btn-primary,--btn-primary-border-hover,theme-override,app/styles/theme/hc.css,432,"2px solid rgba(var(--hc-accent-rgb), 0.9)"
+btn-primary,--btn-primary-border-hover,theme-override,app/styles/theme/hc.css,652,"2px solid rgba(var(--hc-accent-rgb), 0.9)"
+btn-primary,--btn-primary-border-hover,theme-override,app/styles/theme/hc.css,864,"2px solid rgba(var(--hc-accent-rgb), 0.9)"
+btn-primary,--btn-primary-border-hover,theme-override,app/styles/theme/hc.css,1074,"2px solid rgba(var(--hc-accent-rgb), 0.9)"
+btn-primary,--btn-primary-border-hover,theme-override,app/styles/theme/hc.css,1219,"2px solid rgba(var(--hc-accent-rgb), 0.9)"
+btn-primary,--btn-primary-border-hover,theme-override,app/styles/theme/hc.css,1236,"2px solid rgba(var(--hc-accent-rgb), 0.9)"
+btn-primary,--btn-primary-border-hover,theme-override,app/styles/theme/hc.css,1422,"2px solid rgba(var(--hc-accent-rgb), 0.9)"
+btn-primary,--btn-primary-border-hover,theme-override,app/styles/theme/hc.css,1460,"2px solid rgba(var(--hc-accent-rgb), 0.94)"
+btn-primary,--btn-primary-border-hover,theme-override,app/styles/theme/hc.css,1806,"2px solid rgba(255, 234, 0, 0.9)"
+btn-primary,--btn-primary-border-hover,theme-override,app/styles/theme/light.css,104,"1px solid rgba(var(--light-white-rgb), 0.62)"
+btn-primary,--btn-primary-border-hover,theme-override,app/styles/theme/light.css,261,"1px solid rgba(148, 163, 184, 0.1)"
+btn-primary,--btn-primary-border-hover,theme-override,app/styles/theme/mid.css,86,var(--mid-pill-surface-border-hover)
+btn-primary,--btn-primary-border-hover,theme-override,app/styles/theme/mid.css,355,0 solid transparent
+btn-primary,--btn-primary-border-hover,theme-override,app/styles/theme/mid.css,540,transparent
+btn-primary,--btn-primary-border-hover,theme-override,app/styles/theme/mono.css,690,0 solid transparent
+btn-primary,--btn-primary-border-hover,theme-override,app/styles/theme/night.css,246,0 solid transparent
+btn-primary,--btn-primary-border-hover,canonical-default,app/styles/tokens.css,101,"1px solid rgba(255, 255, 255, 0.14)"
+btn-primary,--btn-primary-border-hover,feature-bridge,components/covision/CovisionPage.module.css,231,var(--covision-btn-primary-border-hover)
+btn-primary,--btn-primary-focus-ring-color,feature-bridge,app/styles/features/chat/shell.css,848,var(--chat-btn-primary-focus-ring-color)
+btn-primary,--btn-primary-focus-ring-color,theme-override,app/styles/theme/hc.css,1811,var(--hc-focus-ring)
+btn-primary,--btn-primary-focus-ring-color,theme-override,app/styles/theme/light.css,266,"rgba(197, 113, 113, 0.24)"
+btn-primary,--btn-primary-focus-ring-color,theme-override,app/styles/theme/mid.css,545,"rgba(147, 111, 105, 0.22)"
+btn-primary,--btn-primary-focus-ring-color,theme-override,app/styles/theme/mono.css,701,"rgba(230, 230, 230, 0.24)"
+btn-primary,--btn-primary-focus-ring-color,theme-override,app/styles/theme/night.css,261,"rgba(140, 180, 235, 0.35)"
+btn-primary,--btn-primary-focus-ring-color,canonical-default,app/styles/tokens.css,115,"rgba(197, 113, 113, 0.28)"
+btn-primary,--btn-primary-hover-brightness,theme-override,app/styles/theme/dark.css,76,1.04
+btn-primary,--btn-primary-hover-brightness,theme-override,app/styles/theme/mid.css,534,1
+btn-primary,--btn-primary-hover-brightness,theme-override,app/styles/theme/mono.css,683,1.035
+btn-primary,--btn-primary-hover-brightness,theme-override,app/styles/theme/night.css,203,1.038
+btn-primary,--btn-primary-hover-brightness,canonical-default,app/styles/tokens.css,121,1.015
+btn-primary,--btn-primary-radius,theme-override,app/styles/theme/light.css,270,0.95rem
+btn-primary,--btn-primary-radius,canonical-default,app/styles/tokens.css,123,0.95rem
+btn-primary,--btn-primary-shadow,feature-bridge,app/styles/features/chat/hc.css,226,var(--chat-btn-primary-shadow)
+btn-primary,--btn-primary-shadow,feature-bridge,app/styles/features/chat/hc.css,423,var(--chat-btn-primary-shadow)
+btn-primary,--btn-primary-shadow,feature-bridge,app/styles/features/chat/shell.css,836,var(--chat-btn-primary-shadow)
+btn-primary,--btn-primary-shadow,feature-bridge,app/styles/features/chat/shell.css,864,var(--chat-btn-primary-shadow)
+btn-primary,--btn-primary-shadow,feature-bridge,app/styles/features/chat/shell.css,873,var(--chat-btn-primary-shadow)
+btn-primary,--btn-primary-shadow,feature-bridge,app/styles/features/chat/themes.css,644,var(--chat-btn-primary-shadow)
+btn-primary,--btn-primary-shadow,feature-bridge,app/styles/features/documents/ui.css,617,var(--documents-btn-primary-shadow)
+btn-primary,--btn-primary-shadow,theme-override,app/styles/theme/dark.css,116,"inset 0 1px 0 rgba(var(--dark-white-rgb), 0.06), 0 5px 12px rgba(var(--dark-black-rgb), 0.2)"
+btn-primary,--btn-primary-shadow,theme-override,app/styles/theme/dark.css,186,none
+btn-primary,--btn-primary-shadow,theme-override,app/styles/theme/dark.css,257,"inset 0 1px 0 rgba(var(--dark-white-rgb), 0.06), 0 5px 12px rgba(var(--dark-black-rgb), 0.22)"
+btn-primary,--btn-primary-shadow,theme-override,app/styles/theme/hc.css,484,"inset 0 1px 0 rgba(220, 236, 255, 0.1), 0 5px 12px rgba(2, 6, 16, 0.24)"
+btn-primary,--btn-primary-shadow,theme-override,app/styles/theme/hc.css,704,"inset 0 1px 0 rgba(220, 236, 255, 0.1), 0 5px 12px rgba(2, 6, 16, 0.24)"
+btn-primary,--btn-primary-shadow,theme-override,app/styles/theme/hc.css,870,none
+btn-primary,--btn-primary-shadow,theme-override,app/styles/theme/hc.css,1116,"inset 0 1px 0 rgba(220, 236, 255, 0.1), 0 5px 12px rgba(2, 6, 16, 0.24)"
+btn-primary,--btn-primary-shadow,theme-override,app/styles/theme/hc.css,1808,none
+btn-primary,--btn-primary-shadow,theme-override,app/styles/theme/light.css,119,"inset 0 1px 0 rgba(var(--light-white-rgb), 0.2), 0 2px 6px rgba(15, 23, 42, 0.09)"
+btn-primary,--btn-primary-shadow,theme-override,app/styles/theme/light.css,263,"0 4px 10px rgba(15, 23, 42, 0.1)"
+btn-primary,--btn-primary-shadow,theme-override,app/styles/theme/mid.css,357,"0 3px 8px rgba(0, 0, 0, 0.22)"
+btn-primary,--btn-primary-shadow,theme-override,app/styles/theme/mid.css,542,var(--mid-unified-surface-shadow)
+btn-primary,--btn-primary-shadow,theme-override,app/styles/theme/mono.css,190,"inset 0 1px 0 rgba(var(--mono-mid-rgb), 0.08), 0 5px 12px rgba(7, 7, 7, 0.24)"
+btn-primary,--btn-primary-shadow,theme-override,app/styles/theme/mono.css,692,"inset 0 1px 0 rgba(214, 214, 214, 0.08), 0 5px 12px rgba(7, 7, 7, 0.24)"
+btn-primary,--btn-primary-shadow,theme-override,app/styles/theme/night.css,248,"inset 0 1px 0 rgba(220, 236, 255, 0.1), 0 5px 12px rgba(2, 6, 16, 0.24)"
+btn-primary,--btn-primary-shadow,canonical-default,app/styles/tokens.css,103,"inset 0 1px 0 rgba(255, 255, 255, 0.06), inset 0 -1px 0 rgba(5, 6, 9, 0.58), 0 5px 12px rgba(0, 0, 0, 0.2)"
+btn-primary,--btn-primary-shadow,feature-bridge,components/covision/CovisionPage.module.css,234,var(--covision-btn-primary-shadow)
+btn-primary,--btn-primary-shadow-active,feature-bridge,app/styles/features/chat/analysis-touch-controls.css,44,var(--chat-btn-primary-shadow-active)
+btn-primary,--btn-primary-shadow-active,feature-bridge,app/styles/features/chat/hc.css,232,var(--chat-btn-primary-shadow-active)
+btn-primary,--btn-primary-shadow-active,feature-bridge,app/styles/features/chat/hc.css,429,var(--chat-btn-primary-shadow-active)
+btn-primary,--btn-primary-shadow-active,feature-bridge,app/styles/features/chat/shell.css,842,var(--chat-btn-primary-shadow-active)
+btn-primary,--btn-primary-shadow-active,feature-bridge,app/styles/features/chat/themes.css,648,var(--chat-btn-primary-shadow-active)
+btn-primary,--btn-primary-shadow-active,feature-bridge,app/styles/features/documents/ui.css,619,var(--documents-btn-primary-shadow-active)
+btn-primary,--btn-primary-shadow-active,shared-primitive,app/styles/mobile/interaction-surfaces.css,96,var(--btn-primary-shadow)
+btn-primary,--btn-primary-shadow-active,legacy-shared-feature,app/styles/shared/register.css,102,var(--btn-primary-shadow-hover)
+btn-primary,--btn-primary-shadow-active,theme-override,app/styles/theme/dark.css,122,"inset 0 1px 0 rgba(var(--dark-white-rgb), 0.05), 0 4px 10px rgba(var(--dark-black-rgb), 0.18)"
+btn-primary,--btn-primary-shadow-active,theme-override,app/styles/theme/dark.css,188,none
+btn-primary,--btn-primary-shadow-active,theme-override,app/styles/theme/dark.css,263,"inset 0 1px 0 rgba(var(--dark-white-rgb), 0.05), 0 4px 10px rgba(var(--dark-black-rgb), 0.2)"
+btn-primary,--btn-primary-shadow-active,theme-override,app/styles/theme/hc.css,490,"inset 0 1px 0 rgba(220, 236, 255, 0.08), 0 4px 10px rgba(2, 6, 16, 0.22)"
+btn-primary,--btn-primary-shadow-active,theme-override,app/styles/theme/hc.css,710,"inset 0 1px 0 rgba(220, 236, 255, 0.08), 0 4px 10px rgba(2, 6, 16, 0.22)"
+btn-primary,--btn-primary-shadow-active,theme-override,app/styles/theme/hc.css,872,none
+btn-primary,--btn-primary-shadow-active,theme-override,app/styles/theme/hc.css,1122,"inset 0 1px 0 rgba(220, 236, 255, 0.08), 0 4px 10px rgba(2, 6, 16, 0.22)"
+btn-primary,--btn-primary-shadow-active,theme-override,app/styles/theme/hc.css,1810,none
+btn-primary,--btn-primary-shadow-active,theme-override,app/styles/theme/light.css,121,"inset 0 1px 0 rgba(var(--light-white-rgb), 0.16), 0 1px 4px rgba(15, 23, 42, 0.08)"
+btn-primary,--btn-primary-shadow-active,theme-override,app/styles/theme/light.css,265,"0 1px 4px rgba(15, 23, 42, 0.08)"
+btn-primary,--btn-primary-shadow-active,theme-override,app/styles/theme/mid.css,359,"0 2px 6px rgba(0, 0, 0, 0.18)"
+btn-primary,--btn-primary-shadow-active,theme-override,app/styles/theme/mid.css,544,var(--mid-unified-surface-shadow-active)
+btn-primary,--btn-primary-shadow-active,theme-override,app/styles/theme/mono.css,698,"inset 0 1px 0 rgba(214, 214, 214, 0.07), 0 4px 10px rgba(7, 7, 7, 0.22)"
+btn-primary,--btn-primary-shadow-active,theme-override,app/styles/theme/night.css,254,"inset 0 1px 0 rgba(220, 236, 255, 0.08), 0 4px 10px rgba(2, 6, 16, 0.22)"
+btn-primary,--btn-primary-shadow-active,canonical-default,app/styles/tokens.css,111,"inset 0 1px 0 rgba(255, 255, 255, 0.05), inset 0 -1px 0 rgba(5, 6, 9, 0.56), 0 4px 10px rgba(0, 0, 0, 0.18)"
+btn-primary,--btn-primary-shadow-active,feature-bridge,components/covision/CovisionPage.module.css,236,var(--covision-btn-primary-shadow-active)
+btn-primary,--btn-primary-shadow-focus,feature-bridge,app/styles/features/chat/hc.css,236,var(--chat-btn-primary-shadow-focus)
+btn-primary,--btn-primary-shadow-focus,feature-bridge,app/styles/features/chat/hc.css,433,var(--chat-btn-primary-shadow-focus)
+btn-primary,--btn-primary-shadow-focus,feature-bridge,app/styles/features/chat/shell.css,846,var(--chat-btn-primary-shadow-focus)
+btn-primary,--btn-primary-shadow-focus,feature-bridge,app/styles/features/chat/themes.css,650,var(--chat-btn-primary-shadow-focus)
+btn-primary,--btn-primary-shadow-focus,theme-override,app/styles/theme/dark.css,125,"inset 0 1px 0 rgba(var(--dark-white-rgb), 0.12), 0 8px 18px rgba(var(--dark-black-rgb), 0.26), 0 0 0 3px var(--btn-primary-focus-ring-color)"
+btn-primary,--btn-primary-shadow-focus,theme-override,app/styles/theme/dark.css,189,"0 0 0 3px rgba(148, 163, 184, 0.14)"
+btn-primary,--btn-primary-shadow-focus,theme-override,app/styles/theme/dark.css,266,"inset 0 1px 0 rgba(var(--dark-white-rgb), 0.12), 0 8px 18px rgba(var(--dark-black-rgb), 0.26), 0 0 0 3px var(--btn-primary-focus-ring-color)"
+btn-primary,--btn-primary-shadow-focus,theme-override,app/styles/theme/hc.css,493,"inset 0 1px 0 rgba(220, 236, 255, 0.16), 0 8px 18px rgba(2, 6, 16, 0.32), 0 0 0 2px rgba(var(--hc-accent-rgb), 0.44)"
+btn-primary,--btn-primary-shadow-focus,theme-override,app/styles/theme/hc.css,713,"inset 0 1px 0 rgba(220, 236, 255, 0.16), 0 8px 18px rgba(2, 6, 16, 0.32), 0 0 0 2px rgba(var(--hc-accent-rgb), 0.5)"
+btn-primary,--btn-primary-shadow-focus,theme-override,app/styles/theme/hc.css,873,"0 0 0 2px rgba(var(--hc-accent-rgb), 0.44)"
+btn-primary,--btn-primary-shadow-focus,theme-override,app/styles/theme/hc.css,939,"0 0 0 2px rgba(var(--hc-accent-rgb), 0.52)"
+btn-primary,--btn-primary-shadow-focus,theme-override,app/styles/theme/hc.css,1125,"inset 0 1px 0 rgba(220, 236, 255, 0.16), 0 8px 18px rgba(2, 6, 16, 0.32), 0 0 0 2px rgba(var(--hc-accent-rgb), 0.52)"
+btn-primary,--btn-primary-shadow-focus,theme-override,app/styles/theme/light.css,122,"inset 0 1px 0 rgba(var(--light-white-rgb), 0.24), 0 4px 10px rgba(15, 23, 42, 0.11), 0 0 0 3px var(--btn-primary-focus-ring-color), 0 0 0 1px rgba(var(--light-white-rgb), 0.22)"
+btn-primary,--btn-primary-shadow-focus,theme-override,app/styles/theme/light.css,267,"0 4px 10px rgba(15, 23, 42, 0.11), 0 0 0 3px var(--btn-primary-focus-ring-color)"
+btn-primary,--btn-primary-shadow-focus,theme-override,app/styles/theme/mid.css,360,"0 5px 12px rgba(0, 0, 0, 0.24), 0 0 0 3px var(--btn-primary-focus-ring-color)"
+btn-primary,--btn-primary-shadow-focus,theme-override,app/styles/theme/mid.css,546,"0 8px 18px rgba(38, 24, 22, 0.11), 0 0 0 3px var(--btn-primary-focus-ring-color)"
+btn-primary,--btn-primary-shadow-focus,theme-override,app/styles/theme/mono.css,702,"inset 0 1px 0 rgba(214, 214, 214, 0.12), 0 8px 18px rgba(7, 7, 7, 0.32), 0 0 0 3px var(--btn-primary-focus-ring-color)"
+btn-primary,--btn-primary-shadow-focus,theme-override,app/styles/theme/night.css,257,"inset 0 1px 0 rgba(220, 236, 255, 0.16), 0 8px 18px rgba(2, 6, 16, 0.32), 0 0 0 3px var(--btn-primary-focus-ring-color)"
+btn-primary,--btn-primary-shadow-focus,canonical-default,app/styles/tokens.css,116,"inset 0 1px 0 rgba(255, 255, 255, 0.12), inset 0 -1px 0 rgba(5, 6, 9, 0.68), 0 8px 18px rgba(0, 0, 0, 0.26), 0 0 0 3px var(--btn-primary-focus-ring-color)"
+btn-primary,--btn-primary-shadow-focus,feature-bridge,components/covision/CovisionPage.module.css,237,var(--covision-btn-primary-shadow-focus)
+btn-primary,--btn-primary-shadow-hover,feature-bridge,app/styles/features/chat/hc.css,229,var(--chat-btn-primary-shadow-hover)
+btn-primary,--btn-primary-shadow-hover,feature-bridge,app/styles/features/chat/hc.css,426,var(--chat-btn-primary-shadow-hover)
+btn-primary,--btn-primary-shadow-hover,feature-bridge,app/styles/features/chat/shell.css,839,var(--chat-btn-primary-shadow-hover)
+btn-primary,--btn-primary-shadow-hover,feature-bridge,app/styles/features/chat/themes.css,646,var(--chat-btn-primary-shadow-hover)
+btn-primary,--btn-primary-shadow-hover,feature-bridge,app/styles/features/documents/ui.css,618,var(--documents-btn-primary-shadow-hover)
+btn-primary,--btn-primary-shadow-hover,theme-override,app/styles/theme/dark.css,119,"inset 0 1px 0 rgba(var(--dark-white-rgb), 0.08), 0 7px 14px rgba(var(--dark-black-rgb), 0.24)"
+btn-primary,--btn-primary-shadow-hover,theme-override,app/styles/theme/dark.css,187,none
+btn-primary,--btn-primary-shadow-hover,theme-override,app/styles/theme/dark.css,260,"inset 0 1px 0 rgba(var(--dark-white-rgb), 0.08), 0 7px 14px rgba(var(--dark-black-rgb), 0.24)"
+btn-primary,--btn-primary-shadow-hover,theme-override,app/styles/theme/hc.css,487,"inset 0 1px 0 rgba(220, 236, 255, 0.12), 0 7px 14px rgba(2, 6, 16, 0.28)"
+btn-primary,--btn-primary-shadow-hover,theme-override,app/styles/theme/hc.css,707,"inset 0 1px 0 rgba(220, 236, 255, 0.12), 0 7px 14px rgba(2, 6, 16, 0.28)"
+btn-primary,--btn-primary-shadow-hover,theme-override,app/styles/theme/hc.css,871,none
+btn-primary,--btn-primary-shadow-hover,theme-override,app/styles/theme/hc.css,1119,"inset 0 1px 0 rgba(220, 236, 255, 0.12), 0 7px 14px rgba(2, 6, 16, 0.28)"
+btn-primary,--btn-primary-shadow-hover,theme-override,app/styles/theme/hc.css,1809,none
+btn-primary,--btn-primary-shadow-hover,theme-override,app/styles/theme/light.css,120,"inset 0 1px 0 rgba(var(--light-white-rgb), 0.28), 0 7px 16px rgba(15, 23, 42, 0.1)"
+btn-primary,--btn-primary-shadow-hover,theme-override,app/styles/theme/light.css,264,"0 6px 13px rgba(15, 23, 42, 0.102)"
+btn-primary,--btn-primary-shadow-hover,theme-override,app/styles/theme/mid.css,87,var(--mid-unified-surface-shadow-hover)
+btn-primary,--btn-primary-shadow-hover,theme-override,app/styles/theme/mid.css,358,"0 4px 10px rgba(0, 0, 0, 0.24)"
+btn-primary,--btn-primary-shadow-hover,theme-override,app/styles/theme/mid.css,543,var(--mid-unified-surface-shadow)
+btn-primary,--btn-primary-shadow-hover,theme-override,app/styles/theme/mono.css,193,"inset 0 1px 0 rgba(var(--mono-mid-rgb), 0.1), 0 7px 14px rgba(7, 7, 7, 0.28)"
+btn-primary,--btn-primary-shadow-hover,theme-override,app/styles/theme/mono.css,695,"inset 0 1px 0 rgba(214, 214, 214, 0.1), 0 7px 14px rgba(7, 7, 7, 0.28)"
+btn-primary,--btn-primary-shadow-hover,theme-override,app/styles/theme/night.css,251,"inset 0 1px 0 rgba(220, 236, 255, 0.12), 0 7px 14px rgba(2, 6, 16, 0.28)"
+btn-primary,--btn-primary-shadow-hover,canonical-default,app/styles/tokens.css,107,"inset 0 1px 0 rgba(255, 255, 255, 0.08), inset 0 -1px 0 rgba(5, 6, 9, 0.64), 0 7px 14px rgba(0, 0, 0, 0.24)"
+btn-primary,--btn-primary-shadow-hover,feature-bridge,components/covision/CovisionPage.module.css,235,var(--covision-btn-primary-shadow-hover)
+btn-primary,--btn-primary-text,feature-bridge,app/styles/features/chat/hc.css,174,var(--chat-btn-primary-text)
+btn-primary,--btn-primary-text,feature-bridge,app/styles/features/chat/hc.css,371,var(--chat-btn-primary-text)
+btn-primary,--btn-primary-text,feature-bridge,app/styles/features/chat/shell.css,850,var(--chat-btn-primary-text)
+btn-primary,--btn-primary-text,feature-bridge,app/styles/features/documents/ui.css,613,var(--documents-btn-primary-text)
+btn-primary,--btn-primary-text,theme-override,app/styles/theme/hc.css,135,var(--hc-accent)
+btn-primary,--btn-primary-text,theme-override,app/styles/theme/hc.css,434,var(--hc-accent)
+btn-primary,--btn-primary-text,theme-override,app/styles/theme/hc.css,654,var(--hc-accent)
+btn-primary,--btn-primary-text,theme-override,app/styles/theme/hc.css,866,var(--hc-accent)
+btn-primary,--btn-primary-text,theme-override,app/styles/theme/hc.css,1076,var(--hc-accent)
+btn-primary,--btn-primary-text,theme-override,app/styles/theme/hc.css,1231,var(--hc-accent)
+btn-primary,--btn-primary-text,theme-override,app/styles/theme/hc.css,1417,var(--hc-accent)
+btn-primary,--btn-primary-text,theme-override,app/styles/theme/hc.css,1804,var(--hc-accent)
+btn-primary,--btn-primary-text,theme-override,app/styles/theme/light.css,259,"rgba(31, 41, 55, 0.92)"
+btn-primary,--btn-primary-text,theme-override,app/styles/theme/mid.css,538,#2f3a4a
+btn-primary,--btn-primary-text,theme-override,app/styles/theme/mono.css,188,var(--mono-icon)
+btn-primary,--btn-primary-text,theme-override,app/styles/theme/mono.css,687,var(--mono-icon)
+btn-primary,--btn-primary-text,canonical-default,app/styles/tokens.css,99,"rgba(248, 252, 255, 0.96)"
+btn-primary,--btn-primary-text,feature-bridge,components/covision/CovisionPage.module.css,233,var(--covision-btn-primary-text)
+btn-primary,--btn-primary-text,feature-bridge,components/wellbeing/WellbeingPage.module.css,39,var(--wellbeing-btn-primary-text)
+btn-primary,--btn-primary-text,feature-bridge,components/wellbeing/WellbeingPage.module.css,171,var(--wellbeing-btn-primary-text)
+btn-primary,--btn-primary-text-hover,theme-override,app/styles/theme/mono.css,189,var(--mono-title-soft)
+btn-primary,--btn-primary-text-hover,theme-override,app/styles/theme/mono.css,688,var(--mono-title-soft)

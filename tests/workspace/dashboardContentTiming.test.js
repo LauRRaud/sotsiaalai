@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
+import { readCssSourceBundle } from "../helpers/cssSourceBundle.mjs";
 
 function readSource(path) {
   return readFileSync(new URL(`../../${path}`, import.meta.url), "utf8");
@@ -126,7 +127,7 @@ test("workspace dashboard matches subpage side padding without widening the glas
 });
 
 test("workspace dashboard disables the chat scroll edge fade", () => {
-  const css = readSource("app/styles/components/chat-focus.css");
+  const css = readCssSourceBundle("app/styles/components/chat-focus.css");
 
   assert.match(
     css,
@@ -147,8 +148,8 @@ test("workspace cards keep drop shadows out of dark and mono themes", () => {
 });
 
 test("workspace subpage surfaces match the dashboard outer glass width and radius", () => {
-  const helpersCss = readSource("app/styles/utilities/helpers.css");
-  const chatFocusCss = readSource("app/styles/components/chat-focus.css");
+  const helpersCss = readCssSourceBundle("app/styles/utilities/helpers.css");
+  const chatFocusCss = readCssSourceBundle("app/styles/components/chat-focus.css");
 
   assert.match(
     helpersCss,
@@ -221,7 +222,7 @@ test("restored workspace returns already settled without replaying the dashboard
     /layoutTransitionsReady && !prefs\?\.reduceMotion && !workspaceSuppressOpenTransition[\s\S]*?transition:border-top-left-radius/
   );
   assert.match(
-    readSource("app/styles/components/chat-focus.css"),
+    readCssSourceBundle("app/styles/components/chat-focus.css"),
     /\.chat-container\.chat-container--round\.chat-container--workspace-restore-no-transition\s*\{[\s\S]*?transition:\s*none\s*!important;/
   );
 });
@@ -315,7 +316,7 @@ test("workspace embedded subpages render content without nesting a second full-p
   const agentSource = readSource("components/agent/AgentModePage.jsx");
   const materialsSource = readSource("components/materials/MaterialsPage.jsx");
   const covisionSource = readSource("components/covision/CovisionPage.jsx");
-  const documentsCss = readSource("app/styles/components/documents-mode.css");
+  const documentsCss = readCssSourceBundle("app/styles/components/documents-mode.css");
 
   for (const source of [workspaceFeatureSource, documentsSource, agentSource, materialsSource, covisionSource]) {
     assert.match(source, /embedded = false/);
@@ -378,7 +379,7 @@ test("help listings opened from workspace return immediately without collapse mo
 
 test("workspace route navigation does not use handoff resize classes", () => {
   const chatBodySource = readSource("components/alalehed/ChatBody.jsx");
-  const cssSource = readSource("app/styles/components/chat-focus.css");
+  const cssSource = readCssSourceBundle("app/styles/components/chat-focus.css");
 
   assert.doesNotMatch(chatBodySource, /chat-container--workspace-return-morph/);
   assert.doesNotMatch(chatBodySource, /WORKSPACE_RETURN_MORPH_SETTLE_MS/);

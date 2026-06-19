@@ -1,0 +1,14 @@
+git apply --check: OK
+node scripts/css-cleanup/style-token-audit.mjs --check: OK
+CSS files: 156
+Token count: 1160
+Token collisions: 631
+Form-control definitions: 259
+Form-control files: 15
+Form-control feature direct definitions: 47
+Form-control feature bridge definitions: 8
+Form-control other definitions: 0
+Form-control by tier: {'feature-direct-definition': 47, 'feature-bridge': 8, 'shared-primitive': 18, 'theme-override': 167, 'canonical-default': 19}
+Missing local CSS imports: 0
+CSS brace-balance errors: 0
+Project CSS !important count: 2025

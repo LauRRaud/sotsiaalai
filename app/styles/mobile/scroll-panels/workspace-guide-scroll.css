@@ -1,0 +1,42 @@
+/* Inner scroll geometry for workspace guide panels. */
+
+@media (max-width: 768px) {
+  .workspace-scroll-surface.workspace-guide-panel > .workspace-guide-panel-scroll {
+    --workspace-guide-panel-overscan-top: clamp(2.2rem, 8vh, 3rem);
+    --workspace-guide-panel-overscan-bottom: calc(
+      var(--mobile-safe-bottom, env(safe-area-inset-bottom, 0px)) +
+        clamp(0.9rem, 2.2vh, 1.35rem)
+    );
+    box-sizing: border-box;
+    position: relative;
+    width: calc(100% + var(--glass-ring-pad-x, 1rem) + var(--glass-ring-pad-x, 1rem));
+    max-width: none;
+    height: calc(
+      100% + var(--glass-ring-pad-top, 0.6rem) +
+        var(--workspace-guide-panel-overscan-top) +
+        var(--workspace-guide-panel-overscan-bottom)
+    ) !important;
+    max-height: calc(
+      100% + var(--glass-ring-pad-top, 0.6rem) +
+        var(--workspace-guide-panel-overscan-top) +
+        var(--workspace-guide-panel-overscan-bottom)
+    );
+    margin-top: calc(
+      0px - var(--glass-ring-pad-top, 0.6rem) -
+        var(--workspace-guide-panel-overscan-top)
+    );
+    margin-right: calc(0px - var(--glass-ring-pad-x, 1rem));
+    margin-left: calc(0px - var(--glass-ring-pad-x, 1rem));
+    padding-right: var(--glass-ring-pad-x, 1rem);
+    padding-left: var(--glass-ring-pad-x, 1rem);
+    padding-top: calc(
+      var(--glass-ring-pad-top, 0.6rem) +
+        var(--workspace-guide-panel-overscan-top, 0px) +
+        clamp(0.02rem, 0.35vh, 0.18rem)
+    );
+    padding-bottom: 0 !important;
+    mask-image: none;
+    -webkit-mask-image: none;
+    scrollbar-gutter: auto;
+  }
+}

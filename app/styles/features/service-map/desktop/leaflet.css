@@ -1,0 +1,233 @@
+.service-map-leaflet-shell {
+  position: relative;
+  min-height: clamp(24rem, 58vh, 36rem);
+  overflow: hidden;
+  border: 0 !important;
+  border-radius: var(--service-map-map-radius);
+  background: var(--service-map-map-bg) !important;
+  box-shadow: none !important;
+  clip-path: inset(0 round var(--service-map-map-radius));
+}
+
+.service-map-workspace .service-map-leaflet-shell {
+  height: 100%;
+  min-height: 100%;
+  border: 0 !important;
+  border-radius: var(--service-map-map-radius);
+  box-shadow: none !important;
+}
+
+.service-map-workspace .service-map-leaflet {
+  height: 100%;
+  min-height: 100%;
+  border: 0 !important;
+  border-radius: var(--service-map-map-radius);
+  box-shadow: none !important;
+}
+
+.service-map-leaflet {
+  min-height: clamp(24rem, 58vh, 36rem);
+  width: 100%;
+  background: var(--service-map-map-bg) !important;
+  color: var(--workspace-feature-field-text, #1f2937);
+  border: 0 !important;
+  border-radius: var(--service-map-map-radius) !important;
+  box-shadow: none !important;
+  overflow: hidden !important;
+  clip-path: inset(0 round var(--service-map-map-radius));
+}
+
+.service-map-leaflet.leaflet-container {
+  background: var(--service-map-map-bg) !important;
+  border: 0 !important;
+  border-radius: var(--service-map-map-radius) !important;
+  box-shadow: none !important;
+  overflow: hidden !important;
+  clip-path: inset(0 round var(--service-map-map-radius));
+}
+
+.service-map-leaflet .leaflet-pane,
+.service-map-leaflet .leaflet-map-pane,
+.service-map-leaflet .leaflet-tile-pane,
+.service-map-leaflet .leaflet-tile-container {
+  border-radius: inherit;
+}
+
+.service-map-leaflet .leaflet-div-icon {
+  border: 0 !important;
+  background: transparent !important;
+}
+
+.service-map-leaflet__status {
+  position: absolute;
+  inset: auto 1rem 1rem 1rem;
+  z-index: 500;
+  border: 1px solid var(--workspace-feature-border);
+  border-radius: 0.86rem;
+  background: var(--workspace-feature-surface);
+  color: var(--workspace-feature-text);
+  padding: 0.62rem 0.78rem;
+  font-size: 0.94rem;
+  font-weight: 650;
+  line-height: 1.25;
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.16);
+}
+
+.service-map-leaflet__legend {
+  position: absolute;
+  left: 0.86rem;
+  bottom: 0.86rem;
+  right: auto;
+  z-index: 500;
+  display: grid;
+  max-width: min(16rem, calc(100% - 1.72rem));
+  justify-items: start;
+  gap: 0.56rem;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 1rem;
+  background: rgba(248, 244, 242, 0.88);
+  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.16);
+  color: #132033;
+  padding: 0.52rem 0.62rem;
+  pointer-events: none;
+}
+
+.service-map-leaflet__legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.38rem;
+  font-size: 0.78rem;
+  font-weight: 720;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+.service-map-leaflet__legend-marker {
+  display: block;
+  flex: 0 0 auto;
+  line-height: 0;
+}
+
+.service-map-leaflet__legend-marker .service-map-leaflet__marker {
+  width: 1.72rem;
+  height: 2.15rem;
+  filter: drop-shadow(0 0 0.45px var(--service-map-marker-ring, rgba(15, 23, 42, 0.52)));
+}
+
+.service-map-leaflet__marker {
+  position: relative;
+  display: grid;
+  width: 2.34rem;
+  height: 2.93rem;
+  place-items: center;
+  border: 0;
+  color: var(--service-map-marker-fill, #475569);
+  filter: drop-shadow(0 1px 2px rgba(15, 23, 42, 0.18));
+  font-family: var(--font-aino), system-ui, sans-serif;
+  isolation: isolate;
+  overflow: visible;
+  pointer-events: auto;
+  text-align: center;
+  user-select: none;
+  --service-map-marker-fill: #475569;
+  --service-map-marker-hole-diameter: 28.4px;
+  --service-map-marker-hole-bg: rgba(255, 255, 255, 0.68);
+  --service-map-marker-label-padding: 3px;
+  --service-map-marker-label-max-size: calc(var(--service-map-marker-hole-diameter) - (2 * var(--service-map-marker-label-padding)));
+  --service-map-marker-label-size: min(20.2px, var(--service-map-marker-label-max-size));
+  --service-map-marker-label-weight: 820;
+  --service-map-marker-label-tracking: 0;
+  --service-map-legend-marker-label-size: min(20.2px, var(--service-map-marker-label-max-size));
+  --service-map-marker-ring: rgba(15, 23, 42, 0.52);
+}
+
+.service-map-leaflet__marker::before {
+  display: none;
+}
+
+.service-map-leaflet__marker-shape {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.service-map-leaflet__marker-pin {
+  fill: currentColor;
+  stroke: var(--service-map-marker-ring, rgba(15, 23, 42, 0.52));
+  stroke-width: 1.35;
+  vector-effect: non-scaling-stroke;
+}
+
+.service-map-leaflet__marker-hole {
+  fill: var(--service-map-marker-hole-bg);
+  pointer-events: none;
+}
+
+.service-map-leaflet__marker-label {
+  fill: currentColor;
+  font-size: var(--service-map-marker-label-size);
+  font-weight: var(--service-map-marker-label-weight);
+  letter-spacing: var(--service-map-marker-label-tracking);
+  dominant-baseline: central;
+  text-anchor: middle;
+  pointer-events: none;
+  text-transform: uppercase;
+}
+
+.service-map-leaflet__marker--help-offer .service-map-leaflet__marker-label {
+  font-family: Arial, Helvetica, sans-serif;
+  transform: translate(0.35px, -0.25px);
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.service-map-leaflet__marker--kov {
+  --service-map-marker-fill: #2f5f8f;
+  --service-map-marker-ring: rgba(22, 65, 104, 0.92);
+}
+
+.service-map-leaflet__marker--provider {
+  --service-map-marker-fill: #168a72;
+  --service-map-marker-ring: rgba(10, 94, 77, 0.94);
+}
+
+.service-map-leaflet__marker--help-request {
+  --service-map-marker-fill: #b45309;
+  --service-map-marker-ring: rgba(146, 64, 14, 0.95);
+  --service-map-marker-label-padding: 0px;
+  --service-map-marker-label-size: min(24.2px, var(--service-map-marker-label-max-size));
+  --service-map-legend-marker-label-size: min(22.8px, var(--service-map-marker-label-max-size));
+}
+
+.service-map-leaflet__marker--help-offer {
+  --service-map-marker-fill: #a23b72;
+  --service-map-marker-ring: rgba(111, 36, 78, 0.94);
+  --service-map-marker-label-padding: 0px;
+  --service-map-marker-label-size: 35px;
+  --service-map-marker-label-weight: 500;
+  --service-map-legend-marker-label-size: 32px;
+}
+
+.service-map-leaflet__marker--mixed {
+  --service-map-marker-fill: #475569;
+  --service-map-marker-ring: rgba(30, 41, 59, 0.9);
+  --service-map-marker-label-padding: 7.2px;
+  --service-map-marker-label-size: min(13.8px, var(--service-map-marker-label-max-size));
+}
+
+.service-map-leaflet__marker--group {
+  outline: 0;
+}
+
+.service-map-leaflet__marker--selected {
+  filter:
+    drop-shadow(0 1px 2px rgba(15, 23, 42, 0.18))
+    drop-shadow(0 0 5px rgba(15, 23, 42, 0.34));
+}
+
+.service-map-leaflet__legend-marker .service-map-leaflet__marker-label {
+  font-size: var(--service-map-legend-marker-label-size);
+}

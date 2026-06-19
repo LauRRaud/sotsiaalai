@@ -1,0 +1,176 @@
+{
+  "generatedAt": "2026-06-19T07:49:29.602Z",
+  "browser": "system-chrome-headless",
+  "viewport": {
+    "width": 1920,
+    "height": 1080,
+    "deviceScaleFactor": 1
+  },
+  "screenshots": {
+    "offersShot": "C:\\Users\\rauds\\Desktop\\SotsiaalAI\\reports\\visual-fullhd\\abipakkumised-1920x1080.png",
+    "inviteShot": "C:\\Users\\rauds\\Desktop\\SotsiaalAI\\reports\\visual-fullhd\\grupivestlus-1920x1080.png"
+  },
+  "offersAudit": {
+    "kind": "offers",
+    "title": "Abipakkumised",
+    "viewport": {
+      "innerWidth": 1920,
+      "innerHeight": 1080,
+      "devicePixelRatio": 1,
+      "visualScale": 1
+    },
+    "surface": {
+      "selector": ".workspace-feature-embedded .help-listings-modal-content",
+      "left": 571.19,
+      "right": 1407.02,
+      "top": 234.03,
+      "bottom": 382.2,
+      "width": 835.83,
+      "height": 148.17,
+      "cssWidth": "835.828px",
+      "maxWidth": "100%",
+      "marginLeft": "0px",
+      "marginRight": "0px",
+      "overflowX": "hidden"
+    },
+    "body": {
+      "selector": ".workspace-feature-embedded .help-listings-body",
+      "left": 571.19,
+      "right": 1407.02,
+      "top": 285.33,
+      "bottom": 382.2,
+      "width": 835.83,
+      "height": 96.88,
+      "cssWidth": "835.828px",
+      "maxWidth": "100%",
+      "marginLeft": "0px",
+      "marginRight": "0px",
+      "overflowX": "visible"
+    },
+    "panel": {
+      "selector": ".workspace-feature-embedded .help-listings-panel",
+      "left": 701.09,
+      "right": 1277.09,
+      "top": 287.23,
+      "bottom": 362.2,
+      "width": 576,
+      "height": 74.97,
+      "cssWidth": "576px",
+      "maxWidth": "576px",
+      "marginLeft": "129.906px",
+      "marginRight": "129.906px",
+      "overflowX": "hidden"
+    },
+    "button": null,
+    "panelInsideSurface": {
+      "leftDelta": 129.9,
+      "rightDelta": 129.93,
+      "topDelta": 53.2,
+      "bottomDelta": 20,
+      "inside": true
+    },
+    "bodyInsideSurface": {
+      "leftDelta": 0,
+      "rightDelta": 0,
+      "topDelta": 51.3,
+      "bottomDelta": 0,
+      "inside": true
+    },
+    "buttonInsidePanel": null,
+    "scroll": {
+      "documentClientWidth": 1920,
+      "documentScrollWidth": 1920
+    }
+  },
+  "inviteAudit": {
+    "kind": "invite",
+    "title": "Grupivestlus",
+    "viewport": {
+      "innerWidth": 1920,
+      "innerHeight": 1080,
+      "devicePixelRatio": 1,
+      "visualScale": 1
+    },
+    "surface": {
+      "selector": ".workspace-feature-embedded .invite-modal-content",
+      "left": 571.19,
+      "right": 1407.02,
+      "top": 234.03,
+      "bottom": 782.33,
+      "width": 835.83,
+      "height": 548.3,
+      "cssWidth": "835.828px",
+      "maxWidth": "100%",
+      "marginLeft": "0px",
+      "marginRight": "0px",
+      "overflowX": "hidden"
+    },
+    "body": {
+      "selector": ".workspace-feature-embedded .invite-modal-scroll",
+      "left": 571.19,
+      "right": 1407.02,
+      "top": 234.03,
+      "bottom": 782.33,
+      "width": 835.83,
+      "height": 548.3,
+      "cssWidth": "835.828px",
+      "maxWidth": "100%",
+      "marginLeft": "0px",
+      "marginRight": "0px",
+      "overflowX": "visible"
+    },
+    "panel": {
+      "selector": ".workspace-feature-embedded .invite-list-panel",
+      "left": 701.09,
+      "right": 1277.09,
+      "top": 611.45,
+      "bottom": 739.14,
+      "width": 576,
+      "height": 127.69,
+      "cssWidth": "576px",
+      "maxWidth": "576px",
+      "marginLeft": "129.906px",
+      "marginRight": "129.906px",
+      "overflowX": "auto"
+    },
+    "button": {
+      "selector": ".workspace-feature-embedded .invite-list-panel button",
+      "left": 1121.34,
+      "right": 1262.38,
+      "top": 625.2,
+      "bottom": 673.8,
+      "width": 141.03,
+      "height": 48.59,
+      "cssWidth": "141.031px",
+      "maxWidth": "100%",
+      "marginLeft": "0px",
+      "marginRight": "0px",
+      "overflowX": "visible"
+    },
+    "panelInsideSurface": {
+      "leftDelta": 129.9,
+      "rightDelta": 129.93,
+      "topDelta": 377.42,
+      "bottomDelta": 43.19,
+      "inside": true
+    },
+    "bodyInsideSurface": {
+      "leftDelta": 0,
+      "rightDelta": 0,
+      "topDelta": 0,
+      "bottomDelta": 0,
+      "inside": true
+    },
+    "buttonInsidePanel": {
+      "leftDelta": 420.25,
+      "rightDelta": 14.71,
+      "topDelta": 13.75,
+      "bottomDelta": 65.34,
+      "inside": true
+    },
+    "scroll": {
+      "documentClientWidth": 1920,
+      "documentScrollWidth": 1920
+    }
+  }
+}

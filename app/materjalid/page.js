@@ -1,4 +1,5 @@
 import { cookies } from "next/headers"
+import "../styles/features/materials/index.css"
 
 import MaterialsPage from "@/components/materials/MaterialsPage"
 import { getLocaleFromCookies } from "@/lib/i18n"

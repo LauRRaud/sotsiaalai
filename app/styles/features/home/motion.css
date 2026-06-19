@@ -1,4 +1,4 @@
-/* Reduced motion and mobile keyframes. */
+/* Home-only reduced-motion overrides. Route-imported by features/home/index.css. */
 
 @media (prefers-reduced-motion: reduce) {
   .home-scroll-cue-arrow {

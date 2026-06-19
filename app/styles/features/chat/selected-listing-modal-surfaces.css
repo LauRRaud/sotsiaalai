@@ -1,0 +1,9 @@
+/* Selected listing mobile modal surface rules. Route-owned by the chat workspace. */
+@import url("../../shared/mobile-modal-surfaces.css");
+
+@media (max-width: 768px) {
+  .selected-listing-body,
+  .selected-listing-modal-content :is(.glass-subpage-header + div, .panel) {
+    max-width: none;
+  }
+}

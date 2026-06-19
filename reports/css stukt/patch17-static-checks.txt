@@ -1,0 +1,8 @@
+git apply --check: OK
+Missing local CSS imports: 0
+CSS import cycles: 0
+CSS brace-balance errors: 0
+Bad use client directive files: 0
+!important count after patch 17: 2022
+Global form-theme feature/form leaks: 0 []
+Expected route-owned form-theme files missing: 0 []

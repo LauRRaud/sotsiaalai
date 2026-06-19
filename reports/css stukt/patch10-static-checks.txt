@@ -1,0 +1,23 @@
+Etapp 11b staatiline kontroll
+missing_css_imports 0
+brace_errors 0
+css_files_head 125
+css_files_current 128
+important_head 1995
+important_current 1995
+global_css_head_files 56
+global_css_head_bytes_raw 348118
+global_css_head_bytes_normalized 344109
+global_css_current_files 55
+global_css_current_bytes_raw 342074
+global_css_current_bytes_normalized 342074
+route_sizes_normalized:
+app/page.js 384920 382885 -2035
+app/vestlus/page.js 742255 742396 141
+app/ruum/page.js 368596 366561 -2035
+app/teenusekaart/page.jsx 660595 660736 141
+app/tooheaolu/page.jsx 344109 343547 -562
+app/tooheaolu/[tool]/page.jsx 344109 343547 -562
+app/documents/page.js 429886 427851 -2035
+git_diff_check OK
+git_apply_check_on_after09_tree OK

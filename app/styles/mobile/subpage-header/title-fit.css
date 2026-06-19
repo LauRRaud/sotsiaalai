@@ -1,0 +1,77 @@
+/* Shared mobile title fitting and typography. */
+
+@media (max-width: 768px) {
+  .glass-title-register {
+    font-size: clamp(1.8rem, 7.2vw, 2.34rem);
+  }
+
+  .glass-title-register-ru {
+    font-size: clamp(1.58rem, 6.6vw, 2.12rem);
+  }
+
+  .subpage-mobile-title[data-fit-ready="0"],
+  .policy-mobile-title[data-fit-ready="0"] {
+    font-size: var(--fit-title-preload-px, var(--mobile-header-title-font));
+    transform: none;
+  }
+
+  :is(.subpage-mobile-title, .policy-mobile-title) {
+    --fit-title-buffer-px: 6;
+    --fit-title-max-px: 35;
+    --fit-title-min-scale-x: 0.94;
+    box-sizing: border-box;
+    display: block !important;
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    min-height: auto;
+    margin: 0;
+    padding: 0 !important;
+    text-align: center;
+    white-space: normal;
+    text-wrap: balance;
+    overflow-wrap: normal;
+    word-break: normal;
+    hyphens: manual;
+    overflow: visible !important;
+    transition: none;
+    will-change: auto;
+  }
+
+  :is(
+      .glass-ring,
+      .direct-scroll-surface,
+      .workspace-scroll-surface,
+      .workspace-dashboard-panel,
+      .service-map-page-panel,
+      .service-map-workspace,
+      .workspace-guide-panel,
+      .workspace-feature-panel,
+      .documents-workspace-shell,
+      .materials-page-content,
+      .covision-page-surface,
+      .subscription-modal-content,
+      .account-settings-modal-content,
+      .help-listings-modal-content,
+      .selected-listing-modal-content,
+      .invite-modal-content,
+      .policy-scroll-page-ring,
+      .policy-scroll-page-scroller
+    )
+    :is(
+      .glass-subpage-title,
+      .subpage-mobile-title,
+      .policy-mobile-title,
+      .glass-page-title,
+      .account-modal-title,
+      .subscription-page-title,
+      .rooms-page-title
+    ) {
+    font-size: var(--mobile-header-title-font) !important;
+    line-height: var(--mobile-header-title-line-height);
+    letter-spacing: var(--mobile-header-title-tracking);
+    text-shadow: var(--mobile-header-title-shadow) !important;
+  }
+}

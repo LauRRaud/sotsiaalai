@@ -1,5 +1,6 @@
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
+import "../styles/features/rooms/index.css";
 import "../styles/components/invite-modal.css";
 import "../styles/features/chat/mono.css";
 import { cookies } from "next/headers";

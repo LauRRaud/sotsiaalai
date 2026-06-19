@@ -1,0 +1,18 @@
+/* Materials mobile modal/surface rules. Route-imported by /materjalid. */
+@import url("../../shared/mobile-fullscreen-page-shell.css");
+
+
+@media (max-width: 768px) {
+  .materials-page-body,
+  .materials-page-content
+    :is(
+      .materials-upload-panel,
+      .materials-admin-panel,
+      .materials-upload-panel > div,
+      .materials-upload-panel form,
+      .materials-upload-panel textarea,
+      .materials-admin-panel > div
+    ) {
+    max-width: none;
+  }
+}

@@ -1,0 +1,19 @@
+git apply --check: OK
+Missing local CSS imports: 0
+CSS import cycles: 0
+CSS brace-balance errors: 0
+!important count after patch 18: 2022
+global home-scroll-cue-arrow: False
+global data-page=home pending bends: False
+global account-modal header file exists: False
+global subpage-title imports account-modal: False
+Global mobile chain files with feature-named text: 9
+ - app/styles/mobile/foundations.css lines 194
+ - app/styles/features/accessibility/touch-controls.css lines 16, 18, 23, 32, 33, 34, 35
+ - app/styles/features/accessibility/fields.css lines 4
+ - app/styles/mobile/scroll-panels.css lines 2
+ - app/styles/mobile/scroll-panels/glass-card.css lines 13, 14, 15, 61, 64, 65, 66
+ - app/styles/mobile/subpage-header/workspace-offsets.css lines 17, 18, 21, 22, 40, 41, 46, 47
+ - app/styles/mobile/subpage-header/layout.css lines 8, 9, 10, 13, 14, 15, 16, 17
+ - app/styles/mobile/subpage-header/title-fit.css lines 4, 8, 13, 18, 47, 48, 49, 52
+ - app/styles/mobile/panel-surfaces/shadows.css lines 16, 18

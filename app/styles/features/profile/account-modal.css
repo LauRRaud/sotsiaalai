@@ -1,0 +1,39 @@
+/* Profile account settings modal scroll spacing. Route-imported by profile/chat verticals. */
+
+@media (max-width: 768px) {
+  .account-settings-modal-content .invite-modal-scroll {
+    gap: clamp(2.1rem, 5.2vh, 2.85rem);
+    padding-top: 0;
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 0.3rem);
+  }
+}
+
+/* Account settings mobile modal sizing owned by the profile feature. */
+
+@media (max-width: 768px) {
+  .invite-modal-content.account-settings-modal-content.glass-mobile-card.mobile-keep-desktop-glass-cards {
+    --account-settings-mobile-height: calc(
+      var(--glass-mobile-root-vh, 100dvh) -
+        var(--mobile-safe-top, env(safe-area-inset-top, 0px)) -
+        var(--mobile-safe-bottom, env(safe-area-inset-bottom, 0px)) -
+        var(--mobile-glass-card-gap, 0.35rem) -
+        var(--mobile-glass-card-gap, 0.35rem)
+    );
+    height: var(--account-settings-mobile-height) !important;
+    min-height: var(--account-settings-mobile-height) !important;
+    max-height: var(--account-settings-mobile-height) !important;
+  }
+
+  .account-settings-modal-content .account-modal-title-wrap {
+    flex: 0 0 auto;
+  }
+
+  .account-settings-modal-content .invite-modal-scroll {
+    flex: 1 1 auto !important;
+    height: auto !important;
+    max-height: none !important;
+    min-height: 0 !important;
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 1.25rem);
+    scroll-padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 1.25rem);
+  }
+}

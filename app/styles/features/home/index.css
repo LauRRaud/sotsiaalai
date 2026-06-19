@@ -1,9 +1,11 @@
 /* Home(page) feature vertical, imported by app/page.js only.
-   desktop.css used to load from globals.css before the mobile chain, so it
-   stays first; mobile.css carries its own max-width media queries.
-   mobile/background-home.css and mobile/home-scroll.css intentionally stay
-   in the global mobile chain: they also style global surfaces
-   (bg layers, back button, profile-orbit stack), see mobile/README.md. */
+   background.css supplies the mobile home baseline before desktop/theme refinements;
+   mobile.css and home-scroll.css carry their own max-width media queries. Shared
+   background/platform rules remain in the global mobile chain. */
+@import url("./mobile-foundations.css");
+@import url("./background.css");
 @import url("./desktop.css");
 @import url("./themes.css");
 @import url("./mobile.css");
+@import url("./home-scroll.css");
+@import url("./motion.css");

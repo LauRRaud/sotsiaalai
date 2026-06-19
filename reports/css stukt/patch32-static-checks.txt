@@ -1,0 +1,62 @@
+CSS token audit
+  CSS files: 156
+  Tokens: 1168
+  Definitions: 4343
+  Usages: 6033
+  Multi-value token collisions: 637
+  Undefined usages: 95
+  Defined but unused: 259
+  JSON: reports/css-token-audit.json
+  CSV: reports/css-token-collisions.csv
+  Subpage-card definitions: 141 across 18 files
+  Subpage-card feature direct definitions: 0
+  Subpage-card feature bridge definitions: 23
+  Subpage-card other definitions: 0
+  Subpage-card CSV: reports/css-token-family-subpage-card.csv
+  Btn-primary definitions: 310 across 19 files
+  Btn-primary feature direct definitions: 2
+  Btn-primary feature bridge definitions: 76
+  Btn-primary legacy shared definitions: 6
+  Btn-primary other definitions: 0
+  Btn-primary CSV: reports/css-token-family-btn-primary.csv
+  Form-control definitions: 259 across 15 files
+  Form-control feature direct definitions: 27
+  Form-control feature bridge definitions: 28
+  Form-control other definitions: 0
+  Form-control CSV: reports/css-token-family-form-control.csv
+CSS token audit
+  CSS files: 156
+  Tokens: 1168
+  Definitions: 4343
+  Usages: 6033
+  Multi-value token collisions: 637
+  Undefined usages: 95
+  Defined but unused: 259
+  JSON: reports/css-token-audit.json
+  CSV: reports/css-token-collisions.csv
+  Subpage-card definitions: 141 across 18 files
+  Subpage-card feature direct definitions: 0
+  Subpage-card feature bridge definitions: 23
+  Subpage-card other definitions: 0
+  Subpage-card CSV: reports/css-token-family-subpage-card.csv
+  Btn-primary definitions: 310 across 19 files
+  Btn-primary feature direct definitions: 2
+  Btn-primary feature bridge definitions: 76
+  Btn-primary legacy shared definitions: 6
+  Btn-primary other definitions: 0
+  Btn-primary CSV: reports/css-token-family-btn-primary.csv
+  Form-control definitions: 259 across 15 files
+  Form-control feature direct definitions: 27
+  Form-control feature bridge definitions: 28
+  Form-control other definitions: 0
+  Form-control CSV: reports/css-token-family-form-control.csv
+git apply --check: OK
+Missing local CSS imports: 0
+CSS import cycles: 0
+CSS brace-balance errors: 0
+Project CSS !important count: 2025
+Documents workspace direct form-control definitions: 0
+Documents workspace bridge form-control definitions: 20
+Form-control feature direct definitions: 27
+Form-control feature bridge definitions: 28
+Form-control other definitions: 0

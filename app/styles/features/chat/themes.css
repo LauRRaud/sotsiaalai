@@ -616,28 +616,38 @@
 :root:not(.theme-light):not(.theme-mid):not(.theme-night):not(.theme-mono):not([data-contrast="hc"])
   .drawer-chat-sidebar
   [data-variant="primary"] {
-  --btn-primary-bg: radial-gradient(
+  --chat-btn-primary-bg: radial-gradient(
       ellipse at top,
       rgba(46, 52, 62, 0.64) 0%,
       rgba(23, 27, 34, 0.76) 100%
     );
-  --btn-primary-bg-hover: radial-gradient(
+  --btn-primary-bg: var(--chat-btn-primary-bg);
+  --chat-btn-primary-bg-hover: radial-gradient(
       ellipse at top,
       rgba(50, 56, 67, 0.7) 0%,
       rgba(25, 30, 37, 0.8) 100%
     );
-  --btn-primary-bg-active: radial-gradient(
+  --btn-primary-bg-hover: var(--chat-btn-primary-bg-hover);
+  --chat-btn-primary-bg-active: radial-gradient(
       ellipse at top,
       rgba(42, 48, 58, 0.66) 0%,
       rgba(20, 24, 31, 0.78) 100%
     );
-  --btn-primary-border: 0 solid transparent;
-  --btn-primary-border-hover: 0 solid transparent;
-  --btn-primary-border-active: 0 solid transparent;
-  --btn-primary-shadow: none;
-  --btn-primary-shadow-hover: none;
-  --btn-primary-shadow-active: none;
-  --btn-primary-shadow-focus: 0 0 0 3px rgba(148, 163, 184, 0.14);
+  --btn-primary-bg-active: var(--chat-btn-primary-bg-active);
+  --chat-btn-primary-border: 0 solid transparent;
+  --btn-primary-border: var(--chat-btn-primary-border);
+  --chat-btn-primary-border-hover: 0 solid transparent;
+  --btn-primary-border-hover: var(--chat-btn-primary-border-hover);
+  --chat-btn-primary-border-active: 0 solid transparent;
+  --btn-primary-border-active: var(--chat-btn-primary-border-active);
+  --chat-btn-primary-shadow: none;
+  --btn-primary-shadow: var(--chat-btn-primary-shadow);
+  --chat-btn-primary-shadow-hover: none;
+  --btn-primary-shadow-hover: var(--chat-btn-primary-shadow-hover);
+  --chat-btn-primary-shadow-active: none;
+  --btn-primary-shadow-active: var(--chat-btn-primary-shadow-active);
+  --chat-btn-primary-shadow-focus: 0 0 0 3px rgba(148, 163, 184, 0.14);
+  --btn-primary-shadow-focus: var(--chat-btn-primary-shadow-focus);
 }
 
 :root:not(.theme-light):not(.theme-mid) .drawer-panel--chat-glass {

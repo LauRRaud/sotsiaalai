@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import assert from "node:assert/strict";
 import test from "node:test";
+import { readCssSourceBundle } from "../helpers/cssSourceBundle.mjs";
 import { readServiceMapCssBundle } from "../helpers/serviceMapCssBundle.mjs";
 
 function read(path) {
@@ -8,7 +9,7 @@ function read(path) {
 }
 
 test("HC chat composer controls stay transparent and input glow is yellow", () => {
-  const css = read("app/styles/components/chat-focus.css");
+  const css = readCssSourceBundle("app/styles/components/chat-focus.css");
   const borderGlow = read("components/ui/BorderGlow.module.css");
   const hc = read("app/styles/theme/hc.css");
   const composerShellBlocks = css.match(
@@ -39,20 +40,20 @@ test("HC chat composer controls stay transparent and input glow is yellow", () =
 });
 
 test("chat send arrow is centered by the button box, not manual glyph offsets", () => {
-  const css = read("app/styles/components/chat-focus.css");
+  const css = readCssSourceBundle("app/styles/components/chat-focus.css");
   const composer = read("components/alalehed/chat/ChatComposer.jsx");
 
   assert.match(
     css,
-    /body \.chat-inputbar \.chat-send-btn\s*\{[\s\S]*?display:\s*inline-grid\s*!important;[\s\S]*?place-items:\s*center\s*!important;/
+    /body \.chat-inputbar \.chat-send-btn\s*\{[\s\S]*?display:\s*inline-grid\s*!important;[\s\S]*?place-items:\s*center;/
   );
   assert.match(
     css,
-    /body \.chat-inputbar \.chat-send-btn > \.chat-send-icon-anchor\s*\{[\s\S]*?width:\s*100%\s*!important;[\s\S]*?height:\s*100%\s*!important;[\s\S]*?place-items:\s*center\s*!important;[\s\S]*?position:\s*absolute\s*!important;[\s\S]*?inset:\s*0\s*!important;/
+    /body \.chat-inputbar \.chat-send-btn > \.chat-send-icon-anchor\s*\{[\s\S]*?width:\s*100%\s*!important;[\s\S]*?height:\s*100%\s*!important;[\s\S]*?display:\s*grid;[\s\S]*?place-items:\s*center\s*!important;[\s\S]*?position:\s*absolute\s*!important;[\s\S]*?inset:\s*0\s*!important;/
   );
   assert.match(
     css,
-    /body \.chat-inputbar \.chat-send-btn \.chat-send-glyph\s*\{[\s\S]*?display:\s*block\s*!important;[\s\S]*?transform-box:\s*fill-box\s*!important;[\s\S]*?transform-origin:\s*center\s*!important;/
+    /body \.chat-inputbar \.chat-send-btn \.chat-send-glyph\s*\{[\s\S]*?display:\s*block;[\s\S]*?transform-box:\s*fill-box;[\s\S]*?transform-origin:\s*center;/
   );
   assert.match(composer, /import ChevronIcon from "@\/components\/ui\/icons\/ChevronIcon";/);
   assert.match(composer, /const sendIconAnchorClassName =\s*\n\s*"chat-send-icon-anchor/);
@@ -86,7 +87,7 @@ test("HC global button reset excludes chat composer icon controls", () => {
 test("HC panels define actual yellow borders, not only border color", () => {
   const hc = read("app/styles/theme/hc.css");
   const serviceMap = readServiceMapCssBundle();
-  const documents = read("app/styles/components/documents-mode.css");
+  const documents = readCssSourceBundle("app/styles/components/documents-mode.css");
   const covision = read("components/covision/CovisionPage.module.css");
   const workspacePanel = read("components/chat/WorkspacePanel.jsx");
 
@@ -120,7 +121,7 @@ test("HC panels define actual yellow borders, not only border color", () => {
 
 test("HC glow fields stay dark on hover and hide edge light overlays", () => {
   const hc = read("app/styles/theme/hc.css");
-  const glass = read("app/styles/components/glass.css");
+  const glass = readCssSourceBundle("app/styles/components/glass.css");
   const borderGlow = read("components/ui/BorderGlow.module.css");
   const hoverIndex = hc.indexOf("):is(:hover, :focus, :focus-within, :focus-visible, :active) {");
   const hoverBlock = hc.slice(hoverIndex, hc.indexOf("\n}", hoverIndex) + 2);
@@ -208,14 +209,19 @@ test("HC invite selected payment cards and workspace action buttons have clear o
 
 test("HC selected option cards keep a yellow fill after the generic glow reset", () => {
   const hc = read("app/styles/theme/hc.css");
-  const glass = read("app/styles/components/glass.css");
+  const glass = readCssSourceBundle("app/styles/components/glass.css");
   const borderGlow = read("components/ui/BorderGlow.module.css");
   const segmented = read("components/ui/primarySegmentedButtonClassName.js");
-  const genericResetIndex = hc.lastIndexOf("html[data-contrast=\"hc\"] body :is(\n  button,\n  [role=\"button\"],\n  label\n):is(");
-  const selectedOverrideIndex = hc.indexOf(
-    "html[data-contrast=\"hc\"] body :is(\n  .register-content,\n  .invite-modal-content,\n  .person-invite-modal-content,\n  .a11y-modal-shell\n) [data-control-type][data-checked=\"true\"] {",
-    genericResetIndex
+  const genericResetIndex = hc.search(
+    /html\[data-contrast="hc"\] body :is\(\s*button,\s*\[role="button"\],\s*label\s*\):is\([\s\S]*?\.ui-glow-option-card-frame/
   );
+  const selectedOverrideRelativeIndex = hc.slice(Math.max(genericResetIndex, 0)).search(
+    /html\[data-contrast="hc"\] body :is\(\s*\.register-content,\s*\.invite-modal-content,\s*\.person-invite-modal-content,\s*\.a11y-modal-shell\s*\) \[data-control-type\]\[data-checked="true"\] \{/
+  );
+  const selectedOverrideIndex =
+    selectedOverrideRelativeIndex >= 0 && genericResetIndex >= 0
+      ? genericResetIndex + selectedOverrideRelativeIndex
+      : -1;
 
   assert.ok(genericResetIndex > -1, "HC generic button/glow reset should exist");
   assert.ok(selectedOverrideIndex > genericResetIndex, "selected option card override must come after the generic reset");
@@ -248,7 +254,7 @@ test("HC selected option cards keep a yellow fill after the generic glow reset",
 });
 
 test("HC registration inputs do not draw an inner native input rectangle", () => {
-  const glass = read("app/styles/components/glass.css");
+  const glass = readCssSourceBundle("app/styles/components/glass.css");
 
   assert.match(
     glass,

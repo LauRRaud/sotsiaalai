@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import assert from "node:assert/strict";
 import test from "node:test";
+import { readCssSourceBundle } from "../helpers/cssSourceBundle.mjs";
 import { readServiceMapCssBundle } from "../helpers/serviceMapCssBundle.mjs";
 
 function readCss(path) {
@@ -8,7 +9,7 @@ function readCss(path) {
 }
 
 test("light and mid glow controls keep the dynamic edge layer enabled", () => {
-  const css = readCss("app/styles/components/glass.css");
+  const css = readCssSourceBundle("app/styles/components/glass.css");
 
   for (const control of [
     "ui-glow-button-frame",
@@ -28,7 +29,7 @@ test("light and mid glow controls keep the dynamic edge layer enabled", () => {
 });
 
 test("light and mid glow controls do not jump pointer edge state on hover", () => {
-  const css = readCss("app/styles/components/glass.css");
+  const css = readCssSourceBundle("app/styles/components/glass.css");
 
   for (const control of [
     "ui-glow-button-frame",
@@ -50,9 +51,9 @@ test("light and mid glow controls do not jump pointer edge state on hover", () =
 });
 
 test("light and mid glow controls define idle transparent glow layers", () => {
-  const css = readCss("app/styles/components/glass.css");
+  const css = readCssSourceBundle("app/styles/components/glass.css");
   const buttonIdleBlock = css.match(
-    /:root\.theme-light \.ui-glow-button-frame,[\s\S]*?:root\.theme-mid \.ui-glow-button-frame\s*\{([\s\S]*?)\n\}/
+    /:root\.theme-light \.ui-glow-button-frame(?::not\([^)]*\))*,[\s\S]*?:root\.theme-mid \.ui-glow-button-frame(?::not\([^)]*\))*\s*\{([\s\S]*?)\n\}/
   );
   const optionIdleBlock = css.match(
     /:root\.theme-light \.ui-glow-option-card-frame,[\s\S]*?:root\.theme-mid \.ui-glow-option-card-frame\s*\{([\s\S]*?)\n\}/
@@ -95,7 +96,7 @@ test("light-mid drawer delete button only keeps important where mid shadow reset
 });
 
 test("light and mid buttons use an outer glow ring without inset double edges", () => {
-  const css = readCss("app/styles/components/glass.css");
+  const css = readCssSourceBundle("app/styles/components/glass.css");
   const buttonHoverBlock = css.match(
     /:root\.theme-light \.ui-glow-button-frame:hover:not\([^)]*\)(?::not\([^)]*\))*,[\s\S]*?:root\.theme-mid \.ui-glow-button-frame:hover:not\([^)]*\)(?::not\([^)]*\))*\s*\{([\s\S]*?)\n\}/
   );
@@ -119,7 +120,7 @@ test("light and mid buttons use an outer glow ring without inset double edges", 
 });
 
 test("light and mid input fields keep edge glow without inset double edges", () => {
-  const css = readCss("app/styles/components/glass.css");
+  const css = readCssSourceBundle("app/styles/components/glass.css");
   const serviceMapCss = readServiceMapCssBundle();
   const lightFieldIdleBlock = css.match(
     /:root\.theme-light \.ui-glow-field\s*\{([\s\S]*?)\n\}/

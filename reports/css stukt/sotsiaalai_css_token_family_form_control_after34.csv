@@ -1,0 +1,260 @@
+family,token,tier,file,line,value
+form-control,--input-bg,feature-bridge,app/styles/features/chat/hc.css,503,var(--chat-input-bg)
+form-control,--input-bg,feature-bridge,app/styles/features/documents/mono.css,76,var(--documents-input-bg)
+form-control,--input-bg,feature-bridge,app/styles/features/documents/ui.css,595,var(--documents-input-bg)
+form-control,--input-bg,feature-bridge,app/styles/features/documents/workspace.css,195,var(--documents-input-bg)
+form-control,--input-bg,feature-bridge,app/styles/features/documents/workspace.css,524,var(--documents-input-bg)
+form-control,--input-bg,feature-bridge,app/styles/features/documents/workspace.css,577,var(--documents-input-bg)
+form-control,--input-bg,feature-direct-definition,app/styles/features/service-map/desktop/base.css,623,#000
+form-control,--input-bg,shared-primitive,app/styles/mobile/scroll-panels/glass-card.css,71,var(--mobile-common-glass-surface-bg)
+form-control,--input-bg,shared-primitive,app/styles/shared/glass-subpage.css,101,var(--subpage-card-bg)
+form-control,--input-bg,shared-primitive,app/styles/shared/glass-subpage.css,137,var(--subpage-card-bg)
+form-control,--input-bg,shared-primitive,app/styles/shared/glass-subpage.css,153,var(--subpage-card-bg)
+form-control,--input-bg,shared-primitive,app/styles/shared/glass-subpage.css,169,var(--subpage-card-bg)
+form-control,--input-bg,shared-primitive,app/styles/shared/glass-subpage.css,200,var(--subpage-card-bg)
+form-control,--input-bg,theme-override,app/styles/theme/dark.css,38,var(--form-surface)
+form-control,--input-bg,theme-override,app/styles/theme/dark.css,196,"rgba(14, 16, 22, 0.78)"
+form-control,--input-bg,theme-override,app/styles/theme/hc.css,69,"rgba(9, 14, 24, 0.84)"
+form-control,--input-bg,theme-override,app/styles/theme/hc.css,627,var(--form-surface)
+form-control,--input-bg,theme-override,app/styles/theme/hc.css,858,"rgba(9, 14, 24, 0.78)"
+form-control,--input-bg,theme-override,app/styles/theme/hc.css,1054,var(--form-surface)
+form-control,--input-bg,theme-override,app/styles/theme/hc.css,1238,var(--hc-control-bg)
+form-control,--input-bg,theme-override,app/styles/theme/hc.css,1816,var(--hc-field-bg)
+form-control,--input-bg,theme-override,app/styles/theme/light.css,271,var(--subpage-card-bg)
+form-control,--input-bg,theme-override,app/styles/theme/mid.css,368,var(--subpage-card-bg)
+form-control,--input-bg,theme-override,app/styles/theme/mid.css,516,var(--mid-unified-surface-bg)
+form-control,--input-bg,theme-override,app/styles/theme/mono.css,130,var(--mono-input-surface)
+form-control,--input-bg,theme-override,app/styles/theme/mono.css,151,var(--mono-input-surface) !important
+form-control,--input-bg,theme-override,app/styles/theme/mono.css,465,var(--form-surface)
+form-control,--input-bg,theme-override,app/styles/theme/mono.css,650,var(--form-surface)
+form-control,--input-bg,theme-override,app/styles/theme/night.css,60,"rgba(10, 20, 36, 0.76)"
+form-control,--input-bg,theme-override,app/styles/theme/night.css,268,var(--form-surface)
+form-control,--input-bg,canonical-default,app/styles/tokens.css,149,var(--form-surface)
+form-control,--input-bg-focus,feature-bridge,app/styles/features/chat/hc.css,505,var(--chat-input-bg-focus)
+form-control,--input-bg-focus,feature-bridge,app/styles/features/documents/mono.css,78,var(--documents-input-bg-focus)
+form-control,--input-bg-focus,feature-bridge,app/styles/features/documents/ui.css,597,var(--documents-input-bg-focus)
+form-control,--input-bg-focus,feature-bridge,app/styles/features/documents/workspace.css,197,var(--documents-input-bg-focus)
+form-control,--input-bg-focus,feature-bridge,app/styles/features/documents/workspace.css,526,var(--documents-input-bg-focus)
+form-control,--input-bg-focus,feature-bridge,app/styles/features/documents/workspace.css,579,var(--documents-input-bg-focus)
+form-control,--input-bg-focus,feature-direct-definition,app/styles/features/service-map/desktop/base.css,625,#000
+form-control,--input-bg-focus,shared-primitive,app/styles/mobile/scroll-panels/glass-card.css,73,var(--mobile-common-glass-surface-bg)
+form-control,--input-bg-focus,shared-primitive,app/styles/shared/glass-subpage.css,103,var(--subpage-card-bg-hover)
+form-control,--input-bg-focus,shared-primitive,app/styles/shared/glass-subpage.css,139,var(--subpage-card-bg-hover)
+form-control,--input-bg-focus,shared-primitive,app/styles/shared/glass-subpage.css,155,var(--subpage-card-bg-hover)
+form-control,--input-bg-focus,shared-primitive,app/styles/shared/glass-subpage.css,171,var(--subpage-card-bg-hover)
+form-control,--input-bg-focus,shared-primitive,app/styles/shared/glass-subpage.css,202,var(--subpage-card-bg-hover)
+form-control,--input-bg-focus,theme-override,app/styles/theme/dark.css,40,var(--form-surface-active)
+form-control,--input-bg-focus,theme-override,app/styles/theme/dark.css,198,"rgba(16, 18, 24, 0.88)"
+form-control,--input-bg-focus,theme-override,app/styles/theme/hc.css,71,"rgba(10, 16, 27, 0.94)"
+form-control,--input-bg-focus,theme-override,app/styles/theme/hc.css,629,var(--form-surface-active)
+form-control,--input-bg-focus,theme-override,app/styles/theme/hc.css,860,"rgba(10, 16, 27, 0.88)"
+form-control,--input-bg-focus,theme-override,app/styles/theme/hc.css,1056,var(--form-surface-active)
+form-control,--input-bg-focus,theme-override,app/styles/theme/hc.css,1240,var(--hc-control-bg-active)
+form-control,--input-bg-focus,theme-override,app/styles/theme/hc.css,1818,var(--hc-field-bg-focus)
+form-control,--input-bg-focus,theme-override,app/styles/theme/light.css,273,var(--subpage-card-bg-hover)
+form-control,--input-bg-focus,theme-override,app/styles/theme/mid.css,370,var(--subpage-card-bg)
+form-control,--input-bg-focus,theme-override,app/styles/theme/mid.css,518,var(--mid-unified-surface-bg-hover)
+form-control,--input-bg-focus,theme-override,app/styles/theme/mono.css,132,var(--mono-input-surface-hover)
+form-control,--input-bg-focus,theme-override,app/styles/theme/mono.css,153,var(--mono-input-surface-hover)
+form-control,--input-bg-focus,theme-override,app/styles/theme/mono.css,467,var(--form-surface-active)
+form-control,--input-bg-focus,theme-override,app/styles/theme/mono.css,652,var(--form-surface-active)
+form-control,--input-bg-focus,theme-override,app/styles/theme/night.css,62,"rgba(12, 24, 42, 0.86)"
+form-control,--input-bg-focus,theme-override,app/styles/theme/night.css,270,var(--form-surface-active)
+form-control,--input-bg-focus,canonical-default,app/styles/tokens.css,151,var(--form-surface-active)
+form-control,--input-bg-hover,feature-bridge,app/styles/features/chat/hc.css,504,var(--chat-input-bg-hover)
+form-control,--input-bg-hover,feature-bridge,app/styles/features/documents/mono.css,77,var(--documents-input-bg-hover)
+form-control,--input-bg-hover,feature-bridge,app/styles/features/documents/ui.css,596,var(--documents-input-bg-hover)
+form-control,--input-bg-hover,feature-bridge,app/styles/features/documents/workspace.css,196,var(--documents-input-bg-hover)
+form-control,--input-bg-hover,feature-bridge,app/styles/features/documents/workspace.css,525,var(--documents-input-bg-hover)
+form-control,--input-bg-hover,feature-bridge,app/styles/features/documents/workspace.css,578,var(--documents-input-bg-hover)
+form-control,--input-bg-hover,feature-direct-definition,app/styles/features/service-map/desktop/base.css,624,#000
+form-control,--input-bg-hover,shared-primitive,app/styles/mobile/scroll-panels/glass-card.css,72,var(--mobile-common-glass-surface-bg)
+form-control,--input-bg-hover,shared-primitive,app/styles/shared/glass-subpage.css,102,var(--subpage-card-bg-hover)
+form-control,--input-bg-hover,shared-primitive,app/styles/shared/glass-subpage.css,138,var(--subpage-card-bg-hover)
+form-control,--input-bg-hover,shared-primitive,app/styles/shared/glass-subpage.css,154,var(--subpage-card-bg-hover)
+form-control,--input-bg-hover,shared-primitive,app/styles/shared/glass-subpage.css,170,var(--subpage-card-bg-hover)
+form-control,--input-bg-hover,shared-primitive,app/styles/shared/glass-subpage.css,201,var(--subpage-card-bg-hover)
+form-control,--input-bg-hover,theme-override,app/styles/theme/dark.css,39,var(--form-surface-hover)
+form-control,--input-bg-hover,theme-override,app/styles/theme/dark.css,197,"rgba(16, 18, 24, 0.84)"
+form-control,--input-bg-hover,theme-override,app/styles/theme/hc.css,70,"rgba(10, 16, 27, 0.9)"
+form-control,--input-bg-hover,theme-override,app/styles/theme/hc.css,628,var(--form-surface-hover)
+form-control,--input-bg-hover,theme-override,app/styles/theme/hc.css,859,"rgba(10, 16, 27, 0.84)"
+form-control,--input-bg-hover,theme-override,app/styles/theme/hc.css,1055,var(--form-surface-hover)
+form-control,--input-bg-hover,theme-override,app/styles/theme/hc.css,1239,var(--hc-control-bg-hover)
+form-control,--input-bg-hover,theme-override,app/styles/theme/hc.css,1817,var(--hc-field-bg-hover)
+form-control,--input-bg-hover,theme-override,app/styles/theme/light.css,272,var(--subpage-card-bg-hover)
+form-control,--input-bg-hover,theme-override,app/styles/theme/mid.css,369,var(--subpage-card-bg)
+form-control,--input-bg-hover,theme-override,app/styles/theme/mid.css,517,var(--mid-unified-surface-bg-hover)
+form-control,--input-bg-hover,theme-override,app/styles/theme/mono.css,131,var(--mono-input-surface-hover)
+form-control,--input-bg-hover,theme-override,app/styles/theme/mono.css,152,var(--mono-input-surface-hover)
+form-control,--input-bg-hover,theme-override,app/styles/theme/mono.css,466,var(--form-surface-hover)
+form-control,--input-bg-hover,theme-override,app/styles/theme/mono.css,651,var(--form-surface-hover)
+form-control,--input-bg-hover,theme-override,app/styles/theme/night.css,61,"rgba(12, 24, 42, 0.82)"
+form-control,--input-bg-hover,theme-override,app/styles/theme/night.css,269,var(--form-surface-hover)
+form-control,--input-bg-hover,canonical-default,app/styles/tokens.css,150,var(--form-surface-hover)
+form-control,--input-border,feature-bridge,app/styles/features/chat/hc.css,499,var(--chat-input-border)
+form-control,--input-border,feature-bridge,app/styles/features/documents/mono.css,81,var(--documents-input-border)
+form-control,--input-border,feature-bridge,app/styles/features/documents/ui.css,591,var(--documents-input-border)
+form-control,--input-border,feature-bridge,app/styles/features/documents/workspace.css,198,var(--documents-input-border)
+form-control,--input-border,feature-bridge,app/styles/features/documents/workspace.css,527,var(--documents-input-border)
+form-control,--input-border,feature-bridge,app/styles/features/documents/workspace.css,580,var(--documents-input-border)
+form-control,--input-border,theme-override,app/styles/theme/dark.css,41,0 solid transparent
+form-control,--input-border,theme-override,app/styles/theme/dark.css,199,"1px solid rgba(148, 163, 184, 0.22)"
+form-control,--input-border,theme-override,app/styles/theme/hc.css,74,"2px solid rgba(var(--hc-accent-rgb), 0.72)"
+form-control,--input-border,theme-override,app/styles/theme/hc.css,623,"2px solid rgba(var(--hc-accent-rgb), 0.68)"
+form-control,--input-border,theme-override,app/styles/theme/hc.css,854,"2px solid rgba(var(--hc-accent-rgb), 0.68)"
+form-control,--input-border,theme-override,app/styles/theme/hc.css,1050,"2px solid rgba(var(--hc-accent-rgb), 0.68)"
+form-control,--input-border,theme-override,app/styles/theme/hc.css,1824,"2px solid rgba(255, 234, 0, 0.68)"
+form-control,--input-border,theme-override,app/styles/theme/light.css,278,"1px solid rgba(148, 163, 184, 0.08)"
+form-control,--input-border,theme-override,app/styles/theme/mid.css,371,0 solid transparent
+form-control,--input-border,theme-override,app/styles/theme/mid.css,527,var(--mid-unified-surface-border)
+form-control,--input-border,theme-override,app/styles/theme/mono.css,133,"1px solid rgba(var(--mono-mid-rgb), 0.16)"
+form-control,--input-border,theme-override,app/styles/theme/mono.css,154,"1px solid rgba(var(--mono-mid-rgb), 0.16)"
+form-control,--input-border,theme-override,app/styles/theme/mono.css,658,"1px solid rgba(214, 214, 214, 0.16)"
+form-control,--input-border,theme-override,app/styles/theme/night.css,63,"1px solid rgba(var(--night-blue-rgb), 0.24)"
+form-control,--input-border,theme-override,app/styles/theme/night.css,271,0 solid transparent
+form-control,--input-border,canonical-default,app/styles/tokens.css,154,2px solid transparent
+form-control,--input-caret,feature-bridge,app/styles/features/chat/hc.css,502,var(--chat-input-caret)
+form-control,--input-caret,feature-bridge,app/styles/features/documents/ui.css,594,var(--documents-input-caret)
+form-control,--input-caret,theme-override,app/styles/theme/hc.css,85,var(--hc-accent)
+form-control,--input-caret,theme-override,app/styles/theme/hc.css,626,var(--hc-accent)
+form-control,--input-caret,theme-override,app/styles/theme/hc.css,857,var(--hc-accent)
+form-control,--input-caret,theme-override,app/styles/theme/hc.css,1053,var(--hc-accent)
+form-control,--input-caret,theme-override,app/styles/theme/hc.css,1244,var(--hc-accent)
+form-control,--input-caret,theme-override,app/styles/theme/hc.css,1822,var(--hc-accent)
+form-control,--input-caret,theme-override,app/styles/theme/light.css,277,#1f2937
+form-control,--input-caret,theme-override,app/styles/theme/mid.css,374,var(--subpage-card-text)
+form-control,--input-caret,theme-override,app/styles/theme/mid.css,525,#2f3a4a
+form-control,--input-caret,theme-override,app/styles/theme/mono.css,656,var(--mono-icon)
+form-control,--input-caret,canonical-default,app/styles/tokens.css,153,var(--pt-150)
+form-control,--input-disabled-opacity,theme-override,app/styles/theme/light.css,286,0.6
+form-control,--input-disabled-opacity,canonical-default,app/styles/tokens.css,175,0.6
+form-control,--input-flat-bg,feature-bridge,app/styles/features/documents/mono.css,79,var(--documents-input-flat-bg)
+form-control,--input-flat-bg,feature-bridge,app/styles/features/documents/workspace.css,522,var(--documents-input-flat-bg)
+form-control,--input-flat-bg,feature-direct-definition,app/styles/features/service-map/desktop/base.css,626,#000
+form-control,--input-flat-bg,theme-override,app/styles/theme/dark.css,56,var(--workspace-elevated-card-bg)
+form-control,--input-flat-bg,theme-override,app/styles/theme/hc.css,72,"rgba(8, 9, 12, 0.68)"
+form-control,--input-flat-bg,theme-override,app/styles/theme/hc.css,1241,var(--hc-control-bg)
+form-control,--input-flat-bg,theme-override,app/styles/theme/hc.css,1819,var(--hc-field-bg)
+form-control,--input-flat-bg,theme-override,app/styles/theme/light.css,274,var(--btn-primary-bg)
+form-control,--input-flat-bg,theme-override,app/styles/theme/mid.css,519,"var(--mid-pill-surface-bg, var(--btn-primary-bg))"
+form-control,--input-flat-bg,theme-override,app/styles/theme/mono.css,468,var(--mono-input-surface)
+form-control,--input-flat-bg,theme-override,app/styles/theme/mono.css,653,var(--mono-input-surface)
+form-control,--input-flat-bg,theme-override,app/styles/theme/night.css,266,var(--workspace-elevated-card-bg)
+form-control,--input-flat-bg,canonical-default,app/styles/tokens.css,209,var(--input-bg)
+form-control,--input-flat-bg-hover,feature-bridge,app/styles/features/documents/mono.css,80,var(--documents-input-flat-bg-hover)
+form-control,--input-flat-bg-hover,feature-bridge,app/styles/features/documents/workspace.css,523,var(--documents-input-flat-bg-hover)
+form-control,--input-flat-bg-hover,feature-direct-definition,app/styles/features/service-map/desktop/base.css,627,#000
+form-control,--input-flat-bg-hover,theme-override,app/styles/theme/dark.css,57,var(--workspace-elevated-card-bg)
+form-control,--input-flat-bg-hover,theme-override,app/styles/theme/hc.css,73,"rgba(12, 13, 16, 0.76)"
+form-control,--input-flat-bg-hover,theme-override,app/styles/theme/hc.css,1242,var(--hc-control-bg-hover)
+form-control,--input-flat-bg-hover,theme-override,app/styles/theme/hc.css,1820,var(--hc-field-bg-hover)
+form-control,--input-flat-bg-hover,theme-override,app/styles/theme/light.css,275,var(--btn-primary-bg-hover)
+form-control,--input-flat-bg-hover,theme-override,app/styles/theme/mid.css,520,"var( --mid-pill-surface-bg-hover, var(--btn-primary-bg-hover) )"
+form-control,--input-flat-bg-hover,theme-override,app/styles/theme/mono.css,469,var(--mono-input-surface-hover)
+form-control,--input-flat-bg-hover,theme-override,app/styles/theme/mono.css,654,var(--mono-input-surface-hover)
+form-control,--input-flat-bg-hover,theme-override,app/styles/theme/night.css,267,var(--workspace-elevated-card-bg)
+form-control,--input-flat-bg-hover,canonical-default,app/styles/tokens.css,210,var(--input-bg-hover)
+form-control,--input-placeholder,feature-bridge,app/styles/features/chat/hc.css,501,var(--chat-input-placeholder)
+form-control,--input-placeholder,feature-bridge,app/styles/features/documents/ui.css,593,var(--documents-input-placeholder)
+form-control,--input-placeholder,feature-direct-definition,app/styles/features/service-map/desktop/base.css,629,"rgba(255, 234, 0, 0.92)"
+form-control,--input-placeholder,feature-direct-definition,app/styles/features/service-map/desktop/pre-inquiry-agent.css,3,"var( --workspace-feature-field-placeholder, var(--input-placeholder, rgba(71, 85, 105, 0.72)) )"
+form-control,--input-placeholder,theme-override,app/styles/theme/hc.css,84,"rgba(var(--hc-accent-rgb), 0.92)"
+form-control,--input-placeholder,theme-override,app/styles/theme/hc.css,625,"rgba(var(--hc-accent-rgb), 0.92)"
+form-control,--input-placeholder,theme-override,app/styles/theme/hc.css,856,"rgba(var(--hc-accent-rgb), 0.92)"
+form-control,--input-placeholder,theme-override,app/styles/theme/hc.css,1052,"rgba(var(--hc-accent-rgb), 0.92)"
+form-control,--input-placeholder,theme-override,app/styles/theme/hc.css,1245,"rgba(var(--hc-accent-rgb), 0.92)"
+form-control,--input-placeholder,theme-override,app/styles/theme/hc.css,1823,"rgba(255, 234, 0, 0.92)"
+form-control,--input-placeholder,theme-override,app/styles/theme/light.css,279,#374151
+form-control,--input-placeholder,theme-override,app/styles/theme/mid.css,375,"rgba(73, 84, 101, 0.72)"
+form-control,--input-placeholder,theme-override,app/styles/theme/mid.css,528,"rgba(55, 65, 81, 0.82)"
+form-control,--input-placeholder,theme-override,app/styles/theme/mono.css,657,"rgba(245, 245, 245, 0.88)"
+form-control,--input-placeholder,canonical-default,app/styles/tokens.css,155,#f8f8f7
+form-control,--input-radius,theme-override,app/styles/theme/light.css,285,0.95rem
+form-control,--input-radius,theme-override,app/styles/theme/mid.css,372,var(--subpage-card-radius)
+form-control,--input-radius,canonical-default,app/styles/tokens.css,174,1.2em
+form-control,--input-shadow,feature-bridge,app/styles/features/chat/hc.css,506,var(--chat-input-shadow)
+form-control,--input-shadow,feature-bridge,app/styles/features/documents/mono.css,82,var(--documents-input-shadow)
+form-control,--input-shadow,feature-bridge,app/styles/features/documents/ui.css,598,var(--documents-input-shadow)
+form-control,--input-shadow,feature-bridge,app/styles/features/documents/workspace.css,199,var(--documents-input-shadow)
+form-control,--input-shadow,feature-bridge,app/styles/features/documents/workspace.css,528,var(--documents-input-shadow)
+form-control,--input-shadow,feature-bridge,app/styles/features/documents/workspace.css,581,var(--documents-input-shadow)
+form-control,--input-shadow,theme-override,app/styles/theme/dark.css,42,"0 5px 14px rgba(var(--dark-black-rgb), 0.2), 0 10px 18px -12px rgba(238, 242, 248, 0.2), 0 18px 28px -24px rgba(238, 242, 248, 0.08)"
+form-control,--input-shadow,theme-override,app/styles/theme/dark.css,200,none
+form-control,--input-shadow,theme-override,app/styles/theme/hc.css,75,none
+form-control,--input-shadow,theme-override,app/styles/theme/hc.css,861,none
+form-control,--input-shadow,theme-override,app/styles/theme/hc.css,1830,none
+form-control,--input-shadow,theme-override,app/styles/theme/light.css,280,var(--subpage-card-shadow)
+form-control,--input-shadow,theme-override,app/styles/theme/mid.css,376,var(--subpage-card-shadow)
+form-control,--input-shadow,theme-override,app/styles/theme/mid.css,529,var(--mid-unified-surface-shadow)
+form-control,--input-shadow,theme-override,app/styles/theme/mono.css,134,var(--mono-field-hole-shadow)
+form-control,--input-shadow,theme-override,app/styles/theme/mono.css,155,var(--mono-field-hole-shadow)
+form-control,--input-shadow,theme-override,app/styles/theme/mono.css,659,"0 4px 10px rgba(0, 0, 0, 0.2), 0 7px 12px -10px rgba(248, 253, 255, 0.08), inset 0 0 0 999px rgba(255, 255, 255, 0.008)"
+form-control,--input-shadow,theme-override,app/styles/theme/night.css,64,none
+form-control,--input-shadow,theme-override,app/styles/theme/night.css,272,"0 5px 14px rgba(2, 6, 16, 0.2), 0 10px 18px -12px rgba(220, 236, 255, 0.22), 0 18px 28px -24px rgba(220, 236, 255, 0.09)"
+form-control,--input-shadow,canonical-default,app/styles/tokens.css,156,"0 5.5px 15px rgba(0, 0, 0, 0.22), 0 10px 18px -14px rgba(255, 255, 255, 0.38), 0 21px 32px -22px rgba(255, 255, 255, 0.22)"
+form-control,--input-shadow-composite,theme-override,app/styles/theme/mid.css,378,var(--subpage-card-shadow)
+form-control,--input-shadow-composite,canonical-default,app/styles/tokens.css,167,"var(--input-shadow), var(--input-surface-overlay)"
+form-control,--input-shadow-focus-composite,theme-override,app/styles/theme/mid.css,380,var(--subpage-card-shadow)
+form-control,--input-shadow-focus-composite,canonical-default,app/styles/tokens.css,171,"var(--input-shadow-hover), var(--input-surface-overlay-focus)"
+form-control,--input-shadow-hover,feature-bridge,app/styles/features/chat/hc.css,507,var(--chat-input-shadow-hover)
+form-control,--input-shadow-hover,feature-bridge,app/styles/features/documents/mono.css,83,var(--documents-input-shadow-hover)
+form-control,--input-shadow-hover,feature-bridge,app/styles/features/documents/ui.css,599,var(--documents-input-shadow-hover)
+form-control,--input-shadow-hover,feature-bridge,app/styles/features/documents/workspace.css,200,var(--documents-input-shadow-hover)
+form-control,--input-shadow-hover,feature-bridge,app/styles/features/documents/workspace.css,529,var(--documents-input-shadow-hover)
+form-control,--input-shadow-hover,feature-bridge,app/styles/features/documents/workspace.css,582,var(--documents-input-shadow-hover)
+form-control,--input-shadow-hover,theme-override,app/styles/theme/dark.css,46,"0 5.5px 15px rgba(var(--dark-black-rgb), 0.2), 0 10px 18px -11px rgba(242, 246, 250, 0.24), 0 18px 28px -23px rgba(242, 246, 250, 0.1)"
+form-control,--input-shadow-hover,theme-override,app/styles/theme/dark.css,201,none
+form-control,--input-shadow-hover,theme-override,app/styles/theme/hc.css,76,none
+form-control,--input-shadow-hover,theme-override,app/styles/theme/hc.css,862,none
+form-control,--input-shadow-hover,theme-override,app/styles/theme/hc.css,1831,none
+form-control,--input-shadow-hover,theme-override,app/styles/theme/light.css,281,var(--subpage-card-shadow-hover)
+form-control,--input-shadow-hover,theme-override,app/styles/theme/mid.css,377,var(--subpage-card-shadow)
+form-control,--input-shadow-hover,theme-override,app/styles/theme/mid.css,530,var(--mid-unified-surface-shadow-hover)
+form-control,--input-shadow-hover,theme-override,app/styles/theme/mono.css,135,var(--mono-field-hole-shadow-hover)
+form-control,--input-shadow-hover,theme-override,app/styles/theme/mono.css,156,var(--mono-field-hole-shadow-hover)
+form-control,--input-shadow-hover,theme-override,app/styles/theme/mono.css,663,"0 5px 12px rgba(0, 0, 0, 0.22), 0 8px 13px -10px rgba(248, 253, 255, 0.1), inset 0 0 0 999px rgba(255, 255, 255, 0.014)"
+form-control,--input-shadow-hover,theme-override,app/styles/theme/night.css,65,none
+form-control,--input-shadow-hover,theme-override,app/styles/theme/night.css,276,"0 5.5px 15px rgba(2, 6, 16, 0.2), 0 10px 18px -11px rgba(220, 236, 255, 0.23), 0 18px 28px -23px rgba(220, 236, 255, 0.1)"
+form-control,--input-shadow-hover,canonical-default,app/styles/tokens.css,160,"0 6px 16px rgba(0, 0, 0, 0.22), 0 11px 20px -14px rgba(255, 255, 255, 0.46), 0 23px 34px -22px rgba(255, 255, 255, 0.28)"
+form-control,--input-shadow-hover-composite,theme-override,app/styles/theme/mid.css,379,var(--subpage-card-shadow)
+form-control,--input-shadow-hover-composite,canonical-default,app/styles/tokens.css,168,"var(--input-shadow-hover), var(--input-surface-overlay-hover)"
+form-control,--input-surface-overlay,theme-override,app/styles/theme/dark.css,53,"inset 0 0 0 999px rgba(var(--dark-white-rgb), 0)"
+form-control,--input-surface-overlay,theme-override,app/styles/theme/hc.css,1832,"inset 0 0 0 999px rgba(255, 255, 255, 0)"
+form-control,--input-surface-overlay,theme-override,app/styles/theme/light.css,282,"inset 0 0 0 999px rgba(255, 255, 255, 0)"
+form-control,--input-surface-overlay,theme-override,app/styles/theme/mid.css,381,"inset 0 0 0 999px rgba(var(--mid-white-rgb), 0)"
+form-control,--input-surface-overlay,theme-override,app/styles/theme/mid.css,531,"inset 0 0 0 999px rgba(255, 255, 255, 0)"
+form-control,--input-surface-overlay,theme-override,app/styles/theme/mono.css,669,"inset 0 0 0 999px rgba(230, 230, 230, 0)"
+form-control,--input-surface-overlay,theme-override,app/styles/theme/night.css,280,"inset 0 0 0 999px rgba(222, 236, 255, 0)"
+form-control,--input-surface-overlay,canonical-default,app/styles/tokens.css,164,"inset 0 0 0 999px rgba(255, 255, 255, 0)"
+form-control,--input-surface-overlay-focus,theme-override,app/styles/theme/dark.css,55,"inset 0 0 0 999px rgba(var(--dark-white-rgb), 0.04)"
+form-control,--input-surface-overlay-focus,theme-override,app/styles/theme/hc.css,1834,"inset 0 0 0 999px rgba(255, 255, 255, 0)"
+form-control,--input-surface-overlay-focus,theme-override,app/styles/theme/light.css,284,"inset 0 0 0 999px rgba(255, 255, 255, 0.078)"
+form-control,--input-surface-overlay-focus,theme-override,app/styles/theme/mid.css,383,"inset 0 0 0 999px rgba(var(--mid-white-rgb), 0)"
+form-control,--input-surface-overlay-focus,theme-override,app/styles/theme/mid.css,533,"inset 0 0 0 999px rgba(255, 255, 255, 0.1)"
+form-control,--input-surface-overlay-focus,theme-override,app/styles/theme/mono.css,671,"inset 0 0 0 999px rgba(230, 230, 230, 0.018)"
+form-control,--input-surface-overlay-focus,theme-override,app/styles/theme/night.css,282,"inset 0 0 0 999px rgba(222, 236, 255, 0.06)"
+form-control,--input-surface-overlay-focus,canonical-default,app/styles/tokens.css,166,var(--input-surface-overlay-hover)
+form-control,--input-surface-overlay-hover,theme-override,app/styles/theme/dark.css,54,"inset 0 0 0 999px rgba(var(--dark-white-rgb), 0.02)"
+form-control,--input-surface-overlay-hover,theme-override,app/styles/theme/hc.css,1833,"inset 0 0 0 999px rgba(255, 255, 255, 0)"
+form-control,--input-surface-overlay-hover,theme-override,app/styles/theme/light.css,283,"inset 0 0 0 999px rgba(255, 255, 255, 0.065)"
+form-control,--input-surface-overlay-hover,theme-override,app/styles/theme/mid.css,382,"inset 0 0 0 999px rgba(var(--mid-white-rgb), 0)"
+form-control,--input-surface-overlay-hover,theme-override,app/styles/theme/mid.css,532,"inset 0 0 0 999px rgba(255, 255, 255, 0.08)"
+form-control,--input-surface-overlay-hover,theme-override,app/styles/theme/mono.css,670,"inset 0 0 0 999px rgba(230, 230, 230, 0.012)"
+form-control,--input-surface-overlay-hover,theme-override,app/styles/theme/night.css,281,"inset 0 0 0 999px rgba(222, 236, 255, 0.022)"
+form-control,--input-surface-overlay-hover,canonical-default,app/styles/tokens.css,165,"inset 0 0 0 999px rgba(255, 255, 255, 0.03)"
+form-control,--input-text,feature-bridge,app/styles/features/chat/hc.css,500,var(--chat-input-text)
+form-control,--input-text,feature-bridge,app/styles/features/documents/ui.css,592,var(--documents-input-text)
+form-control,--input-text,feature-direct-definition,app/styles/features/service-map/desktop/base.css,628,"var(--hc-accent, #ffea00)"
+form-control,--input-text,feature-bridge,app/styles/features/service-map/desktop/pre-inquiry-agent.css,2,"var(--workspace-feature-field-text, var(--input-text, #243044))"
+form-control,--input-text,theme-override,app/styles/theme/hc.css,83,var(--hc-accent)
+form-control,--input-text,theme-override,app/styles/theme/hc.css,624,var(--hc-accent)
+form-control,--input-text,theme-override,app/styles/theme/hc.css,855,var(--hc-accent)
+form-control,--input-text,theme-override,app/styles/theme/hc.css,1051,var(--hc-accent)
+form-control,--input-text,theme-override,app/styles/theme/hc.css,1243,var(--hc-accent)
+form-control,--input-text,theme-override,app/styles/theme/hc.css,1821,var(--hc-accent)
+form-control,--input-text,theme-override,app/styles/theme/light.css,276,#1f2937
+form-control,--input-text,theme-override,app/styles/theme/mid.css,373,var(--subpage-card-text)
+form-control,--input-text,theme-override,app/styles/theme/mid.css,524,#2f3a4a
+form-control,--input-text,theme-override,app/styles/theme/mono.css,655,"rgba(245, 245, 245, 0.95)"
+form-control,--input-text,canonical-default,app/styles/tokens.css,152,var(--pt-150)

@@ -1,0 +1,16 @@
+/* Shared workspace-family mobile header offsets. */
+
+@media (max-width: 768px) {
+  .workspace-guide-panel-scroll {
+    --mobile-header-control-top: calc(
+      var(--glass-ring-pad-top, 0px) +
+        var(--workspace-guide-panel-overscan-top, 0px) +
+        var(--mobile-header-back-top) - 0.74rem
+    );
+    --mobile-header-control-info-top: calc(
+      var(--glass-ring-pad-top, 0px) +
+        var(--workspace-guide-panel-overscan-top, 0px) +
+        var(--mobile-header-info-top) - 0.74rem
+    );
+  }
+}

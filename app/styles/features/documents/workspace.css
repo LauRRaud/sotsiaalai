@@ -22,13 +22,20 @@
   --panel-secondary-bg: var(--documents-panel-bg);
   --panel-secondary-border: var(--documents-panel-border);
   --panel-secondary-shadow: var(--documents-panel-shadow);
-  --subpage-card-bg: var(--documents-card-bg);
-  --subpage-card-bg-hover: color-mix(in srgb, var(--documents-glass-surface) 100%, transparent);
-  --subpage-card-border: var(--documents-card-border);
-  --subpage-card-border-hover: var(--documents-card-border);
-  --subpage-card-shadow: var(--documents-soft-shadow);
-  --subpage-card-shadow-hover: var(--documents-soft-shadow);
-  --subpage-card-text: var(--documents-page-text);
+  --documents-subpage-card-bg: var(--documents-card-bg);
+  --documents-subpage-card-bg-hover: color-mix(in srgb, var(--documents-glass-surface) 100%, transparent);
+  --documents-subpage-card-border: var(--documents-card-border);
+  --documents-subpage-card-border-hover: var(--documents-card-border);
+  --documents-subpage-card-shadow: var(--documents-soft-shadow);
+  --documents-subpage-card-shadow-hover: var(--documents-soft-shadow);
+  --documents-subpage-card-text: var(--documents-page-text);
+  --subpage-card-bg: var(--documents-subpage-card-bg);
+  --subpage-card-bg-hover: var(--documents-subpage-card-bg-hover);
+  --subpage-card-border: var(--documents-subpage-card-border);
+  --subpage-card-border-hover: var(--documents-subpage-card-border-hover);
+  --subpage-card-shadow: var(--documents-subpage-card-shadow);
+  --subpage-card-shadow-hover: var(--documents-subpage-card-shadow-hover);
+  --subpage-card-text: var(--documents-subpage-card-text);
   --documents-soft-shadow: var(--documents-glass-shadow);
   --documents-strong-shadow: var(--documents-glass-shadow);
   --documents-content-bg: color-mix(in srgb, var(--documents-glass-surface) 94%, transparent);
@@ -179,12 +186,18 @@
   --documents-dropdown-item-bg-hover: var(--opaque-panel-bg-hover, var(--input-bg-hover));
   --documents-dropdown-border: transparent;
   --documents-dropdown-shadow: var(--btn-primary-shadow, 0 12px 26px rgba(31, 23, 22, 0.14));
-  --input-bg: var(--mid-unified-surface-bg);
-  --input-bg-hover: var(--mid-unified-surface-bg-hover);
-  --input-bg-focus: var(--mid-unified-surface-bg-hover);
-  --input-border: var(--mid-unified-surface-border);
-  --input-shadow: var(--mid-unified-surface-shadow);
-  --input-shadow-hover: var(--mid-unified-surface-shadow-hover);
+  --documents-input-bg: var(--mid-unified-surface-bg);
+  --documents-input-bg-hover: var(--mid-unified-surface-bg-hover);
+  --documents-input-bg-focus: var(--mid-unified-surface-bg-hover);
+  --documents-input-border: var(--mid-unified-surface-border);
+  --documents-input-shadow: var(--mid-unified-surface-shadow);
+  --documents-input-shadow-hover: var(--mid-unified-surface-shadow-hover);
+  --input-bg: var(--documents-input-bg);
+  --input-bg-hover: var(--documents-input-bg-hover);
+  --input-bg-focus: var(--documents-input-bg-focus);
+  --input-border: var(--documents-input-border);
+  --input-shadow: var(--documents-input-shadow);
+  --input-shadow-hover: var(--documents-input-shadow-hover);
   --documents-elevated-bg: rgba(255, 255, 255, 0.48);
   --documents-elevated-bg-hover: rgba(255, 255, 255, 0.58);
   --documents-elevated-border: rgba(141, 77, 74, 0.2);
@@ -374,8 +387,8 @@
   --documents-surface-panel-border: rgba(255, 255, 255, 0.06);
   --documents-surface-panel-shadow: 0 10px 24px rgba(0, 0, 0, 0.16);
   --documents-surface-panel-text: var(--documents-page-text);
-  --subpage-card-bg: var(--documents-surface-panel-bg);
-  --subpage-card-bg-hover: var(--subpage-card-bg);
+  --documents-subpage-card-bg: var(--documents-surface-panel-bg);
+  --documents-subpage-card-bg-hover: var(--documents-subpage-card-bg);
 }
 
 :root.theme-light .documents-workspace-page--library {
@@ -405,8 +418,8 @@
   --documents-surface-panel-border: rgba(190, 196, 208, 0.28);
   --documents-surface-panel-shadow: 0 8px 20px rgba(15, 23, 42, 0.055);
   --documents-surface-panel-text: var(--documents-page-text);
-  --subpage-card-bg: var(--documents-surface-panel-bg);
-  --subpage-card-bg-hover: color-mix(in srgb, var(--documents-surface-panel-bg) 96%, transparent);
+  --documents-subpage-card-bg: var(--documents-surface-panel-bg);
+  --documents-subpage-card-bg-hover: color-mix(in srgb, var(--documents-surface-panel-bg) 96%, transparent);
 }
 
 :root.theme-mid .documents-workspace-page--library {
@@ -437,8 +450,8 @@
   --documents-surface-panel-border: rgba(176, 155, 141, 0.24);
   --documents-surface-panel-shadow: 0 8px 20px rgba(88, 66, 54, 0.08);
   --documents-surface-panel-text: var(--documents-page-text);
-  --subpage-card-bg: var(--documents-surface-panel-bg);
-  --subpage-card-bg-hover: color-mix(in srgb, var(--documents-surface-panel-bg) 96%, transparent);
+  --documents-subpage-card-bg: var(--documents-surface-panel-bg);
+  --documents-subpage-card-bg-hover: color-mix(in srgb, var(--documents-surface-panel-bg) 96%, transparent);
 }
 
 :root:not(.theme-light):not(.theme-mid):not(.theme-night):not(.theme-mono):not([data-contrast="hc"]) .documents-workspace-page--library {
@@ -482,12 +495,12 @@
   --panel-secondary-bg: var(--documents-panel-bg);
   --panel-secondary-border: var(--documents-panel-border);
   --panel-secondary-shadow: var(--documents-panel-shadow);
-  --subpage-card-bg: var(--documents-surface-panel-bg);
-  --subpage-card-bg-hover: var(--subpage-card-bg);
-  --subpage-card-border: var(--documents-card-border);
-  --subpage-card-border-hover: rgba(255, 255, 255, 0.08);
-  --subpage-card-shadow: var(--documents-soft-shadow);
-  --subpage-card-shadow-hover: var(--documents-strong-shadow);
+  --documents-subpage-card-bg: var(--documents-surface-panel-bg);
+  --documents-subpage-card-bg-hover: var(--documents-subpage-card-bg);
+  --documents-subpage-card-border: var(--documents-card-border);
+  --documents-subpage-card-border-hover: rgba(255, 255, 255, 0.08);
+  --documents-subpage-card-shadow: var(--documents-soft-shadow);
+  --documents-subpage-card-shadow-hover: var(--documents-strong-shadow);
   --opaque-panel-bg: rgba(31, 33, 38, 0.99);
   --opaque-panel-bg-hover: var(--opaque-panel-bg);
   --opaque-panel-border: rgba(255, 255, 255, 0.06);
@@ -498,14 +511,22 @@
   --form-surface: rgba(37, 39, 44, 0.985);
   --form-surface-hover: var(--form-surface);
   --form-surface-active: var(--form-surface);
-  --input-flat-bg: var(--documents-elevated-bg);
-  --input-flat-bg-hover: var(--documents-elevated-bg);
-  --input-bg: var(--documents-elevated-bg);
-  --input-bg-hover: var(--documents-elevated-bg);
-  --input-bg-focus: var(--documents-elevated-bg);
-  --input-border: 1px solid rgba(255, 255, 255, 0.06);
-  --input-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
-  --input-shadow-hover: 0 10px 22px rgba(0, 0, 0, 0.16);
+  --documents-input-flat-bg: var(--documents-elevated-bg);
+  --documents-input-flat-bg-hover: var(--documents-elevated-bg);
+  --documents-input-bg: var(--documents-elevated-bg);
+  --documents-input-bg-hover: var(--documents-elevated-bg);
+  --documents-input-bg-focus: var(--documents-elevated-bg);
+  --documents-input-border: 1px solid rgba(255, 255, 255, 0.06);
+  --documents-input-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+  --documents-input-shadow-hover: 0 10px 22px rgba(0, 0, 0, 0.16);
+  --input-flat-bg: var(--documents-input-flat-bg);
+  --input-flat-bg-hover: var(--documents-input-flat-bg-hover);
+  --input-bg: var(--documents-input-bg);
+  --input-bg-hover: var(--documents-input-bg-hover);
+  --input-bg-focus: var(--documents-input-bg-focus);
+  --input-border: var(--documents-input-border);
+  --input-shadow: var(--documents-input-shadow);
+  --input-shadow-hover: var(--documents-input-shadow-hover);
   --documents-surface-panel-bg: var(--documents-glass-surface);
   --documents-surface-panel-border: rgba(255, 255, 255, 0.06);
   --documents-surface-panel-shadow: 0 10px 24px rgba(0, 0, 0, 0.16);
@@ -547,18 +568,24 @@
   --documents-dropdown-item-bg: rgba(18, 26, 40, 0.99);
   --documents-dropdown-item-bg-hover: var(--documents-dropdown-item-bg);
   --documents-dropdown-shadow: 0 12px 26px rgba(2, 6, 16, 0.18);
-  --input-bg: var(--documents-elevated-bg);
-  --input-bg-hover: var(--documents-elevated-bg);
-  --input-bg-focus: var(--documents-elevated-bg);
-  --input-border: 1px solid rgba(133, 164, 216, 0.16);
-  --input-shadow: 0 8px 18px rgba(2, 6, 16, 0.12);
-  --input-shadow-hover: 0 10px 22px rgba(2, 6, 16, 0.16);
+  --documents-input-bg: var(--documents-elevated-bg);
+  --documents-input-bg-hover: var(--documents-elevated-bg);
+  --documents-input-bg-focus: var(--documents-elevated-bg);
+  --documents-input-border: 1px solid rgba(133, 164, 216, 0.16);
+  --documents-input-shadow: 0 8px 18px rgba(2, 6, 16, 0.12);
+  --documents-input-shadow-hover: 0 10px 22px rgba(2, 6, 16, 0.16);
+  --input-bg: var(--documents-input-bg);
+  --input-bg-hover: var(--documents-input-bg-hover);
+  --input-bg-focus: var(--documents-input-bg-focus);
+  --input-border: var(--documents-input-border);
+  --input-shadow: var(--documents-input-shadow);
+  --input-shadow-hover: var(--documents-input-shadow-hover);
   --documents-surface-panel-bg: var(--documents-glass-surface);
   --documents-surface-panel-border: rgba(133, 164, 216, 0.16);
   --documents-surface-panel-shadow: 0 10px 24px rgba(2, 6, 16, 0.16);
   --documents-surface-panel-text: var(--documents-page-text);
-  --subpage-card-bg: var(--documents-surface-panel-bg);
-  --subpage-card-bg-hover: var(--subpage-card-bg);
+  --documents-subpage-card-bg: var(--documents-surface-panel-bg);
+  --documents-subpage-card-bg-hover: var(--documents-subpage-card-bg);
 }
 
 .documents-workspace-page--library {
@@ -577,8 +604,8 @@
   --documents-surface-panel-bg: var(--documents-glass-sheen), var(--documents-glass-surface);
   --documents-surface-panel-shadow: var(--glass-shell-shadow, none);
   --documents-surface-panel-text: var(--documents-page-text);
-  --subpage-card-bg: var(--documents-glass-surface);
-  --subpage-card-bg-hover: var(--documents-glass-surface);
+  --documents-subpage-card-bg: var(--documents-glass-surface);
+  --documents-subpage-card-bg-hover: var(--documents-glass-surface);
 }
 
 :root.theme-light .documents-workspace.documents-workspace-page--library,
@@ -602,8 +629,8 @@ html[data-contrast="hc"] .documents-workspace.documents-workspace-page--library 
   --documents-surface-panel-bg: var(--documents-glass-sheen), var(--documents-glass-surface);
   --documents-surface-panel-shadow: var(--glass-shell-shadow, none);
   --panel-secondary-bg: var(--documents-glass-surface);
-  --subpage-card-bg: var(--documents-glass-surface);
-  --subpage-card-bg-hover: var(--documents-glass-surface);
+  --documents-subpage-card-bg: var(--documents-glass-surface);
+  --documents-subpage-card-bg-hover: var(--documents-glass-surface);
 }
 
 .documents-workspace-content {

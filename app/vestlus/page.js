@@ -1,3 +1,4 @@
+import "../styles/features/login/index.css";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 import "../styles/features/chat/index.css";

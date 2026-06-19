@@ -45,6 +45,8 @@
     "css:effective": "node scripts/css-effective-audit.mjs",
     "css:effective:merge": "node scripts/css-effective-audit-merge.mjs",
     "css:primitives": "node scripts/css-primitive-scatter.mjs",
+    "css:tokens": "node scripts/css-cleanup/style-token-audit.mjs",
+    "css:tokens:check": "node scripts/css-cleanup/style-token-audit.mjs --check",
     "dup:check": "jscpd . --pattern \"**/*.css\" --ignore \"**/node_modules/**,**/.next/**,**/reports/**,**/coverage/**,**/playwright-report/**,**/.git/**\" --reporters consoleFull",
     "dup:check:ci": "jscpd . --pattern \"**/*.css\" --ignore \"**/node_modules/**,**/.next/**,**/reports/**,**/coverage/**,**/playwright-report/**,**/.git/**\" --reporters console --threshold 7.5",
     "clean:next": "node scripts/clean-next.mjs",

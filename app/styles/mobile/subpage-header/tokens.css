@@ -1,0 +1,22 @@
+/* Shared mobile header default tokens. Feature-specific offsets must live beside their feature. */
+
+@media (max-width: 768px) {
+  :root {
+    --mobile-header-back-left: calc(env(safe-area-inset-left, 0px) + 0.04rem);
+    --mobile-header-back-top: 0.2rem;
+    --mobile-header-control-top: var(--mobile-header-back-top);
+    --mobile-header-info-right: calc(env(safe-area-inset-right, 0px) + 0.55rem);
+    --mobile-header-info-top: 0.475rem;
+    --mobile-header-control-info-top: var(--mobile-header-info-top);
+    --mobile-header-title-top: 1.76rem;
+    --mobile-header-title-bottom: clamp(0.18rem, 0.9vh, 0.42rem);
+    --mobile-header-title-inline-reserve: clamp(2.95rem, 9.8vw, 3.45rem);
+    --mobile-header-title-font: clamp(1.72rem, 6.15vw, 2.14rem);
+    --mobile-header-title-line-height: 1.05;
+    --mobile-header-title-tracking: 0.003em;
+    --mobile-header-title-shadow: var(--glass-modal-title-shadow, none);
+    --mobile-header-browser-y-offset: 0rem;
+    --mobile-header-pwa-y-offset: 0rem;
+    --mobile-header-wrap-correction: 0rem;
+  }
+}

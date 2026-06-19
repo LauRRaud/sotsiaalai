@@ -1,3 +1,4 @@
+import "../styles/features/wellbeing/index.css";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";

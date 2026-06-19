@@ -20,13 +20,16 @@ Structure after the 2026-06 restructure (plan + execution log:
 - `features/<name>/` — one folder per feature, route-imported via its
   `index.css`. Current verticals: `service-map`, `documents`, `chat`,
   `policy`, `home`, `profile`. Each folder may carry `desktop/shell`,
-  `mobile`, `mono`, `hc` files; `index.css` documents its import order.
+  `mobile`, platform-specific mobile, `mono`, and `hc` files; `index.css` documents its import order.
 - `mobile/` — the shared mobile cascade (see `mobile/README.md` for
   per-file ownership). Feature mobile files have moved to `features/`.
 - `components/`, `utilities/` — remaining shared files and compatibility
   aggregators (`chat-focus.css`, `documents-mode.css`, `glass.css`).
   Tombstone aggregators exist because tests read them; delete only after
   redirecting the tests.
+- `features/home/background.css` is a temporary compatibility entrypoint that
+  preserves the old global-mobile cascade position while its rules are split
+  into explicit shared and home-owned files.
 
 ## Rules
 
@@ -51,3 +54,10 @@ Structure after the 2026-06 restructure (plan + execution log:
    variable-ization). Both run
    as part of `npm run check`. Raise limits only consciously, in the same
    commit as the justification.
+
+- `features/home/background.css` is a route-owned mobile entrypoint imported only by `features/home/index.css`; it must not return to `mobile.css`.
+- Shared BackgroundLayer, tap/glass and content-surface mobile rules live under `mobile/` and are imported directly by `mobile.css`.
+- Policy header offsets, policy tall mobile clearance, chat topnav title typography and admin/RAG header exceptions are route-owned (`features/policy/mobile-header.css`, `features/policy/mobile-tall.css`, `features/chat/mobile-topnav.css`, `features/documents/admin-mobile-header.css`) and must not return to the global mobile chain.
+
+- Register/login route-only mobile entrypoints live under `features/register/index.css` and `features/login/index.css`. Keep LoginModal mobile CSS route-imported by the pages that render `LoginModal`; keep register control touch feedback route-imported by `/registreerimine`.
+- Global `mobile/interaction-surfaces.css` must stay feature-neutral. Invite/account/login modal selectors belong to their route-owned feature CSS or to shared primitives, not the global mobile chain.

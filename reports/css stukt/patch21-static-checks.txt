@@ -1,0 +1,13 @@
+git apply --check: OK
+node --check scripts/css-cleanup/style-token-audit.mjs: OK
+node scripts/css-cleanup/style-token-audit.mjs --check: OK
+CSS files: 156
+Tokens: 1112
+Definitions: 4224
+Usages: 5914
+Multi-value token collisions: 615
+Undefined usages: 95
+Defined but unused: 259
+Subpage-card definitions: 159 across 18 files
+Subpage-card feature direct definitions: 41
+Subpage-card other definitions: 0

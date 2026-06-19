@@ -1,0 +1,84 @@
+/* Shared route-imported mobile modal surface shell.
+   Import this from modal-owning features instead of the global mobile chain. */
+
+@media (max-width: 768px) {
+  :is(
+      .invite-modal-content,
+      .subscription-modal-content,
+      .help-listings-modal-content,
+      .selected-listing-modal-content
+    ) {
+    width: calc(
+      100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) -
+        (var(--mobile-glass-card-gap, 0.35rem) * 2)
+    );
+    max-width: none !important;
+    height: calc(
+      var(--glass-mobile-root-vh, 100dvh) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) -
+        (var(--mobile-glass-card-gap, 0.35rem) * 2)
+    );
+    max-height: calc(
+      var(--glass-mobile-root-vh, 100dvh) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) -
+        (var(--mobile-glass-card-gap, 0.35rem) * 2)
+    );
+    margin-top: calc(env(safe-area-inset-top, 0px) + var(--mobile-glass-card-gap, 0.35rem));
+    margin-right: max(var(--mobile-glass-card-gap, 0.35rem), env(safe-area-inset-right, 0px));
+    margin-bottom: calc(env(safe-area-inset-bottom, 0px) + var(--mobile-glass-card-gap, 0.35rem));
+    margin-left: max(var(--mobile-glass-card-gap, 0.35rem), env(safe-area-inset-left, 0px));
+    border-radius: var(--mobile-glass-card-radius, clamp(1.05rem, 3.8vw, 1.45rem));
+    border: 0 !important;
+    box-shadow: none !important;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    padding-top: var(
+      --glass-ring-pad-top,
+      clamp(calc(0.4 * var(--base-rem)), 1.4vh, calc(1.1 * var(--base-rem)))
+    );
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 0.9rem);
+  }
+
+  .invite-modal-content,
+  .subscription-modal-content,
+  .help-listings-modal-content {
+    background: var(
+      --glass-modal-bg,
+      var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25)))
+    );
+    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem));
+    backdrop-filter: blur(var(--glass-blur-radius, 1rem));
+  }
+
+  .invite-modal-content {
+    padding-right: var(
+      --glass-ring-pad-x,
+      clamp(calc(1.8 * var(--base-rem)), 5vw, calc(3.2 * var(--base-rem)))
+    );
+    padding-left: var(
+      --glass-ring-pad-x,
+      clamp(calc(1.8 * var(--base-rem)), 5vw, calc(3.2 * var(--base-rem)))
+    );
+  }
+
+  .subscription-modal-content,
+  .help-listings-modal-content,
+  .selected-listing-modal-content {
+    padding-right: var(
+      --glass-ring-pad-x,
+      clamp(calc(1.15 * var(--base-rem)), 3.4vw, calc(1.85 * var(--base-rem)))
+    );
+    padding-left: var(
+      --glass-ring-pad-x,
+      clamp(calc(1.15 * var(--base-rem)), 3.4vw, calc(1.85 * var(--base-rem)))
+    );
+  }
+
+  .selected-listing-modal-content {
+    background: var(
+      --glass-modal-bg,
+      var(--subpage-card-bg, var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))))
+    );
+    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem));
+    backdrop-filter: blur(var(--glass-blur-radius, 1rem));
+  }
+}
